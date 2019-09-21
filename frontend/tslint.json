@@ -1,0 +1,85 @@
+{
+	"defaultSeverity": "error",
+	"extends": [
+		"tslint:latest",
+		"tslint-react"
+		/*"tslint-config-prettier"*/
+	],
+	"plugins": [
+		"react"
+	],
+	"linterOptions": {
+		"exclude": [
+			"config/**/*.js",
+			"*.js",
+			"node_modules/",
+			"node_modules/**/*.ts(x)",
+			"web/utils/*.js"
+		]
+	},
+	"rules": {
+		"no-debugger": false,
+		/*разрешить console*/
+		"no-console": false,
+		/*Конец файла должен заканчиваться новой строкой*/
+		"eofline": false,
+		/*отключает сортировку полей объекта*/
+		"object-literal-sort-keys": false,
+		/*Запрещает листинг объекта объекта в выражении утверждения типа*/
+		"no-object-literal-type-assertion": false,
+		/*отключает сортировку import*/
+		"ordered-imports": [false],
+		/*Запрещает ненужный доступ к строковым литералам*/
+		"no-string-literal": false,
+		"eol-last": false,
+		"jsx-no-lambda": [
+			false
+		],
+		"jsx-wrap-multiline": false,
+		"quotemark": [
+			true,
+			"single",
+			"jsx-double"
+		],
+		"semicolon": [
+			true,
+			"always",
+			"strict-bound-class-methods"
+		],
+		"trailing-comma": false,
+		"jsx-no-multiline-js": false,
+		"no-submodule-imports": [
+			true,
+			"moment/locale/zh-cn",
+			"history/createBrowserHistory",
+			"cbkit/lib",
+			"react-test-renderer/shallow"
+		],
+		"indent": [
+			true,
+			"tabs",
+			4
+		],
+		"no-trailing-whitespace": false,
+		"max-line-length": [
+			false
+		],
+		"jsx-alignment": false,
+		"jsx-self-close": false,
+		"arrow-parens": false,
+		"align": false,
+		"one-line": [
+			true,
+			"check-open-brace",
+			"check-whitespace"
+		],
+		"no-implicit-dependencies": [
+			true,
+			"dev"
+		],
+		"interface-name": [
+			true,
+			"always-prefix"
+		]
+	}
+}

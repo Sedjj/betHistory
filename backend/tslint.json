@@ -1,0 +1,29 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint:recommended"],
+  "jsRules": {
+    "no-unused-expression": true
+  },
+  "rules": {
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double"
+    ],
+    "member-access": [false],
+    /*отключает сортировку import*/
+    "ordered-imports": [false],
+    "max-line-length": [
+      false
+    ],
+    "member-ordering": [false],
+    "interface-name": [
+      true,
+      "always-prefix"
+    ],
+    "arrow-parens": false,
+    /*отключает сортировку полей объекта*/
+    "object-literal-sort-keys": false
+  },
+  "rulesDirectory": []
+}
