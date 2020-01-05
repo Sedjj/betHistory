@@ -1,29 +1,79 @@
 {
-  "defaultSeverity": "error",
-  "extends": ["tslint:recommended"],
-  "jsRules": {
-    "no-unused-expression": true
-  },
-  "rules": {
-    "quotemark": [
-      true,
-      "single",
-      "jsx-double"
-    ],
-    "member-access": [false],
-    /*отключает сортировку import*/
-    "ordered-imports": [false],
-    "max-line-length": [
-      false
-    ],
-    "member-ordering": [false],
-    "interface-name": [
-      true,
-      "always-prefix"
-    ],
-    "arrow-parens": false,
-    /*отключает сортировку полей объекта*/
-    "object-literal-sort-keys": false
-  },
-  "rulesDirectory": []
+	"defaultSeverity": "error",
+	"extends": [
+		"tslint:recommended"
+	],
+	"jsRules": {
+		"no-unused-expression": true
+	},
+	"linterOptions": {
+		"exclude": [
+			"docker/**/*.js",
+			"node_modules/",
+			"node_modules/**/*.ts(x)"
+		]
+	},
+	"rules": {
+		"no-debugger": false,
+		/*разрешить console*/
+		"no-console": false,
+		/*Конец файла должен заканчиваться новой строкой*/
+		"eofline": false,
+		/*отключает сортировку полей объекта*/
+		"object-literal-sort-keys": false,
+		/*Запрещает листинг объекта объекта в выражении утверждения типа*/
+		"no-object-literal-type-assertion": false,
+		/*отключает сортировку import*/
+		"ordered-imports": [
+			false
+		],
+		/*Запрещает ненужный доступ к строковым литералам*/
+		"no-string-literal": false,
+		"eol-last": false,
+		"jsx-no-lambda": [
+			false
+		],
+		"jsx-wrap-multiline": false,
+		"quotemark": [
+			true,
+			"single",
+			"jsx-double"
+		],
+		"semicolon": [
+			true,
+			"always",
+			"strict-bound-class-methods"
+		],
+		"trailing-comma": false,
+		"jsx-no-multiline-js": false,
+		"indent": [
+			true,
+			"tabs",
+			4
+		],
+		"no-trailing-whitespace": false,
+		"max-line-length": [
+			false
+		],
+		"jsx-alignment": false,
+		"jsx-self-close": false,
+		"arrow-parens": false,
+		"align": false,
+		"one-line": [
+			true,
+			"check-open-brace",
+			"check-whitespace"
+		],
+		"member-access": [
+			false
+		],
+		"member-ordering": [
+			false
+		],
+		"interface-name": [
+			true,
+			"always-prefix"
+		]
+	},
+	"rulesDirectory": []
 }
