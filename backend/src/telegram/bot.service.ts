@@ -1,27 +1,30 @@
 /*
 import {Injectable, OnModuleInit} from '@nestjs/common';
-import {throttle} from "../../utils/throttle";
-import {rateStatus, rateAmount, counterWaiting} from '../../store';
-import {exportBackup} from '../../backupBD';
-import {use} from "node-telegram-bot-api-middleware";
-import {readFileToStream} from '../../utils/fsHelpers';
-import {sendFile} from '../api';
+import {throttle} from '../utils/throttle';
+import {rateStatus, rateAmount, counterWaiting} from '../store';
+/!*import {exportBackup} from '../backupBD';*!/
+import {use} from 'node-telegram-bot-api-middleware';
+import {readFileToStream} from '../utils/fsHelpers';
+/!*import {sendFile} from '../api';*!/
 import {menuList} from './menu';
-import {
+import TelegramBot from 'node-telegram-bot-api';
+/!*import {
 	exportFootballStatistic,
 	exportTableTennisStatistic,
 	exportTennisStatistic,
 	exportBasketballStatistic
-} from "../../export";
-
+} from '../../export';*!/
+import config from 'config';
 import path from 'path';
+
+const rate: number = config.get<number>('output.rate') || 2000;
 
 @Injectable()
 export class BotService implements OnModuleInit {
-	private exportFootballStatisticDebounce: any;
-	private exportTableTennisStatisticDebounce: any;
-	private exportTennisStatisticDebounce: any;
-	private exportBasketballStatisticDebounce: any;
+	/!*	private exportFootballStatisticDebounce: any;
+		private exportTableTennisStatisticDebounce: any;
+		private exportTennisStatisticDebounce: any;
+		private exportBasketballStatisticDebounce: any;*!/
 	private supportToken: string;
 	private administrators: string[] = [];
 	private bot: any;
@@ -31,15 +34,15 @@ export class BotService implements OnModuleInit {
 	};
 
 	constructor() {
-		this.exportFootballStatisticDebounce = throttle(exportFootballStatistic, 20000);
+		/!*this.exportFootballStatisticDebounce = throttle(exportFootballStatistic, 20000);
 		this.exportTableTennisStatisticDebounce = throttle(exportTableTennisStatistic, 20000);
 		this.exportTennisStatisticDebounce = throttle(exportTennisStatistic, 20000);
-		this.exportBasketballStatisticDebounce = throttle(exportBasketballStatistic, 20000);
+		this.exportBasketballStatisticDebounce = throttle(exportBasketballStatistic, 20000);*!/
 
 		this.supportToken = process.env.NODE_ENV === 'development'
-			? config.bots.supportDev.token
-			: config.bots.supportProd.token;
-		this.administrators = config.roles.admin;
+			? config.get<string>('bots.supportDev.token')
+			: config.get<string>('bots.supportProd.token');
+		this.administrators = config.get<string[]>('roles.admin');
 	}
 
 	public onModuleInit(): void {
@@ -65,12 +68,12 @@ export class BotService implements OnModuleInit {
 
 		const response = use(this.accessCheck);
 
-		process.env.NTBA_FIX_319 = "1";
-		const TelegramBot = require('node-telegram-bot-api');
+		process.env.NTBA_FIX_319 = '1';
+
 		const supportDev = {
-			chatId: "-376344669",
-			name: "@error_dev_sedjj_bot",
-			token: "633510677:AAGoFQGr8f_cDP3LVHYvRiN7kr5bo13HDew"
+			chatId: '-376344669',
+			name: '@error_dev_sedjj_bot',
+			token: '633510677:AAGoFQGr8f_cDP3LVHYvRiN7kr5bo13HDew'
 		};
 
 		this.bot = new TelegramBot(supportDev.token, {polling: true});
