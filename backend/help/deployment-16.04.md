@@ -103,8 +103,8 @@ sudo systemctl enable mongodb
 ```bash
 sudo service mongod stop &&
 sudo apt-get purge mongodb-org* &&
-sudo rm -r /var/log/mongodb &&
-sudo rm -r /var/lib/mongodb
+sudo rm -r /let/log/mongodb &&
+sudo rm -r /let/lib/mongodb
 ```
 
 #####Тест работы

@@ -1,0 +1,90 @@
+{
+	"ip": "localhost",
+	"port": 3000,
+	"auth": {
+		"login": "58697181",
+		"password": "29c3sb6p"
+	},
+	"dbDev": {
+		"name": "rateBot",
+		"hostString": "localhost:27017/",
+		"user": "",
+		"pass": ""
+	},
+	"dbProd": {
+		"name": "rateBot",
+		"hostString": "mongo-rate:27017/",
+		"user": "",
+		"pass": ""
+	},
+	"myId": "43166705",
+	"roles": {
+		"admin": [
+			43166705,
+			537523607
+		]
+	},
+	"bots": {
+		"dev": {
+			"channelId": "",
+			"chatId": "-299200164",
+			"name": "@dev_sedjj_bot",
+			"token": "704208442:AAG6oMYGXwuU-APfHsy5YjIzfrijey7xEic"
+		},
+		"supportDev": {
+			"chatId": "-376344669",
+			"name": "@error_dev_sedjj_bot",
+			"token": "633510677:AAGoFQGr8f_cDP3LVHYvRiN7kr5bo13HDew"
+		},
+		"prod": {
+			"channelId": "",
+			"chatId": "-299200164",
+			"name": "@test_sedjj_bot",
+			"token": "773233193:AAFCkkQWbSIk2wVdSSfBiqmRkgoC_V2zRLs"
+		},
+		"supportProd": {
+			"chatId": "-376344669",
+			"name": "@error_test_sedjj_bot",
+			"token": "633227407:AAFReZaI0D6UPZPKt5TT8PR1e_PDPAGA9IQ"
+		}
+	},
+	"parser": {
+		"startPage": "https://1xbet.com/en/live/",
+		"baseUrl": "https://1xbet.com/",
+		"live": {
+			"football": {
+				"rate": "LiveFeed/Get1x2_VZip?sports=1&count=2000&mode=4&country=1&partner=51&getEmpty=true",
+				"expandedRate": "LiveFeed/GetGameZip?id=${id}&lng=en&cfview=0&isSubGames=true&GroupEvents=true&allEventsGroupSubGames=true&countevents=250&partner=51"
+			},
+			"tableTennis": {
+				"rate": "LiveFeed/Get1x2_VZip?sports=10&count=2000&mode=4&country=1&partner=51&getEmpty=true",
+				"expandedRate": "LiveFeed/GetGameZip?id=${id}&lng=en&cfview=0&isSubGames=true&GroupEvents=true&allEventsGroupSubGames=true&countevents=250&partner=51"
+			},
+			"tennis": {
+				"rate": "LiveFeed/Get1x2_VZip?sports=4&count=2000&mode=4&country=1&partner=51&getEmpty=true",
+				"expandedRate": "LiveFeed/GetGameZip?id=${id}&lng=en&cfview=0&isSubGames=true&GroupEvents=true&allEventsGroupSubGames=true&countevents=250&partner=51"
+			},
+			"basketball": {
+				"rate": "LiveFeed/Get1x2_VZip?sports=3&count=2000&mode=4&country=1&partner=51&getEmpty=true",
+				"expandedRate": "LiveFeed/GetGameZip?id=${id}&lng=en&cfview=0&isSubGames=true&GroupEvents=true&allEventsGroupSubGames=true&countevents=250&partner=51"
+			}
+		},
+		"result": {
+			"all": "getTranslate/ViewGameResultsExtGet?date=${date}&tzo=300&partner=51&lng=en&adult=false&showAll=true"
+		}
+	},
+	"path": {
+		"storagePath": "",
+		"storage": {
+			"football": {
+				"inputName": "Reports-football-default.xlsx",
+				"outputName": "reports-football.xlsx"
+			}
+		},
+		"directory": {
+			"exportTemplates": "exportTemplates",
+			"upload": "upload",
+			"logs": "logs"
+		}
+	}
+}

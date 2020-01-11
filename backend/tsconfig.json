@@ -19,14 +19,14 @@
 		"strictNullChecks": true,
 		"suppressImplicitAnyIndexErrors": true,
 		"noUnusedLocals": true,
-		"paths": {
+		/*"paths": {
 			"*": [
-				"types/*"
+				"types*//*"
 			],
-			"utils/*": [
-				"web/utils/*"
+			"utils*//*": [
+				"web/utils*//*"
 			]
-		},
+		},*/
 		"declaration": true,
 		"removeComments": true,
 		"emitDecoratorMetadata": true,
@@ -38,7 +38,9 @@
 	"exclude": [
 		"node_modules",
 		"dist",
+		"test",
 		"docker",
+		"**/*spec.ts",
 		"help"
 	]
 }
