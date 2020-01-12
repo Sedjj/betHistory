@@ -3102,22 +3102,11 @@ export interface IGameHighScore {
 	score: number;
 }
 
-export interface IContext {
-	/*updateType: IUpdateType;
-	updateSubTypes: IMessageSubTypes[];*/
-	update: IUpdate;
-	/*telegram: ITelegram;*/
-	callbackQuery?: ICallbackQuery;
-	channelPost?: IMessage;
-	chat?: IChat;
-	chosenInlineResult?: IChosenInlineResult;
-	editedChannelPost?: IMessage;
-	editedMessage?: IMessage;
-	from?: IUser;
-	inlineQuery?: IInlineQuery;
-	/*match?: IRegExpExecArray;*/
-	me?: string;
-	/*message?: IIncomingMessage;*/
-	preCheckoutQuery?: IPreCheckoutQuery;
-	shippingQuery?: IShippingQuery;
+/**
+ * Интерфейс меню бота
+ */
+export interface IMenuBot {
+	id: number;
+	title: string;
+	buttons: IInlineKeyboardButton[][];
 }

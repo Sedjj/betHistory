@@ -1,7 +1,7 @@
 import {log} from '../utils/logger';
-import config from 'config';
+/*import config from 'config';*/
 
-const betAmount: number = config.get<number>('emulator.betAmount');
+// const betAmount: number = config.get<number>('emulator.betAmount');
 
 /**
  * Класс для размера ставки
@@ -10,7 +10,7 @@ export class BetAmount {
 	private amount: number;
 
 	constructor() {
-		this.amount = betAmount;
+		this.amount = 10;
 	}
 
 	public get bets(): number {

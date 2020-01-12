@@ -1,4 +1,12 @@
-export function menuList(item: string, text = 0) {
+import {IMenuBot} from '../interfaces/telegram.interface';
+
+/**
+ * Функция для возвращения определенного меню в зависимости от парамметров.
+ *
+ * @param {String} item какое меню нужно вернуть
+ * @param {String} text текст для подстановки где это нужно
+ */
+export function menuList(item: string, text: string = '0'): IMenuBot {
 	switch (item) {
 		case 'days':
 			return {

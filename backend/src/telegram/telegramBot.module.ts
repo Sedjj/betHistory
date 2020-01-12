@@ -5,7 +5,8 @@ import {TelegramBot} from 'nest-telegram';
 import {ModuleRef} from '@nestjs/core';
 import {SomethingActions} from './somethingActions.service';
 import {CurrentSender} from './сurrentSender.service';
-import {HelpActions} from './helpActions.service';
+import {TelegramActions} from './telegramActions.service';
+import {TelegramService} from './telegram.service';
 
 @Module({
 	imports: [
@@ -17,8 +18,8 @@ import {HelpActions} from './helpActions.service';
 	providers: [
 		SomethingActions,
 		CurrentSender,
-		HelpActions,
-		/*	BotService*/
+		TelegramActions,
+		TelegramService
 	],
 })
 export class TelegramBotModule implements OnModuleInit {

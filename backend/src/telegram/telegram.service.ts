@@ -1,6 +1,7 @@
 import {HttpException, HttpService, HttpStatus, Injectable} from '@nestjs/common';
 import {Observable} from 'rxjs';
 import {AxiosResponse} from 'axios';
+import {ReadStream} from 'fs';
 
 @Injectable()
 export class TelegramService {
@@ -18,12 +19,13 @@ export class TelegramService {
 	 *
 	 * @param {String} token идентификатор бота
 	 * @param {String} chatId id чата
-	 * @param {File} document данные для отправки
+	 * @param {ReadStream} document данные для отправки
 	 * @returns {Promise}
 	 */
-	public setFileApiTelegram(token: string, chatId: string, document: File): Promise<AxiosResponse<Response>> {
+	public setFileApiTelegram(token: string, chatId: string, document: ReadStream): Promise<AxiosResponse<Response>> {
 		const data = new FormData();
 		data.append('chat_id', chatId);
+		// @ts-ignore
 		data.append('document', document);
 		return this.httpService
 			.post(

@@ -58,6 +58,20 @@ export function readFileToStream(filePath: string): Promise<ReadStream> {
 	});
 }
 
+
+/**
+ * Считывает файл в sync
+ *
+ * @param {String} filePath путь к файлу
+ * @returns {Promise}
+ */
+export function readFileSync(filePath: string): Promise<Buffer> {
+	return new Promise((resolve, reject) => {
+		const readStream: Buffer = fs.readFileSync(filePath);
+		resolve(readStream);
+	});
+}
+
 /**
  * Удаляет файл
  *
@@ -120,7 +134,7 @@ export function copyFile(oldPath: string, newPath: string) {
  * @param {String} filePath путь к файлу
  * @returns {Promise}
  */
-export function readFile(filePath: string) {
+export function readFile(filePath: string): Promise<Buffer> {
 	return new Promise((resolve, reject) => {
 		fs.readFile(filePath, (error, file) => {
 			if (error) {
