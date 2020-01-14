@@ -1,9 +1,6 @@
-/*
-import mongoose from 'mongoose';
+import {Schema} from 'mongoose';
 
-const Schema = mongoose.Schema;
-
-const FootballSchema = new Schema({
+export const FootballSchema = new Schema({
 	matchId: {
 		type: Number,
 		required: true,
@@ -88,13 +85,8 @@ const FootballSchema = new Schema({
 		required: true,
 		default: 0
 	},
-	total: {
-		type: Number,
-		required: true,
-		default: 0
-	},
 	snapshot: {
-		start: {
+		before: {
 			time: {
 				type: Number,
 				required: true,
@@ -121,36 +113,8 @@ const FootballSchema = new Schema({
 				default: 0
 			}
 		},
-		end: {
-			time: {
-				type: Number,
-				required: true,
-				default: 0
-			},
-			p1: {
-				type: Number,
-				required: true,
-				default: 0
-			},
-			x: {
-				type: Number,
-				required: true,
-				default: 0
-			},
-			p2: {
-				type: Number,
-				required: true,
-				default: 0
-			},
-			mod: {
-				type: Number,
-				required: true,
-				default: 0
-			}
-		}
 	},
 	cards: {
-		before: {
 			one: {
 				red: {
 					type: Number,
@@ -195,53 +159,6 @@ const FootballSchema = new Schema({
 					default: 0
 				}
 			}
-		},
-		after: {
-			one: {
-				red: {
-					type: Number,
-					default: 0
-				},
-				attacks: {
-					type: Number,
-					default: 0
-				},
-				danAttacks: {
-					type: Number,
-					default: 0
-				},
-				shotsOn: {
-					type: Number,
-					default: 0
-				},
-				shotsOff: {
-					type: Number,
-					default: 0
-				}
-			},
-			two: {
-				red: {
-					type: Number,
-					default: 0
-				},
-				attacks: {
-					type: Number,
-					default: 0
-				},
-				danAttacks: {
-					type: Number,
-					default: 0
-				},
-				shotsOn: {
-					type: Number,
-					default: 0
-				},
-				shotsOff: {
-					type: Number,
-					default: 0
-				}
-			}
-		}
 	},
 	rate: {
 		doubleChance: {
@@ -257,18 +174,6 @@ const FootballSchema = new Schema({
 			},
 		}
 	},
-	bothTeamsToScore: {
-		yes: {
-			type: Number,
-			required: true,
-			default: 0
-		},
-		no: {
-			type: Number,
-			required: true,
-			default: 0
-		},
-	},
 	createdBy: {
 		type: Date,
 		default: new Date()
@@ -278,7 +183,3 @@ const FootballSchema = new Schema({
 		default: new Date()
 	}
 });
-
-module.exports = {
-	FootballModel: mongoose.model('Football', FootballSchema)
-};*/
