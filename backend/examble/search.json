@@ -1,0 +1,4317 @@
+{
+	"facets": [
+		{
+			"values": [
+				{
+					"key": {
+						"eventTypeId": 1
+					},
+					"cardinality": 403,
+					"next": {
+						"values": [
+							{
+								"key": {
+									"eventId": 29692955
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168566707"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29691392
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168557758"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29691527
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168557576"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692959
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168566616"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692949
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168557303"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29693330
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168566799"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692947
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168557485"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29691523
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168557667"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692948
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168557394"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692945
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168557849"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29677618
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168136482"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686468
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168391961"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692944
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168557940"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686461
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168390141"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686445
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168389503"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29693318
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168566890"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29685845
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168384145"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686449
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168389412"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29693007
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168558031"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29689753
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168504978"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686455
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168390050"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686546
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168399862"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692324
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168558395"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29685120
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168350217"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29685119
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168350325"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29672040
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.167978849"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686533
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168390960"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686456
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168389959"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686458
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168389777"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692991
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168558213"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686459
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168389686"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686457
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168389868"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29693316
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168571931"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686465
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168391051"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686462
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168389594"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692981
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168558304"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692992
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168558122"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29693009
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168572690"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29693020
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168572867"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686558
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168399953"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686548
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168400230"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29673374
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.167991795"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29686654
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168402323"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29693008
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168558490"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29672984
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.167976795"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29681790
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168248854"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29691401
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168524541"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29693196
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168573183"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29692268
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168558581"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							},
+							{
+								"key": {
+									"eventId": 29691424
+								},
+								"cardinality": 1,
+								"next": {
+									"values": [
+										{
+											"key": {
+												"marketId": "1.168524164"
+											},
+											"cardinality": 1
+										}
+									],
+									"totalResults": 1,
+									"type": "MARKET"
+								}
+							}
+						],
+						"totalResults": 403,
+						"type": "EVENT"
+					}
+				}
+			],
+			"totalResults": 1,
+			"type": "EVENT_TYPE"
+		}
+	],
+	"results": [],
+	"attachments": {
+		"eventTypes": {
+			"1": {
+				"name": "Футбол ",
+				"key": "EVENT_TYPE:1",
+				"eventTypeId": 1
+			}
+		},
+		"markets": {
+			"1.168566890": {
+				"marketId": "1.168566890",
+				"key": "MARKET:1.168566890",
+				"eventTypeId": 1,
+				"eventId": 29693318,
+				"upperLevelEventId": 26703195,
+				"topLevelEventId": 26703195,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:32:07.000Z",
+				"marketSuspendTime": "2020-02-09T10:32:07.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 3141.7231320000005,
+				"totalAvailable": 23081.3604,
+				"runners": [
+					{
+						"selectionId": 26480114,
+						"handicap": 0.0,
+						"runnerName": "Ed Moratalaz",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 25504810,
+						"handicap": 0.0,
+						"runnerName": "Flat Earth FC",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29693318,
+						"sportsbookMarketId": "924.223558941",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168558031": {
+				"marketId": "1.168558031",
+				"key": "MARKET:1.168558031",
+				"eventTypeId": 1,
+				"eventId": 29693007,
+				"upperLevelEventId": 26703195,
+				"topLevelEventId": 26703195,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:58:03.000Z",
+				"marketSuspendTime": "2020-02-09T10:58:03.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 747.981108,
+				"totalAvailable": 11716.6716,
+				"runners": [
+					{
+						"selectionId": 4136688,
+						"handicap": 0.0,
+						"runnerName": "San Roque",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 10243077,
+						"handicap": 0.0,
+						"runnerName": "Lucena CF",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29693007,
+						"sportsbookMarketId": "924.223529607",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168558395": {
+				"marketId": "1.168558395",
+				"key": "MARKET:1.168558395",
+				"eventTypeId": 1,
+				"eventId": 29692324,
+				"upperLevelEventId": 29119404,
+				"topLevelEventId": 29119404,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:59:36.000Z",
+				"marketSuspendTime": "2020-02-09T10:59:36.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 9786.334356,
+				"totalAvailable": 51655.53599999999,
+				"runners": [
+					{
+						"selectionId": 6794562,
+						"handicap": 0.0,
+						"runnerName": "Реал Сосьедад (Ж)",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 5226501,
+						"handicap": 0.0,
+						"runnerName": "Барселона (Ж)",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 7,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29692324,
+						"sportsbookMarketId": "924.223472606",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168566616": {
+				"marketId": "1.168566616",
+				"key": "MARKET:1.168566616",
+				"eventTypeId": 1,
+				"eventId": 29692959,
+				"upperLevelEventId": 29124067,
+				"topLevelEventId": 29124067,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:00:21.000Z",
+				"marketSuspendTime": "2020-02-09T10:00:21.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 12257.547912000002,
+				"totalAvailable": 12173.4252,
+				"runners": [
+					{
+						"selectionId": 10529540,
+						"handicap": 0.0,
+						"runnerName": "ФК Париж U19",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 20415244,
+						"handicap": 0.0,
+						"runnerName": "Le Puy Football 43 U19",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168572690": {
+				"marketId": "1.168572690",
+				"key": "MARKET:1.168572690",
+				"eventTypeId": 1,
+				"eventId": 29693009,
+				"upperLevelEventId": 26703195,
+				"topLevelEventId": 26703195,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:02:54.000Z",
+				"marketSuspendTime": "2020-02-09T11:02:54.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 98.566956,
+				"totalAvailable": 12247.5888,
+				"runners": [
+					{
+						"selectionId": 7602491,
+						"handicap": 0.0,
+						"runnerName": "Cordoba B",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 6540001,
+						"handicap": 0.0,
+						"runnerName": "Arcos CF",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29693009,
+						"sportsbookMarketId": "924.223530059",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "SUSPENDED",
+				"productType": "EXCHANGE"
+			},
+			"1.168573183": {
+				"marketId": "1.168573183",
+				"key": "MARKET:1.168573183",
+				"eventTypeId": 1,
+				"eventId": 29693196,
+				"upperLevelEventId": 28826752,
+				"topLevelEventId": 28826752,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T12:00:00.000Z",
+				"marketSuspendTime": "2020-02-09T12:00:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": false,
+				"totalMatched": 11.772,
+				"totalAvailable": 808.7364,
+				"runners": [
+					{
+						"selectionId": 427650,
+						"handicap": 0.0,
+						"runnerName": "Черно Море",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 9898999,
+						"handicap": 0.0,
+						"runnerName": "Ludogorets Razgrad B",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 0,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29693196,
+						"sportsbookMarketId": "924.223550298",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168391961": {
+				"marketId": "1.168391961",
+				"key": "MARKET:1.168391961",
+				"eventTypeId": 1,
+				"eventId": 29686468,
+				"upperLevelEventId": 11190610,
+				"topLevelEventId": 11190610,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:30:10.000Z",
+				"marketSuspendTime": "2020-02-09T10:30:10.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 3529.940148,
+				"totalAvailable": 27715.9968,
+				"runners": [
+					{
+						"selectionId": 6603999,
+						"handicap": 0.0,
+						"runnerName": "Севилья B",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 516260,
+						"handicap": 0.0,
+						"runnerName": "Algeciras",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686468,
+						"sportsbookMarketId": "924.222950945",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.167991795": {
+				"marketId": "1.167991795",
+				"key": "MARKET:1.167991795",
+				"eventTypeId": 1,
+				"eventId": 29673374,
+				"upperLevelEventId": 3209064,
+				"topLevelEventId": 3209064,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:15:00.000Z",
+				"marketSuspendTime": "2020-02-09T11:15:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": false,
+				"totalMatched": 17624.885364,
+				"totalAvailable": 29123.928,
+				"runners": [
+					{
+						"selectionId": 50349,
+						"handicap": 0.0,
+						"runnerName": "Утрехт",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 2685,
+						"handicap": 0.0,
+						"runnerName": "Аякс",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 0,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "SUSPENDED",
+				"productType": "EXCHANGE"
+			},
+			"1.168389686": {
+				"marketId": "1.168389686",
+				"key": "MARKET:1.168389686",
+				"eventTypeId": 1,
+				"eventId": 29686459,
+				"upperLevelEventId": 11061288,
+				"topLevelEventId": 11061288,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:00:38.000Z",
+				"marketSuspendTime": "2020-02-09T11:00:38.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 4095.8319600000004,
+				"totalAvailable": 13172.868,
+				"runners": [
+					{
+						"selectionId": 10116484,
+						"handicap": 0.0,
+						"runnerName": "Real Madrid Castilla",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 10845979,
+						"handicap": 0.0,
+						"runnerName": "UD Las Palmas II",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686459,
+						"sportsbookMarketId": "924.222950418",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168557667": {
+				"marketId": "1.168557667",
+				"key": "MARKET:1.168557667",
+				"eventTypeId": 1,
+				"eventId": 29691523,
+				"upperLevelEventId": 26678644,
+				"topLevelEventId": 26678644,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:01:14.000Z",
+				"marketSuspendTime": "2020-02-09T10:01:14.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 22501.671803999998,
+				"totalAvailable": 31699.641599999995,
+				"runners": [
+					{
+						"selectionId": 6311687,
+						"handicap": 0.0,
+						"runnerName": "Oberhausen U19",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 7653282,
+						"handicap": 0.0,
+						"runnerName": "Байер (Л) U19",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29691523,
+						"sportsbookMarketId": "924.223409081",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168557303": {
+				"marketId": "1.168557303",
+				"key": "MARKET:1.168557303",
+				"eventTypeId": 1,
+				"eventId": 29692949,
+				"upperLevelEventId": 27606393,
+				"topLevelEventId": 27606393,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:00:57.000Z",
+				"marketSuspendTime": "2020-02-09T10:00:57.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 33843.73482,
+				"totalAvailable": 51740.29439999999,
+				"runners": [
+					{
+						"selectionId": 11824619,
+						"handicap": 0.0,
+						"runnerName": "ПАОК U19",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 12503040,
+						"handicap": 0.0,
+						"runnerName": "OFI Crete FC U19",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29692949,
+						"sportsbookMarketId": "924.223521726",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168557940": {
+				"marketId": "1.168557940",
+				"key": "MARKET:1.168557940",
+				"eventTypeId": 1,
+				"eventId": 29692944,
+				"upperLevelEventId": 26703195,
+				"topLevelEventId": 26703195,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:30:27.000Z",
+				"marketSuspendTime": "2020-02-09T10:30:27.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 7988.078952,
+				"totalAvailable": 22117.2336,
+				"runners": [
+					{
+						"selectionId": 6283874,
+						"handicap": 0.0,
+						"runnerName": "Club Portugalete",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 6283876,
+						"handicap": 0.0,
+						"runnerName": "SD Balmaseda FC",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29692944,
+						"sportsbookMarketId": "924.223521378",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.167976795": {
+				"marketId": "1.167976795",
+				"key": "MARKET:1.167976795",
+				"eventTypeId": 1,
+				"eventId": 29672984,
+				"upperLevelEventId": 241361,
+				"topLevelEventId": 241361,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:30:00.000Z",
+				"marketSuspendTime": "2020-02-09T11:30:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": false,
+				"totalMatched": 229966.761636,
+				"totalAvailable": 103384.05840000002,
+				"runners": [
+					{
+						"selectionId": 522046,
+						"handicap": 0.0,
+						"runnerName": "СПАЛ",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 2013140,
+						"handicap": 0.0,
+						"runnerName": "Сассуоло",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 0,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29672984,
+						"sportsbookMarketId": "924.221792942",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168136482": {
+				"marketId": "1.168136482",
+				"key": "MARKET:1.168136482",
+				"eventTypeId": 1,
+				"eventId": 29677618,
+				"upperLevelEventId": 290769,
+				"topLevelEventId": 290769,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:30:00.000Z",
+				"marketSuspendTime": "2020-02-09T10:30:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 51895.35518400001,
+				"totalAvailable": 41018.3568,
+				"runners": [
+					{
+						"selectionId": 508789,
+						"handicap": 0.0,
+						"runnerName": "Кайсериспор",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 113188,
+						"handicap": 0.0,
+						"runnerName": "Антальяспор",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29677618,
+						"sportsbookMarketId": "924.222227837",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168350325": {
+				"marketId": "1.168350325",
+				"key": "MARKET:1.168350325",
+				"eventTypeId": 1,
+				"eventId": 29685119,
+				"upperLevelEventId": 29127140,
+				"topLevelEventId": 29127140,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:00:00.000Z",
+				"marketSuspendTime": "2020-02-09T11:00:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 32210.876016,
+				"totalAvailable": 23046.0444,
+				"runners": [
+					{
+						"selectionId": 2250328,
+						"handicap": 0.0,
+						"runnerName": "Алькоркон",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 51266,
+						"handicap": 0.0,
+						"runnerName": "Депортиво",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29685119,
+						"sportsbookMarketId": "924.222810207",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168558581": {
+				"marketId": "1.168558581",
+				"key": "MARKET:1.168558581",
+				"eventTypeId": 1,
+				"eventId": 29692268,
+				"upperLevelEventId": 29128535,
+				"topLevelEventId": 29128535,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T12:00:00.000Z",
+				"marketSuspendTime": "2020-02-09T12:00:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": false,
+				"totalMatched": 80.52048,
+				"totalAvailable": 207.18720000000002,
+				"runners": [
+					{
+						"selectionId": 17634118,
+						"handicap": 0.0,
+						"runnerName": "Durham (W)",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 9395059,
+						"handicap": 0.0,
+						"runnerName": "Астон Вилла (Ж)",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 0,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29692268,
+						"sportsbookMarketId": "924.223469589",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168399953": {
+				"marketId": "1.168399953",
+				"key": "MARKET:1.168399953",
+				"eventTypeId": 1,
+				"eventId": 29686558,
+				"upperLevelEventId": 11190610,
+				"topLevelEventId": 11190610,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:03:05.000Z",
+				"marketSuspendTime": "2020-02-09T11:03:05.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 2429.4347279999997,
+				"totalAvailable": 14692.6332,
+				"runners": [
+					{
+						"selectionId": 9339254,
+						"handicap": 0.0,
+						"runnerName": "Yeclano Deportivo",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 9282888,
+						"handicap": 0.0,
+						"runnerName": "San Fernando CD",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686558,
+						"sportsbookMarketId": "924.222958456",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168504978": {
+				"marketId": "1.168504978",
+				"key": "MARKET:1.168504978",
+				"eventTypeId": 1,
+				"eventId": 29689753,
+				"upperLevelEventId": 28709236,
+				"topLevelEventId": 28709236,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:58:32.000Z",
+				"marketSuspendTime": "2020-02-09T10:58:32.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 4377.524148,
+				"totalAvailable": 43505.7804,
+				"runners": [
+					{
+						"selectionId": 6250160,
+						"handicap": 0.0,
+						"runnerName": "Umraniyespor",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 4985298,
+						"handicap": 0.0,
+						"runnerName": "Balikesirspor",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 7,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29689753,
+						"sportsbookMarketId": "924.223278000",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168557576": {
+				"marketId": "1.168557576",
+				"key": "MARKET:1.168557576",
+				"eventTypeId": 1,
+				"eventId": 29691527,
+				"upperLevelEventId": 26678644,
+				"topLevelEventId": 26678644,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:00:00.000Z",
+				"marketSuspendTime": "2020-02-09T10:00:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 2168.8732800000002,
+				"totalAvailable": 33959.8656,
+				"runners": [
+					{
+						"selectionId": 6623882,
+						"handicap": 0.0,
+						"runnerName": "Аугсбург U19",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 6275194,
+						"handicap": 0.0,
+						"runnerName": "SC Freiburg U19",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29691527,
+						"sportsbookMarketId": "924.223409986",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168558304": {
+				"marketId": "1.168558304",
+				"key": "MARKET:1.168558304",
+				"eventTypeId": 1,
+				"eventId": 29692981,
+				"upperLevelEventId": 26703195,
+				"topLevelEventId": 26703195,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:02:26.000Z",
+				"marketSuspendTime": "2020-02-09T11:02:26.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 516.602448,
+				"totalAvailable": 13370.6376,
+				"runners": [
+					{
+						"selectionId": 6796938,
+						"handicap": 0.0,
+						"runnerName": "UE Castelldefels",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 8832969,
+						"handicap": 0.0,
+						"runnerName": "CF Peralada",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29692981,
+						"sportsbookMarketId": "924.223526240",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168400230": {
+				"marketId": "1.168400230",
+				"key": "MARKET:1.168400230",
+				"eventTypeId": 1,
+				"eventId": 29686548,
+				"upperLevelEventId": 11190610,
+				"topLevelEventId": 11190610,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:03:17.000Z",
+				"marketSuspendTime": "2020-02-09T11:03:17.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 2536.136136,
+				"totalAvailable": 15402.4848,
+				"runners": [
+					{
+						"selectionId": 3303612,
+						"handicap": 0.0,
+						"runnerName": "Linense",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 6399727,
+						"handicap": 0.0,
+						"runnerName": "Atletico Sanluqueno CF",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686548,
+						"sportsbookMarketId": "924.222956175",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168390141": {
+				"marketId": "1.168390141",
+				"key": "MARKET:1.168390141",
+				"eventTypeId": 1,
+				"eventId": 29686461,
+				"upperLevelEventId": 11061288,
+				"topLevelEventId": 11061288,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:30:53.000Z",
+				"marketSuspendTime": "2020-02-09T10:30:53.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 2772.5767560000004,
+				"totalAvailable": 27246.294000000005,
+				"runners": [
+					{
+						"selectionId": 27275217,
+						"handicap": 0.0,
+						"runnerName": "Melilla UD",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 2522837,
+						"handicap": 0.0,
+						"runnerName": "Marino Luanco",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686461,
+						"sportsbookMarketId": "924.222950884",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.167978849": {
+				"marketId": "1.167978849",
+				"key": "MARKET:1.167978849",
+				"eventTypeId": 1,
+				"eventId": 29672040,
+				"upperLevelEventId": 259241,
+				"topLevelEventId": 259241,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:00:00.000Z",
+				"marketSuspendTime": "2020-02-09T11:00:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 829967.037192,
+				"totalAvailable": 231861.312,
+				"runners": [
+					{
+						"selectionId": 59044,
+						"handicap": 0.0,
+						"runnerName": "Эспаньол",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 10542,
+						"handicap": 0.0,
+						"runnerName": "Mallorca",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29672040,
+						"sportsbookMarketId": "924.221722229",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168524164": {
+				"marketId": "1.168524164",
+				"key": "MARKET:1.168524164",
+				"eventTypeId": 1,
+				"eventId": 29691424,
+				"upperLevelEventId": 26678644,
+				"topLevelEventId": 26678644,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T12:00:00.000Z",
+				"marketSuspendTime": "2020-02-09T12:00:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": false,
+				"totalMatched": 151.68222,
+				"totalAvailable": 1080.6696,
+				"runners": [
+					{
+						"selectionId": 6333887,
+						"handicap": 0.0,
+						"runnerName": "Кайзерслаутерн U19",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 10796080,
+						"handicap": 0.0,
+						"runnerName": "SpVgg Greuther Furth U19",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 0,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29691424,
+						"sportsbookMarketId": "924.223402463",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168389594": {
+				"marketId": "1.168389594",
+				"key": "MARKET:1.168389594",
+				"eventTypeId": 1,
+				"eventId": 29686462,
+				"upperLevelEventId": 11061288,
+				"topLevelEventId": 11061288,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:02:19.000Z",
+				"marketSuspendTime": "2020-02-09T11:02:19.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 1506.0743639999998,
+				"totalAvailable": 12842.0748,
+				"runners": [
+					{
+						"selectionId": 3303600,
+						"handicap": 0.0,
+						"runnerName": "Ibiza Eivissa",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 4943232,
+						"handicap": 0.0,
+						"runnerName": "Coruxo",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686462,
+						"sportsbookMarketId": "924.222950897",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168389959": {
+				"marketId": "1.168389959",
+				"key": "MARKET:1.168389959",
+				"eventTypeId": 1,
+				"eventId": 29686456,
+				"upperLevelEventId": 11061288,
+				"topLevelEventId": 11061288,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:00:24.000Z",
+				"marketSuspendTime": "2020-02-09T11:00:24.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 1051.839972,
+				"totalAvailable": 14864.5044,
+				"runners": [
+					{
+						"selectionId": 25486796,
+						"handicap": 0.0,
+						"runnerName": "CD Las Rozas",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 10429094,
+						"handicap": 0.0,
+						"runnerName": "CF Internacional Madrid",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686456,
+						"sportsbookMarketId": "924.222949919",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168384145": {
+				"marketId": "1.168384145",
+				"key": "MARKET:1.168384145",
+				"eventTypeId": 1,
+				"eventId": 29685845,
+				"upperLevelEventId": 11190610,
+				"topLevelEventId": 11190610,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:32:10.000Z",
+				"marketSuspendTime": "2020-02-09T10:32:10.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 1020.4558199999999,
+				"totalAvailable": 25504.037999999997,
+				"runners": [
+					{
+						"selectionId": 7602492,
+						"handicap": 0.0,
+						"runnerName": "Granada B",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 5778410,
+						"handicap": 0.0,
+						"runnerName": "UCAM Murcia",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29685845,
+						"sportsbookMarketId": "924.222890673",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168399862": {
+				"marketId": "1.168399862",
+				"key": "MARKET:1.168399862",
+				"eventTypeId": 1,
+				"eventId": 29686546,
+				"upperLevelEventId": 11062795,
+				"topLevelEventId": 11062795,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:59:26.000Z",
+				"marketSuspendTime": "2020-02-09T10:59:26.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 1244.759508,
+				"totalAvailable": 13518.9648,
+				"runners": [
+					{
+						"selectionId": 8719486,
+						"handicap": 0.0,
+						"runnerName": "UE Llagostera",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 14453896,
+						"handicap": 0.0,
+						"runnerName": "Atletico Levante UD",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686546,
+						"sportsbookMarketId": "924.222956004",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168566799": {
+				"marketId": "1.168566799",
+				"key": "MARKET:1.168566799",
+				"eventTypeId": 1,
+				"eventId": 29693330,
+				"upperLevelEventId": 29119404,
+				"topLevelEventId": 29119404,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:01:09.000Z",
+				"marketSuspendTime": "2020-02-09T10:01:09.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 1884.2616360000002,
+				"totalAvailable": 21182.5368,
+				"runners": [
+					{
+						"selectionId": 8423579,
+						"handicap": 0.0,
+						"runnerName": "CA Osasuna (W)",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 10550100,
+						"handicap": 0.0,
+						"runnerName": "CD Parquesol CF (W)",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29693330,
+						"sportsbookMarketId": "924.223560316",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168558490": {
+				"marketId": "1.168558490",
+				"key": "MARKET:1.168558490",
+				"eventTypeId": 1,
+				"eventId": 29693008,
+				"upperLevelEventId": 26703195,
+				"topLevelEventId": 26703195,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:30:00.000Z",
+				"marketSuspendTime": "2020-02-09T11:30:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": false,
+				"totalMatched": 482.6990880000001,
+				"totalAvailable": 1225.4652,
+				"runners": [
+					{
+						"selectionId": 9315717,
+						"handicap": 0.0,
+						"runnerName": "Lebrijana",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 10340238,
+						"handicap": 0.0,
+						"runnerName": "Real Betis B",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 0,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29693008,
+						"sportsbookMarketId": "924.223529870",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168402323": {
+				"marketId": "1.168402323",
+				"key": "MARKET:1.168402323",
+				"eventTypeId": 1,
+				"eventId": 29686654,
+				"upperLevelEventId": 695561,
+				"topLevelEventId": 695561,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:16:04.000Z",
+				"marketSuspendTime": "2020-02-09T11:16:04.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 1166.0166,
+				"totalAvailable": 13061.034,
+				"runners": [
+					{
+						"selectionId": 616886,
+						"handicap": 0.0,
+						"runnerName": "Oliveirense",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 6563318,
+						"handicap": 0.0,
+						"runnerName": "Benfica B",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 7,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686654,
+						"sportsbookMarketId": "924.222965836",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168557485": {
+				"marketId": "1.168557485",
+				"key": "MARKET:1.168557485",
+				"eventTypeId": 1,
+				"eventId": 29692947,
+				"upperLevelEventId": 27606393,
+				"topLevelEventId": 27606393,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:01:11.000Z",
+				"marketSuspendTime": "2020-02-09T10:01:11.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 6005.591748000001,
+				"totalAvailable": 24622.3152,
+				"runners": [
+					{
+						"selectionId": 20399094,
+						"handicap": 0.0,
+						"runnerName": "Atromitos Athens FC U19",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 6569318,
+						"handicap": 0.0,
+						"runnerName": "Олимпиакос U19",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29692947,
+						"sportsbookMarketId": "924.223521568",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168558213": {
+				"marketId": "1.168558213",
+				"key": "MARKET:1.168558213",
+				"eventTypeId": 1,
+				"eventId": 29692991,
+				"upperLevelEventId": 26703195,
+				"topLevelEventId": 26703195,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:00:33.000Z",
+				"marketSuspendTime": "2020-02-09T11:00:33.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 483.370092,
+				"totalAvailable": 12052.173600000002,
+				"runners": [
+					{
+						"selectionId": 7906132,
+						"handicap": 0.0,
+						"runnerName": "Paterna CF",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 25454800,
+						"handicap": 0.0,
+						"runnerName": "CF Intercity",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 7,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29692991,
+						"sportsbookMarketId": "924.223527407",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168390050": {
+				"marketId": "1.168390050",
+				"key": "MARKET:1.168390050",
+				"eventTypeId": 1,
+				"eventId": 29686455,
+				"upperLevelEventId": 11061288,
+				"topLevelEventId": 11061288,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:59:19.000Z",
+				"marketSuspendTime": "2020-02-09T10:59:19.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 2495.3108399999996,
+				"totalAvailable": 14272.372800000001,
+				"runners": [
+					{
+						"selectionId": 3303611,
+						"handicap": 0.0,
+						"runnerName": "Atletico Baleares",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 9414423,
+						"handicap": 0.0,
+						"runnerName": "Pontevedra CF",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686455,
+						"sportsbookMarketId": "924.222949737",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168389868": {
+				"marketId": "1.168389868",
+				"key": "MARKET:1.168389868",
+				"eventTypeId": 1,
+				"eventId": 29686457,
+				"upperLevelEventId": 11061288,
+				"topLevelEventId": 11061288,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:01:44.000Z",
+				"marketSuspendTime": "2020-02-09T11:01:44.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 2071.200996,
+				"totalAvailable": 14206.4496,
+				"runners": [
+					{
+						"selectionId": 7583222,
+						"handicap": 0.0,
+						"runnerName": "Celta Vigo B",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 3303608,
+						"handicap": 0.0,
+						"runnerName": "Santa Eulalia",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686457,
+						"sportsbookMarketId": "924.222949933",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168557849": {
+				"marketId": "1.168557849",
+				"key": "MARKET:1.168557849",
+				"eventTypeId": 1,
+				"eventId": 29692945,
+				"upperLevelEventId": 26703195,
+				"topLevelEventId": 26703195,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:30:00.000Z",
+				"marketSuspendTime": "2020-02-09T10:30:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 728.3571840000001,
+				"totalAvailable": 14047.5276,
+				"runners": [
+					{
+						"selectionId": 27308261,
+						"handicap": 0.0,
+						"runnerName": "Hercules B",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 11567071,
+						"handicap": 0.0,
+						"runnerName": "Silla CF",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29692945,
+						"sportsbookMarketId": "924.223521518",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168389503": {
+				"marketId": "1.168389503",
+				"key": "MARKET:1.168389503",
+				"eventTypeId": 1,
+				"eventId": 29686445,
+				"upperLevelEventId": 11061288,
+				"topLevelEventId": 11061288,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:31:05.000Z",
+				"marketSuspendTime": "2020-02-09T10:31:05.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 4257.861768,
+				"totalAvailable": 25480.494,
+				"runners": [
+					{
+						"selectionId": 4943234,
+						"handicap": 0.0,
+						"runnerName": "Getafe B",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 6399742,
+						"handicap": 0.0,
+						"runnerName": "UP Langreo",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686445,
+						"sportsbookMarketId": "924.222948314",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168248854": {
+				"marketId": "1.168248854",
+				"key": "MARKET:1.168248854",
+				"eventTypeId": 1,
+				"eventId": 29681790,
+				"upperLevelEventId": 3053420,
+				"topLevelEventId": 3053420,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:30:00.000Z",
+				"marketSuspendTime": "2020-02-09T11:30:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": false,
+				"totalMatched": 1341.442944,
+				"totalAvailable": 6389.841599999999,
+				"runners": [
+					{
+						"selectionId": 487520,
+						"handicap": 0.0,
+						"runnerName": "Висла (Плоцк)",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 46953,
+						"handicap": 0.0,
+						"runnerName": "Погон (Щецин)",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 0,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29681790,
+						"sportsbookMarketId": "924.222550025",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168572867": {
+				"marketId": "1.168572867",
+				"key": "MARKET:1.168572867",
+				"eventTypeId": 1,
+				"eventId": 29693020,
+				"upperLevelEventId": 26703195,
+				"topLevelEventId": 26703195,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:02:59.000Z",
+				"marketSuspendTime": "2020-02-09T11:02:59.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 289.94436,
+				"totalAvailable": 11786.126400000001,
+				"runners": [
+					{
+						"selectionId": 15120174,
+						"handicap": 0.0,
+						"runnerName": "FC Cartagena II",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 2522818,
+						"handicap": 0.0,
+						"runnerName": "Mazarron",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29693020,
+						"sportsbookMarketId": "924.223531051",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168571931": {
+				"marketId": "1.168571931",
+				"key": "MARKET:1.168571931",
+				"eventTypeId": 1,
+				"eventId": 29693316,
+				"upperLevelEventId": 27614197,
+				"topLevelEventId": 27614197,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:01:56.000Z",
+				"marketSuspendTime": "2020-02-09T11:01:56.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 304.918344,
+				"totalAvailable": 9989.7192,
+				"runners": [
+					{
+						"selectionId": 7202659,
+						"handicap": 0.0,
+						"runnerName": "Benfica Castelo Branco",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 25560689,
+						"handicap": 0.0,
+						"runnerName": "GD Fontinhas",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29693316,
+						"sportsbookMarketId": "924.223558487",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168524541": {
+				"marketId": "1.168524541",
+				"key": "MARKET:1.168524541",
+				"eventTypeId": 1,
+				"eventId": 29691401,
+				"upperLevelEventId": 27459777,
+				"topLevelEventId": 27459777,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T12:00:00.000Z",
+				"marketSuspendTime": "2020-02-09T12:00:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": false,
+				"totalMatched": 1.6598519999999999,
+				"totalAvailable": 675.7128,
+				"runners": [
+					{
+						"selectionId": 9564496,
+						"handicap": 0.0,
+						"runnerName": "AFC Leopards SC (Kenya)",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 7177028,
+						"handicap": 0.0,
+						"runnerName": "Tusker FC",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 0,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29691401,
+						"sportsbookMarketId": "924.223402128",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168558122": {
+				"marketId": "1.168558122",
+				"key": "MARKET:1.168558122",
+				"eventTypeId": 1,
+				"eventId": 29692992,
+				"upperLevelEventId": 26703195,
+				"topLevelEventId": 26703195,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:02:43.000Z",
+				"marketSuspendTime": "2020-02-09T11:02:43.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 182.52486000000002,
+				"totalAvailable": 11358.8028,
+				"runners": [
+					{
+						"selectionId": 12256114,
+						"handicap": 0.0,
+						"runnerName": "CD Roda",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 1321438,
+						"handicap": 0.0,
+						"runnerName": "Alcoyano",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29692992,
+						"sportsbookMarketId": "924.223527746",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168557394": {
+				"marketId": "1.168557394",
+				"key": "MARKET:1.168557394",
+				"eventTypeId": 1,
+				"eventId": 29692948,
+				"upperLevelEventId": 27606393,
+				"topLevelEventId": 27606393,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:01:40.000Z",
+				"marketSuspendTime": "2020-02-09T10:01:40.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 3245.8935600000004,
+				"totalAvailable": 20958.8688,
+				"runners": [
+					{
+						"selectionId": 20399142,
+						"handicap": 0.0,
+						"runnerName": "AEK Athens FC U19",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 20398545,
+						"handicap": 0.0,
+						"runnerName": "Panathinaikos FC U19",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29692948,
+						"sportsbookMarketId": "924.223521682",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168566707": {
+				"marketId": "1.168566707",
+				"key": "MARKET:1.168566707",
+				"eventTypeId": 1,
+				"eventId": 29692955,
+				"upperLevelEventId": 29124067,
+				"topLevelEventId": 29124067,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T09:57:45.000Z",
+				"marketSuspendTime": "2020-02-09T09:57:45.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 7189.325208,
+				"totalAvailable": 24955.4628,
+				"runners": [
+					{
+						"selectionId": 10937634,
+						"handicap": 0.0,
+						"runnerName": "LB Chateauroux U19",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 20530662,
+						"handicap": 0.0,
+						"runnerName": "Vannes OC U19",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168390960": {
+				"marketId": "1.168390960",
+				"key": "MARKET:1.168390960",
+				"eventTypeId": 1,
+				"eventId": 29686533,
+				"upperLevelEventId": 11062795,
+				"topLevelEventId": 11062795,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:00:00.000Z",
+				"marketSuspendTime": "2020-02-09T11:00:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 9415.033704,
+				"totalAvailable": 15760.3536,
+				"runners": [
+					{
+						"selectionId": 11494961,
+						"handicap": 0.0,
+						"runnerName": "Valencia-Mestalla",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 7602489,
+						"handicap": 0.0,
+						"runnerName": "Olot",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686533,
+						"sportsbookMarketId": "924.222954585",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168389412": {
+				"marketId": "1.168389412",
+				"key": "MARKET:1.168389412",
+				"eventTypeId": 1,
+				"eventId": 29686449,
+				"upperLevelEventId": 11061288,
+				"topLevelEventId": 11061288,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T10:32:29.000Z",
+				"marketSuspendTime": "2020-02-09T10:32:29.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 2185.813188,
+				"totalAvailable": 26976.7152,
+				"runners": [
+					{
+						"selectionId": 7602485,
+						"handicap": 0.0,
+						"runnerName": "Sporting Gijon B",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 10478536,
+						"handicap": 0.0,
+						"runnerName": "Racing de Ferrol",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686449,
+						"sportsbookMarketId": "924.222949456",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168350217": {
+				"marketId": "1.168350217",
+				"key": "MARKET:1.168350217",
+				"eventTypeId": 1,
+				"eventId": 29685120,
+				"upperLevelEventId": 29127140,
+				"topLevelEventId": 29127140,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:00:00.000Z",
+				"marketSuspendTime": "2020-02-09T11:00:00.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 24135.2487,
+				"totalAvailable": 24858.9324,
+				"runners": [
+					{
+						"selectionId": 309089,
+						"handicap": 0.0,
+						"runnerName": "Альбасете",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 2028828,
+						"handicap": 0.0,
+						"runnerName": "Ponferradina",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29685120,
+						"sportsbookMarketId": "924.222810641",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168391051": {
+				"marketId": "1.168391051",
+				"key": "MARKET:1.168391051",
+				"eventTypeId": 1,
+				"eventId": 29686465,
+				"upperLevelEventId": 11062795,
+				"topLevelEventId": 11062795,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:02:11.000Z",
+				"marketSuspendTime": "2020-02-09T11:02:11.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 2869.636896,
+				"totalAvailable": 14541.951600000002,
+				"runners": [
+					{
+						"selectionId": 8041211,
+						"handicap": 0.0,
+						"runnerName": "CD Ebro",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 6412881,
+						"handicap": 0.0,
+						"runnerName": "SD Ejea",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686465,
+						"sportsbookMarketId": "924.222950942",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168557758": {
+				"marketId": "1.168557758",
+				"key": "MARKET:1.168557758",
+				"eventTypeId": 1,
+				"eventId": 29691392,
+				"upperLevelEventId": 26678644,
+				"topLevelEventId": 26678644,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T09:59:01.000Z",
+				"marketSuspendTime": "2020-02-09T09:59:01.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 26890.850232,
+				"totalAvailable": 24790.6548,
+				"runners": [
+					{
+						"selectionId": 13144835,
+						"handicap": 0.0,
+						"runnerName": "FC Schalke U19",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 8761115,
+						"handicap": 0.0,
+						"runnerName": "Viktoria Koln U19",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29691392,
+						"sportsbookMarketId": "924.223401347",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.168389777": {
+				"marketId": "1.168389777",
+				"key": "MARKET:1.168389777",
+				"eventTypeId": 1,
+				"eventId": 29686458,
+				"upperLevelEventId": 11061288,
+				"topLevelEventId": 11061288,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-09T11:00:30.000Z",
+				"marketSuspendTime": "2020-02-09T11:00:30.000Z",
+				"canTurnInPlay": true,
+				"marketType": "MATCH_ODDS",
+				"bspMarket": false,
+				"inplay": true,
+				"totalMatched": 3832.468776,
+				"totalAvailable": 14366.5488,
+				"runners": [
+					{
+						"selectionId": 10243043,
+						"handicap": 0.0,
+						"runnerName": "Atletico Madrid II",
+						"sortPriority": 1,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 6929273,
+						"handicap": 0.0,
+						"runnerName": "Райо (Махадаонда)",
+						"sortPriority": 2,
+						"runnerStatus": "ACTIVE"
+					},
+					{
+						"selectionId": 58805,
+						"handicap": 0.0,
+						"runnerName": "Ничья",
+						"sortPriority": 3,
+						"runnerStatus": "ACTIVE"
+					}
+				],
+				"betDelay": 5,
+				"numberOfWinners": 1,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"associatedMarkets": [
+					{
+						"eventId": 29686458,
+						"sportsbookMarketId": "924.222949925",
+						"eventTypeId": 1
+					}
+				],
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"bettingType": "ODDS",
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			}
+		},
+		"events": {
+			"29686468": {
+				"eventId": 29686468,
+				"key": "EVENT:29686468",
+				"name": "Sevilla B v Algeciras",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:30:10.000Z",
+				"videoAvailable": false
+			},
+			"29692992": {
+				"eventId": 29692992,
+				"key": "EVENT:29692992",
+				"name": "CD Roda v Alcoyano",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:02:43.000Z",
+				"videoAvailable": false
+			},
+			"29686465": {
+				"eventId": 29686465,
+				"key": "EVENT:29686465",
+				"name": "CD Ebro - SD Ejea",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:02:11.000Z",
+				"videoAvailable": false
+			},
+			"29693007": {
+				"eventId": 29693007,
+				"key": "EVENT:29693007",
+				"name": "San Roque v Lucena CF",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:58:03.000Z",
+				"videoAvailable": false
+			},
+			"29685845": {
+				"eventId": 29685845,
+				"key": "EVENT:29685845",
+				"name": "Granada B v UCAM Murcia",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:32:10.000Z",
+				"videoAvailable": false
+			},
+			"29693009": {
+				"eventId": 29693009,
+				"key": "EVENT:29693009",
+				"name": "Cordoba B v Arcos CF",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:02:54.000Z",
+				"videoAvailable": false
+			},
+			"29693008": {
+				"eventId": 29693008,
+				"key": "EVENT:29693008",
+				"name": "Lebrijana v Real Betis B",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:30:00.000Z",
+				"videoAvailable": false
+			},
+			"29693020": {
+				"eventId": 29693020,
+				"key": "EVENT:29693020",
+				"name": "FC Cartagena II - Mazarron",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:02:59.000Z",
+				"videoAvailable": false
+			},
+			"29692268": {
+				"eventId": 29692268,
+				"key": "EVENT:29692268",
+				"name": "Durham (W) v Aston Villa (W)",
+				"eventTypeId": 1,
+				"countryCode": "GB",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T12:00:00.000Z",
+				"videoAvailable": false
+			},
+			"29672040": {
+				"eventId": 29672040,
+				"key": "EVENT:29672040",
+				"name": "Эспаньол - Mallorca",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:00:00.000Z",
+				"videoAvailable": false
+			},
+			"29686654": {
+				"eventId": 29686654,
+				"key": "EVENT:29686654",
+				"name": "Oliveirense - Benfica B",
+				"eventTypeId": 1,
+				"countryCode": "PT",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:16:04.000Z",
+				"videoAvailable": false
+			},
+			"29681790": {
+				"eventId": 29681790,
+				"key": "EVENT:29681790",
+				"name": "Висла (Плоцк) - Погон (Щецин)",
+				"eventTypeId": 1,
+				"countryCode": "PL",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:30:00.000Z",
+				"videoAvailable": true
+			},
+			"29685119": {
+				"eventId": 29685119,
+				"key": "EVENT:29685119",
+				"name": "Алькоркон - Депортиво",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:00:00.000Z",
+				"videoAvailable": false
+			},
+			"29686533": {
+				"eventId": 29686533,
+				"key": "EVENT:29686533",
+				"name": "Valencia-Mestalla v Olot",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:00:00.000Z",
+				"videoAvailable": false
+			},
+			"29693316": {
+				"eventId": 29693316,
+				"key": "EVENT:29693316",
+				"name": "Benfica Castelo Branco v GD Fontinhas",
+				"eventTypeId": 1,
+				"countryCode": "PT",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:01:56.000Z",
+				"videoAvailable": false
+			},
+			"29691527": {
+				"eventId": 29691527,
+				"key": "EVENT:29691527",
+				"name": "Аугсбург U19 - SC Freiburg U19",
+				"eventTypeId": 1,
+				"countryCode": "DE",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:00:00.000Z",
+				"videoAvailable": false
+			},
+			"29693318": {
+				"eventId": 29693318,
+				"key": "EVENT:29693318",
+				"name": "Ed Moratalaz v Flat Earth FC",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:32:07.000Z",
+				"videoAvailable": false
+			},
+			"29685120": {
+				"eventId": 29685120,
+				"key": "EVENT:29685120",
+				"name": "Альбасете - Ponferradina",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:00:00.000Z",
+				"videoAvailable": false
+			},
+			"29691392": {
+				"eventId": 29691392,
+				"key": "EVENT:29691392",
+				"name": "FC Schalke U19 v Viktoria Koln U19",
+				"eventTypeId": 1,
+				"countryCode": "DE",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T09:59:01.000Z",
+				"videoAvailable": false
+			},
+			"29691523": {
+				"eventId": 29691523,
+				"key": "EVENT:29691523",
+				"name": "Oberhausen U19 v Leverkusen U19",
+				"eventTypeId": 1,
+				"countryCode": "DE",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:01:14.000Z",
+				"videoAvailable": false
+			},
+			"29693196": {
+				"eventId": 29693196,
+				"key": "EVENT:29693196",
+				"name": "Черно Море - Ludogorets Razgrad B",
+				"eventTypeId": 1,
+				"timezone": "GMT",
+				"openDate": "2020-02-09T12:00:00.000Z",
+				"videoAvailable": false
+			},
+			"29691401": {
+				"eventId": 29691401,
+				"key": "EVENT:29691401",
+				"name": "AFC Leopards SC (Kenya) v Tusker FC",
+				"eventTypeId": 1,
+				"countryCode": "KE",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T12:00:00.000Z",
+				"videoAvailable": false
+			},
+			"29692949": {
+				"eventId": 29692949,
+				"key": "EVENT:29692949",
+				"name": "PAOK U19 v OFI Crete FC U19",
+				"eventTypeId": 1,
+				"countryCode": "GR",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:00:57.000Z",
+				"videoAvailable": false
+			},
+			"29686548": {
+				"eventId": 29686548,
+				"key": "EVENT:29686548",
+				"name": "Linense v Atletico Sanluqueno CF",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:03:17.000Z",
+				"videoAvailable": false
+			},
+			"29692948": {
+				"eventId": 29692948,
+				"key": "EVENT:29692948",
+				"name": "AEK Athens FC U19 v Panathinaikos FC U19",
+				"eventTypeId": 1,
+				"countryCode": "GR",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:01:40.000Z",
+				"videoAvailable": false
+			},
+			"29692945": {
+				"eventId": 29692945,
+				"key": "EVENT:29692945",
+				"name": "Hercules B v Silla CF",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:30:00.000Z",
+				"videoAvailable": false
+			},
+			"29692944": {
+				"eventId": 29692944,
+				"key": "EVENT:29692944",
+				"name": "Club Portugalete - SD Balmaseda FC",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:30:27.000Z",
+				"videoAvailable": false
+			},
+			"29686546": {
+				"eventId": 29686546,
+				"key": "EVENT:29686546",
+				"name": "UE Llagostera v Atletico Levante UD",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:59:26.000Z",
+				"videoAvailable": false
+			},
+			"29692947": {
+				"eventId": 29692947,
+				"key": "EVENT:29692947",
+				"name": "Atromitos Athens FC U19 v Olympiakos U19",
+				"eventTypeId": 1,
+				"countryCode": "GR",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:01:11.000Z",
+				"videoAvailable": false
+			},
+			"29693330": {
+				"eventId": 29693330,
+				"key": "EVENT:29693330",
+				"name": "CA Osasuna (W) v CD Parquesol CF (W)",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:01:09.000Z",
+				"videoAvailable": false
+			},
+			"29686558": {
+				"eventId": 29686558,
+				"key": "EVENT:29686558",
+				"name": "Yeclano Deportivo v San Fernando CD",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:03:05.000Z",
+				"videoAvailable": false
+			},
+			"29673374": {
+				"eventId": 29673374,
+				"key": "EVENT:29673374",
+				"name": "Утрехт - Аякс",
+				"eventTypeId": 1,
+				"countryCode": "NL",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:15:00.000Z",
+				"videoAvailable": false
+			},
+			"29692959": {
+				"eventId": 29692959,
+				"key": "EVENT:29692959",
+				"name": "Paris FC U19 v Le Puy Football 43 U19",
+				"eventTypeId": 1,
+				"countryCode": "FR",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:00:21.000Z",
+				"videoAvailable": false
+			},
+			"29672984": {
+				"eventId": 29672984,
+				"key": "EVENT:29672984",
+				"name": "СПАЛ - Сассуоло",
+				"eventTypeId": 1,
+				"countryCode": "IT",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:30:00.000Z",
+				"videoAvailable": true
+			},
+			"29689753": {
+				"eventId": 29689753,
+				"key": "EVENT:29689753",
+				"name": "Umraniyespor - Balikesirspor",
+				"eventTypeId": 1,
+				"countryCode": "TR",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:58:32.000Z",
+				"videoAvailable": true
+			},
+			"29692955": {
+				"eventId": 29692955,
+				"key": "EVENT:29692955",
+				"name": "LB Chateauroux U19 v Vannes OC U19",
+				"eventTypeId": 1,
+				"countryCode": "FR",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T09:57:45.000Z",
+				"videoAvailable": false
+			},
+			"29692324": {
+				"eventId": 29692324,
+				"key": "EVENT:29692324",
+				"name": "Реал Сосьедад (Ж) - Барселона (Ж)",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:59:36.000Z",
+				"videoAvailable": false
+			},
+			"29691424": {
+				"eventId": 29691424,
+				"key": "EVENT:29691424",
+				"name": "Kaiserslautern U19 v SpVgg Greuther Furth U19",
+				"eventTypeId": 1,
+				"countryCode": "DE",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T12:00:00.000Z",
+				"videoAvailable": false
+			},
+			"29686445": {
+				"eventId": 29686445,
+				"key": "EVENT:29686445",
+				"name": "Getafe B v UP Langreo",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:31:05.000Z",
+				"videoAvailable": false
+			},
+			"29692981": {
+				"eventId": 29692981,
+				"key": "EVENT:29692981",
+				"name": "UE Castelldefels v CF Peralada",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:02:26.000Z",
+				"videoAvailable": false
+			},
+			"29686455": {
+				"eventId": 29686455,
+				"key": "EVENT:29686455",
+				"name": "Atletico Baleares - Pontevedra CF",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:59:19.000Z",
+				"videoAvailable": false
+			},
+			"29686449": {
+				"eventId": 29686449,
+				"key": "EVENT:29686449",
+				"name": "Sporting Gijon B - Racing de Ferrol",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:32:29.000Z",
+				"videoAvailable": false
+			},
+			"29677618": {
+				"eventId": 29677618,
+				"key": "EVENT:29677618",
+				"name": "Кайсериспор - Антальяспор",
+				"eventTypeId": 1,
+				"countryCode": "TR",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:30:00.000Z",
+				"videoAvailable": true
+			},
+			"29686461": {
+				"eventId": 29686461,
+				"key": "EVENT:29686461",
+				"name": "Melilla UD v Marino Luanco",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T10:30:53.000Z",
+				"videoAvailable": false
+			},
+			"29686462": {
+				"eventId": 29686462,
+				"key": "EVENT:29686462",
+				"name": "Ibiza Eivissa - Coruxo",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:02:19.000Z",
+				"videoAvailable": false
+			},
+			"29692991": {
+				"eventId": 29692991,
+				"key": "EVENT:29692991",
+				"name": "Paterna CF v CF Intercity",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:00:33.000Z",
+				"videoAvailable": false
+			},
+			"29686456": {
+				"eventId": 29686456,
+				"key": "EVENT:29686456",
+				"name": "CD Las Rozas v CF Internacional Madrid",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:00:24.000Z",
+				"videoAvailable": false
+			},
+			"29686457": {
+				"eventId": 29686457,
+				"key": "EVENT:29686457",
+				"name": "Celta Vigo B - Santa Eulalia",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:01:44.000Z",
+				"videoAvailable": false
+			},
+			"29686458": {
+				"eventId": 29686458,
+				"key": "EVENT:29686458",
+				"name": "Atletico Madrid II v CF Rayo Majadahonda",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:00:30.000Z",
+				"videoAvailable": false
+			},
+			"29686459": {
+				"eventId": 29686459,
+				"key": "EVENT:29686459",
+				"name": "Real Madrid Castilla v UD Las Palmas II",
+				"eventTypeId": 1,
+				"countryCode": "ES",
+				"timezone": "GMT",
+				"openDate": "2020-02-09T11:00:38.000Z",
+				"videoAvailable": false
+			}
+		}
+	}
+}

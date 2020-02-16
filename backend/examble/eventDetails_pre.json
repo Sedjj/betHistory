@@ -1,0 +1,37 @@
+[
+	{
+		"eventId": 29703137,
+		"eventTypeId": 1,
+		"marketId": "1.168861782",
+		"marketName": "Match Odds",
+		"eventName": "Punjab FC v Real Kashmir FC",
+		"competitionName": "Indian I-League",
+		"competitionId": "12199393",
+		"numberOfRunners": 3,
+		"countryCode": "IN",
+		"startTime": "2020-02-16T08:30:00.000Z",
+		"runners": {
+			"runner1Name": "Punjab FC",
+			"runner2Name": "Real Kashmir FC",
+			"drawName": "The Draw",
+			"runner1SelectionId": 27301411,
+			"runner2SelectionId": 11686406,
+			"drawSelectionId": 58805
+		},
+		"homeName": "Punjab FC",
+		"awayName": "Real Kashmir FC",
+		"broadcasts": {
+			"tv": [],
+			"radio": {
+				"url": "http://radio.betfair.com"
+			},
+			"bfLiveVideo": {},
+			"isLiveVideoAvailable": false,
+			"isDataVisualizationAvailable": true,
+			"isPaddockViewAvailable": false,
+			"channel": "WEB"
+		},
+		"matchInfo": {},
+		"inPlayBettingStatus": "WillGoInPlay"
+	}
+]

@@ -1,0 +1,92 @@
+[
+	{
+		"eventId": 29696345,
+		"eventTypeId": 1,
+		"marketId": "1.168668926",
+		"marketName": "Match Odds",
+		"eventName": "Shonan v Oita",
+		"competitionName": "Japanese J League Cup",
+		"competitionId": "10020873",
+		"numberOfRunners": 3,
+		"countryCode": "JP",
+		"startTime": "2020-02-16T06:03:03.000Z",
+		"runners": {
+			"runner1Name": "Shonan",
+			"runner2Name": "Oita",
+			"drawName": "The Draw",
+			"runner1SelectionId": 4546954,
+			"runner2SelectionId": 441089,
+			"drawSelectionId": 58805
+		},
+		"homeName": "Shonan",
+		"awayName": "Oita",
+		"broadcasts": {
+			"tv": [],
+			"radio": {},
+			"bfLiveVideo": {},
+			"isLiveVideoAvailable": false,
+			"isDataVisualizationAvailable": true,
+			"isPaddockViewAvailable": false,
+			"channel": "WEB"
+		},
+		"state": {
+			"eventTypeId": 1,
+			"eventId": 29696345,
+			"score": {
+				"home": {
+					"name": "Shonan",
+					"score": "0",
+					"halfTimeScore": "0",
+					"fullTimeScore": "",
+					"penaltiesScore": "",
+					"penaltiesSequence": [],
+					"games": "",
+					"sets": "",
+					"numberOfYellowCards": 0,
+					"numberOfRedCards": 0,
+					"numberOfCards": 0,
+					"numberOfCorners": 0,
+					"numberOfCornersFirstHalf": 0,
+					"numberOfCornersSecondHalf": 0,
+					"bookingPoints": 0
+				},
+				"away": {
+					"name": "Oita",
+					"score": "0",
+					"halfTimeScore": "0",
+					"fullTimeScore": "",
+					"penaltiesScore": "",
+					"penaltiesSequence": [],
+					"games": "",
+					"sets": "",
+					"numberOfYellowCards": 0,
+					"numberOfRedCards": 0,
+					"numberOfCards": 0,
+					"numberOfCorners": 5,
+					"numberOfCornersFirstHalf": 4,
+					"numberOfCornersSecondHalf": 1,
+					"bookingPoints": 0
+				},
+				"numberOfYellowCards": 0,
+				"numberOfRedCards": 0,
+				"numberOfCards": 0,
+				"numberOfCorners": 5,
+				"numberOfCornersFirstHalf": 4,
+				"numberOfCornersSecondHalf": 1,
+				"bookingPoints": 0
+			},
+			"timeElapsed": 67,
+			"elapsedRegularTime": 67,
+			"timeElapsedSeconds": 28,
+			"fullTimeElapsed": {
+				"hour": 0,
+				"min": 0,
+				"sec": 0
+			},
+			"status": "SecondHalfKickOff",
+			"matchStatus": "SecondHalfKickOff"
+		},
+		"matchInfo": {},
+		"inPlayBettingStatus": "InPlay"
+	}
+]

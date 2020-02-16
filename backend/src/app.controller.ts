@@ -15,7 +15,6 @@ export class AppController {
 
 	@Get()
 	getBotDialog(@Res() res: any) {
-		/*this.botService.botMessage();*/
 		res.status(HttpStatus.OK).send('Bot service started');
 	}
 }

@@ -1,10 +1,21 @@
 import {Document} from 'mongoose';
 
-export interface IFootball extends Document {
+/**
+ * Интерфейс для модели mongo
+ */
+export interface IFootballModel extends IFootball, Document {
+
+}
+
+export interface IFootball {
 	/**
 	 * Идентификатор матчка с сайта
 	 */
-	matchId: number;
+	marketIds: string;
+	/**
+	 * Идентификатор события
+	 */
+	eventId: number;
 	/**
 	 * Стратегия отбора матча
 	 */
@@ -14,8 +25,8 @@ export interface IFootball extends Document {
 	command: ICommand;
 	rates: ITimeSnapshot;
 	cards: ICardsCommands;
-	createdBy: Date;
-	modifiedBy: Date;
+	createdBy: string;
+	modifiedBy: string;
 }
 
 /**
@@ -78,7 +89,7 @@ export interface ITimeSnapshot {
 	/**
 	 * Коэфициент на который ставим
 	 */
-	index: number;
+	/*rate: number;*/
 	mainRates: IMainRates;
 	/**
 	 * Состояние "Менее 1,5" коэффициентов во время отбора
@@ -91,27 +102,33 @@ export interface ITimeSnapshot {
 	/**
 	 * Состояние "Обе забьют да" коэффициентов во время отбора
 	 */
-	bothScorYes: IOtherRates;
+	bothScoreYes: IOtherRates;
 	/**
 	 * Состояние "Обе забьют нет" коэффициентов во время отбора
 	 */
-	bothScorNo: IOtherRates;
+	bothScoreNo: IOtherRates;
 	/**
 	 * Состояние "Азиатский гандикап" коэффициентов во время отбора
 	 */
-	ssianHandicap: IOtherRates;
+	asianHandicap: IOtherRates;
 }
 
 /**
  * Состояние основных коэффициентов во время отбора
  */
 export interface IMainRates {
+	/**
+	 * За
+	 */
 	behind: {
 		p1: number;
 		x: number;
 		p2: number;
 		mod: number;
 	};
+	/**
+	 * Против
+	 */
 	against: {
 		p1: number;
 		x: number;

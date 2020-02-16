@@ -6,7 +6,7 @@
 		"password": "29c3sb6p"
 	},
 	"dbDev": {
-		"name": "rateBot",
+		"name": "rateBotTest",
 		"hostString": "localhost:27017/",
 		"user": "",
 		"pass": ""
@@ -51,23 +51,10 @@
 	"parser": {
 		"startPage": "https://1xbet.com/en/live/",
 		"baseUrl": "https://1xbet.com/",
-		"live": {
-			"football": {
-				"rate": "LiveFeed/Get1x2_VZip?sports=1&count=2000&mode=4&country=1&partner=51&getEmpty=true",
-				"expandedRate": "LiveFeed/GetGameZip?id=${id}&lng=en&cfview=0&isSubGames=true&GroupEvents=true&allEventsGroupSubGames=true&countevents=250&partner=51"
-			},
-			"tableTennis": {
-				"rate": "LiveFeed/Get1x2_VZip?sports=10&count=2000&mode=4&country=1&partner=51&getEmpty=true",
-				"expandedRate": "LiveFeed/GetGameZip?id=${id}&lng=en&cfview=0&isSubGames=true&GroupEvents=true&allEventsGroupSubGames=true&countevents=250&partner=51"
-			},
-			"tennis": {
-				"rate": "LiveFeed/Get1x2_VZip?sports=4&count=2000&mode=4&country=1&partner=51&getEmpty=true",
-				"expandedRate": "LiveFeed/GetGameZip?id=${id}&lng=en&cfview=0&isSubGames=true&GroupEvents=true&allEventsGroupSubGames=true&countevents=250&partner=51"
-			},
-			"basketball": {
-				"rate": "LiveFeed/Get1x2_VZip?sports=3&count=2000&mode=4&country=1&partner=51&getEmpty=true",
-				"expandedRate": "LiveFeed/GetGameZip?id=${id}&lng=en&cfview=0&isSubGames=true&GroupEvents=true&allEventsGroupSubGames=true&countevents=250&partner=51"
-			}
+		"football": {
+			"search": "https://www.betfair.com/www/sports/navigation/facet/v1/search?alt=json",
+			"byMarket": "https://ero.betfair.com/www/sports/exchange/readonly/v1/bymarket?alt=json&currencyCode=EUR&locale=en&marketIds=${id}&types=MARKET_STATE,EVENT,RUNNER_STATE,RUNNER_DESCRIPTION,RUNNER_EXCHANGE_PRICES_BEST",
+			"eventDetails": "https://ips.betfair.com/inplayservice/v1/eventDetails?eventIds=${id}&locale=en&regionCode=UK"
 		},
 		"result": {
 			"all": "getTranslate/ViewGameResultsExtGet?date=${date}&tzo=300&partner=51&lng=en&adult=false&showAll=true"

@@ -1,4 +1,4 @@
-import {ITime} from '../interfaces/conf.interface';
+import {ITime} from '../type/conf.type';
 
 export class CreateConfDto {
 	public readonly betAmount: number;

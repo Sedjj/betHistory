@@ -33,6 +33,9 @@
 		"jsx-no-lambda": [
 			false
 		],
+		"prefer-const": [
+			false
+		],
 		"jsx-wrap-multiline": false,
 		"quotemark": [
 			true,
@@ -55,6 +58,7 @@
 		"max-line-length": [
 			false
 		],
+		"interface-over-type-literal": false,
 		"jsx-alignment": false,
 		"jsx-self-close": false,
 		"arrow-parens": false,

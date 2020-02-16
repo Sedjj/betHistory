@@ -1,26 +1,28 @@
 import {Injectable} from '@nestjs/common';
 import path from 'path';
-import {Context, TelegramActionHandler} from 'nest-telegram';
+import {ContextMessageUpdate} from 'telegraf';
+import {TelegrafTelegramService, TelegramActionHandler} from 'nestjs-telegraf';
 import {authPhone, counterWaiting, exportStatus, rateAmount, rateStatus} from '../store';
 import config from 'config';
-import {IKeyboardButton, IMenuBot} from './interfaces/telegram.interface';
-import {menuList} from './bot/menu';
+import {IKeyboardButton, IMenuBot} from './type/telegram.type';
+import {menuList} from './menu';
 import {throttle} from '../utils/throttle';
 import {readFileToStream} from '../utils/fsHelpers';
 import {exportFootballStatistic} from '../export';
-import {TelegramService} from './telegram.service';
 import {ReadStream} from 'fs';
 import {exportBackup} from '../backupBD';
+import {TelegramService} from './telegram.service';
 
 @Injectable()
 export class TelegramActions {
 	/**
 	 * Функция для генерации встроенной клавиатуры.
 	 *
-	 * @param {Context} ctx контекст ответа
+	 * @param {ContextMessageUpdate} ctx контекст ответа
 	 * @param {IMenuBot} msg объект подменю
 	 */
-	private static async inlineKeyboard(ctx: Context, msg: IMenuBot): Promise<void> {
+	private static async inlineKeyboard(ctx: ContextMessageUpdate, msg: IMenuBot): Promise<void> {
+		console.log('ertklk');
 		await ctx.replyWithMarkdown(msg.title, {
 			reply_markup: {
 				inline_keyboard: msg.buttons,
@@ -32,33 +34,34 @@ export class TelegramActions {
 	/**
 	 * Обертка для отправки alert сообщения в бот.
 	 *
-	 * @param {Context} ctx контекст ответа
+	 * @param {ContextMessageUpdate} ctx контекст ответа
 	 * @param {String} text названиеы
 	 */
-	private static async sendAnswerText(ctx: Context, text: string): Promise<void> {
+	private static async sendAnswerText(ctx: ContextMessageUpdate, text: string): Promise<void> {
+		console.log('k3453lk');
 		await ctx.answerCbQuery(text, true);
 	}
 
 	/**
 	 * Обертка для редактирования inline_keyboard в боте.
 	 *
-	 * @param {Context} ctx контекст ответа
+	 * @param {ContextMessageUpdate} ctx контекст ответа
 	 * @param {String} text названиеы
 	 * @param {String} count текст для замены
 	 * @returns {Promise<void>}
 	 */
-	private static async editMessageReplyMarkup(ctx: Context, text: string, count: string): Promise<void> {
+	private static async editMessageReplyMarkup(ctx: ContextMessageUpdate, text: string, count: string): Promise<void> {
+		console.log('klk');
 		await ctx.editMessageReplyMarkup({
 			inline_keyboard: menuList(text, count).buttons
 		});
 	}
-	
+
 	private readonly exportFootballStatisticDebounce: any;
 	private readonly storagePath: string;
 	private readonly logsDirectory: string;
 	private readonly token: string;
 	private readonly supportChatId: string;
-
 	private readonly buttons: any = {
 		waiting: 'Сколько матчей в ожидании',
 		selectSport: 'Вид спорта',
@@ -70,6 +73,7 @@ export class TelegramActions {
 	};
 
 	constructor(
+		private readonly telegrafService: TelegrafTelegramService,
 		private readonly telegramService: TelegramService
 	) {
 		if (process.env.NODE_ENV === 'development') {
@@ -79,18 +83,9 @@ export class TelegramActions {
 			this.token = config.get<string>('bots.supportProd.token');
 			this.supportChatId = config.get<string>('bots.supportProd.chatId');
 		}
-
 		this.exportFootballStatisticDebounce = throttle(exportFootballStatistic, 20000);
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.logsDirectory = config.get<string>('path.directory.logs') || 'logs';
-	}
-
-	@TelegramActionHandler({onStart: true})
-	protected async start(ctx: Context) {
-		if (!(ctx.message && ctx.message.text)) {
-			return;
-		}
-		this.sendText(ctx, 'Hi, choose action!');
 	}
 
 	private get keyboard(): IKeyboardButton[][] {
@@ -105,8 +100,30 @@ export class TelegramActions {
 		];
 	}
 
-	@TelegramActionHandler({message: /code-(\d{4,6})$/})
-	protected async code(ctx: Context) {
+	@TelegramActionHandler({action: 'backupTennis'})
+	public async backupTennis(ctx: ContextMessageUpdate) {
+		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
+		await exportBackup('tennis');
+		await this.sendText(ctx, 'Hi, choose action!');
+	}
+
+	@TelegramActionHandler({onStart: true})
+	protected async start(ctx: ContextMessageUpdate) {
+		if (!(ctx.message && ctx.message.text)) {
+			return;
+		}
+		try {
+			const me = await this.telegrafService.getMe();
+			console.log(me);
+			this.sendText(ctx, 'Hi, choose action!');
+		} catch (e) {
+			console.log('Error start -> ' + e);
+		}
+
+	}
+
+	@TelegramActionHandler({message: /code-(\d{4,6})/})
+	protected async code(ctx: ContextMessageUpdate) {
 		if (ctx.message && ctx.message.text) {
 			const code = ctx.message.text.split('-')[1];
 			if (code) {
@@ -115,8 +132,8 @@ export class TelegramActions {
 		}
 	}
 
-	@TelegramActionHandler({message: /tel-(\d{8})$/})
-	protected async phone(ctx: Context) {
+	@TelegramActionHandler({message: /tel-(\d{8})/})
+	protected async phone(ctx: ContextMessageUpdate) {
 		if (ctx.message && ctx.message.text) {
 			const phone = ctx.message.text.split('-')[1];
 			if (phone) {
@@ -126,155 +143,148 @@ export class TelegramActions {
 	}
 
 	@TelegramActionHandler({message: 'Сколько матчей в ожидании'})
-	protected async waiting(ctx: Context) {
+	protected async waiting(ctx: ContextMessageUpdate) {
 		this.sendText(ctx, `Матчей ожидающих Total: ${counterWaiting.count}`);
 	}
 
 	@TelegramActionHandler({message: 'Вид спорта'})
-	protected async selectSport(ctx: Context) {
+	protected async selectSport(ctx: ContextMessageUpdate) {
 		await TelegramActions.inlineKeyboard(ctx, menuList('selectSport'));
 	}
 
 	@TelegramActionHandler({message: 'Ставки'})
-	protected async rate(ctx: Context) {
+	protected async rate(ctx: ContextMessageUpdate) {
 		await TelegramActions.inlineKeyboard(ctx, menuList('rate'));
 	}
 
 	@TelegramActionHandler({message: 'Получить файл'})
-	protected async getFile(ctx: Context) {
+	protected async getFile(ctx: ContextMessageUpdate) {
 		await TelegramActions.inlineKeyboard(ctx, menuList('getFile'));
 	}
 
 	@TelegramActionHandler({message: 'Бэкап'})
-	protected async backup(ctx: Context) {
+	protected async backup(ctx: ContextMessageUpdate) {
 		await TelegramActions.inlineKeyboard(ctx, menuList('backup'));
 	}
 
 	@TelegramActionHandler({message: 'Сумма ставки'})
-	protected async betAmount(ctx: Context) {
+	protected async betAmount(ctx: ContextMessageUpdate) {
 		await TelegramActions.inlineKeyboard(ctx, menuList('betAmount', rateAmount.bets.toString()));
 	}
 
 	@TelegramActionHandler({message: 'Проверку входа в систему'})
-	protected async verification(ctx: Context) {
+	protected async verification(ctx: ContextMessageUpdate) {
 		await TelegramActions.inlineKeyboard(ctx, menuList('verification'));
 	}
 
-	@TelegramActionHandler({message: 'up'})
-	protected async up(ctx: Context) {
+	@TelegramActionHandler({action: 'up'})
+	protected async up(ctx: ContextMessageUpdate) {
 		exportStatus.increase(1);
 		await TelegramActions.editMessageReplyMarkup(ctx, 'days', exportStatus.count.toString());
 	}
 
-	@TelegramActionHandler({message: 'down'})
-	protected async down(ctx: Context) {
+	@TelegramActionHandler({action: 'down'})
+	protected async down(ctx: ContextMessageUpdate) {
 		if (exportStatus.count > 2) {
 			exportStatus.decrease(1);
 			await TelegramActions.editMessageReplyMarkup(ctx, 'days', exportStatus.count.toString());
 		}
 	}
 
-	@TelegramActionHandler({message: 'upBets'})
-	protected async upBets(ctx: Context) {
+	@TelegramActionHandler({action: 'upBets'})
+	protected async upBets(ctx: ContextMessageUpdate) {
 		rateAmount.increase(10);
 		await TelegramActions.editMessageReplyMarkup(ctx, 'betAmount', rateAmount.bets.toString());
 	}
 
-	@TelegramActionHandler({message: 'downBets'})
-	protected async downBets(ctx: Context) {
+	@TelegramActionHandler({action: 'downBets'})
+	protected async downBets(ctx: ContextMessageUpdate) {
 		if (rateAmount.bets > 10) {
 			rateAmount.decrease(10);
 			await TelegramActions.editMessageReplyMarkup(ctx, 'betAmount', rateAmount.bets.toString());
 		}
 	}
 
-	@TelegramActionHandler({message: 'export'})
-	protected async export(ctx: Context) {
+	@TelegramActionHandler({action: 'export'})
+	protected async export(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.exportStatisticDebounce();
 		await this.sendText(ctx, 'Hi, choose action!');
 		await TelegramActions.inlineKeyboard(ctx, menuList('betAmount', rateAmount.bets.toString()));
 	}
 
-	@TelegramActionHandler({message: 'exportFootball'})
-	protected async exportFootball(ctx: Context) {
+	@TelegramActionHandler({action: 'exportFootball'})
+	protected async exportFootball(ctx: ContextMessageUpdate) {
 		exportStatus.setName('football');
 		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
 	}
 
-	@TelegramActionHandler({message: 'exportTableTennis'})
-	protected async exportTableTennis(ctx: Context) {
+	@TelegramActionHandler({action: 'exportTableTennis'})
+	protected async exportTableTennis(ctx: ContextMessageUpdate) {
 		exportStatus.setName('tableTennis');
 		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
 	}
 
-	@TelegramActionHandler({message: 'exportTennis'})
-	protected async exportTennis(ctx: Context) {
+	@TelegramActionHandler({action: 'exportTennis'})
+	protected async exportTennis(ctx: ContextMessageUpdate) {
 		exportStatus.setName('tennis');
 		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
 	}
 
-	@TelegramActionHandler({message: 'exportBasketball'})
-	protected async exportBasketball(ctx: Context) {
+	@TelegramActionHandler({action: 'exportBasketball'})
+	protected async exportBasketball(ctx: ContextMessageUpdate) {
 		exportStatus.setName('basketball');
 		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
 	}
 
-	@TelegramActionHandler({message: 'backupFootballs'})
-	protected async backupFootballs(ctx: Context) {
+	@TelegramActionHandler({action: 'backupFootballs'})
+	protected async backupFootballs(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await exportBackup('footballs');
 		await this.sendText(ctx, 'Hi, choose action!');
 	}
 
-	@TelegramActionHandler({message: 'backupTableTennis'})
-	protected async backupTableTennis(ctx: Context) {
+	@TelegramActionHandler({action: 'backupTableTennis'})
+	protected async backupTableTennis(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await exportBackup('tabletennis');
 		await this.sendText(ctx, 'Hi, choose action!');
 	}
 
-	@TelegramActionHandler({message: 'backupTennis'})
-	public async backupTennis(ctx: Context) {
-		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
-		await exportBackup('tennis');
-		await this.sendText(ctx, 'Hi, choose action!');
-	}
-
-	@TelegramActionHandler({message: 'backupBasketball'})
-	protected async backupBasketball(ctx: Context) {
+	@TelegramActionHandler({action: 'backupBasketball'})
+	protected async backupBasketball(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await exportBackup('basketball');
 		await this.sendText(ctx, 'Hi, choose action!');
 	}
 
-	@TelegramActionHandler({message: 'enableBets'})
-	protected async enableBets(ctx: Context) {
+	@TelegramActionHandler({action: 'enableBets'})
+	protected async enableBets(ctx: ContextMessageUpdate) {
 		rateStatus.turnOn();
 		await TelegramActions.sendAnswerText(ctx, 'Betting mechanism will be enabled');
 	}
 
-	@TelegramActionHandler({message: 'turnOffBets'})
-	protected async turnOffBets(ctx: Context) {
+	@TelegramActionHandler({action: 'turnOffBets'})
+	protected async turnOffBets(ctx: ContextMessageUpdate) {
 		rateStatus.turnOff();
 		await TelegramActions.sendAnswerText(ctx, 'Betting mechanism will be stopped');
 	}
 
-	@TelegramActionHandler({message: 'debugLogs'})
-	protected async debugLogs(ctx: Context) {
+	@TelegramActionHandler({action: 'debugLogs'})
+	protected async debugLogs(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.getLogs();
 		await this.sendText(ctx, 'Hi, choose action!');
 	}
 
-	@TelegramActionHandler({message: 'enableVerification'})
-	protected async enableVerification(ctx: Context) {
+	@TelegramActionHandler({action: 'enableVerification'})
+	protected async enableVerification(ctx: ContextMessageUpdate) {
 		authPhone.turnOn();
 		await TelegramActions.sendAnswerText(ctx, 'Enable login verification');
 	}
 
-	@TelegramActionHandler({message: 'turnOffVerification'})
-	protected async turnOffVerification(ctx: Context) {
+	@TelegramActionHandler({action: 'turnOffVerification'})
+	protected async turnOffVerification(ctx: ContextMessageUpdate) {
 		authPhone.turnOff();
 		await TelegramActions.sendAnswerText(ctx, 'Stopped login verification');
 	}
@@ -282,10 +292,10 @@ export class TelegramActions {
 	/**
 	 * Обертка для отправки сообщения в бот.
 	 *
-	 * @param {Context} ctx контекст ответа
+	 * @param {ContextMessageUpdate} ctx контекст ответа
 	 * @param {String} text текст для отправки
 	 */
-	private async sendText(ctx: Context, text: string): Promise<void> {
+	private async sendText(ctx: ContextMessageUpdate, text: string): Promise<void> {
 		await ctx.replyWithMarkdown(text, {
 			reply_markup: {
 				keyboard: this.keyboard,

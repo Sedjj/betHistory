@@ -1,23 +1,22 @@
-import {TelegramModule} from 'nest-telegram';
-import {TelegramOptionsFactory} from './telegramOptionsFactory';
+import {TelegrafModule, TelegrafService} from 'nestjs-telegraf';
 import {HttpModule, Module, OnModuleInit} from '@nestjs/common';
-import {TelegramBot} from 'nest-telegram';
 import {ModuleRef} from '@nestjs/core';
-import {SomethingActions} from './somethingActions.service';
-import {CurrentSender} from './сurrentSender.service';
 import {TelegramActions} from './telegramActions.service';
+import {TelegrafConfigService} from './telegraf-config.service';
+import {ConfigModule} from '@nestjs/config';
+import telegramBotConfig from './telegramBot.config';
 import {TelegramService} from './telegram.service';
 
 @Module({
 	imports: [
 		HttpModule,
-		TelegramModule.fromFactory({
-			useClass: TelegramOptionsFactory,
+		TelegrafModule.fromFactory({
+			imports: [ConfigModule.forFeature(telegramBotConfig)],
+			useClass: TelegrafConfigService,
 		}),
 	],
 	providers: [
-		SomethingActions,
-		CurrentSender,
+		TelegrafModule,
 		TelegramActions,
 		TelegramService
 	],
@@ -25,18 +24,18 @@ import {TelegramService} from './telegram.service';
 export class TelegramBotModule implements OnModuleInit {
 	constructor(
 		private readonly moduleRef: ModuleRef,
-		private readonly telegramBot: TelegramBot,
+		private readonly telegrafService: TelegrafService,
 	) {
 	}
 
 	onModuleInit() {
 		const isDev = process.env.NODE_ENV === 'development';
 
-		this.telegramBot.init(this.moduleRef);
+		this.telegrafService.init(this.moduleRef);
 
 		if (isDev) {
 			// in dev mode, we can't use webhook
-			this.telegramBot.startPolling();
+			this.telegrafService.startPolling();
 		}
 	}
 }

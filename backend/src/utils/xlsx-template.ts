@@ -638,7 +638,7 @@ export default class XlsxTemplate {
 			}
 
 			// update ranges for totalsRowCount
-			const tableRoot = table.root;
+			let tableRoot = table.root;
 			const tableRanges = this.splitRange(tableRoot.attrib.ref);
 			const tableStart = this.splitRef(tableRanges.start);
 			const tableEnd = this.splitRef(tableRanges.end);

@@ -26,7 +26,7 @@ export class ExportStatus {
 	}
 
 	public setName(name: string): void {
-		log.info(`Name export -: ${name}`);
+		log.info(`Name export: ${name}`);
 		this.nameMethod = name;
 	}
 

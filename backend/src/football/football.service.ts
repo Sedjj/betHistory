@@ -1,33 +1,32 @@
 import {Model} from 'mongoose';
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {IFootball, IFootballQuery} from './interfaces/football.interface';
-import {CreateFootballDto} from './dto/create-football.dto';
+import {IFootball, IFootballModel, IFootballQuery} from './type/football.type';
 import {log} from '../utils/logger';
 import {mapProps} from '../utils/statisticHelpers';
 
 @Injectable()
 export class FootballService {
 	constructor(
-		@InjectModel('Football') private readonly footballModel: Model<IFootball>
+		@InjectModel('Football') private readonly footballModel: Model<IFootballModel>
 	) {
 	}
 
 	/**
 	 * Создание новой записи в таблице.
 	 *
-	 * @param {CreateFootballDto} createFootballDto для таблицы
+	 * @param {IFootball} createFootballDto для таблицы
 	 * @returns {Promise<IFootball | null>}
 	 */
-	async create(createFootballDto: CreateFootballDto): Promise<IFootball | null> {
-		const findMatch  = await this.footballModel.find({
-			matchId: createFootballDto.matchId,
+	async create(createFootballDto: IFootball): Promise<IFootball | null> {
+		let findMatch  = await this.footballModel.find({
+			eventId: createFootballDto.eventId,
 			strategy: createFootballDto.strategy
 		}).exec();
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
-		const createdFootball = new this.footballModel(createFootballDto);
+		let createdFootball = new this.footballModel(createFootballDto);
 		return await createdFootball.save();
 	}
 
@@ -48,7 +47,7 @@ export class FootballService {
 				}
 				return statistics
 					.map((statistic: any, index: number) => {
-						const props = mapProps(statistic, index + 1);
+						let props = mapProps(statistic, index + 1);
 						props['displayScore'] = props.score.sc1 + ':' + props.score.sc2;
 						props['typeMatch'] = (props.command.women + props.command.youth) > 0 ? 1 : 0;
 						return props;
@@ -82,13 +81,10 @@ export class FootballService {
 	 */
 	async setDataByParam(param: IFootball): Promise<void | IFootball | null> {
 		return await this.footballModel
-			.findOne({matchId: param.matchId, strategy: param.strategy})
+			.findOne({matchId: param.eventId, strategy: param.strategy})
 			.read('secondary')
 			.exec()
 			.then((statistic: any) => {
-				if (param.rates && (param.rates.index !== undefined)) {
-					statistic.rates.index = param.rates.index;
-				}
 				if (param.score && (param.score.resulting !== undefined)) {
 					statistic.score.resulting = param.score.resulting;
 				}

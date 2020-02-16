@@ -24,3 +24,11 @@ export interface ITime {
 	before: number;
 	after: number;
 }
+
+/**
+ * Math.abs(p1 - p2) < rate
+ */
+export interface IRateStrategy {
+	title: string;
+	rate: number;
+}

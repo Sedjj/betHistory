@@ -31,7 +31,7 @@ export interface IUpdate {
 	message?: IMessage;
 
 	/**
-	 * New version of a message that is known to the bot and was edited
+	 * New version of a message that is known to the menu and was edited
 	 */
 	edited_message?: IMessage;
 
@@ -41,7 +41,7 @@ export interface IUpdate {
 	channel_post?: IMessage;
 
 	/**
-	 * New version of a channel post that is known to the bot and was edited
+	 * New version of a channel post that is known to the menu and was edited
 	 */
 	edited_channel_post?: IMessage;
 
@@ -54,7 +54,7 @@ export interface IUpdate {
 	/**
 	 * The result of an inline query that was chosen by a user and sent to
 	 * their chat partner. Please see our documentation on the feedback
-	 * collecting for details on how to enable these updates for your bot.
+	 * collecting for details on how to enable these updates for your menu.
 	 * @see https://core.telegram.org/bots/api#inline-mode
 	 * @see https://core.telegram.org/bots/api/bots/inline#collecting-feedback
 	 */
@@ -114,37 +114,37 @@ export interface IWebhookInfo {
 	max_connections?: number;
 
 	/**
-	 * A list of update types the bot is subscribed to. Defaults to all update types
+	 * A list of update types the menu is subscribed to. Defaults to all update types
 	 */
 	allowed_updates?: string[];
 }
 
 /**
- * This object represents a Telegram user or bot.
+ * This object represents a Telegram user or menu.
  */
 export interface IUser {
 	/**
-	 * Unique identifier for this user or bot
+	 * Unique identifier for this user or menu
 	 */
 	id: number;
 
 	/**
-	 * True, if this user is a bot
+	 * True, if this user is a menu
 	 */
 	is_bot: boolean;
 
 	/**
-	 * IUser‘s or bot’s first name
+	 * IUser‘s or menu’s first name
 	 */
 	first_name: string;
 
 	/**
-	 * IUser‘s or bot’s last name
+	 * IUser‘s or menu’s last name
 	 */
 	last_name?: string;
 
 	/**
-	 * IUser‘s or bot’s username
+	 * IUser‘s or menu’s username
 	 */
 	username?: string;
 
@@ -228,7 +228,7 @@ export interface IChat {
 	sticker_set_name?: string;
 
 	/**
-	 * True, if the bot can change the group sticker set. Returned only in getChat.
+	 * True, if the menu can change the group sticker set. Returned only in getChat.
 	 * @see https://core.telegram.org/bots/api#getchat
 	 */
 	can_set_sticker_set?: boolean;
@@ -312,13 +312,13 @@ export interface IMessage {
 	text?: string;
 
 	/**
-	 * For text messages, special entities like usernames, URLs, bot commands,
+	 * For text messages, special entities like usernames, URLs, menu commands,
 	 * etc. that appear in the text
 	 */
 	entities?: IMessageEntity[];
 
 	/**
-	 * For messages with a caption, special entities like usernames, URLs, bot
+	 * For messages with a caption, special entities like usernames, URLs, menu
 	 * commands, etc. that appear in the caption
 	 */
 	caption_entities?: IMessageEntity[];
@@ -387,13 +387,13 @@ export interface IMessage {
 
 	/**
 	 * New members that were added to the group or supergroup and information
-	 * about them (the bot itself may be one of these members)
+	 * about them (the menu itself may be one of these members)
 	 */
 	new_chat_members?: IUser[];
 
 	/**
 	 * A member was removed from the group, information about them (this member
-	 * may be the bot itself)
+	 * may be the menu itself)
 	 */
 	left_chat_member?: IUser;
 
@@ -419,7 +419,7 @@ export interface IMessage {
 
 	/**
 	 * Service message: the supergroup has been created. This field can‘t be
-	 * received in a message coming through updates, because bot can’t be a
+	 * received in a message coming through updates, because menu can’t be a
 	 * member of a supergroup when it is created. It can only be found in
 	 * reply_to_message if someone replies to a very first message in a
 	 * directly created supergroup.
@@ -428,7 +428,7 @@ export interface IMessage {
 
 	/**
 	 * Service message: the channel has been created. This field can‘t be
-	 * received in a message coming through updates, because bot can’t be a
+	 * received in a message coming through updates, because menu can’t be a
 	 * member of a channel when it is created. It can only be found in
 	 * reply_to_message if someone replies to a very first message in a channel.
 	 */
@@ -845,9 +845,9 @@ export interface IReplyKeyboardMarkup {
 	/**
 	 * Use this parameter if you want to show the keyboard to specific users
 	 * only. Targets: 1) users that are @mentioned in the text of the IMessage
-	 * object; 2) if the bot's message is a reply (has reply_to_message_id),
+	 * object; 2) if the menu's message is a reply (has reply_to_message_id),
 	 * sender of the original message.Example: A user requests to change the
-	 * bot‘s language, bot replies to the request with a keyboard to select the
+	 * menu‘s language, menu replies to the request with a keyboard to select the
 	 * new language. Other users in the group don’t see the keyboard.
 	 * @see https://core.telegram.org/bots/api#message
 	 */
@@ -883,7 +883,7 @@ export interface IKeyboardButton {
  * Upon receiving a message with this object, Telegram clients will remove
  * the current custom keyboard and display the default letter-keyboard. By
  * default, custom keyboards are displayed until a new keyboard is sent by
- * a bot. An exception is made for one-time keyboards that are hidden
+ * a menu. An exception is made for one-time keyboards that are hidden
  * immediately after the user presses a button (see ReplyKeyboardMarkup).
  * @see https://core.telegram.org/bots/api#replykeyboardmarkup
  */
@@ -899,8 +899,8 @@ export interface IReplyKeyboardRemove {
 	/**
 	 * Use this parameter if you want to remove the keyboard for specific users
 	 * only. Targets: 1) users that are @mentioned in the text of the IMessage
-	 * object; 2) if the bot's message is a reply (has reply_to_message_id),
-	 * sender of the original message.Example: A user votes in a poll, bot
+	 * object; 2) if the menu's message is a reply (has reply_to_message_id),
+	 * sender of the original message.Example: A user votes in a poll, menu
 	 * returns confirmation message in reply to the vote and removes the
 	 * keyboard for that user, while still showing the keyboard with poll
 	 * options to users who haven't voted yet.
@@ -939,7 +939,7 @@ export interface IInlineKeyboardButton {
 	url?: string;
 
 	/**
-	 * Data to be sent in a callback query to the bot when button is pressed,
+	 * Data to be sent in a callback query to the menu when button is pressed,
 	 * 1-64 bytes
 	 * @see https://core.telegram.org/bots/api#callbackquery
 	 */
@@ -947,10 +947,10 @@ export interface IInlineKeyboardButton {
 
 	/**
 	 * If set, pressing the button will prompt the user to select one of their
-	 * chats, open that chat and insert the bot‘s username and the specified
+	 * chats, open that chat and insert the menu‘s username and the specified
 	 * inline query in the input field. Can be empty, in which case just the
-	 * bot’s username will be inserted.Note: This offers an easy way for users
-	 * to start using your bot in inline mode when they are currently in a
+	 * menu’s username will be inserted.Note: This offers an easy way for users
+	 * to start using your menu in inline mode when they are currently in a
 	 * private chat with it. Especially useful when combined with switch_pm…
 	 * actions – in this case the user will be automatically returned to the
 	 * chat they switched from, skipping the chat selection screen.
@@ -960,10 +960,10 @@ export interface IInlineKeyboardButton {
 	switch_inline_query?: string;
 
 	/**
-	 * If set, pressing the button will insert the bot‘s username and the
+	 * If set, pressing the button will insert the menu‘s username and the
 	 * specified inline query in the current chat's input field. Can be empty,
-	 * in which case only the bot’s username will be inserted.This offers a
-	 * quick way for the user to open your bot in inline mode in the same chat
+	 * in which case only the menu’s username will be inserted.This offers a
+	 * quick way for the user to open your menu in inline mode in the same chat
 	 * – good for selecting something from multiple options.
 	 */
 	switch_inline_query_current_chat?: string;
@@ -979,8 +979,8 @@ export interface IInlineKeyboardButton {
 /**
  * This object represents an incoming callback query from a callback button
  * in an inline keyboard. If the button that originated the query was
- * attached to a message sent by the bot, the field message will be
- * present. If the button was attached to a message sent via the bot (in
+ * attached to a message sent by the menu, the field message will be
+ * present. If the button was attached to a message sent via the menu (in
  * inline mode), the field inline_message_id will be present. Exactly one
  * of the fields data or game_short_name will be present.
  * @see https://core.telegram.org/bots/api/bots#inline-keyboards-and-on-the-fly-updating
@@ -1005,7 +1005,7 @@ export interface ICallbackQuery {
 	message?: IMessage;
 
 	/**
-	 * Identifier of the message sent via the bot in inline mode, that
+	 * Identifier of the message sent via the menu in inline mode, that
 	 * originated the query.
 	 */
 	inline_message_id?: string;
@@ -1033,23 +1033,23 @@ export interface ICallbackQuery {
 
 /**
  * Upon receiving a message with this object, Telegram clients will display
- * a reply interface to the user (act as if the user has selected the bot‘s
+ * a reply interface to the user (act as if the user has selected the menu‘s
  * message and tapped ’Reply'). This can be extremely useful if you want to
- * create user-friendly step-by-step interfaces without having to sacrifice
+ * create user-friendly step-by-step type without having to sacrifice
  * privacy mode.
  * @see https://core.telegram.org/bots/api/bots#privacy-mode
  */
 export interface IForceReply {
 	/**
 	 * Shows reply interface to the user, as if they manually selected the
-	 * bot‘s message and tapped ’Reply'
+	 * menu‘s message and tapped ’Reply'
 	 */
 	force_reply: true;
 
 	/**
 	 * Use this parameter if you want to force reply from specific users only.
 	 * Targets: 1) users that are @mentioned in the text of the IMessage object;
-	 * 2) if the bot's message is a reply (has reply_to_message_id), sender of
+	 * 2) if the menu's message is a reply (has reply_to_message_id), sender of
 	 * the original message.
 	 * @see https://core.telegram.org/bots/api#message
 	 */
@@ -1095,7 +1095,7 @@ export interface IChatMember {
 	until_date?: number;
 
 	/**
-	 * Administrators only. True, if the bot is allowed to edit administrator
+	 * Administrators only. True, if the menu is allowed to edit administrator
 	 * privileges of that user
 	 */
 	can_be_edited?: boolean;
@@ -1386,7 +1386,7 @@ export interface IMaskPosition {
 
 /**
  * This object represents an incoming inline query. When the user sends an
- * empty query, your bot could return some default or trending results.
+ * empty query, your menu could return some default or trending results.
  */
 export interface IInlineQuery {
 	/**
@@ -1410,7 +1410,7 @@ export interface IInlineQuery {
 	query: string;
 
 	/**
-	 * Offset of the results to be returned, can be controlled by the bot
+	 * Offset of the results to be returned, can be controlled by the menu
 	 */
 	offset: string;
 }
@@ -2626,7 +2626,7 @@ export interface IInputTextMessageContent {
 
 	/**
 	 * Send Markdown or HTML, if you want Telegram apps to show bold, italic,
-	 * fixed-width text or inline URLs in your bot's message.
+	 * fixed-width text or inline URLs in your menu's message.
 	 * @see https://core.telegram.org/bots/api#markdown-style
 	 * @see https://core.telegram.org/bots/api#html-style
 	 * @see https://core.telegram.org/bots/api#formatting-options
@@ -2788,7 +2788,7 @@ export interface IInvoice {
 	description: string;
 
 	/**
-	 * Unique bot deep-linking parameter that can be used to generate this invoice
+	 * Unique menu deep-linking parameter that can be used to generate this invoice
 	 */
 	start_parameter: string;
 
@@ -3026,7 +3026,7 @@ export interface IGame {
 	/**
 	 * Brief description of the game or high scores included in the game
 	 * message. Can be automatically edited to include current high scores for
-	 * the game when the bot calls setGameScore, or manually edited using
+	 * the game when the menu calls setGameScore, or manually edited using
 	 * editMessageText. 0-4096 characters.
 	 * @see https://core.telegram.org/bots/api#setgamescore
 	 * @see https://core.telegram.org/bots/api#editmessagetext
@@ -3034,7 +3034,7 @@ export interface IGame {
 	text?: string;
 
 	/**
-	 * Special entities that appear in text, such as usernames, URLs, bot
+	 * Special entities that appear in text, such as usernames, URLs, menu
 	 * commands, etc.
 	 */
 	text_entities?: IMessageEntity[];

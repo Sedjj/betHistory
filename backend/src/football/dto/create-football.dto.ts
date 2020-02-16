@@ -1,4 +1,4 @@
-import {ICardsCommands, ICommand, IScore, ITimeSnapshot} from '../interfaces/football.interface';
+import {ICardsCommands, ICommand, IScore, ITimeSnapshot} from '../type/football.type';
 
 export class CreateFootballDto {
 	public readonly matchId: number;

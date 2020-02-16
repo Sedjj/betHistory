@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { CreateConfDto } from './dto/create-conf.dto';
 import { ConfService } from './conf.service';
-import { IConf } from './interfaces/conf.interface';
+import { IConf } from './type/conf.type';
 
 @Controller('conf')
 export class ConfController {

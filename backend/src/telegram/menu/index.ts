@@ -1,4 +1,4 @@
-import {IMenuBot} from '../interfaces/telegram.interface';
+import {IMenuBot} from '../type/telegram.type';
 
 /**
  * Функция для возвращения определенного меню в зависимости от парамметров.
@@ -68,6 +68,15 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 						text: '+10',
 						callback_data: 'upBets'
 					}],
+				]
+			};
+		case 'verification':
+			return {
+				id: 7,
+				title: 'Выберите действие',
+				buttons: [
+					[{text: 'Вкл verification', callback_data: 'enableVerification'}],
+					[{text: 'Выкл verification', callback_data: 'turnOffVerification'}],
 				]
 			};
 		default:

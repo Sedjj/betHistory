@@ -4,11 +4,11 @@ import {RateStatus} from './rateStatus';
 import {AuthPhone} from './authPhone';
 import {ExportStatus} from './exportStatus';
 
-const rateAmount: BetAmount = new BetAmount();
-const counterWaiting: CounterWaiting = new CounterWaiting();
-const rateStatus: RateStatus = new RateStatus();
-const authPhone: AuthPhone = new AuthPhone();
-const exportStatus: ExportStatus = new ExportStatus();
+let rateAmount: BetAmount = new BetAmount();
+let counterWaiting: CounterWaiting = new CounterWaiting();
+let rateStatus: RateStatus = new RateStatus();
+let authPhone: AuthPhone = new AuthPhone();
+let exportStatus: ExportStatus = new ExportStatus();
 
 export {
 	rateAmount,

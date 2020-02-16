@@ -17,6 +17,9 @@ import {FootballSchema} from './schemas/football.schema';
 	],
 	controllers: [FootballController],
 	providers: [FootballService],
+	exports: [
+		FootballService
+	]
 })
 export class FootballModule {
 }

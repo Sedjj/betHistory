@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Post} from '@nestjs/common';
 import {CreateFootballDto} from './dto/create-football.dto';
 import {FootballService} from './football.service';
-import {IFootball} from './interfaces/football.interface';
+import {IFootball} from './type/football.type';
 
 @Controller('football')
 export class FootballController {
@@ -9,7 +9,7 @@ export class FootballController {
 
 	@Post()
 	async create(@Body() createCatDto: CreateFootballDto) {
-		await this.footballService.create(createCatDto);
+		/*await this.footballService.create(createCatDto);*/
 	}
 
 	@Get()
