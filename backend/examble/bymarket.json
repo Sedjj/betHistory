@@ -1,0 +1,94 @@
+{
+	"currencyCode": "EUR",
+	"eventTypes": [
+		{
+			"eventTypeId": 1,
+			"eventNodes": [
+				{
+					"eventId": 29713062,
+					"marketNodes": [
+						{
+							"marketId": "1.169087587",
+							"isMarketDataDelayed": true,
+							"description": {
+								"persistenceEnabled": true,
+								"bspMarket": false,
+								"marketName": "Both teams to Score?",
+								"marketTime": "2020-02-23T12:31:42.000Z",
+								"suspendTime": "2020-02-23T12:31:42.000Z",
+								"turnInPlayEnabled": true,
+								"marketType": "BOTH_TEAMS_TO_SCORE",
+								"priceLadderDescription": {
+									"type": "CLASSIC"
+								},
+								"bettingType": "ODDS"
+							},
+							"runners": [
+								{
+									"selectionId": 30246,
+									"handicap": 0.0,
+									"description": {
+										"runnerName": "Yes"
+									},
+									"exchange": {
+										"availableToBack": [
+											{
+												"price": 1.59,
+												"size": 700.49
+											},
+											{
+												"price": 1.58,
+												"size": 738.36
+											}
+										],
+										"availableToLay": [
+											{
+												"price": 1.93,
+												"size": 565.18
+											},
+											{
+												"price": 1.95,
+												"size": 637.46
+											},
+											{
+												"price": 2.44,
+												"size": 5.97
+											}
+										]
+									}
+								},
+								{
+									"selectionId": 110503,
+									"handicap": 0.0,
+									"description": {
+										"runnerName": "No"
+									},
+									"exchange": {
+										"availableToBack": [
+											{
+												"price": 2.06,
+												"size": 1132.93
+											},
+											{
+												"price": 1.69,
+												"size": 8.62
+											}
+										],
+										"availableToLay": [
+											{
+												"price": 2.7,
+												"size": 844.59
+											}
+										]
+									}
+								}
+							],
+							"isMarketDataVirtual": true
+						}
+					]
+				}
+			]
+		}
+	],
+	"indicative": false
+}

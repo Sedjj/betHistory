@@ -53,8 +53,9 @@
 		"baseUrl": "https://1xbet.com/",
 		"football": {
 			"search": "https://www.betfair.com/www/sports/navigation/facet/v1/search?alt=json",
-			"byMarket": "https://ero.betfair.com/www/sports/exchange/readonly/v1/bymarket?alt=json&currencyCode=EUR&locale=en&marketIds=${id}&types=MARKET_STATE,EVENT,RUNNER_STATE,RUNNER_DESCRIPTION,RUNNER_EXCHANGE_PRICES_BEST",
-			"eventDetails": "https://ips.betfair.com/inplayservice/v1/eventDetails?eventIds=${id}&locale=en&regionCode=UK"
+			"eventDetails": "https://ips.betfair.com/inplayservice/v1/eventDetails?eventIds=${id}&locale=en&regionCode=UK",
+			"marketsEvents": "https://www.betfair.com/www/sports/navigation/facet/v1/search?alt=json",
+			"byMarket": "https://ero.betfair.com/www/sports/exchange/readonly/v1/bymarket?alt=json&currencyCode=EUR&locale=en&marketIds=${id}&types=RUNNER_EXCHANGE_PRICES_BEST,MARKET_DESCRIPTION,RUNNER_DESCRIPTION"
 		},
 		"result": {
 			"all": "getTranslate/ViewGameResultsExtGet?date=${date}&tzo=300&partner=51&lng=en&adult=false&showAll=true"

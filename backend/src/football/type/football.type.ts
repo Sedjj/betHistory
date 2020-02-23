@@ -20,6 +20,9 @@ export interface IFootball {
 	 * Стратегия отбора матча
 	 */
 	strategy: number;
+	/**
+	 * время матча в минутах
+	 */
 	time: number;
 	score: IScore;
 	command: ICommand;
@@ -43,13 +46,17 @@ export interface IScore {
  */
 export interface ICommand {
 	/**
-	 * Русское название команд
+	 * Название первой команды
 	 */
-	ru: INameCommand;
+	one: string;
 	/**
-	 * Английское название команд
+	 * Название первой команды
 	 */
-	en: INameCommand;
+	two: string;
+	/**
+	 * Название лиги
+	 */
+	group: string;
 	/**
 	 * Женская команда
 	 */
@@ -65,52 +72,30 @@ export interface ICommand {
 }
 
 /**
- * Интерфес названия команд и лиги
- */
-export interface INameCommand {
-	/**
-	 * Название первой команды
-	 */
-	one: string;
-	/**
-	 * Название первой команды
-	 */
-	two: string;
-	/**
-	 * Название лиги
-	 */
-	group: string;
-}
-
-/**
  *  Интерфейс коэффициентов для ставки
  */
 export interface ITimeSnapshot {
-	/**
-	 * Коэфициент на который ставим
-	 */
-	/*rate: number;*/
-	mainRates: IMainRates;
+	matchOdds: IMainRates;
 	/**
 	 * Состояние "Менее 1,5" коэффициентов во время отбора
 	 */
-	underOneAndHalf: IMainRates;
+	under15: IOtherRates;
 	/**
 	 * Состояние "Менее 2,5" коэффициентов во время отбора
 	 */
-	underTwoAndHalf: IOtherRates;
+	under25: IOtherRates;
 	/**
 	 * Состояние "Обе забьют да" коэффициентов во время отбора
 	 */
-	bothScoreYes: IOtherRates;
+	bothTeamsToScoreYes: IOtherRates;
 	/**
 	 * Состояние "Обе забьют нет" коэффициентов во время отбора
 	 */
-	bothScoreNo: IOtherRates;
+	bothTeamsToScoreNo: IOtherRates;
 	/**
-	 * Состояние "Азиатский гандикап" коэффициентов во время отбора
+	 * Состояние "Колличество голо за матч" коэффициентов во время отбора
 	 */
-	asianHandicap: IOtherRates;
+	allTotalGoals: IOtherRates;
 }
 
 /**
@@ -141,14 +126,8 @@ export interface IMainRates {
  * Состояние остальных коэффициентов во время отбора
  */
 export interface IOtherRates {
-	behind: {
-		p1: number;
-		p2: number;
-	};
-	against: {
-		p1: number;
-		p2: number;
-	};
+	behind: number;
+	against: number;
 }
 
 /**
@@ -164,6 +143,7 @@ export interface ICardsCommands {
  */
 export interface ICards {
 	red: number;
+	yellow: number;
 	attacks: number;
 	danAttacks: number;
 	shotsOn: number;

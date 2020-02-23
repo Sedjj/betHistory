@@ -5,9 +5,14 @@ import config from 'config';
 import {ParserFootballService} from '../parser/parserFootball.service';
 import {DataAnalysisService} from '../dataAnalysis/dataAnalysis.service';
 import {IFootball} from '../football/type/football.type';
+import {EventDetails} from '../parser/type/eventDetails.type';
+import {LiteMarkets} from '../parser/type/marketsEvents.type';
+import {MarketNodes} from '../parser/type/byMarket.type';
 
-const urlFootballSearch = config.get<string>('parser.football.search');
-const urlFootballByMarket = config.get<string>('parser.football.byMarket');
+const urlSearch = config.get<string>('parser.football.search');
+const urlEventDetails = config.get<string>('parser.football.eventDetails');
+const urlMarketsEvents = config.get<string>('parser.football.marketsEvents');
+const urlByMarket = config.get<string>('parser.football.byMarket');
 
 @Injectable()
 export class TaskService implements OnApplicationBootstrap {
@@ -27,21 +32,18 @@ export class TaskService implements OnApplicationBootstrap {
 
 	@Cron((process.env.NODE_ENV === 'development') ? '*/10 * * * * *' : '*/02 * * * *')
 	public async searchFootball() {
-		try {
-			this.logger.debug('Called when the current second is 10');
-			let matches = await this.fetchService.searchMatches(urlFootballSearch);
-			let matchIds: string[] = this.parserFootballService.getIdList(matches);
-			let football = await this.fetchService.getAllMatches(urlFootballByMarket.replace('${id}', matchIds.join()));
-			football.forEach((item: any) => {
+		this.logger.debug('Called when the current second is 10');
+		let activeEventIds: number[] = await this.getActiveEventIds();
+		if (activeEventIds.length) {
+			let eventDetails = await this.getEventDetailsForEvents(activeEventIds);
+			eventDetails.forEach((item: EventDetails) => {
 				try {
 					let param: IFootball = this.parserFootballService.getParams(item);
-					this.dataAnalysisService.footballLiveStrategy(param);
+					this.dataAnalysisService.strategyDefinition(param);
 				} catch (error) {
-					this.logger.debug(`Ошибка при парсинге матча: ${JSON.stringify(item)} error: ${error}`);
+					this.logger.debug(`Ошибка при парсинге события: ${JSON.stringify(item)} error: ${error}`);
 				}
 			});
-		} catch (error) {
-			this.logger.error(`search: ${error}`);
 		}
 	}
 
@@ -50,5 +52,65 @@ export class TaskService implements OnApplicationBootstrap {
 		if (process.env.NODE_ENV !== 'development') {
 			this.logger.debug('Called when the current second is 45');
 		}
+	}
+
+	/**
+	 * Метод для получения идентификаторов активных событий на бирже
+	 */
+	private async getActiveEventIds(): Promise<number[]> {
+		let eventIds: number[] = [];
+		try {
+			let events = await this.fetchService.searchEvents(urlSearch);
+			eventIds = this.parserFootballService.getIdList(events);
+		} catch (error) {
+			this.logger.error(`Search active event: ${error}`);
+		}
+		return eventIds && eventIds.length ? eventIds : [];
+	}
+
+	/**
+	 * Метод для получения детальной информации для определенного события со всеми биржами.
+	 *
+	 * @param {Number[]} eventIds идентификаторы активных событий
+	 */
+	private async getEventDetailsForEvents(eventIds: number[]): Promise<EventDetails[]> {
+		let eventDetails: EventDetails[] = [];
+		try {
+			eventDetails = await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', eventIds.join()));
+			let marketsEvents = await this.fetchService.searchMarketsByEvent(urlMarketsEvents, eventIds);
+			let liteMarkets: LiteMarkets = this.parserFootballService.getMarketsEvents(marketsEvents);
+			eventDetails = await this.getMarketNodesForEvents(eventDetails, liteMarkets);
+		} catch (error) {
+			this.logger.error(`Get event details for events: ${error}`);
+		}
+		return eventDetails && eventDetails.length ? eventDetails : [];
+	}
+
+	/**
+	 * Метод для объединения детальной информации о событии с различными биржами этого события.
+	 *
+	 * @param {EventDetails[]} eventDetails детальная информация о событии на бирже
+	 * @param {LiteMarkets} liteMarkets объекта с информацией о markets в событии.
+	 */
+	private async getMarketNodesForEvents(eventDetails: EventDetails[], liteMarkets: LiteMarkets): Promise<EventDetails[]> {
+		return await Promise.all(eventDetails.map(async (item: EventDetails) => {
+			let res = {...item};
+			if (item.eventId) {
+				let markets = liteMarkets[item.eventId];
+				if (markets && Array.isArray(markets) && markets.length) {
+					try {
+						let rateMarkets = await this.fetchService.getRateMarkets(urlByMarket.replace('${id}', markets.join()));
+						let marketNodes: MarketNodes[] = this.parserFootballService.getMarketNodes(rateMarkets);
+						res = {
+							...res,
+							marketNodes
+						};
+					} catch (error) {
+						this.logger.error(`Get rate markets: ${error}`);
+					}
+				}
+			}
+			return res;
+		}));
 	}
 }

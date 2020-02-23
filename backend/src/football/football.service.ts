@@ -15,18 +15,18 @@ export class FootballService {
 	/**
 	 * Создание новой записи в таблице.
 	 *
-	 * @param {IFootball} createFootballDto для таблицы
+	 * @param {IFootball} param для таблицы
 	 * @returns {Promise<IFootball | null>}
 	 */
-	async create(createFootballDto: IFootball): Promise<IFootball | null> {
+	async create(param: IFootball): Promise<IFootball | null> {
 		let findMatch  = await this.footballModel.find({
-			eventId: createFootballDto.eventId,
-			strategy: createFootballDto.strategy
+			eventId: param.eventId,
+			strategy: param.strategy
 		}).exec();
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
-		let createdFootball = new this.footballModel(createFootballDto);
+		let createdFootball = new this.footballModel(param);
 		return await createdFootball.save();
 	}
 
@@ -54,7 +54,7 @@ export class FootballService {
 					});
 			})
 			.catch((error: any) => {
-				log.error(`getStatistic param=${JSON.stringify(JSON.stringify(param))}: ${error.message}`);
+				log.error(`Error getDataByParam param=${JSON.stringify(JSON.stringify(param))}: ${error.message}`);
 				throw new Error(error);
 			});
 	}
@@ -73,13 +73,14 @@ export class FootballService {
 				log.error(`deleteStatistic param=${JSON.stringify(param)}: ${error.message}`);
 			});
 	}
+
 	/**
 	 * Редактирование записи в таблице.
 	 *
 	 * @param {IFootballQuery} param для таблицы
 	 * @returns {Promise<any>}
 	 */
-	async setDataByParam(param: IFootball): Promise<void | IFootball | null> {
+	async setDataByParam(param: IFootball): Promise<IFootball> {
 		return await this.footballModel
 			.findOne({matchId: param.eventId, strategy: param.strategy})
 			.read('secondary')
@@ -91,16 +92,13 @@ export class FootballService {
 				if (param.rates !== undefined) {
 					statistic.rate = param.rates;
 				}
-				if (param.cards !== undefined) {
-					statistic.cards = param.cards;
-				}
 				if (param.modifiedBy !== undefined) {
 					statistic.modifiedBy = param.modifiedBy;
 				}
 				return statistic.save();
 			})
 			.catch((error: any) => {
-				log.error(`Error setStatistic param=${JSON.stringify(param)}: ${error.message}`);
+				log.error(`Error setDataByParam param=${JSON.stringify(param)}: ${error.message}`);
 				throw new Error(error);
 			});
 	}

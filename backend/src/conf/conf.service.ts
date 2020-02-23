@@ -18,7 +18,7 @@ export class ConfService {
 			1.5,
 			1.5,
 			2
-		][strategy];
+		][strategy - 1];
 	}
 
 	getRateStrategy(strategy: number): IRateStrategy {
@@ -39,27 +39,31 @@ export class ConfService {
 				title: 'Math.abs(p1 - p2) < rate',
 				rate: 2
 			},
-		][strategy];
+		][strategy - 1];
 	}
 
-	getTime(): ITime[] {
+	getTime(strategy: number): ITime {
 		return [
 			{
 				before: 0,
 				after: 0
 			},
 			{
-				before: 300,
-				after: 600
+				before: 5,
+				after: 10
 			},
 			{
-				before: 1800,
-				after: 2100
+				before: 30,
+				after: 35
 			},
 			{
-				before: 2700,
-				after: 2700
+				before: 45,
+				after: 45
 			},
-		];
+			{
+				before: 20,
+				after: 45
+			},
+		][strategy - 1];
 	}
 }

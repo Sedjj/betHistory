@@ -47,8 +47,25 @@ let rates = new Schema({
 	}
 });
 
+let rateOther = new Schema({
+	behind: {
+		type: Number,
+		required: true,
+		default: 0
+	},
+	against: {
+		type: Number,
+		required: true,
+		default: 0
+	}
+});
+
 let cards = new Schema({
 	red: {
+		type: Number,
+		default: 0
+	},
+	yellow: {
 		type: Number,
 		default: 0
 	},
@@ -67,23 +84,6 @@ let cards = new Schema({
 	shotsOff: {
 		type: Number,
 		default: 0
-	}
-});
-
-let nameCommand = new Schema({
-	one: {
-		type: String,
-		required: true,
-		default: ''
-	},
-	two: {
-		type: String,
-		required: true,
-		default: ''
-	},
-	group: {
-		type: String,
-		default: ''
 	}
 });
 
@@ -125,8 +125,20 @@ export let FootballSchema = new Schema({
 		},
 	},
 	command: {
-		ru: nameCommand,
-		en: nameCommand,
+		one: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		two: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		group: {
+			type: String,
+			default: ''
+		},
 		women: {
 			type: Number,
 			required: true,
@@ -143,22 +155,17 @@ export let FootballSchema = new Schema({
 			default: 0
 		}
 	},
+	rates: {
+		matchOdds: rates,
+		under15: rateOther,
+		under25: rateOther,
+		bothTeamsToScoreYes: rateOther,
+		bothTeamsToScoreNo: rateOther,
+		allTotalGoals: rateOther,
+	},
 	cards: {
 		one: cards,
 		two: cards
-	},
-	rates: {
-		/*rate: {
-			type: Number,
-			required: true,
-			default: 0
-		},*/
-		mainRates: rates,
-		underOneAndHalf: rates,
-		underTwoAndHalf: rates,
-		bothScoreYes: rates,
-		bothScoreNo: rates,
-		asianHandicap: rates,
 	},
 	createdBy: {
 		type: Date,

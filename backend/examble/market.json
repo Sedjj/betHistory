@@ -1,0 +1,417 @@
+{
+	"facets": [
+		{
+			"values": [
+				{
+					"key": {
+						"eventId": 29716373
+					},
+					"cardinality": 12,
+					"next": {
+						"values": [
+							{
+								"key": {
+									"marketId": "1.169198475"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198476"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198527"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198530"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198483"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198532"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198528"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198521"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198522"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198524"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198529"
+								},
+								"cardinality": 1
+							},
+							{
+								"key": {
+									"marketId": "1.169198523"
+								},
+								"cardinality": 1
+							}
+						],
+						"totalResults": 12,
+						"type": "MARKET"
+					}
+				}
+			],
+			"totalResults": 1,
+			"type": "EVENT"
+		}
+	],
+	"results": [],
+	"attachments": {
+		"events": {
+			"29716373": {
+				"eventId": 29716373,
+				"key": "EVENT:29716373",
+				"name": "Manisa Buyuksehir Belediyespor Kulubu v Gumushanes",
+				"eventTypeId": 1,
+				"countryCode": "TR",
+				"timezone": "GMT",
+				"openDate": "2020-02-23T10:29:38.000Z",
+				"videoAvailable": false
+			}
+		},
+		"liteMarkets": {
+			"1.169198524": {
+				"marketId": "1.169198524",
+				"key": "MARKET:1.169198524",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Manisa BBK +1",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "TEAM_A_1",
+				"inplay": true,
+				"totalMatched": 0.0,
+				"totalAvailable": 2.3894,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"numberOfWinners": 1,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198523": {
+				"marketId": "1.169198523",
+				"key": "MARKET:1.169198523",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Двойной шанс",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "DOUBLE_CHANCE",
+				"inplay": true,
+				"totalMatched": 0.0,
+				"totalAvailable": 0.0,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"numberOfWinners": 2,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198522": {
+				"marketId": "1.169198522",
+				"key": "MARKET:1.169198522",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Следующий гол",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "NEXT_GOAL",
+				"inplay": true,
+				"totalMatched": 0.0,
+				"totalAvailable": 0.0,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"numberOfWinners": 1,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198521": {
+				"marketId": "1.169198521",
+				"key": "MARKET:1.169198521",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Тайм/Матч",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "HALF_TIME_FULL_TIME",
+				"inplay": true,
+				"totalMatched": 0.0,
+				"totalAvailable": 0.0,
+				"numberOfRunners": 9,
+				"numberOfActiveRunners": 9,
+				"numberOfWinners": 1,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198532": {
+				"marketId": "1.169198532",
+				"key": "MARKET:1.169198532",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Количество голов за матч",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "ALT_TOTAL_GOALS",
+				"inplay": true,
+				"totalMatched": 0.0,
+				"totalAvailable": 0.0,
+				"numberOfRunners": 66,
+				"numberOfActiveRunners": 16,
+				"numberOfWinners": 0,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198476": {
+				"marketId": "1.169198476",
+				"key": "MARKET:1.169198476",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Точный счет",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "CORRECT_SCORE",
+				"inplay": true,
+				"totalMatched": 0.0,
+				"totalAvailable": 3241.2211000000007,
+				"numberOfRunners": 19,
+				"numberOfActiveRunners": 19,
+				"numberOfWinners": 1,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198475": {
+				"marketId": "1.169198475",
+				"key": "MARKET:1.169198475",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Ставки на результат",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "MATCH_ODDS",
+				"inplay": true,
+				"totalMatched": 2136.338646,
+				"totalAvailable": 2643.8711000000003,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"numberOfWinners": 1,
+				"associatedMarkets": [
+					{
+						"eventId": 29716373,
+						"sportsbookMarketId": "924.225592960",
+						"eventTypeId": 1
+					}
+				],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198530": {
+				"marketId": "1.169198530",
+				"key": "MARKET:1.169198530",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Более/менее 8.5 голов",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "OVER_UNDER_85",
+				"inplay": true,
+				"totalMatched": 875.559789,
+				"totalAvailable": 258.0552,
+				"numberOfRunners": 2,
+				"numberOfActiveRunners": 2,
+				"numberOfWinners": 1,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198483": {
+				"marketId": "1.169198483",
+				"key": "MARKET:1.169198483",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Азиатский гандикап",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "ASIAN_HANDICAP",
+				"inplay": true,
+				"totalMatched": 0.0,
+				"totalAvailable": 0.0,
+				"numberOfRunners": 66,
+				"numberOfActiveRunners": 66,
+				"numberOfWinners": 0,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198529": {
+				"marketId": "1.169198529",
+				"key": "MARKET:1.169198529",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Gumushanes +1",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "TEAM_B_1",
+				"inplay": true,
+				"totalMatched": 0.0,
+				"totalAvailable": 4.7788,
+				"numberOfRunners": 3,
+				"numberOfActiveRunners": 3,
+				"numberOfWinners": 1,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198528": {
+				"marketId": "1.169198528",
+				"key": "MARKET:1.169198528",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Нет ставок на ничью (Draw No Bet)",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "DRAW_NO_BET",
+				"inplay": true,
+				"totalMatched": 0.23894000000000004,
+				"totalAvailable": 0.0,
+				"numberOfRunners": 2,
+				"numberOfActiveRunners": 2,
+				"numberOfWinners": 1,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			},
+			"1.169198527": {
+				"marketId": "1.169198527",
+				"key": "MARKET:1.169198527",
+				"eventTypeId": 1,
+				"eventId": 29716373,
+				"upperLevelEventId": 27159609,
+				"topLevelEventId": 27159609,
+				"numberOfUpperLevels": 1,
+				"marketName": "Более/менее 7.5 голов",
+				"marketTime": "2020-02-23T10:29:38.000Z",
+				"marketType": "OVER_UNDER_75",
+				"inplay": true,
+				"totalMatched": 2127.055827,
+				"totalAvailable": 268.8075,
+				"numberOfRunners": 2,
+				"numberOfActiveRunners": 2,
+				"numberOfWinners": 1,
+				"associatedMarkets": [],
+				"canTurnInPlay": true,
+				"marketLevels": [
+					"AVB_EVENT"
+				],
+				"marketStatus": "OPEN",
+				"productType": "EXCHANGE"
+			}
+		}
+	}
+}

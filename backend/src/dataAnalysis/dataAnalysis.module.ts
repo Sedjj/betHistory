@@ -11,7 +11,7 @@ import {FootballModule} from '../football/football.module';
 		FootballModule,
 	],
 	providers: [
-		DataAnalysisService
+		DataAnalysisService,
 	],
 	exports: [
 		DataAnalysisService

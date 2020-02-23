@@ -5,36 +5,90 @@ import {
 	ICommand,
 	IFootball,
 	IMainRates,
-	INameCommand,
 	IOtherRates,
 	IScore,
 	ITimeSnapshot
 } from '../football/type/football.type';
-import {EventMarket, EventNodes, MarketNodes, Runners} from './type/parserFootball.type';
 import moment from 'moment';
+import {EventDetails, StateEventDetails, TeamInfoEventDetails} from './type/eventDetails.type';
+import {LiteMarkets, MarketType} from './type/marketsEvents.type';
+import {MarketNodes, RunnersMarketNodes} from './type/byMarket.type';
 
 @Injectable()
 export class ParserFootballService {
 	private readonly logger = new Logger(ParserFootballService.name);
 
-	public getIdList(item: any): string[] {
-		let res: string[] = [];
+	private choiceMarketType: MarketType[] = ['MATCH_ODDS', 'OVER_UNDER_15', 'OVER_UNDER_25', 'BOTH_TEAMS_TO_SCORE', 'ALT_TOTAL_GOALS'];
+
+	/**
+	 * Метод для поиска матчей которые начались.
+	 *
+	 * @param item входные данные с сервера
+	 */
+	public getIdList(item: any): number[] {
+		let res: number[] = [];
 		if (item['attachments'] && item['attachments']['markets']) {
 			let marketsList: any[] = Object.values(item['attachments']['markets']);
 			if (marketsList != null && marketsList.length) {
-				res = marketsList.reduce((acc: string[], {marketId, marketTime, marketStatus, inplay}) => {
+				res = marketsList.reduce((acc: number[], {eventId, marketTime, marketStatus, inplay}) => {
 					if (inplay && marketStatus === 'OPEN') {
 						if (marketTime != null) {
 							let currentDate = moment((new Date()).toISOString());
 							let openDate = moment(marketTime);
 							let difference = currentDate.diff(openDate, 'seconds');
 							if (difference >= 0) {
-								acc.push(marketId);
+								acc.push(eventId);
 							}
 						}
 					}
 					return acc;
-				}, [] as string[]);
+				}, res);
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * Метод для создания объекта с информацией о markets в событии.
+	 *
+	 * @param item входные данные с сервера
+	 */
+	public getMarketsEvents(item: any): LiteMarkets {
+		let res: LiteMarkets = {};
+		if (item['attachments'] && item['attachments']['liteMarkets']) {
+			let liteMarkets: any[] = Object.values(item['attachments']['liteMarkets']);
+			if (liteMarkets != null && liteMarkets.length) {
+				res = liteMarkets.reduce((acc, {marketId, eventId, marketType}) => {
+					if (this.choiceMarketType.some(type => type === marketType)) {
+						if (!acc[eventId]) {
+							acc[eventId] = [marketId];
+						} else {
+							if (acc[eventId].some((x: string) => x !== marketId)) {
+								acc[eventId].push(marketId);
+							}
+						}
+					}
+					return acc;
+				}, res);
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * Метод для получения всех бирж события.
+	 *
+	 * @param item входные данные с сервера
+	 */
+	public getMarketNodes(item: any): MarketNodes[] {
+		let res: MarketNodes[] = [];
+		if (item['eventTypes'] && Array.isArray(item['eventTypes']) && item['eventTypes'].length) {
+			let eventTypes = item['eventTypes'][0];
+			if (eventTypes['eventNodes'] && Array.isArray(eventTypes['eventNodes']) && eventTypes['eventNodes'].length) {
+				let eventNodes = eventTypes['eventNodes'][0];
+				if (eventNodes['marketNodes'] && Array.isArray(eventNodes['marketNodes']) && eventNodes['marketNodes'].length) {
+					res = eventNodes['marketNodes'];
+				}
 			}
 		}
 		return res;
@@ -43,20 +97,20 @@ export class ParserFootballService {
 	/**
 	 * Метод для парсинга и создания объекта ставки.
 	 *
-	 * @param {EventNodes} item входной объект матча
+	 * @param {EventDetails} item входной объект события
 	 */
-	public getParams(item: EventNodes): IFootball {
+	public getParams(item: EventDetails): IFootball {
 		let param: IFootball;
 		try {
 			param = {
-				marketIds: this.getMarketId(item.marketNodes),
-				eventId: item.eventId,
+				marketIds: item.marketId || '',
+				eventId: item.eventId || 0,
 				strategy: 0,
-				time: this.getTimeGame(item.event),
-				score: this.getScoreGame(item),
-				command: this.getCommand(item.marketNodes),
+				time: this.getTimeGame(item.state),
+				score: this.getScoreGame(item.state),
+				command: this.getCommand(item),
 				rates: this.getRates(item.marketNodes),
-				cards: this.getCardsCommands(item),
+				cards: this.getCardsCommands(item.state),
 				createdBy: new Date().toISOString(),
 				modifiedBy: new Date().toISOString()
 			};
@@ -68,33 +122,14 @@ export class ParserFootballService {
 	}
 
 	/**
-	 * Метод для определения идентификатора матча.
-	 *
-	 * @param {MarketNodes[]} market элементы рынка
-	 */
-	public getMarketId(market: MarketNodes[]): string {
-		let res: string = '0';
-		if (market != null && market.length) {
-			market.forEach((node) => {
-				if (node.marketId) {
-					res = node.marketId;
-				}
-			});
-		}
-		return res;
-	}
-
-	/**
 	 * Метод для определения текущго времени матча в секундах.
 	 *
-	 * @param {EventMarket} event название и дата начала события
+	 * @param {StateEventDetails} event объект события
 	 */
-	public getTimeGame(event: EventMarket): number {
+	public getTimeGame(event?: StateEventDetails): number {
 		let res: number = 0;
-		if (event != null && event.openDate != null) {
-			let currentDate = moment((new Date()).toISOString());
-			let openDate = moment(event.openDate);
-			res = currentDate.diff(openDate, 'seconds');
+		if (event != null && event.timeElapsed != null) {
+			res = event.timeElapsed;
 		}
 		return res;
 	}
@@ -102,20 +137,27 @@ export class ParserFootballService {
 	/**
 	 * Метод для определения счета матча.
 	 *
-	 * @param {EventNodes} item объект матча
+	 * @param {StateEventDetails} event объект события
 	 */
-	public getScoreGame(item: EventNodes): IScore {
+	public getScoreGame(event?: StateEventDetails): IScore {
 		let rate: IScore = {
 			sc1: 0,
 			sc2: 0,
 			resulting: '',
 		};
-		if (item['SC'] && item['SC']['FS']) {
-			if (item['SC']['FS']['S1']) {
-				rate.sc1 = item['SC']['FS']['S1'];
+		if (event != null && event.score != null) {
+			let {home, away} = event.score;
+			if (home != null && home.score != null) {
+				let scoreHome: string = home.score;
+				if (typeof scoreHome === 'string' && scoreHome !== '') {
+					rate.sc1 = parseInt(scoreHome, 10);
+				}
 			}
-			if (item['SC']['FS']['S2']) {
-				rate.sc2 = item['SC']['FS']['S2'];
+			if (away != null && away.score != null) {
+				let scoreAway: string = away.score;
+				if (typeof scoreAway === 'string' && scoreAway !== '') {
+					rate.sc2 = parseInt(scoreAway, 10);
+				}
 			}
 		}
 		return rate;
@@ -124,72 +166,29 @@ export class ParserFootballService {
 	/**
 	 * Метод для определения общей информации о команндах.
 	 *
-	 * @param {MarketNodes[]} market элементы рынка
+	 * @param {EventDetails} eventDetails объект события
 	 */
-	public getCommand(market: MarketNodes[]): ICommand {   // FIXME если у события 2 event то будет ошибка
+	public getCommand(eventDetails: EventDetails): ICommand {
 		let res: ICommand = {
-			ru: {
-				one: '',
-				two: '',
-				group: ''
-			},
-			en: {
-				one: '',
-				two: '',
-				group: ''
-			},
+			one: '',
+			two: '',
+			group: '',
 			women: 0,
 			youth: 0,
 			limited: 0,
 		};
-		if (market != null && market.length) {
-			market.forEach((node) => {
-				let runners: Runners[] = node.runners;
-				if (runners != null && runners.length) {
-					res.en = this.getNameCommand(runners);
-					if (res.en != null) {
-						res.ru = res.en;
-						res.women = this.parserWomenTeam(res.en.one);
-						res.youth = this.parserYouthTeam(res.en.one);
-						res.limited = this.parserLimitedTeam(res.en.one);
-					}
-				}
-			});
+		if (eventDetails != null && eventDetails.homeName) {
+			res.one = eventDetails.homeName;
 		}
-		return res;
-	}
-
-	/**
-	 * Метод для парсинга названия команд и лиги.
-	 *
-	 * @param {Runners[]} runners информаия о команждах
-	 */
-	public getNameCommand(runners: Runners[]): INameCommand {
-		let res: INameCommand = {
-			one: '',
-			two: '',
-			group: ''
-		};
-		if (runners != null && runners.length) {
-			runners.forEach((node: Runners, index: number) => {
-				switch (index) {
-					case 0: {
-						let {description} = node;
-						if (description && description.runnerName) {
-							res.one = description.runnerName;
-						}
-						break;
-					}
-					case 1: {
-						let {description} = node;
-						if (description && description.runnerName) {
-							res.two = description.runnerName;
-						}
-						break;
-					}
-				}
-			});
+		if (eventDetails != null && eventDetails.awayName) {
+			res.two = eventDetails.awayName;
 		}
+		if (eventDetails != null && eventDetails.competitionName) {
+			res.group = eventDetails.competitionName;
+		}
+		res.women = this.parserWomenTeam(res.one);
+		res.youth = this.parserYouthTeam(res.one);
+		res.limited = this.parserLimitedTeam(res.one);
 		return res;
 	}
 
@@ -233,106 +232,106 @@ export class ParserFootballService {
 	}
 
 	/**
+	 * Метод для определения общей информаци о картах.
+	 *
+	 * @param {StateEventDetails} state объект события
+	 */
+	public getCardsCommands(state?: StateEventDetails): ICardsCommands {
+		return {
+			one: state && state.score ? this.getCards(state.score.home) : this.getCards(),
+			two: state && state.score ? this.getCards(state.score.away) : this.getCards(),
+		};
+	}
+
+	/**
+	 * Метод для определения карты команды.
+	 *
+	 * @param {TeamInfoEventDetails} teamInfo детальная информация о команде
+	 */
+	public getCards(teamInfo?: TeamInfoEventDetails): ICards {
+		let res: ICards = {
+			red: 0,
+			yellow: 0,
+			attacks: 0,
+			danAttacks: 0,
+			shotsOn: 0,
+			shotsOff: 0,
+		};
+		if (teamInfo != null && teamInfo.numberOfRedCards) {
+			res.red = teamInfo.numberOfRedCards;
+		}
+		if (teamInfo != null && teamInfo.numberOfYellowCards) {
+			res.yellow = teamInfo.numberOfYellowCards;
+		}
+		return res;
+	}
+
+	/**
 	 * Метод для определения коэффициентов для ставки.
 	 *
 	 * @param {MarketNodes[]} market элементы рынка
 	 */
-	public getRates(market: MarketNodes[]): ITimeSnapshot {
+	public getRates(market?: MarketNodes[]): ITimeSnapshot {
+		let rate: IMainRates = {
+			behind: {
+				p1: 0,
+				x: 0,
+				p2: 0,
+				mod: 0,
+			},
+			against: {
+				p1: 0,
+				x: 0,
+				p2: 0,
+				mod: 0,
+			}
+		};
+		let rateOther: IOtherRates = {
+			behind: 0,
+			against: 0
+		};
 		let res: ITimeSnapshot = {
-			/*index: 1,*/
-			mainRates: {
-				behind: {
-					p1: 0,
-					x: 0,
-					p2: 0,
-					mod: 0,
-				},
-				against: {
-					p1: 0,
-					x: 0,
-					p2: 0,
-					mod: 0,
-				}
-			},
-			underOneAndHalf: {
-				behind: {
-					p1: 0,
-					x: 0,
-					p2: 0,
-					mod: 0,
-				},
-				against: {
-					p1: 0,
-					x: 0,
-					p2: 0,
-					mod: 0,
-				}
-			},
-			underTwoAndHalf: {
-				behind: {
-					p1: 0,
-					p2: 0,
-				},
-				against: {
-					p1: 0,
-					p2: 0,
-				}
-			},
-			bothScoreYes: {
-				behind: {
-					p1: 0,
-					p2: 0,
-				},
-				against: {
-					p1: 0,
-					p2: 0,
-				}
-			},
-			bothScoreNo: {
-				behind: {
-					p1: 0,
-					p2: 0,
-				},
-				against: {
-					p1: 0,
-					p2: 0,
-				}
-			},
-			asianHandicap: {
-				behind: {
-					p1: 0,
-					p2: 0,
-				},
-				against: {
-					p1: 0,
-					p2: 0,
-				}
-			},
+			matchOdds: rate,
+			under15: rateOther,
+			under25: rateOther,
+			bothTeamsToScoreYes: rateOther,
+			bothTeamsToScoreNo: rateOther,
+			allTotalGoals: rateOther,
 		};
 		if (market != null && market.length) {
 			market.forEach((node) => {
-				let runners: Runners[] = node.runners;
-				if (runners != null && runners.length) {
-					res.mainRates = this.parserMainRates(runners);
+				let {description, runners} = node;
+				if (description && runners != null && runners.length) {
+					switch (description.marketType) {
+						case 'MATCH_ODDS':
+							res.matchOdds = this.parserMainRates(runners);
+							break;
+						case 'OVER_UNDER_15':
+							res.under15 = this.parserOtherRates(runners, 'Under 1.5 Goals');
+							break;
+						case 'OVER_UNDER_25':
+							res.under25 = this.parserOtherRates(runners, 'Under 2.5 Goals');
+							break;
+						case 'BOTH_TEAMS_TO_SCORE':
+							res.bothTeamsToScoreYes = this.parserOtherRates(runners, 'Yes');
+							res.bothTeamsToScoreNo = this.parserOtherRates(runners, 'No');
+							break;
+						case 'ALT_TOTAL_GOALS':
+							res.allTotalGoals = this.parserOtherRates(runners, 'Under', 2.0);
+							break;
+					}
 				}
 			});
 		}
 		return res;
-		/*return {
-			underOneAndHalf: this.parserMainRates(),
-			underTwoAndHalf: this.parserOtherRates(),
-			bothScoreYes: this.parserOtherRates(),
-			bothScoreNo: this.parserOtherRates(),
-			asianHandicap: this.parserOtherRates(),
-		};*/
 	}
 
 	/**
 	 * Метод для определения состояние основных коэффициентов во время отбора
 	 *
-	 * @param {Runners[]} runners информаия о команждах
+	 * @param {RunnersMarketNodes[]} runners информаия о командах
 	 */
-	public parserMainRates(runners: Runners[]): IMainRates {
+	public parserMainRates(runners: RunnersMarketNodes[]): IMainRates {
 		let res: IMainRates = {
 			behind: {
 				p1: 0,
@@ -348,47 +347,33 @@ export class ParserFootballService {
 			}
 		};
 		if (runners != null && runners.length) {
-			runners.forEach((node: Runners, index: number) => {
+			runners.forEach((node: RunnersMarketNodes, index: number) => {
+				let {exchange} = node;
 				switch (index) {
 					case 0: { // p1
-						let {exchange} = node;
-						if (exchange && exchange.availableToBack && exchange.availableToBack.length) {
-							if (exchange.availableToBack[0].price) {
-								res.behind.p1 = exchange.availableToBack[0].price;
-							}
+						if (exchange && exchange.availableToBack && Array.isArray(exchange.availableToBack) && exchange.availableToBack.length) {
+							res.behind.p1 = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
 						}
 						if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
-							if (exchange.availableToLay[0].price) {
-								res.against.p1 = exchange.availableToLay[0].price;
-							}
+							res.against.p1 = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
 						}
 						break;
 					}
 					case 1: {  // p2
-						let {exchange} = node;
 						if (exchange && exchange.availableToBack && exchange.availableToBack.length) {
-							if (exchange.availableToBack[0].price) {
-								res.behind.p2 = exchange.availableToBack[0].price;
-							}
+							res.behind.p2 = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
 						}
 						if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
-							if (exchange.availableToLay[0].price) {
-								res.against.p2 = exchange.availableToLay[0].price;
-							}
+							res.against.p2 = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
 						}
 						break;
 					}
 					case 2: { // ничья
-						let {exchange} = node;
 						if (exchange && exchange.availableToBack && exchange.availableToBack.length) {
-							if (exchange.availableToBack[0].price) {
-								res.behind.x = exchange.availableToBack[0].price;
-							}
+							res.behind.x = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
 						}
 						if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
-							if (exchange.availableToLay[0].price) {
-								res.against.x = exchange.availableToLay[0].price;
-							}
+							res.against.x = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
 						}
 						break;
 					}
@@ -403,43 +388,33 @@ export class ParserFootballService {
 	/**
 	 * Метод для определения состояние остальных коэффициентов во время отбора
 	 */
-	public parserOtherRates(): IOtherRates {
-		return {
-			behind: {
-				p1: 0,
-				p2: 0,
-			},
-			against: {
-				p1: 0,
-				p2: 0,
-			}
+	public parserOtherRates(runners: RunnersMarketNodes[], runnerName: string, handicap?: number): IOtherRates {
+		let res: IOtherRates = {
+			behind: 0,
+			against: 0
 		};
-	}
-
-	/**
-	 * Метод для определения общей информаци о картах.
-	 *
-	 * @param item
-	 */
-	public getCardsCommands(item: object): ICardsCommands {
-		return {
-			one: this.getCards(item),
-			two: this.getCards(item),
-		};
-	}
-
-	/**
-	 * Метод для определения карты команды.
-	 *
-	 * @param item
-	 */
-	public getCards(item: object): ICards {
-		return {
-			red: 0,
-			attacks: 0,
-			danAttacks: 0,
-			shotsOn: 0,
-			shotsOff: 0,
-		};
+		if (runners != null && runners.length) {
+			runners.forEach((node: RunnersMarketNodes, index: number) => {
+				let {exchange, description} = node;
+				if (description && description.runnerName === runnerName) {
+					if (node.handicap && handicap && node.handicap === handicap) {
+						if (exchange && exchange.availableToBack && Array.isArray(exchange.availableToBack) && exchange.availableToBack.length) {
+							res.behind = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
+						}
+						if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
+							res.against = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
+						}
+					} else {
+						if (exchange && exchange.availableToBack && Array.isArray(exchange.availableToBack) && exchange.availableToBack.length) {
+							res.behind = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
+						}
+						if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
+							res.against = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
+						}
+					}
+				}
+			});
+		}
+		return res;
 	}
 }

@@ -2,6 +2,7 @@ import {Injectable} from '@nestjs/common';
 import got, {Got} from 'got';
 import {CookieJar} from 'tough-cookie';
 import {log} from '../utils/logger';
+import {EventDetails} from '../parser/type/eventDetails.type';
 
 @Injectable()
 export class FetchService {
@@ -25,7 +26,7 @@ export class FetchService {
 	 * @param {String} url адрес запроса
 	 * @returns {Promise<JSON | void>}
 	 */
-	public searchMatches(url: string): Promise<any> {
+	public searchEvents(url: string): Promise<any> {
 		return new Promise(async (resolve, reject) => {
 			for (const timeout of this.searchTimeouts) {
 				try {
@@ -39,33 +40,15 @@ export class FetchService {
 								filter: {
 									marketBettingTypes: ['ASIAN_HANDICAP_SINGLE_LINE', 'ASIAN_HANDICAP_DOUBLE_LINE', 'ODDS'],
 									productTypes: ['EXCHANGE'],
-									marketTypeCodes: ['MATCH_ODDS'],
-									selectBy: 'FIRST_TO_START_AZ',
-									ontentGroup: {
-										language: 'en',
-										regionCode: 'UK'
-									},
+									marketTypeCodes: ['MATCH_ODDS'], // второй фильтр (переры, ставки, обе забъют) OVER_UNDER_45 BOTH_TEAMS_TO_SCORE HALF_TIME
+									selectBy: 'FIRST_TO_START_AZ', // первый фильтр (MAXIMUM_TRADED - в паре, RANK - соревнованияб FIRST_TO_START_AZ - время)
 									turnInPlayEnabled: true,
 									maxResults: 0,
 									eventTypeIds: [1] // 1 - это футбол
 								},
-								facets: [{
-									type: 'EVENT_TYPE',
-									skipValues: 0,
-									/*maxValues: 10,*/
-									next: {
-										type: 'EVENT',
-										skipValues: 0,
-										maxValues: 10,
-										next: {
-											type: 'MARKET',
-											maxValues: 1
-										}
-									}
-								}
-								],
+								facets: [{type: 'MARKET'}],
 								currencyCode: 'EUR',
-								locale: 'en'
+								locale: 'en' // локаль на сайте
 							}
 						)
 					});
@@ -73,7 +56,7 @@ export class FetchService {
 						resolve(body);
 						break;
 					}
-					log.error(`Search matches request came empty: ${body}`);
+					log.error(`Search events request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
@@ -87,12 +70,12 @@ export class FetchService {
 	}
 
 	/**
-	 * Метод для получения всех ставок по виду спорта.
+	 * Метод для получения подробной информации о событии.
 	 *
 	 * @param {String} url адрес запроса
 	 * @returns {Promise<JSON | void>}
 	 */
-	public getAllMatches(url: string): Promise<any[]> {
+	public getEventDetails(url: string): Promise<EventDetails[]> {
 		return new Promise(async (resolve, reject) => {
 			for (const timeout of this.searchTimeouts) {
 				try {
@@ -104,20 +87,66 @@ export class FetchService {
 						responseType: 'json',
 					});
 					if (body != null) {
-						if (body['eventTypes'] && Array.isArray(body['eventTypes']) && body['eventTypes'].length) {
-							let eventTypes: any[] = body['eventTypes'][0];
-							if (eventTypes['eventNodes'] && Array.isArray(eventTypes['eventNodes']) && eventTypes['eventNodes'].length) {
-								resolve(eventTypes['eventNodes']);
-								break;
-							}
-						}
+						resolve(body);
+						break;
 					}
-					log.error(`Get all matches request came empty: ${body}`);
+					log.error(`Get event details request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
 					log.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
-					log.debug(`Get all matches sleep on ${timeout}ms`);
+					log.debug(`Get event details sleep on ${timeout}ms`);
+					await this.sleep(timeout);
+				}
+			}
+			reject('Server is not responding');
+		});
+	}
+
+	/**
+	 * Метод для получения markets у события
+	 *
+	 * @param {String} url адрес запроса
+	 * @param {Number[]} eventIds идентификаторы событий
+	 */
+	public searchMarketsByEvent(url: string, eventIds: number[]): Promise<any> {
+		return new Promise(async (resolve, reject) => {
+			for (const timeout of this.searchTimeouts) {
+				try {
+					const {body} = await this.client.post(url, {
+						headers: {
+							'Content-Type': 'application/json;charset=UTF-8',
+							'Accept': 'application/json, text/plain, */*'
+						},
+						responseType: 'json',
+						body: JSON.stringify({
+								filter: {
+									marketBettingTypes: ['ASIAN_HANDICAP_SINGLE_LINE', 'ASIAN_HANDICAP_DOUBLE_LINE', 'ODDS'],
+									eventTypeIds: [1],
+									productTypes: ['EXCHANGE'],
+									selectBy: 'RANK',
+									maxResults: 0,
+									attachments: ['MARKET_LITE'],
+									marketTypeCodes: ['MATCH_ODDS', 'OVER_UNDER_15', 'OVER_UNDER_25', 'BOTH_TEAMS_TO_SCORE', 'ALT_TOTAL_GOALS'],
+									upperLevelEventIds: eventIds,
+									turnInPlayEnabled: true
+								},
+								facets: [{type: 'MARKET'}],
+								currencyCode: 'EUR',
+								locale: 'en'
+							}
+						)
+					});
+					if (body != null) {
+						resolve(body);
+						break;
+					}
+					log.error(`Search markets by event request came empty: ${body}`);
+					reject('request came empty');
+					break;
+				} catch (error) {
+					log.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					log.debug(`Search markets by event sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}
@@ -127,33 +156,31 @@ export class FetchService {
 
 	/**
 	 * Метод для получения расширеных ставок для текущего матча.
-	 *
+	 * types: MARKET_STATE,EVENT,RUNNER_STATE,RUNNER_DESCRIPTION,RUNNER_EXCHANGE_PRICES_BEST,MARKET_RATES,MARKET_DESCRIPTION,RUNNER_METADATA,MARKET_LINE_RANGE_INFO
 	 * @param {String} url адрес запроса
 	 * @returns {Promise<JSON | void>}
 	 */
-	public getExpandedMatch(url: string): any {
+	public getRateMarkets(url: string): Promise<any> {
 		return new Promise(async (resolve, reject) => {
 			for (const timeout of this.searchTimeouts) {
 				try {
-					let value = [];
-					const {body} = await this.client.get(url);
-					try {
-						value = JSON.parse(body)['Value'];
-						if (value != null) {
-							resolve(value);
-							break;
-						}
-					} catch (error) {
-						log.error(`Get expanded matches JSON.parse: ${error}`);
-						reject('JSON parse error');
+					const {body} = await this.client.get(url, {
+						headers: {
+							'Content-Type': 'application/json;charset=UTF-8',
+							'Accept': 'application/json, text/plain, */*'
+						},
+						responseType: 'json'
+					});
+					if (body != null) {
+						resolve(body);
 						break;
 					}
-					log.error(`Get expanded matches error: ${body}`);
+					log.error(`Get rate markets request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
 					log.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
-					log.debug(`Get expanded matches sleep on ${timeout}ms`);
+					log.debug(`Get rate markets sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}

@@ -20,6 +20,12 @@ export class BetsSimulatorService {
 			case 1 :
 				console.log(marketIds, totalRate);
 				break;
+			case 2 :
+				console.log(marketIds, totalRate);
+				break;
+			case 3 :
+				console.log(marketIds, totalRate);
+				break;
 			default:
 				break;
 		}
