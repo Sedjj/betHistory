@@ -1,74 +1,64 @@
-import {createLogger, transports, format, Logger} from 'winston';
+import {createLogger, format, Logger, transports} from 'winston';
+
+let formatFile = format.combine(
+	format.timestamp({
+		format: 'YYYY-MM-DD HH:mm:ss'
+	}),
+	format.json(),
+	format.printf(info => `[${info.level}]  - ${info.timestamp}   [${info.context}] ${info.message}`)
+);
+
+let formatConsole = format.combine(
+	format.timestamp({
+		format: 'YYYY-MM-DD HH:mm:ss'
+	}),
+	format.splat(),
+	format.colorize(),
+	format.json(),
+	//  [Nest] 4544   - 2020-02-24 13:06:58   [InstanceLoader] MongooseModule dependencies initialized +39ms
+	format.printf(({level, timestamp, context, message}) => `[${level}]  - ${timestamp}   [${context}] ${message}`)
+);
 
 const options = {
 	fileInfo: {
 		level: 'info',
 		filename: process.cwd() + '/logs/all.log',
 		handleExceptions: true,
-		json: true,
 		maxsize: 5242880, // 5MB
 		maxFiles: 5,
-		colorize: false
-	},
-	fileError: {
-		level: 'error',
-		filename: process.cwd() + '/logs/error.log',
-		handleExceptions: true,
-		json: true,
-		maxsize: 5242880, // 5MB
-		maxFiles: 5,
-		colorize: false
+		format: formatFile,
 	},
 	fileDebug: {
 		level: 'debug',
 		filename: process.cwd() + '/logs/debug.log',
 		handleExceptions: true,
-		json: true,
 		maxsize: 5242880, // 5MB
 		maxFiles: 5,
-		colorize: false
+		format: formatFile,
 	},
-	exceptions: {
-		filename: process.cwd() + '/logs/exceptions.log',
+	fileError: {
+		level: 'error',
+		filename: process.cwd() + '/logs/error.log',
 		handleExceptions: true,
-		json: true,
 		maxsize: 5242880, // 5MB
 		maxFiles: 5,
-		colorize: false
+		format: formatFile,
 	},
 	console: {
 		level: 'debug',
 		handleExceptions: true,
-		json: false,
-		colorize: true
+		format: formatConsole,
 	}
 };
 
-const config = {
+const configWinston = {
 	level: 'debug',
 	transports: [
 		new transports.File(options.fileInfo),
 		new transports.File(options.fileError),
 		new transports.File(options.fileDebug),
-		new transports.Console(),
+		new transports.Console(options.console),
 	],
-	exceptionHandlers: [
-		new transports.File(options.exceptions)
-	],
-	format: format.combine(
-		format.label({label: '[my-label]'}),
-		format.timestamp({
-			format: 'YYYY-MM-DD HH:mm:ss'
-		}),
-		format.colorize(),
-		format.json(),
-		//
-		// Alternatively you could use this custom printf format if you
-		// want to control where the timestamp comes in your final message.
-		// Try replacing `format.simple()` above with this:
-		//
-		format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
-	)
 };
 
 /**
@@ -79,7 +69,7 @@ class WrapperLogger {
 
 	constructor(send?: string) {
 		// this.send = send;
-		this.logger = createLogger(config);
+		this.logger = createLogger(configWinston);
 	}
 
 	info(message: string) {
@@ -97,9 +87,8 @@ class WrapperLogger {
 }
 
 const log: WrapperLogger = new WrapperLogger();
-const logExtended = createLogger(config);
 
 export {
-	log,
-	logExtended
+	configWinston,
+	log
 };

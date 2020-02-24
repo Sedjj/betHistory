@@ -1,5 +1,3 @@
-https://www.npmjs.com/package/winston-telegram
-
 https://www.npmjs.com/package/@yeldirium/telegraf-authentication-middleware
 
 https://www.npmjs.com/package/telegraf

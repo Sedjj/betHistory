@@ -63,6 +63,12 @@ export class DataAnalysisService {
 			});
 	}
 
+	/**
+	 * Метод для поверки уникальности и сохранения отобранного матча.
+	 *
+	 * @param {IFootball} param объект события
+	 * @param {Number} strategy идентификатор выбранной стратегии
+	 */
 	private saveRate(param: IFootball, strategy: number): Promise<IFootball | null> {
 		return this.footballService.create({...param, strategy})
 			.catch((error: any) => {
@@ -70,16 +76,4 @@ export class DataAnalysisService {
 				throw new Error(error);
 			});
 	}
-
-	/*private setRate(param: IFootball): Promise<IFootball> {
-		return this.footballService.setDataByParam({
-				...param,
-				rates: param.rates,
-				modifiedBy: new Date().toISOString()
-			})
-			.catch((error: any) => {
-				this.logger.error(`Save rate: ${error}`);
-				throw new Error(error);
-			});
-	}*/
 }

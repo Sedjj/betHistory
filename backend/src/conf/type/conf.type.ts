@@ -1,4 +1,12 @@
-export interface IConf {
+import {Document} from 'mongoose';
+
+/**
+ * Интерфейс для модели mongo
+ */
+export type IConfModel = IConf & Document;
+
+export type IConf = {
+	confId?: number;
 	/**
 	 * Размер ставки
 	 */
@@ -14,21 +22,23 @@ export interface IConf {
 	/**
 	 * Math.abs(p1 - p2) < rate
 	 */
-	rate: number[];
-}
+	rate: IRateStrategy[];
+	createdBy: string;
+	modifiedBy: string;
+};
 
 /**
  * Временные интервалы для парсинга
  */
-export interface ITime {
+export type ITime = {
 	before: number;
 	after: number;
-}
+};
 
 /**
  * Math.abs(p1 - p2) < rate
  */
-export interface IRateStrategy {
+export type IRateStrategy = {
 	title: string;
 	rate: number;
-}
+};

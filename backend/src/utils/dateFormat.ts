@@ -50,6 +50,17 @@ export function getFormattedTime(date: Date) {
 }
 
 /**
+ * Преобразование даты из ISO в формат для вывода
+ *
+ * @param {String} ISODateString - дата в формате ISO
+ * @return {String} пример 2018.12.19
+ */
+export function dateStringToShortDateString(ISODateString: string): string {
+	const tempDate: Date = new Date(ISODateString);
+	return tempDate.toLocaleDateString('ru-RU'/*, {timeZone: 'UTC'}*/);
+}
+
+/**
  * Пребразование даты в число для сравнения
  *
  * @param {Date} date - дата

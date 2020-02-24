@@ -1,11 +1,11 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import got, {Got} from 'got';
 import {CookieJar} from 'tough-cookie';
-import {log} from '../utils/logger';
 import {EventDetails} from '../parser/type/eventDetails.type';
 
 @Injectable()
 export class FetchService {
+	private readonly logger = new Logger(FetchService.name);
 	/**
 	 * Массив интервалов в миллисекундах после которых делается попытка снова
 	 */
@@ -56,12 +56,12 @@ export class FetchService {
 						resolve(body);
 						break;
 					}
-					log.error(`Search events request came empty: ${body}`);
+					this.logger.error(`Search events request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					log.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
-					log.debug(`Get all matches sleep on ${timeout}ms`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.debug(`Get all matches sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}
@@ -90,12 +90,12 @@ export class FetchService {
 						resolve(body);
 						break;
 					}
-					log.error(`Get event details request came empty: ${body}`);
+					this.logger.error(`Get event details request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					log.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
-					log.debug(`Get event details sleep on ${timeout}ms`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.debug(`Get event details sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}
@@ -141,12 +141,12 @@ export class FetchService {
 						resolve(body);
 						break;
 					}
-					log.error(`Search markets by event request came empty: ${body}`);
+					this.logger.error(`Search markets by event request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					log.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
-					log.debug(`Search markets by event sleep on ${timeout}ms`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.debug(`Search markets by event sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}
@@ -175,12 +175,12 @@ export class FetchService {
 						resolve(body);
 						break;
 					}
-					log.error(`Get rate markets request came empty: ${body}`);
+					this.logger.error(`Get rate markets request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					log.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
-					log.debug(`Get rate markets sleep on ${timeout}ms`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.debug(`Get rate markets sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}
@@ -199,7 +199,7 @@ export class FetchService {
 			for (const timeout of this.searchTimeouts) {
 				try {
 					let value = [];
-					log.debug(`url: ${url}`);
+					this.logger.debug(`url: ${url}`);
 					const {body} = await this.client.get(url);
 					try {
 						value = JSON.parse(body)['Data'];
@@ -208,16 +208,16 @@ export class FetchService {
 							break;
 						}
 					} catch (error) {
-						log.error(`Get result matches JSON.parse: ${error}`);
+						this.logger.error(`Get result matches JSON.parse: ${error}`);
 						reject('JSON parse error');
 						break;
 					}
-					log.error(`Get result matches error: ${body}`);
+					this.logger.error(`Get result matches error: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					log.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
-					log.debug(`Get result matches sleep on ${timeout}ms`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.debug(`Get result matches sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}

@@ -1,12 +1,13 @@
 import {Model} from 'mongoose';
-import {Injectable} from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {IFootball, IFootballModel, IFootballQuery} from './type/football.type';
-import {log} from '../utils/logger';
-import {mapProps} from '../utils/statisticHelpers';
+import {dateStringToShortDateString} from '../utils/dateFormat';
 
 @Injectable()
 export class FootballService {
+	private readonly logger = new Logger(FootballService.name);
+
 	constructor(
 		@InjectModel('Football') private readonly footballModel: Model<IFootballModel>
 	) {
@@ -19,7 +20,7 @@ export class FootballService {
 	 * @returns {Promise<IFootball | null>}
 	 */
 	async create(param: IFootball): Promise<IFootball | null> {
-		let findMatch  = await this.footballModel.find({
+		let findMatch = await this.footballModel.find({
 			eventId: param.eventId,
 			strategy: param.strategy
 		}).exec();
@@ -27,7 +28,7 @@ export class FootballService {
 			return Promise.resolve(null);
 		}
 		let createdFootball = new this.footballModel(param);
-		return await createdFootball.save();
+		return await createdFootball.save().then((model) => this.mapProps(model));
 	}
 
 	/**
@@ -40,21 +41,21 @@ export class FootballService {
 		return await this.footballModel.find(param != null ? param : {})
 			.read('secondary')
 			.exec()
-			.then((statistics: any) => {
+			.then((statistics: IFootballModel[]) => {
 				if (!statistics) {
-					log.error('StatisticNotFound Statistic with  not found');
+					this.logger.error('Statistic with not found');
 					return [];
 				}
 				return statistics
-					.map((statistic: any, index: number) => {
-						let props = mapProps(statistic, index + 1);
+					.map((statistic: IFootballModel) => {
+						let props = this.mapProps(statistic);
 						props['displayScore'] = props.score.sc1 + ':' + props.score.sc2;
 						props['typeMatch'] = (props.command.women + props.command.youth) > 0 ? 1 : 0;
 						return props;
 					});
 			})
 			.catch((error: any) => {
-				log.error(`Error getDataByParam param=${JSON.stringify(JSON.stringify(param))}: ${error.message}`);
+				this.logger.error(`Error getDataByParam param=${JSON.stringify(JSON.stringify(param))}: ${error.message}`);
 				throw new Error(error);
 			});
 	}
@@ -69,8 +70,15 @@ export class FootballService {
 		return await this.footballModel
 			.findOneAndRemove({matchId: param.matchId, strategy: param.strategy})
 			.exec()
+			.then((model) => {
+				if (!model) {
+					this.logger.error('Football with not found');
+					return null;
+				}
+				return this.mapProps(model);
+			})
 			.catch((error: any) => {
-				log.error(`deleteStatistic param=${JSON.stringify(param)}: ${error.message}`);
+				this.logger.error(`deleteStatistic param=${JSON.stringify(param)}: ${error.message}`);
 			});
 	}
 
@@ -98,8 +106,92 @@ export class FootballService {
 				return statistic.save();
 			})
 			.catch((error: any) => {
-				log.error(`Error setDataByParam param=${JSON.stringify(param)}: ${error.message}`);
+				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}: ${error.message}`);
 				throw new Error(error);
 			});
+	}
+
+	/**
+	 * Преобразовывает статистику в необходимый формат
+	 *
+	 * @param {IFootballModel} statistic статистика
+	 * @return {Object}
+	 */
+	mapProps(statistic: IFootballModel): IFootball {
+		return {
+			marketIds: statistic.marketIds,
+			eventId: statistic.eventId,
+			strategy: statistic.strategy,
+			time: statistic.time,
+			score: {
+				sc1: statistic.score.sc1,
+				sc2: statistic.score.sc2,
+				resulting: statistic.score.resulting,
+			},
+			command: {
+				one: statistic.command.one,
+				two: statistic.command.two,
+				group: statistic.command.group,
+				women: statistic.command.women,
+				youth: statistic.command.youth,
+				limited: statistic.command.limited
+			},
+			cards: {
+				one: {
+					red: statistic.cards.one.red,
+					yellow: statistic.cards.one.yellow,
+					attacks: statistic.cards.one.attacks,
+					danAttacks: statistic.cards.one.danAttacks,
+					shotsOn: statistic.cards.one.shotsOn,
+					shotsOff: statistic.cards.one.shotsOff
+				},
+				two: {
+					red: statistic.cards.one.red,
+					yellow: statistic.cards.one.yellow,
+					attacks: statistic.cards.one.attacks,
+					danAttacks: statistic.cards.one.danAttacks,
+					shotsOn: statistic.cards.one.shotsOn,
+					shotsOff: statistic.cards.one.shotsOff
+				}
+			},
+			rates: {
+				matchOdds: {
+					behind: {
+						p1: statistic.rates.matchOdds.behind.p1,
+						x: statistic.rates.matchOdds.behind.x,
+						p2: statistic.rates.matchOdds.behind.p2,
+						mod: statistic.rates.matchOdds.behind.mod,
+					},
+					against: {
+						p1: statistic.rates.matchOdds.against.p1,
+						x: statistic.rates.matchOdds.against.x,
+						p2: statistic.rates.matchOdds.against.p2,
+						mod: statistic.rates.matchOdds.against.mod,
+					}
+				},
+				under15: {
+					behind: statistic.rates.under15.behind,
+					against: statistic.rates.under15.against,
+				},
+				under25: {
+					behind: statistic.rates.under15.behind,
+					against: statistic.rates.under15.against,
+				},
+				bothTeamsToScoreYes: {
+					behind: statistic.rates.under15.behind,
+					against: statistic.rates.under15.against,
+				},
+				bothTeamsToScoreNo: {
+					behind: statistic.rates.under15.behind,
+					against: statistic.rates.under15.against,
+				},
+				allTotalGoals: {
+					behind: statistic.rates.under15.behind,
+					against: statistic.rates.under15.against,
+				},
+			},
+			createdBy: dateStringToShortDateString(statistic.createdBy),
+			modifiedBy: dateStringToShortDateString(statistic.modifiedBy)
+		};
 	}
 }

@@ -1,12 +1,16 @@
 import {NestFactory} from '@nestjs/core';
 import config from 'config';
 import {AppModule} from './app.module';
+import {WinstonModule} from 'nest-winston';
+import {configWinston} from './utils/logger';
 
 const port: number = config.get<number>('port');
 
 async function bootstrap() {
 	/*const isDev = process.env.NODE_ENV === 'development';*/
-	const app = await NestFactory.create(AppModule);
+	const app = await NestFactory.create(AppModule, {
+		logger: WinstonModule.createLogger(configWinston)
+	});
 	/*const menu = app.get(TelegramBot);
 	if (!isDev) {
 		app.use(menu.getMiddleware('hook-path'));

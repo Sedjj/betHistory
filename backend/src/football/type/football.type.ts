@@ -3,11 +3,9 @@ import {Document} from 'mongoose';
 /**
  * Интерфейс для модели mongo
  */
-export interface IFootballModel extends IFootball, Document {
+export type IFootballModel = IFootball & Document;
 
-}
-
-export interface IFootball {
+export type IFootball = {
 	/**
 	 * Идентификатор матчка с сайта
 	 */
@@ -30,21 +28,21 @@ export interface IFootball {
 	cards: ICardsCommands;
 	createdBy: string;
 	modifiedBy: string;
-}
+};
 
 /**
  * Интерфес счета матча и результата
  */
-export interface IScore {
+export type IScore = {
 	sc1: number;
 	sc2: number;
 	resulting: string;
-}
+};
 
 /**
  * Интерфес общей информации о команндах
  */
-export interface ICommand {
+export type ICommand = {
 	/**
 	 * Название первой команды
 	 */
@@ -69,12 +67,12 @@ export interface ICommand {
 	 * Нестандартная команда (ограниченная)
 	 */
 	limited: number;
-}
+};
 
 /**
  *  Интерфейс коэффициентов для ставки
  */
-export interface ITimeSnapshot {
+export type ITimeSnapshot = {
 	matchOdds: IMainRates;
 	/**
 	 * Состояние "Менее 1,5" коэффициентов во время отбора
@@ -96,12 +94,12 @@ export interface ITimeSnapshot {
 	 * Состояние "Колличество голо за матч" коэффициентов во время отбора
 	 */
 	allTotalGoals: IOtherRates;
-}
+};
 
 /**
  * Состояние основных коэффициентов во время отбора
  */
-export interface IMainRates {
+export type IMainRates = {
 	/**
 	 * За
 	 */
@@ -120,37 +118,37 @@ export interface IMainRates {
 		p2: number;
 		mod: number;
 	};
-}
+};
 
 /**
  * Состояние остальных коэффициентов во время отбора
  */
-export interface IOtherRates {
+export type IOtherRates = {
 	behind: number;
 	against: number;
-}
+};
 
 /**
  * Интерфейс общей информаци о картах
  */
-export interface ICardsCommands {
+export type ICardsCommands = {
 	one: ICards;
 	two: ICards;
-}
+};
 
 /**
  * Интерфейс карты команды
  */
-export interface ICards {
+export type ICards = {
 	red: number;
 	yellow: number;
 	attacks: number;
 	danAttacks: number;
 	shotsOn: number;
 	shotsOff: number;
-}
+};
 
-export interface IFootballQuery {
+export type IFootballQuery = {
 	matchId: string;
 	strategy: string;
-}
+};
