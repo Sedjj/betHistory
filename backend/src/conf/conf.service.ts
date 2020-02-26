@@ -19,7 +19,7 @@ export class ConfService {
 	 * @param {IConf} param для таблицы
 	 * @returns {Promise<IConf | null>}
 	 */
-	async create(param: IConf) {
+	async create(param: IConf): Promise<null | IConf> {
 		let findMatch = await this.confModel.find({
 			confId: param.confId
 		}).exec();
@@ -30,32 +30,50 @@ export class ConfService {
 		return await createdFootball.save()
 			.then((model: IConfModel) => {
 				this.logger.debug('Configuration model created');
-				return model;
-			});
-	}
-
-	async getDataByParam(confId: number): Promise<IConf> {
-		return await this.confModel.find({confId})
-			.read('secondary')
-			.exec()
-			.then((model: any) => {
-				if (!model) {
-					this.logger.error('Conf with not found');
-					return [];
-				}
-				return model.map((x: any) => this.mapProps(x));
+				return this.mapProps(model);
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error getDataByParam confId=${confId}: ${error.message}`);
+				this.logger.error(`Error create conf param=${JSON.stringify(param)}`);
 				throw new Error(error);
 			});
 	}
 
-	async setDataByParam(param: IConf): Promise<IConf> {
+	/**
+	 * Метод для получения настроект конфигурации.
+	 *
+	 * @param {Number} confId id объекта конфига
+	 */
+	async getDataByParam(confId: number): Promise<IConf> {
+		return await this.confModel.findOne({confId})
+			.read('secondary')
+			.exec()
+			.then((model: IConfModel | null) => {
+				if (!model) {
+					this.logger.error('Conf with not found');
+					throw new Error(`Conf with not found: ${confId}`);
+				}
+				return this.mapProps(model);
+			})
+			.catch((error: any) => {
+				this.logger.error(`Error getDataByParam confId=${confId}`);
+				throw new Error(error);
+			});
+	}
+
+	/**
+	 * Метод для изменения конфигурации.
+	 *
+	 * @param {IConf} param параметры которые нужно поменять
+	 */
+	async setDataByParam(param: IConf): Promise<IConf | null> {
 		return await this.confModel.findOne({confId: param.confId})
 			.read('secondary')
 			.exec()
-			.then((model: IConfModel) => {
+			.then((model: IConfModel | null) => {
+				if (!model) {
+					this.logger.error('Conf with not found');
+					throw new Error(`Conf with not found: ${param.confId}`);
+				}
 				if (param.betAmount !== undefined) {
 					model.betAmount = param.betAmount;
 				}
@@ -74,63 +92,30 @@ export class ConfService {
 				return model.save().then((x) => this.mapProps(x));
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}: ${error.message}`);
+				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}`);
 				throw new Error(error);
 			});
 	}
 
-	getTypeRate(strategy: number): number {
-		return [
-			1.5,
-			1.5,
-			2
-		][strategy - 1];
+	getTypeRate(strategy: number): Promise<number> {
+		return this.getDataByParam(1)
+			.then((model: IConf) => {
+				return model.typeRate[strategy - 1];
+			});
 	}
 
-	getRateStrategy(strategy: number): IRateStrategy {
-		return [
-			{
-				title: 'Math.abs(p1 - p2) < rate',
-				rate: 2
-			},
-			{
-				title: 'Math.abs(p1 - p2) < rate',
-				rate: 2
-			},
-			{
-				title: 'Math.abs(p1 - p2) < rate',
-				rate: 2
-			},
-			{
-				title: 'Math.abs(p1 - p2) < rate',
-				rate: 2
-			},
-		][strategy - 1];
+	getRateStrategy(strategy: number): Promise<IRateStrategy> {
+		return this.getDataByParam(1)
+			.then((model: IConf) => {
+				return model.rate[strategy - 1];
+			});
 	}
 
-	getTime(strategy: number): ITime {
-		return [
-			{
-				before: 0,
-				after: 0
-			},
-			{
-				before: 5,
-				after: 10
-			},
-			{
-				before: 30,
-				after: 35
-			},
-			{
-				before: 45,
-				after: 45
-			},
-			{
-				before: 20,
-				after: 45
-			},
-		][strategy - 1];
+	getTime(): Promise<ITime[]> {
+		return this.getDataByParam(1)
+			.then((model: IConf) => {
+				return model.time;
+			});
 	}
 
 	/**
@@ -146,8 +131,8 @@ export class ConfService {
 			time: model.time,
 			typeRate: model.typeRate,
 			rate: model.rate,
-			createdBy: dateStringToShortDateString(model.createdBy),
-			modifiedBy: dateStringToShortDateString(model.modifiedBy)
+			createdBy: model.createdBy ? dateStringToShortDateString(model.createdBy) : undefined,
+			modifiedBy: model.modifiedBy ? dateStringToShortDateString(model.modifiedBy) : undefined
 		};
 	}
 }

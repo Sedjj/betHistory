@@ -1,9 +1,7 @@
 import {Module} from '@nestjs/common';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
-import {ConfService} from './conf/conf.service';
 import {ConfigModule} from '@nestjs/config';
-import {ConfController} from './conf/conf.controller';
 import {TaskModule} from './task/task.module';
 /*import {TelegramBotModule} from './telegram/telegramBot.module';*/
 import {MongooseModule} from '@nestjs/mongoose';
@@ -24,12 +22,10 @@ const dbUri = process.env.NODE_ENV === 'development'
 		TaskModule,
 	],
 	controllers: [
-		AppController,
-		ConfController
+		AppController
 	],
 	providers: [
-		AppService,
-		ConfService
+		AppService
 	],
 })
 export class AppModule {

@@ -6,7 +6,7 @@ import {Document} from 'mongoose';
 export type IConfModel = IConf & Document;
 
 export type IConf = {
-	confId?: number;
+	confId: number;
 	/**
 	 * Размер ставки
 	 */
@@ -23,8 +23,8 @@ export type IConf = {
 	 * Math.abs(p1 - p2) < rate
 	 */
 	rate: IRateStrategy[];
-	createdBy: string;
-	modifiedBy: string;
+	createdBy?: string;
+	modifiedBy?: string;
 };
 
 /**

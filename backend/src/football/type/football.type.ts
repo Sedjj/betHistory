@@ -149,6 +149,6 @@ export type ICards = {
 };
 
 export type IFootballQuery = {
-	matchId: string;
+	marketIds: string;
 	strategy: string;
 };

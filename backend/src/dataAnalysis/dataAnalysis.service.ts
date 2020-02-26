@@ -3,6 +3,7 @@ import {IFootball} from '../football/type/football.type';
 import {ConfService} from '../conf/conf.service';
 import {FootballService} from '../football/football.service';
 import {BetsSimulatorService} from '../betsSimulator/betsSimulator.service';
+import {ITime} from '../conf/type/conf.type';
 
 @Injectable()
 export class DataAnalysisService {
@@ -21,24 +22,24 @@ export class DataAnalysisService {
 	 * @param {IFootball} param объект события
 	 */
 	public async strategyDefinition(param: IFootball): Promise<void> {
-		let {getTime} = this.confService;
 		let {
 			score: {sc1, sc2},
 			time
 		} = param;
+		let timeSetting: ITime[] = await this.confService.getTime();
 		if ((sc1 + sc2) === 0) {
-			if ((time >= getTime(1).before) && (time <= getTime(1).after)) {
+			if ((time >= timeSetting[1].before) && (time <= timeSetting[1].after)) {
 				this.footballLiveStrategy(param, 1);
 			}
-			if ((time >= getTime(2).before) && (time <= getTime(2).after)) {
+			if ((time >= timeSetting[2].before) && (time <= timeSetting[2].after)) {
 				this.footballLiveStrategy(param, 2);
 			}
-			if (time === getTime(3).before) {
+			if (time === timeSetting[3].before) {
 				this.footballLiveStrategy(param, 3);
 			}
 		}
 		if ((sc1 + sc2) === 1) {
-			if ((time >= getTime(4).before) && (time <= getTime(4).after)) {
+			if ((time >= timeSetting[4].before) && (time <= timeSetting[4].after)) {
 				this.footballLiveStrategy(param, 4);
 			}
 		}

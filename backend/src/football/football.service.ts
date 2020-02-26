@@ -21,14 +21,19 @@ export class FootballService {
 	 */
 	async create(param: IFootball): Promise<IFootball | null> {
 		let findMatch = await this.footballModel.find({
-			eventId: param.eventId,
+			marketIds: param.marketIds,
 			strategy: param.strategy
 		}).exec();
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
 		let createdFootball = new this.footballModel(param);
-		return await createdFootball.save().then((model) => this.mapProps(model));
+		return await createdFootball.save()
+			.then((model) => this.mapProps(model))
+			.catch((error: any) => {
+				this.logger.error(`Error create football param=${JSON.stringify(param)}`);
+				throw new Error(error);
+			});
 	}
 
 	/**
@@ -66,19 +71,20 @@ export class FootballService {
 	 * @param {IFootballQuery} param для таблицы
 	 * @returns {Promise<void | IFootball | null>}
 	 */
-	async deleteDataByParam(param: IFootballQuery): Promise<void | IFootball | null> {
+	async deleteDataByParam(param: IFootballQuery): Promise<IFootball> {
 		return await this.footballModel
-			.findOneAndRemove({matchId: param.matchId, strategy: param.strategy})
+			.findOneAndRemove({marketIds: param.marketIds, strategy: param.strategy})
 			.exec()
-			.then((model) => {
+			.then((model: IFootballModel | null) => {
 				if (!model) {
 					this.logger.error('Football with not found');
-					return null;
+					throw new Error(`Football with not found: ${param.marketIds}`);
 				}
 				return this.mapProps(model);
 			})
 			.catch((error: any) => {
 				this.logger.error(`deleteStatistic param=${JSON.stringify(param)}: ${error.message}`);
+				throw new Error(error);
 			});
 	}
 
@@ -90,15 +96,19 @@ export class FootballService {
 	 */
 	async setDataByParam(param: IFootball): Promise<IFootball> {
 		return await this.footballModel
-			.findOne({matchId: param.eventId, strategy: param.strategy})
+			.findOne({marketIds: param.marketIds, strategy: param.strategy})
 			.read('secondary')
 			.exec()
-			.then((statistic: any) => {
+			.then((statistic: IFootballModel | null) => {
+				if (!statistic) {
+					this.logger.error('Football with not found');
+					throw new Error(`Football with not found: ${param.eventId}`);
+				}
 				if (param.score && (param.score.resulting !== undefined)) {
 					statistic.score.resulting = param.score.resulting;
 				}
 				if (param.rates !== undefined) {
-					statistic.rate = param.rates;
+					statistic.rates = param.rates;
 				}
 				if (param.modifiedBy !== undefined) {
 					statistic.modifiedBy = param.modifiedBy;

@@ -10,8 +10,8 @@ export class BetsSimulatorService {
 	) {
 	}
 
-	public matchRate(param: IFootball) {
-		let typeRate: number = this.confService.getTypeRate(param.strategy);
+	public async matchRate(param: IFootball) {
+		let typeRate: number = await this.confService.getTypeRate(param.strategy);
 		const totalRate = param.score.sc1 + param.score.sc2 + typeRate;
 		const {
 			marketIds,
