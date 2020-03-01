@@ -14,6 +14,92 @@ export class FootballService {
 	}
 
 	/**
+	 * Преобразовывает статистику в необходимый формат
+	 *
+	 * @param {IFootballModel} statistic статистика
+	 * @return {Object}
+	 */
+	private static mapProps(statistic: IFootballModel): IFootball {
+		return {
+			marketIds: statistic.marketIds,
+			eventId: statistic.eventId,
+			strategy: statistic.strategy,
+			time: statistic.time,
+			score: {
+				sc1: statistic.score.sc1,
+				sc2: statistic.score.sc2,
+				resulting: statistic.score.resulting,
+			},
+			command: {
+				one: statistic.command.one,
+				two: statistic.command.two,
+				group: statistic.command.group,
+				women: statistic.command.women,
+				youth: statistic.command.youth,
+				limited: statistic.command.limited
+			},
+			cards: {
+				one: {
+					red: statistic.cards.one.red,
+					yellow: statistic.cards.one.yellow,
+					corners: statistic.cards.one.corners,
+					attacks: statistic.cards.one.attacks,
+					danAttacks: statistic.cards.one.danAttacks,
+					shotsOn: statistic.cards.one.shotsOn,
+					shotsOff: statistic.cards.one.shotsOff
+				},
+				two: {
+					red: statistic.cards.two.red,
+					yellow: statistic.cards.two.yellow,
+					corners: statistic.cards.two.corners,
+					attacks: statistic.cards.two.attacks,
+					danAttacks: statistic.cards.two.danAttacks,
+					shotsOn: statistic.cards.two.shotsOn,
+					shotsOff: statistic.cards.two.shotsOff
+				}
+			},
+			rates: {
+				matchOdds: {
+					behind: {
+						p1: statistic.rates.matchOdds.behind.p1,
+						x: statistic.rates.matchOdds.behind.x,
+						p2: statistic.rates.matchOdds.behind.p2,
+						mod: statistic.rates.matchOdds.behind.mod,
+					},
+					against: {
+						p1: statistic.rates.matchOdds.against.p1,
+						x: statistic.rates.matchOdds.against.x,
+						p2: statistic.rates.matchOdds.against.p2,
+						mod: statistic.rates.matchOdds.against.mod,
+					}
+				},
+				under15: {
+					behind: statistic.rates.under15.behind,
+					against: statistic.rates.under15.against,
+				},
+				under25: {
+					behind: statistic.rates.under25.behind,
+					against: statistic.rates.under25.against,
+				},
+				bothTeamsToScoreYes: {
+					behind: statistic.rates.bothTeamsToScoreYes.behind,
+					against: statistic.rates.bothTeamsToScoreYes.against,
+				},
+				bothTeamsToScoreNo: {
+					behind: statistic.rates.bothTeamsToScoreNo.behind,
+					against: statistic.rates.bothTeamsToScoreNo.against,
+				},
+				allTotalGoals: {
+					behind: statistic.rates.allTotalGoals.behind,
+					against: statistic.rates.allTotalGoals.against,
+				},
+			},
+			createdBy: dateStringToShortDateString(statistic.createdBy),
+			modifiedBy: dateStringToShortDateString(statistic.modifiedBy)
+		};
+	}
+
+	/**
 	 * Создание новой записи в таблице.
 	 *
 	 * @param {IFootball} param для таблицы
@@ -29,7 +115,7 @@ export class FootballService {
 		}
 		let createdFootball = new this.footballModel(param);
 		return await createdFootball.save()
-			.then((model) => this.mapProps(model))
+			.then((model) => FootballService.mapProps(model))
 			.catch((error: any) => {
 				this.logger.error(`Error create football param=${JSON.stringify(param)}`);
 				throw new Error(error);
@@ -42,7 +128,7 @@ export class FootballService {
 	 * @param {IFootballQuery} param для таблицы.
 	 * @returns {Promise<IFootball[]>}
 	 */
-	async getDataByParam(param?: IFootballQuery): Promise<IFootball[]> {
+	async getDataByParam(param?: any): Promise<IFootball[]> {
 		return await this.footballModel.find(param != null ? param : {})
 			.read('secondary')
 			.exec()
@@ -51,13 +137,7 @@ export class FootballService {
 					this.logger.error('Statistic with not found');
 					return [];
 				}
-				return statistics
-					.map((statistic: IFootballModel) => {
-						let props = this.mapProps(statistic);
-						props['displayScore'] = props.score.sc1 + ':' + props.score.sc2;
-						props['typeMatch'] = (props.command.women + props.command.youth) > 0 ? 1 : 0;
-						return props;
-					});
+				return statistics.map((statistic: IFootballModel) => FootballService.mapProps(statistic));
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error getDataByParam param=${JSON.stringify(JSON.stringify(param))}: ${error.message}`);
@@ -80,7 +160,7 @@ export class FootballService {
 					this.logger.error('Football with not found');
 					throw new Error(`Football with not found: ${param.marketIds}`);
 				}
-				return this.mapProps(model);
+				return FootballService.mapProps(model);
 			})
 			.catch((error: any) => {
 				this.logger.error(`deleteStatistic param=${JSON.stringify(param)}: ${error.message}`);
@@ -119,89 +199,5 @@ export class FootballService {
 				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}: ${error.message}`);
 				throw new Error(error);
 			});
-	}
-
-	/**
-	 * Преобразовывает статистику в необходимый формат
-	 *
-	 * @param {IFootballModel} statistic статистика
-	 * @return {Object}
-	 */
-	mapProps(statistic: IFootballModel): IFootball {
-		return {
-			marketIds: statistic.marketIds,
-			eventId: statistic.eventId,
-			strategy: statistic.strategy,
-			time: statistic.time,
-			score: {
-				sc1: statistic.score.sc1,
-				sc2: statistic.score.sc2,
-				resulting: statistic.score.resulting,
-			},
-			command: {
-				one: statistic.command.one,
-				two: statistic.command.two,
-				group: statistic.command.group,
-				women: statistic.command.women,
-				youth: statistic.command.youth,
-				limited: statistic.command.limited
-			},
-			cards: {
-				one: {
-					red: statistic.cards.one.red,
-					yellow: statistic.cards.one.yellow,
-					attacks: statistic.cards.one.attacks,
-					danAttacks: statistic.cards.one.danAttacks,
-					shotsOn: statistic.cards.one.shotsOn,
-					shotsOff: statistic.cards.one.shotsOff
-				},
-				two: {
-					red: statistic.cards.one.red,
-					yellow: statistic.cards.one.yellow,
-					attacks: statistic.cards.one.attacks,
-					danAttacks: statistic.cards.one.danAttacks,
-					shotsOn: statistic.cards.one.shotsOn,
-					shotsOff: statistic.cards.one.shotsOff
-				}
-			},
-			rates: {
-				matchOdds: {
-					behind: {
-						p1: statistic.rates.matchOdds.behind.p1,
-						x: statistic.rates.matchOdds.behind.x,
-						p2: statistic.rates.matchOdds.behind.p2,
-						mod: statistic.rates.matchOdds.behind.mod,
-					},
-					against: {
-						p1: statistic.rates.matchOdds.against.p1,
-						x: statistic.rates.matchOdds.against.x,
-						p2: statistic.rates.matchOdds.against.p2,
-						mod: statistic.rates.matchOdds.against.mod,
-					}
-				},
-				under15: {
-					behind: statistic.rates.under15.behind,
-					against: statistic.rates.under15.against,
-				},
-				under25: {
-					behind: statistic.rates.under15.behind,
-					against: statistic.rates.under15.against,
-				},
-				bothTeamsToScoreYes: {
-					behind: statistic.rates.under15.behind,
-					against: statistic.rates.under15.against,
-				},
-				bothTeamsToScoreNo: {
-					behind: statistic.rates.under15.behind,
-					against: statistic.rates.under15.against,
-				},
-				allTotalGoals: {
-					behind: statistic.rates.under15.behind,
-					against: statistic.rates.under15.against,
-				},
-			},
-			createdBy: dateStringToShortDateString(statistic.createdBy),
-			modifiedBy: dateStringToShortDateString(statistic.modifiedBy)
-		};
 	}
 }

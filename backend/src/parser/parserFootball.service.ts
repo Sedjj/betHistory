@@ -252,6 +252,7 @@ export class ParserFootballService {
 		let res: ICards = {
 			red: 0,
 			yellow: 0,
+			corners: 0,
 			attacks: 0,
 			danAttacks: 0,
 			shotsOn: 0,
@@ -262,6 +263,9 @@ export class ParserFootballService {
 		}
 		if (teamInfo != null && teamInfo.numberOfYellowCards) {
 			res.yellow = teamInfo.numberOfYellowCards;
+		}
+		if (teamInfo != null && teamInfo.numberOfCorners) {
+			res.corners = teamInfo.numberOfCorners;
 		}
 		return res;
 	}

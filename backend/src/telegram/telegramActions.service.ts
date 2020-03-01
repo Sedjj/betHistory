@@ -8,10 +8,10 @@ import {IKeyboardButton, IMenuBot} from './type/telegram.type';
 import {menuList} from './menu';
 import {throttle} from '../utils/throttle';
 import {readFileToStream} from '../utils/fsHelpers';
-import {exportFootballStatistic} from '../export';
 import {ReadStream} from 'fs';
 import {exportBackup} from '../backupBD';
 import {TelegramService} from './telegram.service';
+import {ExportService} from '../export/export.service';
 
 @Injectable()
 export class TelegramActions {
@@ -74,7 +74,8 @@ export class TelegramActions {
 
 	constructor(
 		private readonly telegrafService: TelegrafTelegramService,
-		private readonly telegramService: TelegramService
+		private readonly telegramService: TelegramService,
+		private readonly exportService: ExportService
 	) {
 		if (process.env.NODE_ENV === 'development') {
 			this.token = config.get<string>('bots.supportProd.token');
@@ -83,7 +84,7 @@ export class TelegramActions {
 			this.token = config.get<string>('bots.supportProd.token');
 			this.supportChatId = config.get<string>('bots.supportProd.chatId');
 		}
-		this.exportFootballStatisticDebounce = throttle(exportFootballStatistic, 20000);
+		this.exportFootballStatisticDebounce = throttle(this.exportService.exportFootballStatistic, 20000);
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.logsDirectory = config.get<string>('path.directory.logs') || 'logs';
 	}

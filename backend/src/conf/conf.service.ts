@@ -14,6 +14,24 @@ export class ConfService {
 	}
 
 	/**
+	 * Преобразовывает статистику в необходимый формат
+	 *
+	 * @param {IConfModel} model статистика
+	 * @return {IConf}
+	 */
+	private static mapProps(model: IConfModel): IConf {
+		return {
+			confId: model.confId,
+			betAmount: model.betAmount,
+			time: model.time,
+			typeRate: model.typeRate,
+			rate: model.rate,
+			createdBy: model.createdBy ? dateStringToShortDateString(model.createdBy) : undefined,
+			modifiedBy: model.modifiedBy ? dateStringToShortDateString(model.modifiedBy) : undefined
+		};
+	}
+
+	/**
 	 * Создание новой записи в таблице.
 	 *
 	 * @param {IConf} param для таблицы
@@ -30,7 +48,7 @@ export class ConfService {
 		return await createdFootball.save()
 			.then((model: IConfModel) => {
 				this.logger.debug('Configuration model created');
-				return this.mapProps(model);
+				return ConfService.mapProps(model);
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error create conf param=${JSON.stringify(param)}`);
@@ -52,7 +70,7 @@ export class ConfService {
 					this.logger.error('Conf with not found');
 					throw new Error(`Conf with not found: ${confId}`);
 				}
-				return this.mapProps(model);
+				return ConfService.mapProps(model);
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error getDataByParam confId=${confId}`);
@@ -89,7 +107,7 @@ export class ConfService {
 				if (param.modifiedBy !== undefined) {
 					model.modifiedBy = param.modifiedBy;
 				}
-				return model.save().then((x) => this.mapProps(x));
+				return model.save().then((x) => ConfService.mapProps(x));
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}`);
@@ -116,23 +134,5 @@ export class ConfService {
 			.then((model: IConf) => {
 				return model.time;
 			});
-	}
-
-	/**
-	 * Преобразовывает статистику в необходимый формат
-	 *
-	 * @param {IConfModel} model статистика
-	 * @return {IConf}
-	 */
-	mapProps(model: IConfModel): IConf {
-		return {
-			confId: model.confId,
-			betAmount: model.betAmount,
-			time: model.time,
-			typeRate: model.typeRate,
-			rate: model.rate,
-			createdBy: model.createdBy ? dateStringToShortDateString(model.createdBy) : undefined,
-			modifiedBy: model.modifiedBy ? dateStringToShortDateString(model.modifiedBy) : undefined
-		};
 	}
 }

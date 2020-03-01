@@ -69,6 +69,10 @@ let cards = new Schema({
 		type: Number,
 		default: 0
 	},
+	corners: {
+		type: Number,
+		default: 0
+	},
 	attacks: {
 		type: Number,
 		default: 0

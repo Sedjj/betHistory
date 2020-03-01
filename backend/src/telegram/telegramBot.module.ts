@@ -6,6 +6,7 @@ import {TelegrafConfigService} from './telegraf-config.service';
 import {ConfigModule} from '@nestjs/config';
 import telegramBotConfig from './telegramBot.config';
 import {TelegramService} from './telegram.service';
+import {ExportModule} from '../export/export.module';
 
 @Module({
 	imports: [
@@ -14,6 +15,7 @@ import {TelegramService} from './telegram.service';
 			imports: [ConfigModule.forFeature(telegramBotConfig)],
 			useClass: TelegrafConfigService,
 		}),
+		ExportModule,
 	],
 	providers: [
 		TelegrafModule,

@@ -142,6 +142,7 @@ export type ICardsCommands = {
 export type ICards = {
 	red: number;
 	yellow: number;
+	corners: number;
 	attacks: number;
 	danAttacks: number;
 	shotsOn: number;
