@@ -58,7 +58,6 @@ export function readFileToStream(filePath: string): Promise<ReadStream> {
 	});
 }
 
-
 /**
  * Считывает файл в sync
  *

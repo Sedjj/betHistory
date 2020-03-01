@@ -38,7 +38,8 @@ export class ConfController implements OnApplicationBootstrap {
 				typeRate: [
 					1.5,
 					1.5,
-					2
+					1.5,
+					1.5,
 				],
 				rate: [
 					{

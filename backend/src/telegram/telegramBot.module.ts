@@ -22,22 +22,37 @@ import {ExportModule} from '../export/export.module';
 		TelegramActions,
 		TelegramService
 	],
+	exports: [
+		TelegramService,
+	]
 })
 export class TelegramBotModule implements OnModuleInit {
 	constructor(
 		private readonly moduleRef: ModuleRef,
-		private readonly telegrafService: TelegrafService,
+		private readonly telegraphService: TelegrafService,
 	) {
 	}
 
 	onModuleInit() {
 		const isDev = process.env.NODE_ENV === 'development';
 
-		this.telegrafService.init(this.moduleRef);
+		this.telegraphService.init(this.moduleRef);
 
 		if (isDev) {
 			// in dev mode, we can't use webhook
-			this.telegrafService.startPolling();
+			this.telegraphService.startPolling();
 		}
 	}
+
+	/**
+	 * Проверка прав на доступ к меню.
+	 *
+	 * @param {Object} msg объект что пришел из telegram
+	 */
+	/*private async accessCheck(msg) {                // ctx.update.message.chat.id
+		const chat = msg.hasOwnProperty('chat') ? msg.chat.id : msg.from.id;
+		if (!this.administrators.some((user) => user === chat)) {
+			this.stop();
+		}
+	}*/
 }

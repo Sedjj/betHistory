@@ -10,9 +10,9 @@ export default registerAs(
 	(): IConfig => {
 		let token: string;
 		if (process.env.NODE_ENV === 'development') {
-			token = config.get<string>('bots.supportDev.token');
+			token = config.get<string>('bots.dev.token');
 		} else {
-			token = config.get<string>('bots.supportProd.token');
+			token = config.get<string>('bots.prod.token');
 		}
 		return {token};
 	},

@@ -1,12 +1,13 @@
 import {Injectable, Logger} from '@nestjs/common';
 import config from 'config';
-import {readFile, saveBufferToFile} from '../utils/fsHelpers';
+import {readFile, readFileToStream, saveBufferToFile} from '../utils/fsHelpers';
 import path from 'path';
 import {FootballService} from '../football/football.service';
 // @ts-ignore
 import XlsxTemplate from 'xlsx-template';
 import {IFootball} from '../football/type/football.type';
 import {ExcelProps} from './type/export.type';
+import {ReadStream} from 'fs';
 
 @Injectable()
 export class ExportService {
@@ -19,7 +20,7 @@ export class ExportService {
 	private readonly pathInputFootball: string;
 
 	constructor(
-		private readonly footballService: FootballService
+		private readonly footballService: FootballService,
 	) {
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.uploadDirectory = config.get<string>('path.directory.upload') || 'upload';
@@ -38,7 +39,7 @@ export class ExportService {
 	private static mapProps(statistic: IFootball): ExcelProps {
 		try {
 			return {
-				marketIds: statistic.marketIds,
+				marketId: statistic.marketId,
 				strategy: statistic.strategy,
 				command: statistic.command.group,
 				oneName: statistic.command.one,
@@ -88,15 +89,15 @@ export class ExportService {
 	 * @param {Number} days количество дней для экспорта
 	 * @returns {Promise<void>}
 	 */
-	public async exportFootballStatistic(days: number) {
+	public async exportFootballStatistic(days: number): Promise<ReadStream> {
 		try {
-			const file = await this.getStatisticsFootball(days);
+			const file: Buffer = await this.getStatisticsFootball(days);
 			const filePath: string = await saveBufferToFile(path.join(this.storagePath, this.uploadDirectory, `${days}days-${this.outputFootball}`), file);
-			// const stream: ReadStream = await readFileToStream(filePath);
-			// await sendFile(stream);
 			this.logger.debug('Файл statistic отправлен ', filePath);
+			return await readFileToStream(filePath);
 		} catch (error) {
 			this.logger.error(`Send statistic: ${error.message}`);
+			throw new Error(error);
 		}
 	}
 
@@ -106,7 +107,7 @@ export class ExportService {
 	 * @param {Number} days количество дней для экспорта
 	 * @returns {Promise<{statistics: Array} | never>}
 	 */
-	private getStatisticsFootball(days = 2) {
+	private getStatisticsFootball(days = 2): Promise<Buffer> {
 		const beforeDate = new Date(new Date().setUTCHours(0, 0, 0, 1));
 		const currentDate = new Date(new Date().setUTCHours(23, 59, 59, 59));
 		beforeDate.setUTCDate(beforeDate.getUTCDate() - days);
@@ -116,7 +117,7 @@ export class ExportService {
 		query['$and'].push({modifiedBy: {$lte: currentDate.toISOString()}});
 		this.logger.debug(`Начало экспорта Statistics с ${beforeDate.toISOString()} по ${currentDate.toISOString()}`);
 
-		let bufferPromise = this.footballService.getDataByParam(query)
+		return this.footballService.getDataByParam(query)
 			.then((items: IFootball[]) => items.reduce<ExcelProps[]>((acc, item) => {
 					let res = ExportService.mapProps(item);
 					if (res != null) {
@@ -125,31 +126,28 @@ export class ExportService {
 					return acc;
 				}, [])
 			)
-			.then((prop: ExcelProps[]) => {
+			.then(async (prop: ExcelProps[]) => {
 				try {
 					this.logger.debug(`Подготовлено данных ${prop.length}`);
-					return readFile(this.pathInputFootball)
-						.then(file => {
-							const template = new XlsxTemplate(file);
-							template.substitute(1, {
-								tr: prop.filter((item: { strategy: number }) => item.strategy === 1)
-							});
-							template.substitute(2, {
-								tr: prop.filter((item: { strategy: number }) => item.strategy === 2)
-							});
-							template.substitute(3, {
-								tr: prop.filter((item: { strategy: number }) => item.strategy === 3)
-							});
-							template.substitute(4, {
-								tr: prop.filter((item: { strategy: number }) => item.strategy === 4)
-							});
-							this.logger.debug('Генерация файла');
-							return template.generate({type: 'nodebuffer'});
-						});
+					let file = await readFile(this.pathInputFootball);
+					const template = new XlsxTemplate(file);
+					template.substitute(1, {
+						tr: prop.filter((item: { strategy: number }) => item.strategy === 1)
+					});
+					template.substitute(2, {
+						tr: prop.filter((item: { strategy: number }) => item.strategy === 2)
+					});
+					template.substitute(3, {
+						tr: prop.filter((item: { strategy: number }) => item.strategy === 3)
+					});
+					template.substitute(4, {
+						tr: prop.filter((item: { strategy: number }) => item.strategy === 4)
+					});
+					this.logger.debug('Генерация файла');
+					return template.generate({type: 'nodebuffer'});
 				} catch (error) {
 					this.logger.error(`ExportError statisticList: ${error.message}`);
 				}
 			});
-		return bufferPromise;
 	}
 }

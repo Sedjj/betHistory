@@ -1,34 +1,4 @@
-/**
- * Сбрасывает все зарезервированные символы для регулярных выражений.
- *
- * @param str
- * @returns {void | string | *}
- */
-function escapeRegExp(str: string) {
-	return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-}
-
-/**
- * Кастомная функция для замены всех совпадений в строке.
- *
- * @param {String} str исходная строка
- * @param {String} find шаблон поиска
- * @param {String}replace строка замены
- * @returns {*}
- */
-function replaceAll(str: string, find: string, replace: string) {
-	return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
-
-/**
- * Метод для преобразования секунд в минуты.
- *
- * @param {Number} time время в секундах
- * @returns {void|string|never}
- */
-function secondsToMinutes(time: number) {
-	return Math.floor(time / 60);
-}
+import {IFootball} from '../football/type/football.type';
 
 /**
  * Метод для округления дробного число
@@ -45,68 +15,35 @@ function round(value: number, rlength = 2) {
 }
 
 /**
- * Форматирование строки вывода.
- *
- * @param {Object} param объект матча
- * @param {String} type вид спорта
- * @returns {*}
- */
-function decorateMessageMatch(param: any, type: string) {
-	const {
-		matchId,
-		command: {en: {one, two}},
-		group: {en},
-		strategy,
-		score: {sc1, sc2}
-	} = param;
-	return `Матч: ${matchId}; Стр: ${strategy}; Счет: ${sc1}:${sc2}
-	Вид спорта: ${type}
-	Группа: ${en}
-	  Команда 1:  ${one}
-	  Команда 2:  ${two}`;
-}
-
-/**
  * Форматирование строки вывода для тениса.
  *
- * @param {Object} param объект матча
- * @param {String} type вид спорта
- * @returns {*}
+ * @param {IFootball} param объект матча
+ * @returns {String}
  */
-function decorateMessageTennis(param: any, type = '') {
+export function decorateMessageTennis(param: IFootball): string {
 	const {
-		matchId,
-		command: {en: {one, two}},
-		group: {en},
+		marketId,
+		command: {one, two, group},
 	} = param;
-	return `<code>${matchId}</code>\n${en}\n\n<b>${one}\n${two}</b>`;
+	return `<code>${marketId}</code>\n${group}\n\n<b>${one}\n${two}</b>`;
 }
 
 /**
  * Форматирование строки для канала.
  *
- * @param {Object} param объект матча
- * @param {String} type вид спорта
+ * @param {IFootball} param объект матча
  * @returns {string}
  */
-function decorateMessageChannel(param: any, type = '') {
+export function decorateMessageChannel(param: IFootball): string {
 	const {
-		matchId,
-		command: {en: {one, two}},
-		group: {en},
-		snapshot: {start: {p1, x, p2, time}},
-		score: {sc1, sc2}
+		marketId,
+		command: {one, two, group},
+		rates: {matchOdds: {behind: {p1, x, p2}}},
+		score: {sc1, sc2},
+		time
 	} = param;
-	const minut = secondsToMinutes(time);
 	const scope = `${sc1}:${sc2}`;
 	const index = `${p1} / ${x} / ${p2}`;
 	const difference = `${round(x - p1)} / ${round(x - p2)} / ${round(p2 - p1)}`;
-	return `<code>${matchId}</code>\n${en}\n\n<b>${one}\n${two}</b>\n\n<pre>${scope} / ${minut}'\n${index}\n${difference}</pre>`;
+	return `<code>${marketId}</code>\n${group}\n\n<b>${one}\n${two}</b>\n\n<pre>${scope} / ${time}'\n${index}\n${difference}</pre>`;
 }
-
-module.exports = {
-	decorateMessageMatch,
-	decorateMessageTennis,
-	decorateMessageChannel,
-	replaceAll
-};

@@ -103,7 +103,7 @@ export class ParserFootballService {
 		let param: IFootball;
 		try {
 			param = {
-				marketIds: item.marketId || '',
+				marketId: item.marketId || '',
 				eventId: item.eventId || 0,
 				strategy: 0,
 				time: this.getTimeGame(item.state),

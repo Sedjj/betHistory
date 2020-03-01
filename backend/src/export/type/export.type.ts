@@ -2,7 +2,7 @@
  * Интерфейс соответствий с файлом
  */
 export type ExcelProps = {
-	marketIds: string,
+	marketId: string,
 	strategy: number,
 	command: string,
 	oneName: string,

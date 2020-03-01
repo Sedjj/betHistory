@@ -8,7 +8,7 @@ import {ParserFootballService} from '../parser/parserFootball.service';
 @Module({
 	imports: [
 		ScheduleModule.forRoot(),
-		DataAnalysisModule
+		DataAnalysisModule,
 	],
 	providers: [
 		TaskService,

@@ -92,7 +92,7 @@ let cards = new Schema({
 });
 
 export let FootballSchema = new Schema({
-	marketIds: {
+	marketId: {
 		type: String,
 		required: true,
 		default: ''

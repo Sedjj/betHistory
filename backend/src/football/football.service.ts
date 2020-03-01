@@ -21,7 +21,7 @@ export class FootballService {
 	 */
 	private static mapProps(statistic: IFootballModel): IFootball {
 		return {
-			marketIds: statistic.marketIds,
+			marketId: statistic.marketId,
 			eventId: statistic.eventId,
 			strategy: statistic.strategy,
 			time: statistic.time,
@@ -107,7 +107,7 @@ export class FootballService {
 	 */
 	async create(param: IFootball): Promise<IFootball | null> {
 		let findMatch = await this.footballModel.find({
-			marketIds: param.marketIds,
+			marketId: param.marketId,
 			strategy: param.strategy
 		}).exec();
 		if (findMatch.length) {
@@ -153,12 +153,12 @@ export class FootballService {
 	 */
 	async deleteDataByParam(param: IFootballQuery): Promise<IFootball> {
 		return await this.footballModel
-			.findOneAndRemove({marketIds: param.marketIds, strategy: param.strategy})
+			.findOneAndRemove({marketId: param.marketId, strategy: param.strategy})
 			.exec()
 			.then((model: IFootballModel | null) => {
 				if (!model) {
 					this.logger.error('Football with not found');
-					throw new Error(`Football with not found: ${param.marketIds}`);
+					throw new Error(`Football with not found: ${param.marketId}`);
 				}
 				return FootballService.mapProps(model);
 			})
@@ -176,7 +176,7 @@ export class FootballService {
 	 */
 	async setDataByParam(param: IFootball): Promise<IFootball> {
 		return await this.footballModel
-			.findOne({marketIds: param.marketIds, strategy: param.strategy})
+			.findOne({marketId: param.marketId, strategy: param.strategy})
 			.read('secondary')
 			.exec()
 			.then((statistic: IFootballModel | null) => {

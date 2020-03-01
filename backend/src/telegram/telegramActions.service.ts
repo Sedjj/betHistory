@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import path from 'path';
 import {ContextMessageUpdate} from 'telegraf';
 import {TelegrafTelegramService, TelegramActionHandler} from 'nestjs-telegraf';
@@ -15,53 +15,11 @@ import {ExportService} from '../export/export.service';
 
 @Injectable()
 export class TelegramActions {
-	/**
-	 * Функция для генерации встроенной клавиатуры.
-	 *
-	 * @param {ContextMessageUpdate} ctx контекст ответа
-	 * @param {IMenuBot} msg объект подменю
-	 */
-	private static async inlineKeyboard(ctx: ContextMessageUpdate, msg: IMenuBot): Promise<void> {
-		console.log('ertklk');
-		await ctx.replyWithMarkdown(msg.title, {
-			reply_markup: {
-				inline_keyboard: msg.buttons,
-			},
-			parse_mode: 'Markdown'
-		});
-	}
-
-	/**
-	 * Обертка для отправки alert сообщения в бот.
-	 *
-	 * @param {ContextMessageUpdate} ctx контекст ответа
-	 * @param {String} text названиеы
-	 */
-	private static async sendAnswerText(ctx: ContextMessageUpdate, text: string): Promise<void> {
-		console.log('k3453lk');
-		await ctx.answerCbQuery(text, true);
-	}
-
-	/**
-	 * Обертка для редактирования inline_keyboard в боте.
-	 *
-	 * @param {ContextMessageUpdate} ctx контекст ответа
-	 * @param {String} text названиеы
-	 * @param {String} count текст для замены
-	 * @returns {Promise<void>}
-	 */
-	private static async editMessageReplyMarkup(ctx: ContextMessageUpdate, text: string, count: string): Promise<void> {
-		console.log('klk');
-		await ctx.editMessageReplyMarkup({
-			inline_keyboard: menuList(text, count).buttons
-		});
-	}
-
+	private readonly logger = new Logger(TelegramActions.name);
 	private readonly exportFootballStatisticDebounce: any;
 	private readonly storagePath: string;
 	private readonly logsDirectory: string;
-	private readonly token: string;
-	private readonly supportChatId: string;
+
 	private readonly buttons: any = {
 		waiting: 'Сколько матчей в ожидании',
 		selectSport: 'Вид спорта',
@@ -77,13 +35,6 @@ export class TelegramActions {
 		private readonly telegramService: TelegramService,
 		private readonly exportService: ExportService
 	) {
-		if (process.env.NODE_ENV === 'development') {
-			this.token = config.get<string>('bots.supportProd.token');
-			this.supportChatId = config.get<string>('bots.supportDev.chatId');
-		} else {
-			this.token = config.get<string>('bots.supportProd.token');
-			this.supportChatId = config.get<string>('bots.supportProd.chatId');
-		}
 		this.exportFootballStatisticDebounce = throttle(this.exportService.exportFootballStatistic, 20000);
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.logsDirectory = config.get<string>('path.directory.logs') || 'logs';
@@ -101,6 +52,45 @@ export class TelegramActions {
 		];
 	}
 
+	/**
+	 * Функция для генерации встроенной клавиатуры.
+	 *
+	 * @param {ContextMessageUpdate} ctx контекст ответа
+	 * @param {IMenuBot} msg объект подменю
+	 */
+	private static async inlineKeyboard(ctx: ContextMessageUpdate, msg: IMenuBot): Promise<void> {
+		await ctx.replyWithMarkdown(msg.title, {
+			reply_markup: {
+				inline_keyboard: msg.buttons,
+			},
+			parse_mode: 'Markdown'
+		});
+	}
+
+	/**
+	 * Обертка для отправки alert сообщения в бот.
+	 *
+	 * @param {ContextMessageUpdate} ctx контекст ответа
+	 * @param {String} text названиеы
+	 */
+	private static async sendAnswerText(ctx: ContextMessageUpdate, text: string): Promise<void> {
+		await ctx.answerCbQuery(text, true);
+	}
+
+	/**
+	 * Обертка для редактирования inline_keyboard в боте.
+	 *
+	 * @param {ContextMessageUpdate} ctx контекст ответа
+	 * @param {String} text названиеы
+	 * @param {String} count текст для замены
+	 * @returns {Promise<void>}
+	 */
+	private static async editMessageReplyMarkup(ctx: ContextMessageUpdate, text: string, count: string): Promise<void> {
+		await ctx.editMessageReplyMarkup({
+			inline_keyboard: menuList(text, count).buttons
+		});
+	}
+
 	@TelegramActionHandler({action: 'backupTennis'})
 	public async backupTennis(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
@@ -115,10 +105,10 @@ export class TelegramActions {
 		}
 		try {
 			const me = await this.telegrafService.getMe();
-			console.log(me);
+			this.logger.log(JSON.stringify(me));
 			this.sendText(ctx, 'Hi, choose action!');
-		} catch (e) {
-			console.log('Error start -> ' + e);
+		} catch (error) {
+			this.logger.error('Error start -> ' + error);
 		}
 
 	}
@@ -308,9 +298,14 @@ export class TelegramActions {
 	/**
 	 * Общий метод для экспорта.
 	 */
-	private exportStatisticDebounce(): void {
+	private async exportStatisticDebounce(): Promise<void> {
+		try {
 		if (exportStatus.name === 'football') {
-			this.exportFootballStatisticDebounce(exportStatus.count);
+			const stream: ReadStream = await this.exportFootballStatisticDebounce(exportStatus.count);
+			await this.telegramService.sendFile(stream);
+		}
+		} catch (error) {
+			this.logger.error(`Error exportStatisticDebounce: ${error}`);
 		}
 		exportStatus.clear();
 	}
@@ -321,21 +316,9 @@ export class TelegramActions {
 	private async getLogs(): Promise<void> {
 		try {
 			const stream: ReadStream = await readFileToStream(path.join(this.storagePath, this.logsDirectory, 'debug.log'));
-			await this.telegramService.setFileApiTelegram(this.token, this.supportChatId, stream);
-		} catch (e) {
-			console.log('Error getLogs -> ' + e);
+			await this.telegramService.sendFile(stream);
+		} catch (error) {
+			this.logger.error('Error getLogs -> ' + error);
 		}
 	}
-
-	/**
-	 * Проверка прав на доступ к меню.
-	 *
-	 * @param {Object} msg объект что пришел из telegram
-	 */
-	/*private async accessCheck(msg) {                // ctx.update.message.chat.id
-		const chat = msg.hasOwnProperty('chat') ? msg.chat.id : msg.from.id;
-		if (!this.administrators.some((user) => user === chat)) {
-			this.stop();
-		}
-	}*/
 }

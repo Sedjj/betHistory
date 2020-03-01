@@ -9,7 +9,7 @@ export type IFootball = {
 	/**
 	 * Идентификатор матчка с сайта
 	 */
-	marketIds: string;
+	marketId: string;
 	/**
 	 * Идентификатор события
 	 */
@@ -150,6 +150,6 @@ export type ICards = {
 };
 
 export type IFootballQuery = {
-	marketIds: string;
+	marketId: string;
 	strategy: string;
 };

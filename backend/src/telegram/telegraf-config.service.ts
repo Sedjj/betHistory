@@ -1,14 +1,16 @@
-import { Injectable } from '@nestjs/common';
-import { TelegrafOptionsFactory, TelegrafModuleOptions } from 'nestjs-telegraf';
-import { ConfigService } from '@nestjs/config';
+import {Injectable} from '@nestjs/common';
+import {TelegrafModuleOptions, TelegrafOptionsFactory} from 'nestjs-telegraf';
+import config from 'config';
 
 @Injectable()
 export class TelegrafConfigService implements TelegrafOptionsFactory {
-	constructor(private readonly configService: ConfigService) {}
-
 	createTelegrafOptions(): TelegrafModuleOptions {
-		return {
-			token: this.configService.get<string>('menu.token', ''),
-		};
+		let token: string;
+		if (process.env.NODE_ENV === 'development') {
+			token = config.get<string>('bots.dev.token');
+		} else {
+			token = config.get<string>('bots.prod.token');
+		}
+		return {token};
 	}
 }
