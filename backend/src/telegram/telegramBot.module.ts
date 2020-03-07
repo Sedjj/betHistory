@@ -7,6 +7,8 @@ import {ConfigModule} from '@nestjs/config';
 import telegramBotConfig from './telegramBot.config';
 import {TelegramService} from './telegram.service';
 import {ExportModule} from '../export/export.module';
+import {ContextMessageUpdate} from 'telegraf';
+import config from 'config';
 
 @Module({
 	imports: [
@@ -29,30 +31,33 @@ import {ExportModule} from '../export/export.module';
 export class TelegramBotModule implements OnModuleInit {
 	constructor(
 		private readonly moduleRef: ModuleRef,
-		private readonly telegraphService: TelegrafService,
-	) {
-	}
+		private readonly telegrafService: TelegrafService,
+	) {}
 
 	onModuleInit() {
 		const isDev = process.env.NODE_ENV === 'development';
 
-		this.telegraphService.init(this.moduleRef);
-
+		this.telegrafService.bot.use(
+			this.accessCheck
+		);
+		this.telegrafService.init(this.moduleRef);
 		if (isDev) {
 			// in dev mode, we can't use webhook
-			this.telegraphService.startPolling();
+			this.telegrafService.startPolling();
 		}
 	}
 
 	/**
 	 * Проверка прав на доступ к меню.
 	 *
-	 * @param {Object} msg объект что пришел из telegram
+	 * @param {ContextMessageUpdate} ctx объект что пришел из telegram
+	 * @param {Object} next объект что пришел из telegram
 	 */
-	/*private async accessCheck(msg) {                // ctx.update.message.chat.id
-		const chat = msg.hasOwnProperty('chat') ? msg.chat.id : msg.from.id;
-		if (!this.administrators.some((user) => user === chat)) {
-			this.stop();
+	private async accessCheck(ctx: ContextMessageUpdate, next?: () => any) {
+		let administrators: number[] = config.get<number[]>('roles.admin');
+		const chat = ctx.chat != null ? ctx.chat.id : ctx.from != null ? ctx.from.id : 0;
+		if (administrators.some((user) => user === chat) && next) {
+			next();
 		}
-	}*/
+	}
 }

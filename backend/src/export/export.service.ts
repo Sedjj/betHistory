@@ -1,13 +1,12 @@
 import {Injectable, Logger} from '@nestjs/common';
 import config from 'config';
-import {readFile, readFileToStream, saveBufferToFile} from '../utils/fsHelpers';
+import {readFile, saveBufferToFile} from '../utils/fsHelpers';
 import path from 'path';
 import {FootballService} from '../football/football.service';
 // @ts-ignore
 import XlsxTemplate from 'xlsx-template';
 import {IFootball} from '../football/type/football.type';
 import {ExcelProps} from './type/export.type';
-import {ReadStream} from 'fs';
 
 @Injectable()
 export class ExportService {
@@ -89,12 +88,12 @@ export class ExportService {
 	 * @param {Number} days количество дней для экспорта
 	 * @returns {Promise<void>}
 	 */
-	public async exportFootballStatistic(days: number): Promise<ReadStream> {
+	public async exportFootballStatistic(days: number): Promise<string> {
 		try {
 			const file: Buffer = await this.getStatisticsFootball(days);
 			const filePath: string = await saveBufferToFile(path.join(this.storagePath, this.uploadDirectory, `${days}days-${this.outputFootball}`), file);
 			this.logger.debug('Файл statistic отправлен ', filePath);
-			return await readFileToStream(filePath);
+			return filePath;
 		} catch (error) {
 			this.logger.error(`Send statistic: ${error.message}`);
 			throw new Error(error);

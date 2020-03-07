@@ -1,7 +1,7 @@
 import {Module} from '@nestjs/common';
 import {ConfService} from './conf.service';
 import {MongooseModule} from '@nestjs/mongoose';
-import {ConfSchema} from './schemas/conf.schema';
+import {ConfigSchema} from './schemas/config.schema';
 import {ConfController} from './conf.controller';
 
 @Module({
@@ -9,8 +9,8 @@ import {ConfController} from './conf.controller';
 		MongooseModule.forFeature(
 			[
 				{
-					name: 'Conf',
-					schema: ConfSchema
+					name: 'Config',
+					schema: ConfigSchema
 				}
 			]
 		)

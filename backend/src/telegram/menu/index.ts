@@ -26,9 +26,6 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 				title: 'Выбирие вид спорта',
 				buttons: [
 					[{text: 'Футбол', callback_data: 'exportFootball'}],
-					[{text: 'Настольный тенис', callback_data: 'exportTableTennis'}],
-					[{text: 'Большой тенис', callback_data: 'exportTennis'}],
-					[{text: 'Баскетбол', callback_data: 'exportBasketball'}],
 				]
 			};
 		case 'rate':
@@ -46,9 +43,7 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 				title: 'Выберите тип бэкапа',
 				buttons: [
 					[{text: 'Бэкап футбол', callback_data: 'backupFootballs'}],
-					[{text: 'Бэкап настольный тенис', callback_data: 'backupTableTennis'}],
-					[{text: 'Бэкап большой тенис', callback_data: 'backupTennis'}],
-					[{text: 'Бэкап баскетбола', callback_data: 'backupBasketball'}],
+					[{text: 'Бэкап конфига', callback_data: 'backupConfig'}],
 				]
 			};
 		case 'getFile':

@@ -40,6 +40,7 @@
 		"mongoose": "^5.8.11",
 		"nest-schedule": "^0.6.4",
 		"nest-winston": "^1.3.1",
+		"nestjs-rate-limiter": "^1.0.1",
 		"nestjs-telegraf": "^0.7.3",
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.0",

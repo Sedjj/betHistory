@@ -26,7 +26,7 @@ let RateStrategy = new Schema({
 	},
 });
 
-export let ConfSchema = new Schema({
+export let ConfigSchema = new Schema({
 	confId: {
 		type: Number,
 		required: true,

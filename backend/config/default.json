@@ -27,15 +27,15 @@
 	"bots": {
 		"dev": {
 			"channelId": "",
-			"chatId": "-299200164",
-			"supportChatId": "-376344669",
+			"chatId": "-338676766",
+			"supportChatId": "-306215415",
 			"name": "@dev_support_rate_sedjj_bot",
 			"token": "976021414:AAH5Kk3s9loSe_oYVxFx4gja3LXUNDfv0bQ"
 		},
 		"prod": {
 			"channelId": "",
-			"chatId": "",
-			"supportChatId": "",
+			"chatId": "299200164",
+			"supportChatId": "-376344669",
 			"name": "@rate_support_nest_sedjj_bot",
 			"token": "981446014:AAHXXKig4L6Y902nZzHZ9uSDYsbjaEg72TE"
 		}

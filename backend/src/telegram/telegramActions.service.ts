@@ -6,17 +6,14 @@ import {authPhone, counterWaiting, exportStatus, rateAmount, rateStatus} from '.
 import config from 'config';
 import {IKeyboardButton, IMenuBot} from './type/telegram.type';
 import {menuList} from './menu';
-import {throttle} from '../utils/throttle';
-import {readFileToStream} from '../utils/fsHelpers';
-import {ReadStream} from 'fs';
 import {exportBackup} from '../backupBD';
 import {TelegramService} from './telegram.service';
 import {ExportService} from '../export/export.service';
+import {RateLimit} from 'nestjs-rate-limiter';
 
 @Injectable()
 export class TelegramActions {
 	private readonly logger = new Logger(TelegramActions.name);
-	private readonly exportFootballStatisticDebounce: any;
 	private readonly storagePath: string;
 	private readonly logsDirectory: string;
 
@@ -35,7 +32,6 @@ export class TelegramActions {
 		private readonly telegramService: TelegramService,
 		private readonly exportService: ExportService
 	) {
-		this.exportFootballStatisticDebounce = throttle(this.exportService.exportFootballStatistic, 20000);
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.logsDirectory = config.get<string>('path.directory.logs') || 'logs';
 	}
@@ -89,13 +85,6 @@ export class TelegramActions {
 		await ctx.editMessageReplyMarkup({
 			inline_keyboard: menuList(text, count).buttons
 		});
-	}
-
-	@TelegramActionHandler({action: 'backupTennis'})
-	public async backupTennis(ctx: ContextMessageUpdate) {
-		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
-		await exportBackup('tennis');
-		await this.sendText(ctx, 'Hi, choose action!');
 	}
 
 	@TelegramActionHandler({onStart: true})
@@ -196,12 +185,11 @@ export class TelegramActions {
 		}
 	}
 
+	@RateLimit({ points: 1, duration: 20 })
 	@TelegramActionHandler({action: 'export'})
 	protected async export(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.exportStatisticDebounce();
-		await this.sendText(ctx, 'Hi, choose action!');
-		await TelegramActions.inlineKeyboard(ctx, menuList('betAmount', rateAmount.bets.toString()));
 	}
 
 	@TelegramActionHandler({action: 'exportFootball'})
@@ -210,43 +198,18 @@ export class TelegramActions {
 		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
 	}
 
-	@TelegramActionHandler({action: 'exportTableTennis'})
-	protected async exportTableTennis(ctx: ContextMessageUpdate) {
-		exportStatus.setName('tableTennis');
-		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
-	}
-
-	@TelegramActionHandler({action: 'exportTennis'})
-	protected async exportTennis(ctx: ContextMessageUpdate) {
-		exportStatus.setName('tennis');
-		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
-	}
-
-	@TelegramActionHandler({action: 'exportBasketball'})
-	protected async exportBasketball(ctx: ContextMessageUpdate) {
-		exportStatus.setName('basketball');
-		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
-	}
-
+	@RateLimit({ points: 1, duration: 20 })
 	@TelegramActionHandler({action: 'backupFootballs'})
 	protected async backupFootballs(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await exportBackup('footballs');
-		await this.sendText(ctx, 'Hi, choose action!');
 	}
 
-	@TelegramActionHandler({action: 'backupTableTennis'})
-	protected async backupTableTennis(ctx: ContextMessageUpdate) {
+	@RateLimit({ points: 1, duration: 20 })
+	@TelegramActionHandler({action: 'backupConfig'})
+	protected async backupConfig(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
-		await exportBackup('tabletennis');
-		await this.sendText(ctx, 'Hi, choose action!');
-	}
-
-	@TelegramActionHandler({action: 'backupBasketball'})
-	protected async backupBasketball(ctx: ContextMessageUpdate) {
-		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
-		await exportBackup('basketball');
-		await this.sendText(ctx, 'Hi, choose action!');
+		await exportBackup('config');
 	}
 
 	@TelegramActionHandler({action: 'enableBets'})
@@ -265,7 +228,6 @@ export class TelegramActions {
 	protected async debugLogs(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.getLogs();
-		await this.sendText(ctx, 'Hi, choose action!');
 	}
 
 	@TelegramActionHandler({action: 'enableVerification'})
@@ -300,10 +262,10 @@ export class TelegramActions {
 	 */
 	private async exportStatisticDebounce(): Promise<void> {
 		try {
-		if (exportStatus.name === 'football') {
-			const stream: ReadStream = await this.exportFootballStatisticDebounce(exportStatus.count);
-			await this.telegramService.sendFile(stream);
-		}
+			if (exportStatus.name === 'football') {
+				const stream: string = await this.exportService.exportFootballStatistic(exportStatus.count);
+				await this.telegramService.sendFile(stream);
+			}
 		} catch (error) {
 			this.logger.error(`Error exportStatisticDebounce: ${error}`);
 		}
@@ -315,8 +277,7 @@ export class TelegramActions {
 	 */
 	private async getLogs(): Promise<void> {
 		try {
-			const stream: ReadStream = await readFileToStream(path.join(this.storagePath, this.logsDirectory, 'debug.log'));
-			await this.telegramService.sendFile(stream);
+			await this.telegramService.sendFile(path.join(this.storagePath, this.logsDirectory, 'debug.log'));
 		} catch (error) {
 			this.logger.error('Error getLogs -> ' + error);
 		}

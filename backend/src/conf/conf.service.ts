@@ -9,7 +9,7 @@ export class ConfService {
 	private readonly logger = new Logger(ConfService.name);
 
 	constructor(
-		@InjectModel('Conf') private readonly confModel: Model<IConfModel>
+		@InjectModel('Config') private readonly confModel: Model<IConfModel>
 	) {
 	}
 
