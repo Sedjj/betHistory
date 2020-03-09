@@ -40,7 +40,6 @@
 		"dist",
 		"test",
 		"docker",
-		"**/*spec.ts",
-		"help"
+		"**/*spec.ts"
 	]
 }

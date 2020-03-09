@@ -105,7 +105,7 @@ export class FootballService {
 	 * @param {IFootball} param для таблицы
 	 * @returns {Promise<IFootball | null>}
 	 */
-	async create(param: IFootball): Promise<IFootball | null> {
+	public async create(param: IFootball): Promise<IFootball | null> {
 		let findMatch = await this.footballModel.find({
 			marketId: param.marketId,
 			strategy: param.strategy
@@ -128,7 +128,7 @@ export class FootballService {
 	 * @param {IFootballQuery} param для таблицы.
 	 * @returns {Promise<IFootball[]>}
 	 */
-	async getDataByParam(param?: any): Promise<IFootball[]> {
+	public async getDataByParam(param?: any): Promise<IFootball[]> {
 		return await this.footballModel.find(param != null ? param : {})
 			.read('secondary')
 			.exec()
@@ -151,7 +151,7 @@ export class FootballService {
 	 * @param {IFootballQuery} param для таблицы
 	 * @returns {Promise<void | IFootball | null>}
 	 */
-	async deleteDataByParam(param: IFootballQuery): Promise<IFootball> {
+	public async deleteDataByParam(param: IFootballQuery): Promise<IFootball> {
 		return await this.footballModel
 			.findOneAndRemove({marketId: param.marketId, strategy: param.strategy})
 			.exec()
@@ -174,7 +174,7 @@ export class FootballService {
 	 * @param {IFootballQuery} param для таблицы
 	 * @returns {Promise<any>}
 	 */
-	async setDataByParam(param: IFootball): Promise<IFootball> {
+	public async setDataByParam(param: IFootball): Promise<IFootball> {
 		return await this.footballModel
 			.findOne({marketId: param.marketId, strategy: param.strategy})
 			.read('secondary')

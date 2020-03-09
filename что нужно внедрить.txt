@@ -1,0 +1,23 @@
+https://www.npmjs.com/package/@yeldirium/telegraf-authentication-middleware
+
+https://www.npmjs.com/package/telegraf
+
+https://volument.com/
+
+
+
+
+ описание api
+
+https://towardsdatascience.com/an-introduction-to-betfair-api-and-how-to-use-it-e3cdbd79c94b
+
+https://github.com/betfair/API-NG-sample-code/tree/master/javascript
+
+https://github.com/AlgoTrader/betfair
+
+https://github.com/betfair/stream-api-sample-code/blob/master/node.js/app.js
+
+https://docs.developer.betfair.com/display/1smk3cen4v3lu3yomq5qye0ni/New+API+Release+-+8th+August+2016
+
+
+
