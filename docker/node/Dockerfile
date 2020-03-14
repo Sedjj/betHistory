@@ -12,17 +12,16 @@ RUN npm install pm2 -g
 RUN mkdir -pv /home/app/logs /home/app/upload
 
 # Скопировать исходники приложения
-COPY config /home/app/config
-COPY exportTemplates /home/app/exportTemplates
-COPY vendor /home/app/vendor
-COPY src /home/app/src
+COPY backend/config /home/app/config
+COPY backend/exportTemplates /home/app/exportTemplates
+COPY backend/src /home/app/src
 
 # Установить зависимости приложения
 # Используется символ подстановки для копирования как package.json, так и package-lock.json,
 # работает с npm@5+
-COPY package.json /home/app
+COPY backend/package.json /home/app
 COPY process.yml /home/app
-COPY package-lock.json /home/app
+COPY backend/package-lock.json /home/app
 
 WORKDIR /home/app
 

@@ -226,7 +226,7 @@ export class ParserFootballService {
 	public parserLimitedTeam(value: string): number {
 		let parserReturn: RegExpMatchArray | null = null;
 		if (value && value.length > 5) {
-			parserReturn = value.match(/^\s?[\s?2\s?|\s?3\s?|\s?4\s?|\s?5\s?|\s?6\s?|\s?7\s?|\s?8\s?|\s?9\s?]\s?[х|x][\s?2\s?|\s?3\s?|\s?4\s?|\s?5\s?|\s?6\s?|\s?7\s?|\s?8\s?|\s?9\s?]\s?./ig);
+			parserReturn = value.match(/\s?[\s?2\s?|\s?3\s?|\s?4\s?|\s?5\s?|\s?6\s?|\s?7\s?|\s?8\s?|\s?9\s?]\s?[х|x][\s?2\s?|\s?3\s?|\s?4\s?|\s?5\s?|\s?6\s?|\s?7\s?|\s?8\s?|\s?9\s?]\s?/ig);
 		}
 		return parserReturn != null ? 1 : 0;
 	}
@@ -241,7 +241,7 @@ export class ParserFootballService {
 			one: state && state.score ? this.getCards(state.score.home) : this.getCards(),
 			two: state && state.score ? this.getCards(state.score.away) : this.getCards(),
 		};
-	}
+	} 
 
 	/**
 	 * Метод для определения карты команды.

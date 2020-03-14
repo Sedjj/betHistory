@@ -6,13 +6,13 @@
 		"password": "29c3sb6p"
 	},
 	"dbDev": {
-		"name": "rateBotTest",
+		"name": "rateBotNest",
 		"hostString": "localhost:27017/",
 		"user": "",
 		"pass": ""
 	},
 	"dbProd": {
-		"name": "rateBot",
+		"name": "rateBotNest",
 		"hostString": "mongo-rate:27017/",
 		"user": "",
 		"pass": ""

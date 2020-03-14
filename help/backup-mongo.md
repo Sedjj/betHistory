@@ -1,5 +1,16 @@
 ####Сделать дам на сервере
 ```bash
+docker-compose exec -T mongo-rate_test mongodump --gzip --db rateBotNest --archive="D:\git\bet\bethistory\dump.gz"
+docker-compose exec -T mongo-rate_test mongodump --gzip -d rateBotNest --archive="D:\git\bet\bethistory\dump-14.03.gz"
+```
+
+####Востановление из бэкапа
+```bash
+docker-compose exec -T mongo-rate_test mongorestore --gzip --drop -d rateBotNest --archive="D:\git\bet\bethistory\dump-14.03.gz"
+```
+
+####Сделать дам на сервере
+```bash
 mongodump --gzip -d rateBot --archive="/home/rb-app/rate_bot/mongoDB/dump/rateBot-06.04.gz"
 ```
 
@@ -11,7 +22,7 @@ mongorestore --gzip --drop -d rateBot --archive="/data/dump/rateBot-06.04.gz"
 ####Обновить данные на компе
 ```bash
 mongorestore --gzip --drop -d rateBot --archive="rateBot-06.04.gz"
-```
+```  
 
 ####Скопировать файл в докер
 ```bash

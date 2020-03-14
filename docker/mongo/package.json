@@ -1,0 +1,12 @@
+{
+  "name": "mongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "set NODE_ENV=production&&node src/index.js",
+    "dev": "set NODE_ENV=development&&node src/index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
