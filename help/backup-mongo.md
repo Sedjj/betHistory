@@ -1,6 +1,5 @@
 ####Сделать дам на сервере
 ```bash
-docker-compose exec -T mongo-rate_test mongodump --gzip --db rateBotNest --archive="D:\git\bet\bethistory\dump.gz"
 docker-compose exec -T mongo-rate_test mongodump --gzip -d rateBotNest --archive="D:\git\bet\bethistory\dump-14.03.gz"
 ```
 
