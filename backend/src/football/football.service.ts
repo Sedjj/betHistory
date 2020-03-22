@@ -3,6 +3,7 @@ import {Injectable, Logger} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {IFootball, IFootballModel, IFootballQuery} from './type/football.type';
 import {dateStringToShortDateString} from '../utils/dateFormat';
+import {ScoreEvents} from '../parser/type/scoreEvents.type';
 
 @Injectable()
 export class FootballService {
@@ -174,7 +175,7 @@ export class FootballService {
 	 * @param {IFootballQuery} param для таблицы
 	 * @returns {Promise<any>}
 	 */
-	public async setDataByParam(param: IFootball): Promise<IFootball> {
+	public async setDataByParam(param: IFootball): Promise<IFootballModel> {
 		return await this.footballModel
 			.findOne({marketId: param.marketId, strategy: param.strategy})
 			.read('secondary')
@@ -184,16 +185,45 @@ export class FootballService {
 					this.logger.error('Football with not found');
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
-				if (param.score && (param.score.resulting !== undefined)) {
+				if (param.score && (param.score.resulting != null)) {
 					statistic.score.resulting = param.score.resulting;
 				}
-				if (param.rates !== undefined) {
+				if (param.rates != null) {
 					statistic.rates = param.rates;
 				}
-				if (param.modifiedBy !== undefined) {
+				if (param.modifiedBy != null) {
 					statistic.modifiedBy = param.modifiedBy;
 				}
 				return statistic.save();
+			})
+			.catch((error: any) => {
+				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}: ${error.message}`);
+				throw new Error(error);
+			});
+	}
+
+	/**
+	 * Редактирование результата события.
+	 *
+	 * @param {IFootballQuery} param для таблицы
+	 * @returns {Promise<any>}
+	 */
+	public async setScoreByParam(param: ScoreEvents): Promise<void> {
+		return await this.footballModel
+			.find({marketId: param.marketId})
+			.read('secondary')
+			.exec()
+			.then((statistics: IFootballModel[] | null) => {
+				if (statistics == null || statistics.length === 0) {
+					this.logger.error('Football with not found');
+					throw new Error(`Football with not found: ${param.eventId}`);
+				}
+				statistics.forEach((item: IFootballModel) => {
+					if (param.resulting != null) {
+						item.score.resulting = param.resulting;
+					}
+					item.save();
+				});
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}: ${error.message}`);

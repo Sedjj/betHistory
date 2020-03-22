@@ -13,6 +13,7 @@ import moment from 'moment';
 import {EventDetails, StateEventDetails, TeamInfoEventDetails} from './type/eventDetails.type';
 import {LiteMarkets, MarketType} from './type/marketsEvents.type';
 import {MarketNodes, RunnersMarketNodes} from './type/byMarket.type';
+import {ScoreEvents} from './type/scoreEvents.type';
 
 @Injectable()
 export class ParserFootballService {
@@ -21,7 +22,7 @@ export class ParserFootballService {
 	private choiceMarketType: MarketType[] = ['MATCH_ODDS', 'OVER_UNDER_15', 'OVER_UNDER_25', 'BOTH_TEAMS_TO_SCORE', 'ALT_TOTAL_GOALS'];
 
 	/**
-	 * Метод для поиска матчей которые начались.
+	 * Метод для поиска матчей которые начались или только закончились.
 	 *
 	 * @param item входные данные с сервера
 	 */
@@ -31,7 +32,7 @@ export class ParserFootballService {
 			let marketsList: any[] = Object.values(item['attachments']['markets']);
 			if (marketsList != null && marketsList.length) {
 				res = marketsList.reduce((acc: number[], {eventId, marketTime, marketStatus, inplay}) => {
-					if (inplay && marketStatus === 'OPEN') {
+					if (inplay && (marketStatus === 'OPEN' || marketStatus === 'SUSPENDED')) {
 						if (marketTime != null) {
 							let currentDate = moment((new Date()).toISOString());
 							let openDate = moment(marketTime);
@@ -92,6 +93,27 @@ export class ParserFootballService {
 			}
 		}
 		return res;
+	}
+
+	/**
+	 * Метод для определения результата матча.
+	 *
+	 * @param {EventDetails[]} scoreEvents входные данные с сервера
+	 */
+	public getScoreEvents(scoreEvents: EventDetails[]): ScoreEvents[] {
+		return scoreEvents.reduce<ScoreEvents[]>((acc, item) => {
+			if (item.state != null && item.state.score != null) {
+				let {home, away} = item.state.score;
+				if (home != null && away != null) {
+					acc.push({
+						eventId: item.state.eventId,
+						marketId: item.marketId,
+						resulting: `${home.score}:${away.score}`
+					});
+				}
+			}
+			return acc;
+		}, []);
 	}
 
 	/**
@@ -241,7 +263,7 @@ export class ParserFootballService {
 			one: state && state.score ? this.getCards(state.score.home) : this.getCards(),
 			two: state && state.score ? this.getCards(state.score.away) : this.getCards(),
 		};
-	} 
+	}
 
 	/**
 	 * Метод для определения карты команды.

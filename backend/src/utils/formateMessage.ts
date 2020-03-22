@@ -32,7 +32,7 @@ export function decorateMessageTennis(param: IFootball): string {
  * Форматирование строки для канала.
  *
  * @param {IFootball} param объект матча
- * @returns {string}     https://www.betfair.com/exchange/football/event/29725153/multi-market?marketIds=1.169408325  pc https://www.betfair.com/exchange/plus/football/market/1.169849013
+ * @returns {string}
  */
 export function decorateMessageChannel(param: IFootball): string {
 	const {
@@ -46,5 +46,7 @@ export function decorateMessageChannel(param: IFootball): string {
 	const scope = `${sc1}:${sc2}`;
 	const index = `${p1} / ${x} / ${p2}`;
 	const difference = `${round(x - p1)} / ${round(x - p2)} / ${round(p2 - p1)}`;
-	return `<a href="https://www.betfair.com/exchange/football/event/${eventId}/multi-market?marketIds${marketId}">mobile</a>\n${group}\n\n<b>${one}\n${two}</b>\n\n<pre>${scope} / ${time}'\n${index}\n${difference}</pre>`;
+	let mobile = `<a href="https://www.betfair.com/exchange/football/event/${eventId}/multi-market?marketIds${marketId}">mobile</a>`;
+	let pc = `<a href="https://www.betfair.com/exchange/plus/football/market/${eventId}">pc</a>`;
+	return `${mobile}/${pc}\n${group}\n\n<b>${one}\n${two}</b>\n\n<pre>${scope} / ${time}'\n${index}\n${difference}</pre>`;
 }

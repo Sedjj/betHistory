@@ -31,15 +31,15 @@ export class ConfController implements OnApplicationBootstrap {
 						after: 45
 					},
 					{
-						before: 0,
-						after: 35
+						before: 45,
+						after: 100
 					},
 				],
 				typeRate: [
 					1.5,
 					1.5,
 					1.5,
-					1.5,
+					0.5,
 				],
 				rate: [
 					{

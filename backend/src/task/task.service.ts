@@ -8,6 +8,7 @@ import {IFootball} from '../football/type/football.type';
 import {EventDetails} from '../parser/type/eventDetails.type';
 import {LiteMarkets} from '../parser/type/marketsEvents.type';
 import {MarketNodes} from '../parser/type/byMarket.type';
+import {ScoreEvents} from '../parser/type/scoreEvents.type';
 
 const urlSearch = config.get<string>('parser.football.search');
 const urlEventDetails = config.get<string>('parser.football.eventDetails');
@@ -17,6 +18,7 @@ const urlByMarket = config.get<string>('parser.football.byMarket');
 @Injectable()
 export class TaskService implements OnApplicationBootstrap {
 	private readonly logger = new Logger(TaskService.name);
+	private activeEventIds: number[] = [];
 
 	constructor(
 		private fetchService: FetchService,
@@ -30,16 +32,15 @@ export class TaskService implements OnApplicationBootstrap {
 		this.logger.debug('****start scheduler checking results****');
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/20 * * * * *' : '*/02 * * * *')
+	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/02 * * * *')
 	public async searchFootball() {
-		this.logger.debug('Called when the current second is 10');
 		let activeEventIds: number[] = await this.getActiveEventIds();
 		if (activeEventIds.length) {
 			let eventDetails = await this.getEventDetailsForEvents(activeEventIds);
 			eventDetails.forEach((item: EventDetails) => {
 				try {
 					let param: IFootball = this.parserFootballService.getParams(item);
-					this.dataAnalysisService.strategyDefinition(param);
+					this.dataAnalysisService.strategyDefinition(param, this.increaseActiveEventId);
 				} catch (error) {
 					this.logger.debug(`Ошибка при парсинге события: ${JSON.stringify(item)} error: ${error}`);
 				}
@@ -47,10 +48,22 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/45 * * * * *' : '00 05 10 * * 0-7')
-	public checkingResults() {
-		if (process.env.NODE_ENV !== 'development') {
-			this.logger.debug('Called when the current second is 45');
+	@Cron((process.env.NODE_ENV === 'development') ? '*/15 * * * * *' : '*/30 * * * *')
+	public async checkingResults() {
+		if (this.activeEventIds.length) {
+			console.log(this.activeEventIds);
+			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', this.activeEventIds.join()));
+			this.decreaseActiveEventId(eventDetails);
+			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
+			scoreEvents.forEach((item: ScoreEvents) => {
+				try {
+					this.dataAnalysisService.setEvent(item);
+				} catch (error) {
+					this.logger.debug(`Ошибка при сохранении результата события: ${JSON.stringify(item)} error: ${error}`);
+				}
+			});
+		} else {
+			console.log(this.activeEventIds);
 		}
 	}
 
@@ -113,4 +126,29 @@ export class TaskService implements OnApplicationBootstrap {
 			return res;
 		}));
 	}
+
+	/**
+	 * Метод для добавления событий в активные
+	 *
+	 * @param {Number} id идентификатор события
+	 */
+	private increaseActiveEventId = (id: number): void => {
+		if (!this.activeEventIds.includes(id)) {
+			this.activeEventIds.push(id);
+		}
+	};
+
+	/**
+	 * Метод для обновления активных событий.
+	 *
+	 * @param {EventDetails[]} eventDetails детальная информация о событии на бирже
+	 */
+	private decreaseActiveEventId = (eventDetails: EventDetails[]): void => {
+		this.activeEventIds = eventDetails.reduce<number[]>((acc, eventDetail) => {
+			if (eventDetail.eventId) {
+				acc.push(eventDetail.eventId);
+			}
+			return acc;
+		}, []);
+	};
 }

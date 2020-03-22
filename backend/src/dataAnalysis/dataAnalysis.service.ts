@@ -4,6 +4,7 @@ import {ConfService} from '../conf/conf.service';
 import {FootballService} from '../football/football.service';
 import {BetsSimulatorService} from '../betsSimulator/betsSimulator.service';
 import {ITime} from '../conf/type/conf.type';
+import {ScoreEvents} from '../parser/type/scoreEvents.type';
 
 @Injectable()
 export class DataAnalysisService {
@@ -20,29 +21,49 @@ export class DataAnalysisService {
 	 * Метод для выбора стратегии ставки.
 	 *
 	 * @param {IFootball} param объект события
+	 * @param {(id: number) => void} incstack функция для получения событий которые удовлетворяют условиям
 	 */
-	public async strategyDefinition(param: IFootball): Promise<void> {
+	public async strategyDefinition(param: IFootball, incstack: (id: number) => void): Promise<void> {
 		let {
 			score: {sc1, sc2},
 			time
 		} = param;
 		let timeSetting: ITime[] = await this.confService.getTime();
-		if ((sc1 + sc2) === 0) {
+		if ((sc1 + sc2) === 1) {
 			if ((time >= timeSetting[1].before) && (time <= timeSetting[1].after)) {
 				this.footballLiveStrategy(param, 1);
+				incstack(param.eventId);
 			}
 			if ((time >= timeSetting[2].before) && (time <= timeSetting[2].after)) {
 				this.footballLiveStrategy(param, 2);
+				incstack(param.eventId);
 			}
 			if (time === timeSetting[3].before) {
 				this.footballLiveStrategy(param, 3);
+				incstack(param.eventId);
 			}
 		}
-		if ((sc1 + sc2) === 1) {
+		if (sc1 === sc2) {
 			if ((time >= timeSetting[4].before) && (time <= timeSetting[4].after)) {
-				this.footballLiveStrategy(param, 4);
+				if (param.rates.matchOdds.against.x < 2) {
+					this.footballLiveStrategy(param, 4);
+					incstack(param.eventId);
+				}
 			}
 		}
+	}
+
+	/**
+	 * Метод для поверки уникальности и сохранения результата матча.
+	 *
+	 * @param {ScoreEvents} scoreEvents объект события
+	 */
+	public setEvent(scoreEvents: ScoreEvents): Promise<void> {
+		return this.footballService.setScoreByParam(scoreEvents)
+			.catch((error: any) => {
+				this.logger.error(`Save rate: ${error}`);
+				throw new Error(error);
+			});
 	}
 
 	/**
@@ -52,7 +73,7 @@ export class DataAnalysisService {
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
 	private footballLiveStrategy(param: IFootball, strategy: number = 1): void {
-		this.saveRate(param, strategy)// пропускает дальше если запись ушла в БД
+		this.saveEvent(param, strategy)// пропускает дальше если запись ушла в БД
 			.then(async (statistic) => {
 				if (statistic !== null) {
 					this.logger.debug(`Найден ${param.eventId}: Футбол - стратегия ${strategy}`);
@@ -60,7 +81,7 @@ export class DataAnalysisService {
 				}
 			})
 			.catch((error) => {
-				this.logger.error(`footballLiveStrategyFour: ${error}`);
+				this.logger.error(`footballLiveStrategy: ${error}`);
 			});
 	}
 
@@ -70,7 +91,7 @@ export class DataAnalysisService {
 	 * @param {IFootball} param объект события
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
-	private saveRate(param: IFootball, strategy: number): Promise<IFootball | null> {
+	private saveEvent(param: IFootball, strategy: number): Promise<IFootball | null> {
 		return this.footballService.create({...param, strategy})
 			.catch((error: any) => {
 				this.logger.error(`Save rate: ${error}`);
