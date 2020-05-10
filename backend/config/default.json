@@ -2,8 +2,8 @@
 	"ip": "localhost",
 	"port": 3000,
 	"auth": {
-		"login": "58697181",
-		"password": "29c3sb6p"
+		"login": "SemakovMN@gmail.com",
+		"password": "swcBGM4283uVpHt"
 	},
 	"dbDev": {
 		"name": "rateBotNest",
@@ -41,8 +41,7 @@
 		}
 	},
 	"parser": {
-		"startPage": "https://1xbet.com/en/live/",
-		"baseUrl": "https://1xbet.com/",
+		"startPage": "https://www.betfair.com/exchange/plus/football/market/${marketId}",
 		"football": {
 			"search": "https://www.betfair.com/www/sports/navigation/facet/v1/search?alt=json",
 			"eventDetails": "https://ips.betfair.com/inplayservice/v1/eventDetails?eventIds=${id}&locale=en&regionCode=UK",
