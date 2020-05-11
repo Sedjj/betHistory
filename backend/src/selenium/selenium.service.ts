@@ -3,7 +3,7 @@ import {rateAmount, rateStatus} from '../store';
 import {Injectable, Logger, OnApplicationBootstrap} from '@nestjs/common';
 import {Auth, LayOrBack, Speed} from './type/selenium.type';
 import {
-	driverChrome,
+	driverChrome, findById,
 	findCssAndCall,
 	findIdAndCall,
 	findIdAndFill,
@@ -48,18 +48,18 @@ export class SeleniumBotService implements OnApplicationBootstrap {
 	}
 
 	async onApplicationBootstrap() {
-		await this.performEmulation();
+		await this.performEmulation('1.23123', 'lay', 1);
 	}
 
 	/**
 	 * Эмулмирует работу на PC.
 	 *
-	 * @param {Number} marketId идентификатор матча
-	 * @param {Number} numberColumn номер столбца тотала
-	 * @param {String} totalName искомая ставка
+	 * @param {String} marketId идентификатор матча
+	 * @param {LayOrBack} layOrBack флаг за или против
+	 * @param {Number} price коэффициент ставки
 	 * @returns {Promise<void>}
 	 */
-	async performEmulation(marketId: number, numberColumn: number, totalName: string) {
+	async performEmulation(marketId: string, layOrBack: LayOrBack, price: number) {
 		if (!rateStatus.status) {
 			return;
 		}
@@ -69,15 +69,15 @@ export class SeleniumBotService implements OnApplicationBootstrap {
 			},*/
 		let driver: WebDriver | null = null;
 		try {
-			this.logger.debug(`Rate match ${marketId} with '${totalName}'`);
+			this.logger.debug(`Rate match ${marketId} with '${price}'`);
 			driver = await driverChrome();
 			await init(driver);
-			await driver.get(this.urlStartPage.replace('${marketId}', marketId.toString()));
+			await driver.get(this.urlStartPage.replace('${marketId}', marketId));
 			if (await this.authorization(driver)) {
 				this.logger.debug('Authorization successfully');
 				for (const timeoutOne of this.searchTimeouts) {
 					for (const timeoutTwo of this.searchTimeouts) {
-						if (await this.searchRate(driver, numberColumn, totalName)) {
+						if (await this.searchRate(driver, layOrBack, price)) {
 							break;
 						}
 						this.logger.debug(`Search rate sleep on ${timeoutTwo}ms`);
@@ -108,14 +108,14 @@ export class SeleniumBotService implements OnApplicationBootstrap {
 	 */
 	private async authorization(driver: WebDriver): Promise<boolean> {
 		await driver.sleep(this.speed.fast);
-		if (!await findIdAndCall(driver, 'curLoginForm')) {
-			if (await findSelectorCss(driver, '.wrap_lk')) {
+		if (!await findById(driver, 'ssc-lif')) {
+			if (await findSelectorCss(driver, '.ssc-lof')) {
 				return true;
 			}
 		} else {
-			await findIdAndFill(driver, 'auth_id_email', this.auth.login);
-			await findIdAndFill(driver, 'auth-form-password', this.auth.password);
-			if (await findCssAndCall(driver, '.auth-button.auth-button--block')) {
+			await findIdAndFill(driver, 'ssc-liu', this.auth.login);
+			await findIdAndFill(driver, 'ssc-lipw', this.auth.password);
+			if (await findIdAndCall(driver, 'ssc-lis')) {
 				await driver.sleep(this.speed.fast);
 				await this.waitLoadPage(driver);
 				return true;
@@ -126,50 +126,22 @@ export class SeleniumBotService implements OnApplicationBootstrap {
 	}
 
 	/**
-	 * Метод для поиска матча на странице.
-	 *
-	 * @param {WebDriver} driver инстанс драйвера
-	 * @param {Number} marketId идентификатор матча
-	 * @returns {Promise<boolean>}
-	 */
-	/*private async search(driver: WebDriver, marketId: number): Promise<boolean> {
-		try {
-			if (
-				await findSelectorCss(driver, `.coupon-table > .mod-link[data-market-id="${marketId}"]`)
-				&& await findSelectorCss(driver, '.wrap_lk')    // TODO что авторизован
-			) {
-				if (await findCssAndCall(driver, `[data-market-id="${marketId}"]`)) {
-					return true;
-				} else {
-					await this.sendNotification('Current match not found');
-					return false;
-				}
-			}
-		} catch (e) {
-			console.log(`Search match failed - ${JSON.stringify(e)}`);
-		}
-		await this.sendNotification('Search match failed');
-		return false;
-	}*/
-
-	/**
 	 * Метод для поиска нужного коэфициента для ставки.
 	 *
 	 * @param {WebDriver} driver инстанс драйвера
 	 * @param {LayOrBack} layOrBack флаг за или против
 	 * @param {Number} price коэффициент ставки
-	 * @param {Number} size искомая ставка
 	 * @returns {Promise<boolean>}
 	 */
-	private async searchRate(driver: WebDriver, layOrBack: LayOrBack, price: number, size: number) {
+	private async searchRate(driver: WebDriver, layOrBack: LayOrBack, price: number) {
 		if (
-			await findSelectorCss(driver, `.${layOrBack}lay-selection-button`)
-			&& await findSelectorCss(driver, '.wrap_lk')    // TODO что авторизован
+			await findSelectorCss(driver, `.${layOrBack}-selection-button`)
+			&& await findSelectorCss(driver, '.ssc-lof')
 		) {
-			if (!await isElementByCss(driver, `.${layOrBack}lay-selection-button[price="${price}"]`)) {
+			if (!await isElementByCss(driver, `.${layOrBack}-selection-button[price="${price}"]`)) {
 				try {
-					if (await findCssAndCall(driver, `.${layOrBack}lay-selection-button[price="${price}"]`)) {
-						return await this.rate(driver);
+					if (await findCssAndCall(driver, `.${layOrBack}-selection-button[price="${price}"]`)) {
+						return await this.rate(driver, layOrBack);
 					} else {
 						await this.sendNotification('Current rate not found');
 						return false;
@@ -190,19 +162,15 @@ export class SeleniumBotService implements OnApplicationBootstrap {
 	 * Ставка выбраного коэфициента.
 	 *
 	 * @param {WebDriver} driver инстанс драйвера
+	 * @param {LayOrBack} layOrBack флаг за или против
 	 * @returns {Promise<boolean>}
 	 */
-	private async rate(driver: WebDriver) {
-		if (await findSelectorCssAndFill(driver, '.coupon__bet-settings .bet_sum_input', rateAmount.bets.toString())) {
+	private async rate(driver: WebDriver, layOrBack: LayOrBack) {
+		if (await findSelectorCssAndFill(driver, `.betslip__editable-bet--${layOrBack} .betslip-size-input`, rateAmount.bets.toString())) {
 			this.logger.debug(`bet_sum_input ${rateAmount.bets}`);
-			await findCssAndCall(driver, '.coupon-btn-group .coupon-btn-group__item');
-			if (await findSelectorCss(driver, '.swal2-error')) {
-				await this.sendNotification('Bet error');
-				// FIXME придумать как нажимать ок на модалках
-				return true;
-			} else if (await findSelectorCss(driver, '.swal2-warning')) {
+			await findCssAndCall(driver, '.potentials-footer__action[highlighted="true"]');
+			if (await findSelectorCss(driver, '.bets-state-header > .inplay-options')) {
 				await this.sendNotification('Bet warning');
-				// FIXME придумать как нажимать ок на модалках
 				return true;
 			}
 			this.logger.debug('Rate successfully');
@@ -211,99 +179,6 @@ export class SeleniumBotService implements OnApplicationBootstrap {
 		await this.sendNotification('Rate failed');
 		return false;
 	}
-
-	/**
-	 * Проверка доступности ставки.
-	 *
-	 * @param {WebDriver} driver инстанс драйвера
-	 * @returns {Promise<boolean>}
-	 */
-	/*private async availability(driver: WebDriver): Promise<boolean> {
-		try {
-			if (authPhone.status && false) {
-				await this.checkPhone(driver);
-				await this.closePromo(driver);
-			}
-			return true;
-		} catch (e) {
-			return false;
-		}
-	}*/
-
-	/**
-	 * Метод для поиска надоедливого всплывающего окна и закрытие его.
-	 *
-	 * @param {WebDriver} driver инстанс драйвера
-	 * @returns {Promise<boolean>}
-	 */
-	/*private async closePromo(driver: WebDriver): Promise<boolean> {
-		if (await findById(driver, 'promoPoints')) {
-			try {
-				await findCssAndCall(driver, '.box-modal_close');
-				return true;
-			} catch (e) {
-				await this.sendNotification(`Can't close promo banner: ${JSON.stringify(e)}`);
-				return false;
-			}
-		}
-		return false;
-	}*/
-
-	/**
-	 * Метод для поиска надоедливого всплывающего окна и закрытие его.
-	 *
-	 * @param {WebDriver} driver инстанс драйвера
-	 * @returns {Promise<boolean>}
-	 */
-
-	/*private async checkPhone(driver: WebDriver): Promise<boolean> {
-		if (await findById(driver, 'app')) {
-			try {
-				if (await findSelectorCss(driver, '.block-window')) {
-					rateStatus.turnOff();
-					await screenShot(driver, `${(new Date()).getTime()}.png`, this.nameBot, this.sendPhoto);
-					await this.sendNotification(decorateMessageWaitingPhone(this.nameBot));
-					await driver.sleep(this.speed.waitingForCode);
-
-					if (authPhone.phone) {
-						await findIdAndFill(driver, 'phone_middle', authPhone.phone);
-						await findCssAndCall(driver, '.block-window__btn');
-						await driver.sleep(this.speed.normal);
-
-						if (await findSelectorCss(driver, '.swal2-error.swal2-animate-error-icon')) {
-							await this.sendNotification('Неверный номер телефона');
-						} else if (await findSelectorCss(driver, '.swal2-info.swal2-animate-info-icon')) {
-							await this.sendNotification('The phone is correct');
-							await findCssAndCall(driver, '.swal2-confirm');
-							await driver.sleep(this.speed.fast);
-							await screenShot(driver, `${(new Date()).getTime()}.png`, this.nameBot, this.sendPhoto);
-							await this.sendNotification(decorateMessageWaitingCode(this.nameBot));
-							await driver.sleep(this.speed.waitingForCode);
-
-							if (authPhone.code) {
-								await findIdAndFill(driver, 'input_otp', authPhone.code);
-								await findCssAndCall(driver, '.block-window__btn');
-								await driver.sleep(this.speed.normal);
-								await screenShot(driver, `${(new Date()).getTime()}.png`, this.nameBot, this.sendPhoto);
-
-								if (!(await findSelectorCss(driver, '.swal2-error.swal2-animate-error-icon'))) {
-									await this.sendNotification('checkPhone successfully');
-									rateStatus.turnOn();
-									return true;
-								}
-							}
-						}
-					}
-					await this.sendNotification(decorateMessageVerification());
-				}
-				return false;
-			} catch (e) {
-				await this.sendNotification(`Can't close check phone: ${JSON.stringify(e)}`);
-				return false;
-			}
-		}
-		return false;
-	}*/
 
 	/**
 	 * Метод для логирования обработанных ошибок в чат и лог файл.

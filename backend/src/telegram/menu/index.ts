@@ -37,15 +37,6 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 					[{text: 'Выкл ставки', callback_data: 'turnOffBets'}],
 				]
 			};
-		case 'backup':
-			return {
-				id: 4,
-				title: 'Выберите тип бэкапа',
-				buttons: [
-					[{text: 'Бэкап футбол', callback_data: 'backupFootballs'}],
-					[{text: 'Бэкап конфига', callback_data: 'backupConfig'}],
-				]
-			};
 		case 'getFile':
 			return {
 				id: 5,

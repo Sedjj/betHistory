@@ -29,7 +29,7 @@ export class DataAnalysisService {
 			time
 		} = param;
 		let timeSetting: ITime[] = await this.confService.getTime();
-		if ((sc1 + sc2) === 1) {
+		if ((sc1 + sc2) === 0) {
 			if ((time >= timeSetting[1].before) && (time <= timeSetting[1].after)) {
 				this.footballLiveStrategy(param, 1);
 				incstack(param.eventId);
@@ -43,10 +43,16 @@ export class DataAnalysisService {
 				incstack(param.eventId);
 			}
 		}
-		if (sc1 === sc2) {
+		if ((sc1 + sc2) === 1) {
 			if ((time >= timeSetting[4].before) && (time <= timeSetting[4].after)) {
+				this.footballLiveStrategy(param, 4);
+				incstack(param.eventId);
+			}
+		}
+		if (sc1 === sc2) {
+			if ((time >= timeSetting[5].before) && (time <= timeSetting[5].after)) {
 				if (param.rates.matchOdds.against.x < 2) {
-					this.footballLiveStrategy(param, 4);
+					this.footballLiveStrategy(param, 5);
 					incstack(param.eventId);
 				}
 			}

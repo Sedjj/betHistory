@@ -51,7 +51,6 @@ export class TaskService implements OnApplicationBootstrap {
 	@Cron((process.env.NODE_ENV === 'development') ? '*/15 * * * * *' : '*/30 * * * *')
 	public async checkingResults() {
 		if (this.activeEventIds.length) {
-			console.log(this.activeEventIds);
 			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', this.activeEventIds.join()));
 			this.decreaseActiveEventId(eventDetails);
 			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
@@ -62,8 +61,6 @@ export class TaskService implements OnApplicationBootstrap {
 					this.logger.debug(`Ошибка при сохранении результата события: ${JSON.stringify(item)} error: ${error}`);
 				}
 			});
-		} else {
-			console.log(this.activeEventIds);
 		}
 	}
 

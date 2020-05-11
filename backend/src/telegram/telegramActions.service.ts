@@ -6,7 +6,6 @@ import {authPhone, counterWaiting, exportStatus, rateAmount, rateStatus} from '.
 import config from 'config';
 import {IKeyboardButton, IMenuBot} from './type/telegram.type';
 import {menuList} from './menu';
-import {exportBackup} from '../backupBD';
 import {TelegramService} from './telegram.service';
 import {ExportService} from '../export/export.service';
 import {RateLimit} from 'nestjs-rate-limiter';
@@ -22,7 +21,6 @@ export class TelegramActions {
 		selectSport: 'Вид спорта',
 		rate: 'Ставки',
 		getFile: 'Получить файл',
-		backup: 'Бэкап',
 		betAmount: 'Сумма ставки',
 		verification: 'Проверку входа в систему',
 	};
@@ -42,7 +40,6 @@ export class TelegramActions {
 			[this.buttons.rate],
 			[this.buttons.selectSport],
 			[this.buttons.getFile],
-			[this.buttons.backup],
 			[this.buttons.betAmount],
 			[this.buttons.verification],
 		];
@@ -142,11 +139,6 @@ export class TelegramActions {
 		await TelegramActions.inlineKeyboard(ctx, menuList('getFile'));
 	}
 
-	@TelegramActionHandler({message: 'Бэкап'})
-	protected async backup(ctx: ContextMessageUpdate) {
-		await TelegramActions.inlineKeyboard(ctx, menuList('backup'));
-	}
-
 	@TelegramActionHandler({message: 'Сумма ставки'})
 	protected async betAmount(ctx: ContextMessageUpdate) {
 		await TelegramActions.inlineKeyboard(ctx, menuList('betAmount', rateAmount.bets.toString()));
@@ -196,20 +188,6 @@ export class TelegramActions {
 	protected async exportFootball(ctx: ContextMessageUpdate) {
 		exportStatus.setName('football');
 		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
-	}
-
-	@RateLimit({ points: 1, duration: 20 })
-	@TelegramActionHandler({action: 'backupFootballs'})
-	protected async backupFootballs(ctx: ContextMessageUpdate) {
-		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
-		await exportBackup('footballs');
-	}
-
-	@RateLimit({ points: 1, duration: 20 })
-	@TelegramActionHandler({action: 'backupConfig'})
-	protected async backupConfig(ctx: ContextMessageUpdate) {
-		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
-		await exportBackup('config');
 	}
 
 	@TelegramActionHandler({action: 'enableBets'})

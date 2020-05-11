@@ -1,12 +1,19 @@
 ####Сделать дам на сервере
 ```bash
-docker-compose exec -T mongo-rate_test mongodump --gzip -d rateBotNest --archive="D:\git\bet\bethistory\dump-14.03.gz"
+docker-compose exec -T mongo-rate mongodump --gzip -d rateBotNest --archive="D:\git\bet\bethistory\dump-14.04.gz"
 ```
 
 ####Востановление из бэкапа
 ```bash
-docker-compose exec -T mongo-rate_test mongorestore --gzip --drop -d rateBotNest --archive="D:\git\bet\bethistory\dump-14.03.gz"
+docker-compose exec -T mongo-rate mongorestore --gzip --drop -d rateBotNest --archive="D:\git\bet\bethistory\dump-14.03.gz"
 ```
+docker-compose exec -T mongo-rate_test mongo -u user -p 123456 --authenticationDatabase rateBotNest
+docker-compose exec -T mongo-rate_test mongo rateBotNest -u root -p 123456
+
+apt-get update && apt-get install nano
+
+nano docker-entrypoint-initdb.d/mongo-init.js
+ls -all docker-entrypoint-initdb.d
 
 ####Сделать дам на сервере
 ```bash
@@ -46,7 +53,7 @@ docker cp  nostalgic_kalam:\data\db\statistics.json D:\git\bot\rate\mongoDB\dump
 
 ####Удалить данные из базы через консоль
 ```mongo
-mongo rateBot
+mongo rateBotNest
 db.tabletennis.drop();
 db.footballs.drop();
 ```

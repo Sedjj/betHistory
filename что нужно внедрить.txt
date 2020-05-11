@@ -20,4 +20,18 @@ https://github.com/betfair/stream-api-sample-code/blob/master/node.js/app.js
 https://docs.developer.betfair.com/display/1smk3cen4v3lu3yomq5qye0ni/New+API+Release+-+8th+August+2016
 
 
+ 
 
+mongo
+https://medium.com/@onexlab.io/docker-compose-mongodb-prod-dev-test-environment-eb1a75675f93
+
+http://www.telesens.co/2019/12/11/running-a-containerized-mongodb-application-using-an-attached-ebs-volume-data-store/
+
+https://stackoverflow.com/questions/60522471/docker-compose-mongodb-docker-entrypoint-initdb-d-is-not-working
+
+
+
+
+Получение ключа для api
+
+https://developer.betfair.com/en/get-started/#exchange-api

@@ -2,11 +2,13 @@ import {Injectable} from '@nestjs/common';
 import {IFootball} from '../football/type/football.type';
 import {TelegramService} from '../telegram/telegram.service';
 import {decorateMessageChannel} from '../utils/formateMessage';
+/*import {BetfairService} from '../betfair/betfair.service';*/
 
 @Injectable()
 export class BetsSimulatorService {
 	constructor(
 		private readonly telegramService: TelegramService,
+		/*private readonly betfairService: BetfairService,*/
 	) {
 	}
 
@@ -18,9 +20,10 @@ export class BetsSimulatorService {
 			case 1:
 				// await this.telegramService.sendMessageChat(decorateMessageChannel(param));
 				break;
-			case 4:
+			case 5:
 				console.log(marketId);
 				await this.telegramService.sendMessageChat(decorateMessageChannel(param));
+				// await this.betfairService.bet(param);
 				break;
 			default:
 				break;

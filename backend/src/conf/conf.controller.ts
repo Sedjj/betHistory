@@ -23,7 +23,7 @@ export class ConfController implements OnApplicationBootstrap {
 						after: 10
 					},
 					{
-						before: 30,
+						before: 25,
 						after: 35
 					},
 					{
@@ -31,14 +31,19 @@ export class ConfController implements OnApplicationBootstrap {
 						after: 45
 					},
 					{
+						before: 0,
+						after: 35
+					},
+					{
 						before: 45,
-						after: 100
+						after: 110
 					},
 				],
 				typeRate: [
 					1.5,
 					1.5,
 					1.5,
+					0.5,
 					0.5,
 				],
 				rate: [
@@ -57,7 +62,11 @@ export class ConfController implements OnApplicationBootstrap {
 					{
 						title: 'Math.abs(p1 - p2) < rate',
 						rate: 2
-					}
+					},
+					{
+						title: 'Math.abs(p1 - p2) < rate',
+						rate: 2
+					},
 				],
 			})
 			.then(response => response && this.logger.debug(`Config migration in bd`));

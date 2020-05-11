@@ -2,3 +2,7 @@
 connection.*
 docker/build/
 *.ovpn
+backend/src/parser/type/scoreEvents.type.ts
+docker/OpenVPN/openvpn-data/
+docker/mongo-seed/scripts_test/
+mongo-init.js
