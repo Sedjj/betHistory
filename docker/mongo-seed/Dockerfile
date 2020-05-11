@@ -6,7 +6,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Copy db
 COPY docker/mongo-seed/dump/ /data/dump/
 
-# Copy scripts
+# Copy scripts_test
 COPY docker/mongo-seed/scripts /data/scripts/
 
 # Copy mongo.sh

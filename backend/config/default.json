@@ -8,8 +8,8 @@
 	"dbDev": {
 		"name": "rateBotNest",
 		"hostString": "localhost:27017/",
-		"user": "",
-		"pass": ""
+		"user": "root",
+		"pass": "rootpassword"
 	},
 	"dbProd": {
 		"name": "rateBotNest",

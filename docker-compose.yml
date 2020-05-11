@@ -1,24 +1,51 @@
-version: "2"
+version: '3.7'
 services:
-  rate:
-    container_name: rate
-    restart: always
-    depends_on:
-      - mongo-rate
-    build:
-      context: .
-      dockerfile: docker/node/Dockerfile
-    links:
-      - mongo-rate
+#  rate:
+#    container_name: rate
+#    restart: always
+#    depends_on:
+#      - mongo-rate
+#      - hub
+#    build:
+#      context: .
+#      dockerfile: docker/node/Dockerfile
+#    links:
+#      - mongo-rate
+#      - hub
 
-  mongo-rate:
-    container_name: mongo-rate
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
     restart: always
-    image: mongo
-    volumes:
-      - ./docker/mongo-seed/db:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootPassword
     ports:
-      - "27017:27017"
+      - 27017:27017
+    volumes:
+      # maps our mongo-init.js to a path inside the container image. docker-entrypoint.sh will execute this file
+      # during container initialization.
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:rw
+      # maps the directory ot which we mounted the EBS volume to /data/db, the default data directory
+      # used by mongo
+      - /mongo-data:/data/db
+#  mongo-rate_test:
+#    container_name: mongo-rate_test
+#    restart: always
+#    image: mongo:latest
+#    volumes:
+#      - ./docker/mongo-seed/scripts_test/init-seed.js:/docker-entrypoint-initdb.d/init-seed.js:ro
+##    environment:
+##      MONGO_INITDB_ROOT_USERNAME: root
+##      MONGO_INITDB_ROOT_PASSWORD: 123456
+##    volumes:
+##      - type: bind
+##        source: '.\docker\mongo-seed\scripts_test\init-seed.js'
+##        target: '/docker-entrypoint-initdb.d/init-seed.js'
+##      - './docker/mongo-seed/scripts_test/:/docker-entrypoint-initdb.d/'
+##      - './docker/mongo-seed/db/:/data/db/'
+#    ports:
+#      - "27017:27017"
 
 #  mongo-rate-seed:
 #    container_name: mongo-rate-seed
@@ -29,3 +56,23 @@ services:
 #      dockerfile: docker/mongo-seed/Dockerfile
 #    links:
 #      - mongo-rate
+  chrome:
+    container_name: chrome
+    restart: always
+    image: selenium/node-chrome:3.141.59-xenon
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - hub
+    environment:
+      HUB_HOST: hub
+
+  hub:
+    container_name: hub
+    restart: always
+    image: selenium/hub:3.141.59-xenon
+    environment:
+      - GRID_BROWSER_TIMEOUT=3400
+      - GRID_TIMEOUT=3600
+    ports:
+      - "4444:4444"
