@@ -10,9 +10,8 @@ export class FootballService {
 	private readonly logger = new Logger(FootballService.name);
 
 	constructor(
-		@InjectModel('Football') private readonly footballModel: Model<IFootballModel>
-	) {
-	}
+		@InjectModel('Football') private readonly footballModel: Model<IFootballModel>,
+	) {}
 
 	/**
 	 * Преобразовывает ставки в необходимый формат
@@ -205,7 +204,7 @@ export class FootballService {
 	 * @param {IFootballQuery} param для таблицы
 	 * @returns {Promise<any>}
 	 */
-	public async setDataByParam(param: IFootball): Promise<IFootballModel> {
+	public async setDataByParam(param: IFootball): Promise<IFootball | void> {
 		return await this.footballModel
 			.findOne({marketId: param.marketId, strategy: param.strategy})
 			.read('secondary')
@@ -224,7 +223,7 @@ export class FootballService {
 				if (param.modifiedBy != null) {
 					statistic.modifiedBy = param.modifiedBy;
 				}
-				return statistic.save();
+				return statistic.save().then((x: IFootballModel) => FootballService.mapProps(x));
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}: ${error.message}`);

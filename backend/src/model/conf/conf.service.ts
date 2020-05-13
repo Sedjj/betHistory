@@ -107,7 +107,7 @@ export class ConfService {
 				if (param.modifiedBy !== undefined) {
 					model.modifiedBy = param.modifiedBy;
 				}
-				return model.save().then((x) => ConfService.mapProps(x));
+				return model.save().then((x: IConfModel) => ConfService.mapProps(x));
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}`);

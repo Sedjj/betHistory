@@ -70,7 +70,7 @@ export class ConfController implements OnApplicationBootstrap {
 					},
 				],
 			})
-			.then(response => response && this.logger.debug(`Config migration in bd`));
+			.then((response: null | IConf) => response && this.logger.debug(`Config migration in bd`));
 	}
 
 	@Post()

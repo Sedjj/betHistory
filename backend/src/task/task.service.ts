@@ -9,6 +9,8 @@ import {EventDetails} from '../parser/type/eventDetails.type';
 import {LiteMarkets} from '../parser/type/marketsEvents.type';
 import {MarketNodes} from '../parser/type/byMarket.type';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
+import {StackService} from '../model/stack/stack.service';
+import {IStack} from '../model/stack/type/stack.type';
 
 const urlSearch = config.get<string>('parser.football.search');
 const urlEventDetails = config.get<string>('parser.football.eventDetails');
@@ -24,11 +26,22 @@ export class TaskService implements OnApplicationBootstrap {
 		private fetchService: FetchService,
 		private parserFootballService: ParserFootballService,
 		private dataAnalysisService: DataAnalysisService,
-	) {}
+		private readonly stackService: StackService
+	) {
+	}
 
-	onApplicationBootstrap() {
+	async onApplicationBootstrap() {
 		this.logger.debug('****start scheduler search football****');
 		this.logger.debug('****start scheduler checking results****');
+		let stack: null | IStack = await this.stackService.create({
+			stackId: 1,
+			activeEventIds: [],
+		});
+		if (stack != null) {
+			this.logger.debug(`Stack migration in bd`);
+		} else {
+			this.activeEventIds = await this.getActiveEvent();
+		}
 	}
 
 	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/02 * * * *')
@@ -131,6 +144,7 @@ export class TaskService implements OnApplicationBootstrap {
 	private increaseActiveEventId = (id: number): void => {
 		if (!this.activeEventIds.includes(id)) {
 			this.activeEventIds.push(id);
+			this.setActiveEvent(this.activeEventIds);
 		}
 	};
 
@@ -146,5 +160,28 @@ export class TaskService implements OnApplicationBootstrap {
 			}
 			return acc;
 		}, []);
+		this.setActiveEvent(this.activeEventIds);
 	};
+
+	private async getActiveEvent(): Promise<number[]> {
+		let activeEventIds: number[] = [];
+		try {
+			let model: IStack = await this.stackService.getDataByParam(1);
+			activeEventIds = model.activeEventIds;
+		} catch (error) {
+			this.logger.error(`Error get active event ids`);
+		}
+		return activeEventIds;
+	}
+
+	private async setActiveEvent(ids: number[]): Promise<void> {
+		try {
+			await this.stackService.setDataByParam({
+				stackId: 1,
+				activeEventIds: ids
+			});
+		} catch (error) {
+			this.logger.error(`Error get active event ids`);
+		}
+	}
 }
