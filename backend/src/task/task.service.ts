@@ -24,8 +24,7 @@ export class TaskService implements OnApplicationBootstrap {
 		private fetchService: FetchService,
 		private parserFootballService: ParserFootballService,
 		private dataAnalysisService: DataAnalysisService,
-	) {
-	}
+	) {}
 
 	onApplicationBootstrap() {
 		this.logger.debug('****start scheduler search football****');

@@ -189,43 +189,6 @@ export class FetchService {
 	}
 
 	/**
-	 * Метод для получения всех результатов.
-	 *
-	 * @param {String} url адрес запроса
-	 * @returns {Promise<any>}
-	 */
-	public getResultList(url: string): any {
-		return new Promise(async (resolve, reject) => {
-			for (const timeout of this.searchTimeouts) {
-				try {
-					let value = [];
-					this.logger.debug(`url: ${url}`);
-					const {body} = await this.client.get(url);
-					try {
-						value = JSON.parse(body)['Data'];
-						if (value != null) {
-							resolve(value);
-							break;
-						}
-					} catch (error) {
-						this.logger.error(`Get result matches JSON.parse: ${error}`);
-						reject('JSON parse error');
-						break;
-					}
-					this.logger.error(`Get result matches error: ${body}`);
-					reject('request came empty');
-					break;
-				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
-					this.logger.debug(`Get result matches sleep on ${timeout}ms`);
-					await this.sleep(timeout);
-				}
-			}
-			reject('Server is not responding');
-		});
-	}
-
-	/**
 	 * Функция ожидания реализованая через промис + таймаут, прелполагается использовать с async/await.
 	 *
 	 * @param {number} ms - количество миллисекунд которое требуется выждать

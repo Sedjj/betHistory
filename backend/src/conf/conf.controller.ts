@@ -6,8 +6,9 @@ import {IConf} from './type/conf.type';
 export class ConfController implements OnApplicationBootstrap {
 	private readonly logger = new Logger(ConfController.name);
 
-	constructor(private readonly confService: ConfService) {
-	}
+	constructor(
+		private readonly confService: ConfService
+	) {}
 
 	onApplicationBootstrap() {
 		this.confService.create({

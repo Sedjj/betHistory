@@ -93,13 +93,19 @@ export type ITimeSnapshot = {
 	/**
 	 * Состояние "Колличество голо за матч" коэффициентов во время отбора
 	 */
-	allTotalGoals: IOtherRates;
+	allTotalGoals: IOtherRatesInArray;
 };
 
 /**
  * Состояние основных коэффициентов во время отбора
  */
 export type IMainRates = {
+	selectionId: number;
+	/**
+	 * Идентификатор отбора по коэффициентам
+	 */
+	marketId: string;
+	handicap: number;
 	/**
 	 * За
 	 */
@@ -124,6 +130,31 @@ export type IMainRates = {
  * Состояние остальных коэффициентов во время отбора
  */
 export type IOtherRates = {
+	selectionId: number;
+	/**
+	 * Идентификатор отбора по коэффициентам
+	 */
+	marketId: string;
+} & IOtherRate;
+
+/**
+ * Состояние остальных коэффициентов во время отбора с большим числов вариантов
+ */
+export type IOtherRatesInArray = {
+	selectionId: number;
+	/**
+	 * Идентификатор отбора по коэффициентам
+	 */
+	marketId: string;
+	list: IOtherRate[]
+
+};
+
+/**
+ * Состояние остальных коэффициентов
+ */
+export type IOtherRate = {
+	handicap: number;
 	behind: number;
 	against: number;
 };

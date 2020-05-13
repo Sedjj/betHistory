@@ -61,7 +61,12 @@ export class ExportService {
 				under25: statistic.rates.under25.behind,
 				bothTeamsToScoreYes: statistic.rates.bothTeamsToScoreYes.behind,
 				bothTeamsToScoreNo: statistic.rates.bothTeamsToScoreNo.behind,
-				allTotalGoals: statistic.rates.allTotalGoals.behind,
+				allTotalGoals: statistic.rates.allTotalGoals.list.reduce<number>((acc, x) => {
+					if (x.handicap === 2.0) {
+						acc = x.behind;
+					}
+					return acc;
+				}, 0),
 				/**
 				 * Карты
 				 */

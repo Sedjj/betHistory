@@ -6,13 +6,14 @@ import {
 	IFootball,
 	IMainRates,
 	IOtherRates,
+	IOtherRatesInArray,
 	IScore,
 	ITimeSnapshot
 } from '../football/type/football.type';
 import moment from 'moment';
 import {EventDetails, StateEventDetails, TeamInfoEventDetails} from './type/eventDetails.type';
 import {LiteMarkets, MarketType} from './type/marketsEvents.type';
-import {MarketNodes, RunnersMarketNodes} from './type/byMarket.type';
+import {ExchangeMarketNodes, MarketNodes, RunnersMarketNodes} from './type/byMarket.type';
 import {ScoreEvents} from './type/scoreEvents.type';
 
 @Injectable()
@@ -20,6 +21,22 @@ export class ParserFootballService {
 	private readonly logger = new Logger(ParserFootballService.name);
 
 	private choiceMarketType: MarketType[] = ['MATCH_ODDS', 'OVER_UNDER_15', 'OVER_UNDER_25', 'BOTH_TEAMS_TO_SCORE', 'ALT_TOTAL_GOALS'];
+
+	private static behindParser(exchange?: ExchangeMarketNodes): number {
+		let behind: number = 0;
+		if (exchange && exchange.availableToBack && Array.isArray(exchange.availableToBack) && exchange.availableToBack.length) {
+			behind = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
+		}
+		return behind;
+	}
+
+	private static againstParser(exchange?: ExchangeMarketNodes): number {
+		let against: number = 0;
+		if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
+			against = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
+		}
+		return against;
+	}
 
 	/**
 	 * Метод для поиска матчей которые начались или только закончились.
@@ -42,6 +59,7 @@ export class ParserFootballService {
 							}
 						}
 					}
+					acc.push(eventId);
 					return acc;
 				}, res);
 			}
@@ -299,6 +317,9 @@ export class ParserFootballService {
 	 */
 	public getRates(market?: MarketNodes[]): ITimeSnapshot {
 		let rate: IMainRates = {
+			selectionId: 0,
+			marketId: '',
+			handicap: 0,
 			behind: {
 				p1: 0,
 				x: 0,
@@ -313,8 +334,16 @@ export class ParserFootballService {
 			}
 		};
 		let rateOther: IOtherRates = {
+			selectionId: 0,
+			marketId: '',
+			handicap: 0,
 			behind: 0,
 			against: 0
+		};
+		let rateOtherInArray: IOtherRatesInArray = {
+			selectionId: 0,
+			marketId: '',
+			list: []
 		};
 		let res: ITimeSnapshot = {
 			matchOdds: rate,
@@ -322,28 +351,34 @@ export class ParserFootballService {
 			under25: rateOther,
 			bothTeamsToScoreYes: rateOther,
 			bothTeamsToScoreNo: rateOther,
-			allTotalGoals: rateOther,
+			allTotalGoals: rateOtherInArray,
 		};
 		if (market != null && market.length) {
 			market.forEach((node) => {
-				let {description, runners} = node;
+				let {description, runners, marketId} = node;
 				if (description && runners != null && runners.length) {
 					switch (description.marketType) {
 						case 'MATCH_ODDS':
 							res.matchOdds = this.parserMainRates(runners);
+							res.matchOdds.marketId = marketId || '';
 							break;
 						case 'OVER_UNDER_15':
 							res.under15 = this.parserOtherRates(runners, 'Under 1.5 Goals');
+							res.under15.marketId = marketId || '';
 							break;
 						case 'OVER_UNDER_25':
 							res.under25 = this.parserOtherRates(runners, 'Under 2.5 Goals');
+							res.under25.marketId = marketId || '';
 							break;
 						case 'BOTH_TEAMS_TO_SCORE':
 							res.bothTeamsToScoreYes = this.parserOtherRates(runners, 'Yes');
+							res.bothTeamsToScoreYes.marketId = marketId || '';
 							res.bothTeamsToScoreNo = this.parserOtherRates(runners, 'No');
+							res.bothTeamsToScoreNo.marketId = marketId || '';
 							break;
 						case 'ALT_TOTAL_GOALS':
-							res.allTotalGoals = this.parserOtherRates(runners, 'Under', 2.0);
+							res.allTotalGoals = this.parserOtherRatesInArray(runners, 'Under');
+							res.allTotalGoals.marketId = marketId || '';
 							break;
 					}
 				}
@@ -359,6 +394,9 @@ export class ParserFootballService {
 	 */
 	public parserMainRates(runners: RunnersMarketNodes[]): IMainRates {
 		let res: IMainRates = {
+			selectionId: 0,
+			marketId: '',
+			handicap: 0,
 			behind: {
 				p1: 0,
 				x: 0,
@@ -373,34 +411,24 @@ export class ParserFootballService {
 			}
 		};
 		if (runners != null && runners.length) {
-			runners.forEach((node: RunnersMarketNodes, index: number) => {
-				let {exchange} = node;
+			runners.forEach((runner: RunnersMarketNodes, index: number) => {
+				let {exchange} = runner;
+				res.selectionId = runner.selectionId || 0;
+				res.handicap = runner.handicap || 0;
 				switch (index) {
 					case 0: { // p1
-						if (exchange && exchange.availableToBack && Array.isArray(exchange.availableToBack) && exchange.availableToBack.length) {
-							res.behind.p1 = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
-						}
-						if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
-							res.against.p1 = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
-						}
+						res.behind.p1 = ParserFootballService.behindParser(exchange);
+						res.against.p1 = ParserFootballService.againstParser(exchange);
 						break;
 					}
 					case 1: {  // p2
-						if (exchange && exchange.availableToBack && exchange.availableToBack.length) {
-							res.behind.p2 = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
-						}
-						if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
-							res.against.p2 = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
-						}
+						res.behind.p2 = ParserFootballService.behindParser(exchange);
+						res.against.p2 = ParserFootballService.againstParser(exchange);
 						break;
 					}
 					case 2: { // ничья
-						if (exchange && exchange.availableToBack && exchange.availableToBack.length) {
-							res.behind.x = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
-						}
-						if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
-							res.against.x = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
-						}
+						res.behind.x = ParserFootballService.behindParser(exchange);
+						res.against.x = ParserFootballService.againstParser(exchange);
 						break;
 					}
 				}
@@ -414,30 +442,47 @@ export class ParserFootballService {
 	/**
 	 * Метод для определения состояние остальных коэффициентов во время отбора
 	 */
-	public parserOtherRates(runners: RunnersMarketNodes[], runnerName: string, handicap?: number): IOtherRates {
+	public parserOtherRates(runners: RunnersMarketNodes[], runnerName: string): IOtherRates {
 		let res: IOtherRates = {
+			selectionId: 0,
+			marketId: '',
+			handicap: 0,
 			behind: 0,
 			against: 0
 		};
 		if (runners != null && runners.length) {
-			runners.forEach((node: RunnersMarketNodes, index: number) => {
-				let {exchange, description} = node;
+			runners.forEach((runner: RunnersMarketNodes) => {
+				let {exchange, description} = runner;
+				res.selectionId = runner.selectionId || 0;
+				res.handicap = runner.handicap || 0;
 				if (description && description.runnerName === runnerName) {
-					if (node.handicap && handicap && node.handicap === handicap) {
-						if (exchange && exchange.availableToBack && Array.isArray(exchange.availableToBack) && exchange.availableToBack.length) {
-							res.behind = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
-						}
-						if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
-							res.against = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
-						}
-					} else {
-						if (exchange && exchange.availableToBack && Array.isArray(exchange.availableToBack) && exchange.availableToBack.length) {
-							res.behind = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
-						}
-						if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
-							res.against = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
-						}
-					}
+					res.behind = ParserFootballService.behindParser(exchange);
+					res.against = ParserFootballService.againstParser(exchange);
+				}
+			});
+		}
+		return res;
+	}
+
+	/**
+	 * Метод для определения состояние остальных коэффициентов во время отбора с большим числов вариантов
+	 */
+	public parserOtherRatesInArray(runners: RunnersMarketNodes[], runnerName: string): IOtherRatesInArray {
+		let res: IOtherRatesInArray = {
+			selectionId: 0,
+			marketId: '',
+			list: [],
+		};
+		if (runners != null && runners.length) {
+			runners.forEach((runner: RunnersMarketNodes) => {
+				let {exchange, description} = runner;
+				res.selectionId = runner.selectionId || 0;
+				if (description && description.runnerName === runnerName) {
+					res.list.push({
+						handicap: runner.handicap || 0,
+						behind: ParserFootballService.behindParser(exchange),
+						against: ParserFootballService.againstParser(exchange),
+					});
 				}
 			});
 		}

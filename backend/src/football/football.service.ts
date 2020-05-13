@@ -1,7 +1,7 @@
 import {Model} from 'mongoose';
 import {Injectable, Logger} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {IFootball, IFootballModel, IFootballQuery} from './type/football.type';
+import {IFootball, IFootballModel, IFootballQuery, IOtherRate} from './type/football.type';
 import {dateStringToShortDateString} from '../utils/dateFormat';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
 
@@ -12,6 +12,20 @@ export class FootballService {
 	constructor(
 		@InjectModel('Football') private readonly footballModel: Model<IFootballModel>
 	) {
+	}
+
+	/**
+	 * Преобразовывает ставки в необходимый формат
+	 *
+	 * @param {IOtherRate} item статистика
+	 * @return {Object}
+	 */
+	private static mapPropsRate(item: IOtherRate): IOtherRate {
+		return {
+			handicap: item.handicap,
+			behind: item.behind,
+			against: item.against,
+		};
 	}
 
 	/**
@@ -61,6 +75,9 @@ export class FootballService {
 			},
 			rates: {
 				matchOdds: {
+					selectionId: statistic.rates.matchOdds.selectionId,
+					marketId: statistic.rates.matchOdds.marketId,
+					handicap: statistic.rates.matchOdds.handicap,
 					behind: {
 						p1: statistic.rates.matchOdds.behind.p1,
 						x: statistic.rates.matchOdds.behind.x,
@@ -75,24 +92,37 @@ export class FootballService {
 					}
 				},
 				under15: {
+					selectionId: statistic.rates.under15.selectionId,
+					marketId: statistic.rates.under15.marketId,
+					handicap: statistic.rates.under15.handicap,
 					behind: statistic.rates.under15.behind,
 					against: statistic.rates.under15.against,
 				},
 				under25: {
+					selectionId: statistic.rates.under25.selectionId,
+					marketId: statistic.rates.under25.marketId,
+					handicap: statistic.rates.under25.handicap,
 					behind: statistic.rates.under25.behind,
 					against: statistic.rates.under25.against,
 				},
 				bothTeamsToScoreYes: {
+					selectionId: statistic.rates.bothTeamsToScoreYes.selectionId,
+					marketId: statistic.rates.bothTeamsToScoreYes.marketId,
+					handicap: statistic.rates.bothTeamsToScoreYes.handicap,
 					behind: statistic.rates.bothTeamsToScoreYes.behind,
 					against: statistic.rates.bothTeamsToScoreYes.against,
 				},
 				bothTeamsToScoreNo: {
+					selectionId: statistic.rates.bothTeamsToScoreNo.selectionId,
+					marketId: statistic.rates.bothTeamsToScoreNo.marketId,
+					handicap: statistic.rates.bothTeamsToScoreNo.handicap,
 					behind: statistic.rates.bothTeamsToScoreNo.behind,
 					against: statistic.rates.bothTeamsToScoreNo.against,
 				},
 				allTotalGoals: {
-					behind: statistic.rates.allTotalGoals.behind,
-					against: statistic.rates.allTotalGoals.against,
+					selectionId: statistic.rates.allTotalGoals.selectionId,
+					marketId: statistic.rates.allTotalGoals.marketId,
+					list: statistic.rates.allTotalGoals.list.map((item: IOtherRate) => FootballService.mapPropsRate(item))
 				},
 			},
 			createdBy: dateStringToShortDateString(statistic.createdBy),

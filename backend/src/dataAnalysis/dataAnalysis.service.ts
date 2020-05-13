@@ -21,9 +21,9 @@ export class DataAnalysisService {
 	 * Метод для выбора стратегии ставки.
 	 *
 	 * @param {IFootball} param объект события
-	 * @param {(id: number) => void} incstack функция для получения событий которые удовлетворяют условиям
+	 * @param {(id: number) => void} incStack функция для получения событий которые удовлетворяют условиям
 	 */
-	public async strategyDefinition(param: IFootball, incstack: (id: number) => void): Promise<void> {
+	public async strategyDefinition(param: IFootball, incStack: (id: number) => void): Promise<void> {
 		let {
 			score: {sc1, sc2},
 			time
@@ -32,28 +32,28 @@ export class DataAnalysisService {
 		if ((sc1 + sc2) === 0) {
 			if ((time >= timeSetting[1].before) && (time <= timeSetting[1].after)) {
 				this.footballLiveStrategy(param, 1);
-				incstack(param.eventId);
+				incStack(param.eventId);
 			}
 			if ((time >= timeSetting[2].before) && (time <= timeSetting[2].after)) {
 				this.footballLiveStrategy(param, 2);
-				incstack(param.eventId);
+				incStack(param.eventId);
 			}
 			if (time === timeSetting[3].before) {
 				this.footballLiveStrategy(param, 3);
-				incstack(param.eventId);
+				incStack(param.eventId);
 			}
 		}
 		if ((sc1 + sc2) === 1) {
 			if ((time >= timeSetting[4].before) && (time <= timeSetting[4].after)) {
 				this.footballLiveStrategy(param, 4);
-				incstack(param.eventId);
+				incStack(param.eventId);
 			}
 		}
 		if (sc1 === sc2) {
 			if ((time >= timeSetting[5].before) && (time <= timeSetting[5].after)) {
 				if (param.rates.matchOdds.against.x < 2) {
 					this.footballLiveStrategy(param, 5);
-					incstack(param.eventId);
+					incStack(param.eventId);
 				}
 			}
 		}
