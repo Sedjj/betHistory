@@ -9,7 +9,7 @@ import {
 	IOtherRatesInArray,
 	IScore,
 	ITimeSnapshot
-} from '../football/type/football.type';
+} from '../model/football/type/football.type';
 import moment from 'moment';
 import {EventDetails, StateEventDetails, TeamInfoEventDetails} from './type/eventDetails.type';
 import {LiteMarkets, MarketType} from './type/marketsEvents.type';

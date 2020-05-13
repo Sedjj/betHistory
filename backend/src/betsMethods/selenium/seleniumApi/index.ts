@@ -1,9 +1,9 @@
 import chrome from 'selenium-webdriver/chrome';
 import config from 'config';
 import path from 'path';
-import {log} from '../../utils/logger';
+import {log} from '../../../utils/logger';
 import {Builder, By, Capabilities, Locator, until, WebDriver, WebElement} from 'selenium-webdriver';
-import {saveBufferToFile} from '../../utils/fsHelpers';
+import {saveBufferToFile} from '../../../utils/fsHelpers';
 import chromeDriver from 'chromedriver';
 
 chrome.setDefaultService(new chrome.ServiceBuilder(chromeDriver.path).build());

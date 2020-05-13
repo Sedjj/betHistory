@@ -1,5 +1,5 @@
 import config from 'config';
-import {rateAmount, rateStatus} from '../store';
+import {rateAmount, rateStatus} from '../../store';
 import {Injectable, Logger, OnApplicationBootstrap} from '@nestjs/common';
 import {Auth, LayOrBack, Speed} from './type/selenium.type';
 import {
@@ -14,7 +14,7 @@ import {
 	screenShot
 } from './seleniumApi';
 import {WebDriver} from 'selenium-webdriver';
-import {TelegramService} from '../telegram/telegram.service';
+import {TelegramService} from '../../telegram/telegram.service';
 
 @Injectable()
 export class SeleniumBotService implements OnApplicationBootstrap {

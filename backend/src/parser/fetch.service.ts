@@ -1,7 +1,7 @@
 import {Injectable, Logger} from '@nestjs/common';
 import got, {Got} from 'got';
 import {CookieJar} from 'tough-cookie';
-import {EventDetails} from '../parser/type/eventDetails.type';
+import {EventDetails} from './type/eventDetails.type';
 
 @Injectable()
 export class FetchService {

@@ -1,6 +1,6 @@
 import {Module} from '@nestjs/common';
 import {ExportService} from './export.service';
-import {FootballModule} from '../football/football.module';
+import {FootballModule} from '../model/football/football.module';
 
 @Module({
 	imports: [

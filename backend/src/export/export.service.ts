@@ -2,10 +2,10 @@ import {Injectable, Logger} from '@nestjs/common';
 import config from 'config';
 import {readFile, saveBufferToFile} from '../utils/fsHelpers';
 import path from 'path';
-import {FootballService} from '../football/football.service';
+import {FootballService} from '../model/football/football.service';
 // @ts-ignore
 import XlsxTemplate from 'xlsx-template';
-import {IFootball} from '../football/type/football.type';
+import {IFootball} from '../model/football/type/football.type';
 import {ExcelProps} from './type/export.type';
 
 @Injectable()

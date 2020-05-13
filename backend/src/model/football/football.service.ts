@@ -2,8 +2,8 @@ import {Model} from 'mongoose';
 import {Injectable, Logger} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {IFootball, IFootballModel, IFootballQuery, IOtherRate} from './type/football.type';
-import {dateStringToShortDateString} from '../utils/dateFormat';
-import {ScoreEvents} from '../parser/type/scoreEvents.type';
+import {dateStringToShortDateString} from '../../utils/dateFormat';
+import {ScoreEvents} from '../../parser/type/scoreEvents.type';
 
 @Injectable()
 export class FootballService {

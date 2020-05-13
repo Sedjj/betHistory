@@ -2,7 +2,7 @@ import {Injectable, Logger} from '@nestjs/common';
 import {IConf, IConfModel, IRateStrategy, ITime} from './type/conf.type';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
-import {dateStringToShortDateString} from '../utils/dateFormat';
+import {dateStringToShortDateString} from '../../utils/dateFormat';
 
 @Injectable()
 export class ConfService {

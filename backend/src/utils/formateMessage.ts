@@ -1,4 +1,4 @@
-import {IFootball} from '../football/type/football.type';
+import {IFootball} from '../model/football/type/football.type';
 
 /**
  * Метод для округления дробного число

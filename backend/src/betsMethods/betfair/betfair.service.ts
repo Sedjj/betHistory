@@ -1,7 +1,7 @@
 import {Injectable, Logger, OnApplicationBootstrap} from '@nestjs/common';
 import {CookieJar} from 'tough-cookie';
 import got, {Got} from 'got';
-import {IFootball} from '../football/type/football.type';
+import {IFootball} from '../../model/football/type/football.type';
 import FormData from 'form-data';
 
 @Injectable()

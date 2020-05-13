@@ -1,10 +1,10 @@
 import {Injectable, Logger, OnApplicationBootstrap} from '@nestjs/common';
 import {Cron} from '@nestjs/schedule';
-import {FetchService} from '../fetch/fetch.service';
+import {FetchService} from '../parser/fetch.service';
 import config from 'config';
 import {ParserFootballService} from '../parser/parserFootball.service';
 import {DataAnalysisService} from '../dataAnalysis/dataAnalysis.service';
-import {IFootball} from '../football/type/football.type';
+import {IFootball} from '../model/football/type/football.type';
 import {EventDetails} from '../parser/type/eventDetails.type';
 import {LiteMarkets} from '../parser/type/marketsEvents.type';
 import {MarketNodes} from '../parser/type/byMarket.type';

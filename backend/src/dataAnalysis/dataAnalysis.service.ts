@@ -1,9 +1,9 @@
 import {Injectable, Logger} from '@nestjs/common';
-import {IFootball} from '../football/type/football.type';
-import {ConfService} from '../conf/conf.service';
-import {FootballService} from '../football/football.service';
+import {IFootball} from '../model/football/type/football.type';
+import {ConfService} from '../model/conf/conf.service';
+import {FootballService} from '../model/football/football.service';
 import {BetsSimulatorService} from '../betsSimulator/betsSimulator.service';
-import {ITime} from '../conf/type/conf.type';
+import {ITime} from '../model/conf/type/conf.type';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
 
 @Injectable()

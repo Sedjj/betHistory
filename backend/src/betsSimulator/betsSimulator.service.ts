@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common';
-import {IFootball} from '../football/type/football.type';
+import {IFootball} from '../model/football/type/football.type';
 import {TelegramService} from '../telegram/telegram.service';
 import {decorateMessageChannel} from '../utils/formateMessage';
 /*import {BetfairService} from '../betfair/betfair.service';*/
