@@ -181,5 +181,5 @@ export type ICards = {
 
 export type IFootballQuery = {
 	marketId: string;
-	strategy: string;
+	strategy: number;
 };

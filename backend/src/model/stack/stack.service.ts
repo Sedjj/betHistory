@@ -86,13 +86,19 @@ export class StackService {
 					this.logger.error('Stack with not found');
 					throw new Error(`Stack with not found: ${param.stackId}`);
 				}
+
 				if (param.activeEventIds !== undefined) {
-					model.activeEventIds = param.activeEventIds;
+					this.stackModel.findOneAndUpdate({_id: model._id}, {
+							activeEventIds: param.activeEventIds
+						}, {new: true})
+						.read('secondary')
+						.exec()
+						.then((x: IStackModel) => StackService.mapProps(x));
 				}
-				return model.save().then((x: IStackModel) => StackService.mapProps(x));
+				return Promise.resolve();
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error set data by param param=${JSON.stringify(param)}`);
+				this.logger.error(`Error set data by stack param=${JSON.stringify(param)} error=${JSON.stringify(error)}`);
 				throw new Error(error);
 			});
 	}

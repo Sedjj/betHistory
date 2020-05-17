@@ -79,7 +79,7 @@ export class FetchService {
 		return new Promise(async (resolve, reject) => {
 			for (const timeout of this.searchTimeouts) {
 				try {
-					const {body} = await this.client.get(url, {
+					const {body} = await this.client.get<EventDetails[]>(url, {
 						headers: {
 							'Content-Type': 'application/json;charset=UTF-8',
 							'Accept': 'application/json, text/plain, */*'

@@ -44,8 +44,6 @@ export class DataAnalysisService {
 			}
 		}
 		if ((sc1 + sc2) === 1) {
-			this.footballLiveStrategy(param, 4);
-			await incStack(param.eventId);
 			if ((time >= timeSetting[4].before) && (time <= timeSetting[4].after)) {
 				this.footballLiveStrategy(param, 4);
 				await incStack(param.eventId);
