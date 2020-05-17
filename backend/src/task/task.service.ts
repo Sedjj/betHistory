@@ -64,7 +64,7 @@ export class TaskService implements OnApplicationBootstrap {
 	public async checkingResults() {
 		if (this.activeEventIds.length) {
 			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', this.activeEventIds.join()));
-			this.decreaseActiveEventId(eventDetails);
+			await this.decreaseActiveEventId(eventDetails);
 			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
 			scoreEvents.forEach((item: ScoreEvents) => {
 				try {
@@ -141,10 +141,10 @@ export class TaskService implements OnApplicationBootstrap {
 	 *
 	 * @param {Number} id идентификатор события
 	 */
-	private increaseActiveEventId = (id: number): void => {
+	private increaseActiveEventId = async (id: number): Promise<void> => {
 		if (!this.activeEventIds.includes(id)) {
 			this.activeEventIds.push(id);
-			this.setActiveEvent(this.activeEventIds);
+			await this.setActiveEvent(this.activeEventIds);
 		}
 	};
 
@@ -153,14 +153,14 @@ export class TaskService implements OnApplicationBootstrap {
 	 *
 	 * @param {EventDetails[]} eventDetails детальная информация о событии на бирже
 	 */
-	private decreaseActiveEventId = (eventDetails: EventDetails[]): void => {
+	private decreaseActiveEventId = async (eventDetails: EventDetails[]): Promise<void> => {
 		this.activeEventIds = eventDetails.reduce<number[]>((acc, eventDetail) => {
 			if (eventDetail.eventId) {
 				acc.push(eventDetail.eventId);
 			}
 			return acc;
 		}, []);
-		this.setActiveEvent(this.activeEventIds);
+		await this.setActiveEvent(this.activeEventIds);
 	};
 
 	private async getActiveEvent(): Promise<number[]> {

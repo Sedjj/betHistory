@@ -1,6 +1,25 @@
 import {Schema} from 'mongoose';
 
+function isRequiredString(marketId: string): boolean {
+	return marketId != null;
+}
+
 let rates = new Schema({
+	selectionId: {
+		type: Number,
+		required: true,
+		default: 0
+	},
+	marketId: {
+		type: String,
+		validate: isRequiredString,
+		default: ''
+	},
+	handicap: {
+		type: Number,
+		required: true,
+		default: 0
+	},
 	behind: {
 		p1: {
 			type: Number,
@@ -47,7 +66,22 @@ let rates = new Schema({
 	}
 });
 
-let rateOther = new Schema({
+let otherRates = new Schema({
+	selectionId: {
+		type: Number,
+		required: true,
+		default: 0
+	},
+	marketId: {
+		type: String,
+		validate: isRequiredString,
+		default: ''
+	},
+	handicap: {
+		type: Number,
+		required: true,
+		default: 0
+	},
 	behind: {
 		type: Number,
 		required: true,
@@ -58,6 +92,38 @@ let rateOther = new Schema({
 		required: true,
 		default: 0
 	}
+});
+
+let otherRate = new Schema({
+	handicap: {
+		type: Number,
+		required: true,
+		default: 0
+	},
+	behind: {
+		type: Number,
+		required: true,
+		default: 0
+	},
+	against: {
+		type: Number,
+		required: true,
+		default: 0
+	}
+});
+
+let otherRatesInArray = new Schema({
+	selectionId: {
+		type: Number,
+		required: true,
+		default: 0
+	},
+	marketId: {
+		type: String,
+		validate: isRequiredString,
+		default: ''
+	},
+	list: [otherRate],
 });
 
 let cards = new Schema({
@@ -94,7 +160,7 @@ let cards = new Schema({
 export let FootballSchema = new Schema({
 	marketId: {
 		type: String,
-		required: true,
+		validate: isRequiredString,
 		default: ''
 	},
 	eventId: {
@@ -125,22 +191,24 @@ export let FootballSchema = new Schema({
 		},
 		resulting: {
 			type: String,
+			validate: isRequiredString,
 			default: ''
 		},
 	},
 	command: {
 		one: {
 			type: String,
-			required: true,
+			validate: isRequiredString,
 			default: ''
 		},
 		two: {
 			type: String,
-			required: true,
+			validate: isRequiredString,
 			default: ''
 		},
 		group: {
 			type: String,
+			validate: isRequiredString,
 			default: ''
 		},
 		women: {
@@ -161,11 +229,11 @@ export let FootballSchema = new Schema({
 	},
 	rates: {
 		matchOdds: rates,
-		under15: rateOther,
-		under25: rateOther,
-		bothTeamsToScoreYes: rateOther,
-		bothTeamsToScoreNo: rateOther,
-		allTotalGoals: rateOther,
+		under15: otherRates,
+		under25: otherRates,
+		bothTeamsToScoreYes: otherRates,
+		bothTeamsToScoreNo: otherRates,
+		allTotalGoals: otherRatesInArray,
 	},
 	cards: {
 		one: cards,

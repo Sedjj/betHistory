@@ -32,28 +32,30 @@ export class DataAnalysisService {
 		if ((sc1 + sc2) === 0) {
 			/*if ((time >= timeSetting[1].before) && (time <= timeSetting[1].after)) {
 				this.footballLiveStrategy(param, 1);
-				incStack(param.eventId);
+				await incStack(param.eventId);
 			}*/
 			if ((time >= timeSetting[2].before) && (time <= timeSetting[2].after)) {
 				this.footballLiveStrategy(param, 2);
-				incStack(param.eventId);
+				await incStack(param.eventId);
 			}
 			if (time === timeSetting[3].before) {
 				this.footballLiveStrategy(param, 3);
-				incStack(param.eventId);
+				await incStack(param.eventId);
 			}
 		}
 		if ((sc1 + sc2) === 1) {
+			this.footballLiveStrategy(param, 4);
+			await incStack(param.eventId);
 			if ((time >= timeSetting[4].before) && (time <= timeSetting[4].after)) {
 				this.footballLiveStrategy(param, 4);
-				incStack(param.eventId);
+				await incStack(param.eventId);
 			}
 		}
 		if (sc1 === sc2) {
 			if ((time >= timeSetting[5].before) && (time <= timeSetting[5].after)) {
 				if (param.rates.matchOdds.against.x < 2) {
 					this.footballLiveStrategy(param, 5);
-					incStack(param.eventId);
+					await incStack(param.eventId);
 				}
 			}
 		}
