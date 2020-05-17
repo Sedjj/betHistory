@@ -147,7 +147,6 @@ export type IOtherRatesInArray = {
 	 */
 	marketId: string;
 	list: IOtherRate[]
-
 };
 
 /**

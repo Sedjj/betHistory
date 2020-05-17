@@ -181,7 +181,7 @@ export class TaskService implements OnApplicationBootstrap {
 				activeEventIds: ids
 			});
 		} catch (error) {
-			this.logger.error(`Error get active event ids`);
+			this.logger.error(`Error set active event ids`);
 		}
 	}
 }

@@ -92,7 +92,7 @@ export class StackService {
 				return model.save().then((x: IStackModel) => StackService.mapProps(x));
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}`);
+				this.logger.error(`Error set data by param param=${JSON.stringify(param)}`);
 				throw new Error(error);
 			});
 	}

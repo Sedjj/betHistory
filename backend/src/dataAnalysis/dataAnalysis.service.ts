@@ -30,10 +30,10 @@ export class DataAnalysisService {
 		} = param;
 		let timeSetting: ITime[] = await this.confService.getTime();
 		if ((sc1 + sc2) === 0) {
-			if ((time >= timeSetting[1].before) && (time <= timeSetting[1].after)) {
+			/*if ((time >= timeSetting[1].before) && (time <= timeSetting[1].after)) {
 				this.footballLiveStrategy(param, 1);
 				incStack(param.eventId);
-			}
+			}*/
 			if ((time >= timeSetting[2].before) && (time <= timeSetting[2].after)) {
 				this.footballLiveStrategy(param, 2);
 				incStack(param.eventId);
@@ -67,7 +67,7 @@ export class DataAnalysisService {
 	public setEvent(scoreEvents: ScoreEvents): Promise<void> {
 		return this.footballService.setScoreByParam(scoreEvents)
 			.catch((error: any) => {
-				this.logger.error(`Save rate: ${error}`);
+				this.logger.error(`Set rate: ${error}`);
 				throw new Error(error);
 			});
 	}
@@ -100,7 +100,7 @@ export class DataAnalysisService {
 	private saveEvent(param: IFootball, strategy: number): Promise<IFootball | null> {
 		return this.footballService.create({...param, strategy})
 			.catch((error: any) => {
-				this.logger.error(`Save rate: ${error}`);
+				this.logger.error(`Save event rate: ${error}`);
 				throw new Error(error);
 			});
 	}

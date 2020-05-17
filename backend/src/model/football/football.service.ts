@@ -226,7 +226,7 @@ export class FootballService {
 				return statistic.save().then((x: IFootballModel) => FootballService.mapProps(x));
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}: ${error.message}`);
+				this.logger.error(`Error set data by param football param=${JSON.stringify(param)}: ${error.message}`);
 				throw new Error(error);
 			});
 	}
@@ -255,7 +255,7 @@ export class FootballService {
 				});
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}: ${error.message}`);
+				this.logger.error(`Error set score by param football param=${JSON.stringify(param)}: ${error.message}`);
 				throw new Error(error);
 			});
 	}

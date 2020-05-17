@@ -110,7 +110,7 @@ export class ConfService {
 				return model.save().then((x: IConfModel) => ConfService.mapProps(x));
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error setDataByParam param=${JSON.stringify(param)}`);
+				this.logger.error(`Error set data by param conf param=${JSON.stringify(param)}`);
 				throw new Error(error);
 			});
 	}
