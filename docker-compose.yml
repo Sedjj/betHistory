@@ -3,6 +3,7 @@ services:
   rate:
     container_name: rate
     restart: always
+    network_mode: bridge
     build:
       context: .
       dockerfile: docker/node/Dockerfile
