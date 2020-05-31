@@ -3,15 +3,9 @@ services:
   rate:
     container_name: rate
     restart: always
-    depends_on:
-#      - mongo-rate
-#      - hub
     build:
       context: .
       dockerfile: docker/node/Dockerfile
-    links:
-#      - hub
-#      - mongo-rate
 
 #  mongo-rate:
 #    container_name: mongo-rate

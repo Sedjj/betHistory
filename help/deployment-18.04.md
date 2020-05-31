@@ -294,8 +294,7 @@ sudo systemctl disable docker
 sudo nano /etc/gitlab-runner/config.toml
 ```                                   
 
-Когда `runner` удаляется из пользовательского интерфейса Gitlab Admin, эта команда удаляет его, обновляя config.toml
+Когда `runner` удаляется из пользовательского интерфейса Gitlab Admin, эта команда удаляет его, обновляя `config.toml`
 ```bash
 sudo gitlab-runner verify --delete
 ``` 
-
