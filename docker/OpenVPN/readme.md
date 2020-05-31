@@ -15,10 +15,17 @@ services:
      - ./openvpn-data/conf:/etc/openvpn
 ```
 
+###Или же скопируем его
+в /home/docker копируем каталог OpenVPN и даем ему права на запись
+```bash
+sudo chmod 777 -R /home/docker/OpenVPN/  &&
+cd /home/docker/OpenVPN/
+```
+
 ###Настройка и инициализация
 Далее нужно задать адрес сервер `docker-compose run --rm openvpn ovpn_genconfig -u udp://IP.ИЛИ.ДОМЕН.ВАШЕГО.СЕРЕРА`
 ```bash
-docker-compose run --rm openvpn ovpn_genconfig -u udp://45.32.238.220
+docker-compose run --rm openvpn ovpn_genconfig -u udp://95.179.177.9
 ```
 
 ###Инициализируем
@@ -44,18 +51,13 @@ export CLIENTNAME="rate"
 docker-compose run --rm openvpn easyrsa build-client-full $CLIENTNAME
 ```
 
-Без кодовой фразы [не рекомендуется]
-```bash
-docker-compose run --rm openvpn easyrsa build-client-full $CLIENTNAME nopass
-```
-
 Создаём конфигурационный файл с сертификатами.
 ```bash
 docker-compose run --rm openvpn ovpn_getclient $CLIENTNAME > $CLIENTNAME.ovpn
 ```
 
 ###Отзыв клиентских сертификатов
-С сохраниением ключей
+С сохранением ключей
 ```bash
 docker-compose run --rm openvpn ovpn_revokeclient $CLIENTNAME
 ```

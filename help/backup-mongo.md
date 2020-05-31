@@ -3,7 +3,7 @@
 docker-compose exec -T mongo-rate mongodump --gzip -d rateBotNest --archive="D:\git\bet\bethistory\dump-14.04.gz"
 ```
 
-####Востановление из бэкапа
+#### Восстановление из бэкапа
 ```bash
 docker-compose exec -T mongo-rate mongorestore --gzip --drop -d rateBotNest --archive="D:\git\bet\bethistory\dump-14.03.gz"
 ```

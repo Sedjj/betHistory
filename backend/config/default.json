@@ -8,14 +8,14 @@
 	"dbDev": {
 		"name": "rateBotNest",
 		"hostString": "localhost:27017/",
-		"user": "root",
-		"pass": "rootpassword"
+		"user": "",
+		"pass": ""
 	},
 	"dbProd": {
 		"name": "rateBotNest",
-		"hostString": "mongo-rate:27017/",
-		"user": "",
-		"pass": ""
+		"hostString": "localhost:27017/",
+		"user": "rate",
+		"pass": "7bdeW7XkuzI7uI3pa5k6e7984W7XkuzI7VAFnIuFAir774645c2b543d"
 	},
 	"myId": "43166705",
 	"roles": {
