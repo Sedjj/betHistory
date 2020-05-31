@@ -269,7 +269,7 @@ sudo apt-get install gitlab-runner
 
 sudo gitlab-runner register -n \
   --url https://gitlab.com/ \
-  --registration-token svoM_4Ubzds1LsAzp5EA \
+  --registration-token xkkhhDo5iNBFM3fq3s1Y \
   --executor shell \
   --description "Prod Runner" \
   --docker-privileged \
@@ -286,4 +286,10 @@ sudo usermod -aG docker gitlab-runner
 Как только служба Docker настроена на автоматический запуск после перезагрузки VPS, все контейнеры Docker также будут запускаться автоматически. Все ваши приложения, работающие в контейнерах Docker, вернутся в онлайн без какого-либо ручного вмешательства.
 ```bash
 sudo systemctl enable docker
-```
+sudo systemctl disable docker
+``` 
+
+Для изменения параметров gitlab-runner
+```bash
+sudo nano /etc/gitlab-runner/config.toml
+``` 
