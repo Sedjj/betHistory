@@ -29,10 +29,9 @@ WORKDIR /home/app
 RUN npm install --only=production
 RUN npm audit fix
 
+RUN ls
 # Компилим typescript
 RUN npm run build
-
-COPY backend/dist /home/app/dist
 
 # Create a user group 'xyzgroup'
 RUN addgroup -S xyzgroup

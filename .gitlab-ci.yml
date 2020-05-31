@@ -1,6 +1,10 @@
 stages:
   - build
 
+cache:
+  paths:
+    - bethistory/node_modules/
+    -
 deploy:
   stage: build
   only:

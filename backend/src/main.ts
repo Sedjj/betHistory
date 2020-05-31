@@ -11,6 +11,7 @@ async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
 		logger: WinstonModule.createLogger(configWinston)
 	});
+	app.enableCors();
 	/*const menu = app.get(TelegramBot);
 	if (!isDev) {
 		app.use(menu.getMiddleware('hook-path'));
