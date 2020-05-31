@@ -22,6 +22,8 @@ COPY backend/src /home/app/src
 COPY backend/package.json /home/app
 COPY process.yml /home/app
 COPY backend/package-lock.json /home/app
+COPY backend/tsconfig.json /home/app
+COPY backend/nest-cli.json /home/app
 
 WORKDIR /home/app
 
@@ -29,7 +31,6 @@ WORKDIR /home/app
 RUN npm install --only=production
 RUN npm audit fix
 
-RUN ls
 # Компилим typescript
 RUN npm run build
 
