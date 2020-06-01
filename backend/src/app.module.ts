@@ -19,7 +19,8 @@ const dbUri = process.env.NODE_ENV === 'development'
 		MongooseModule.forRoot(dbUri, {
 			useNewUrlParser: true,
 			useFindAndModify: false,
-			useUnifiedTopology: true
+			useUnifiedTopology: true,
+			journal: true
 		}),
 		TelegramBotModule,
 		TaskModule,
