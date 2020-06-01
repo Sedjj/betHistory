@@ -3,7 +3,7 @@ stages:
 
 cache:
   paths:
-    - bethistory/node_modules/
+    - backend/node_modules/
 
 deploy:
   stage: build
