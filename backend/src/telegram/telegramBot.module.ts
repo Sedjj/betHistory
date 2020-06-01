@@ -41,7 +41,7 @@ export class TelegramBotModule implements OnModuleInit {
 			this.accessCheck
 		);
 		this.telegrafService.init(this.moduleRef);
-		if (isDev) {
+		if (!isDev) {
 			// in dev mode, we can't use webhook
 			this.telegrafService.startPolling();
 		}
