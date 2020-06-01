@@ -6,12 +6,7 @@ services:
     build:
       context: .
       dockerfile: docker/node/Dockerfile
-    networks:
-      - localhost
-
-networks:
-  localhost:
-    driver: bridge
+    network_mode: "host"
 
 #  mongo-rate:
 #    container_name: mongo-rate

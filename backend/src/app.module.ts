@@ -20,7 +20,6 @@ const dbUri = process.env.NODE_ENV === 'development'
 			useNewUrlParser: true,
 			useFindAndModify: false,
 			useUnifiedTopology: true,
-			journal: true
 		}),
 		TelegramBotModule,
 		TaskModule,
