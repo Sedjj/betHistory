@@ -3,10 +3,15 @@ services:
   rate:
     container_name: rate
     restart: always
-    network_mode: bridge
     build:
       context: .
       dockerfile: docker/node/Dockerfile
+    networks:
+      - localhost
+
+networks:
+  localhost:
+    driver: bridge
 
 #  mongo-rate:
 #    container_name: mongo-rate
