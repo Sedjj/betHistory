@@ -39,7 +39,7 @@ export class TelegramService {
 				}
 			);
 		} catch (e) {
-			this.logger.error('Error sendMessageChat -> ' + e);
+			this.logger.error(`Error sendMessageChat -> ${e}`);
 		}
 	}
 
@@ -59,7 +59,7 @@ export class TelegramService {
 				}
 			);
 		} catch (e) {
-			this.logger.error('Error sendMessageChannel -> ' + e);
+			this.logger.error(`Error sendMessageChannel -> ${e}`);
 		}
 	}
 
@@ -79,7 +79,7 @@ export class TelegramService {
 				}
 			);
 		} catch (e) {
-			this.logger.error('Error sendMessageSupport -> ' + e);
+			this.logger.error(`Error sendMessageSupport -> ${e}`);
 		}
 	}
 
@@ -100,7 +100,7 @@ export class TelegramService {
 				}
 			);
 		} catch (e) {
-			this.logger.error('Error sendFile -> ' + e);
+			this.logger.error(`Error sendFile -> ${e}`);
 		}
 	}
 
@@ -123,7 +123,7 @@ export class TelegramService {
 				}
 			);
 		} catch (e) {
-			this.logger.error('Error sendPhoto -> ' + e);
+			this.logger.error(`Error sendPhoto -> ${e}`);
 		}
 	}
 }

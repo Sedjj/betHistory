@@ -42,6 +42,7 @@ export class TaskService implements OnApplicationBootstrap {
 		} else {
 			this.activeEventIds = await this.getActiveEvent();
 		}
+		this.logger.debug(`onApplicationBootstrap: ${this.activeEventIds.join()}`);
 	}
 
 	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/02 * * * *')
@@ -60,9 +61,10 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/15 * * * * *' : '*/30 * * * *')
+	@Cron((process.env.NODE_ENV === 'development') ? '*/10 * * * * *' : '*/20 * * * *')
 	public async checkingResults() {
 		if (this.activeEventIds.length) {
+			this.logger.debug(`checkingResults: ${this.activeEventIds.join()}`);
 			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', this.activeEventIds.join()));
 			await this.decreaseActiveEventId(eventDetails);
 			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
@@ -145,6 +147,7 @@ export class TaskService implements OnApplicationBootstrap {
 		if (!this.activeEventIds.includes(id)) {
 			this.activeEventIds.push(id);
 			await this.setActiveEvent(this.activeEventIds);
+			this.logger.debug(`increaseActiveEventId: ${this.activeEventIds.join()}`);
 		}
 	};
 
@@ -161,6 +164,7 @@ export class TaskService implements OnApplicationBootstrap {
 			return acc;
 		}, []);
 		await this.setActiveEvent(this.activeEventIds);
+		this.logger.debug(`decreaseActiveEventId: ${this.activeEventIds.join()}`);
 	};
 
 	private async getActiveEvent(): Promise<number[]> {

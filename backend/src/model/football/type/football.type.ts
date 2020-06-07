@@ -7,7 +7,7 @@ export type IFootballModel = IFootball & Document;
 
 export type IFootball = {
 	/**
-	 * Идентификатор матчка с сайта
+	 * Идентификатор матча с сайта
 	 */
 	marketId: string;
 	/**
@@ -31,7 +31,7 @@ export type IFootball = {
 };
 
 /**
- * Интерфес счета матча и результата
+ * Интерфейс счета матча и результата
  */
 export type IScore = {
 	sc1: number;
@@ -40,7 +40,7 @@ export type IScore = {
 };
 
 /**
- * Интерфес общей информации о команндах
+ * Интерфейс общей информации о команндах
  */
 export type ICommand = {
 	/**

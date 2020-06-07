@@ -218,7 +218,7 @@ export class SeleniumBotService implements OnApplicationBootstrap {
 				this.speed.verySlow
 			);
 		} catch (e) {
-			this.logger.error('Error document.readyState -> ' + e);
+			this.logger.error(`Error document.readyState -> ${e}`);
 			return false;
 		}
 	}

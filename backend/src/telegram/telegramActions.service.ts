@@ -94,7 +94,7 @@ export class TelegramActions {
 			this.logger.log(JSON.stringify(me));
 			this.sendText(ctx, 'Hi, choose action!');
 		} catch (error) {
-			this.logger.error('Error start -> ' + error);
+			this.logger.error(`Error start -> ${error}`);
 		}
 
 	}
@@ -257,7 +257,7 @@ export class TelegramActions {
 		try {
 			await this.telegramService.sendFile(path.join(this.storagePath, this.logsDirectory, 'debug.log'));
 		} catch (error) {
-			this.logger.error('Error getLogs -> ' + error);
+			this.logger.error(`Error getLogs -> ${error}`);
 		}
 	}
 }

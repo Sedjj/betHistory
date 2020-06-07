@@ -97,7 +97,7 @@ export class ExportService {
 		try {
 			const file: Buffer = await this.getStatisticsFootball(days);
 			const filePath: string = await saveBufferToFile(path.join(this.storagePath, this.uploadDirectory, `${days}days-${this.outputFootball}`), file);
-			this.logger.debug('Файл statistic отправлен ', filePath);
+			this.logger.debug(`Файл statistic отправлен ${filePath}`);
 			return filePath;
 		} catch (error) {
 			this.logger.error(`Send statistic: ${error.message}`);
