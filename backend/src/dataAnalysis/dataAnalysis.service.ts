@@ -30,10 +30,6 @@ export class DataAnalysisService {
 		} = param;
 		let timeSetting: ITime[] = await this.confService.getTime();
 		if ((sc1 + sc2) === 0) {
-			/*if ((time >= timeSetting[1].before) && (time <= timeSetting[1].after)) {
-				this.footballLiveStrategy(param, 1);
-				await incStack(param.eventId);
-			}*/
 			if ((time >= timeSetting[2].before) && (time <= timeSetting[2].after)) {
 				this.footballLiveStrategy(param, 2);
 				await incStack(param.eventId);
@@ -82,7 +78,7 @@ export class DataAnalysisService {
 		this.saveEvent(param, strategy)// пропускает дальше если запись ушла в БД
 			.then(async (statistic) => {
 				if (statistic !== null) {
-					this.logger.debug(`Найден ${param.eventId}: Футбол - стратегия ${strategy}`);
+					this.logger.debug(`Найден ${param.marketId}: Футбол - стратегия ${strategy}`);
 					await this.betsSimulatorService.matchRate(statistic);
 				}
 			})

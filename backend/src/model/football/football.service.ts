@@ -11,7 +11,8 @@ export class FootballService {
 
 	constructor(
 		@InjectModel('Football') private readonly footballModel: Model<IFootballModel>,
-	) {}
+	) {
+	}
 
 	/**
 	 * Преобразовывает ставки в необходимый формат
@@ -214,7 +215,7 @@ export class FootballService {
 					this.logger.error('Football with not found');
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
-				if (param.score && (param.score.resulting != null)) {
+				if (param.score && (param.score.resulting != null && param.score.resulting !== '')) {
 					statistic.score.resulting = param.score.resulting;
 				}
 				if (param.rates != null) {
@@ -242,21 +243,27 @@ export class FootballService {
 			.find({marketId: param.marketId})
 			.read('secondary')
 			.exec()
-			.then((statistics: IFootballModel[] | null) => {
+			.then(async (statistics: IFootballModel[] | null) => {
 				if (statistics == null || statistics.length === 0) {
 					this.logger.error('Football with not found');
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
-				statistics.forEach((item: IFootballModel) => {
-					if (param.resulting != null) {
+				await asyncForEach<IFootballModel>(statistics, async (item: IFootballModel) => {
+					if (param.resulting != null && param.resulting !== '') {
 						item.score.resulting = param.resulting;
+						await item.save();
 					}
-					item.save();
 				});
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error set score by param football param=${JSON.stringify(param)}: ${error.message}`);
 				throw new Error(error);
 			});
+	}
+}
+
+async function asyncForEach<T>(array: T[], callback: (item: T, index: number, array: T[]) => Promise<void>) {
+	for (let index = 0; index < array.length; index++) {
+		await callback(array[index], index, array);
 	}
 }

@@ -35,16 +35,11 @@ export class TelegramBotModule implements OnModuleInit {
 	) {}
 
 	onModuleInit() {
-		const isDev = process.env.NODE_ENV === 'development';
-
 		this.telegrafService.bot.use(
 			this.accessCheck
 		);
 		this.telegrafService.init(this.moduleRef);
-		if (!isDev) {
-			// in dev mode, we can't use webhook
-			this.telegrafService.startPolling();
-		}
+		this.telegrafService.startPolling();
 	}
 
 	/**
