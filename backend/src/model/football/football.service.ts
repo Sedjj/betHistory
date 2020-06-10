@@ -253,7 +253,7 @@ export class FootballService {
 						item.score.resulting = param.resulting;
 						await item.save();
 					}
-				});
+				}); 
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error set score by param football param=${JSON.stringify(param)}: ${error.message}`);
