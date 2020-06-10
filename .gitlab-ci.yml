@@ -17,7 +17,6 @@ deploy:
     - docker-compose down --remove-orphans
     - docker-compose up -d --build
     - sudo sh deploy/.ci-notify.sh "Контейнеры успешно запущены! 🥰" || true
-    - sudo docker image prune -f
   when: always
   except:
     - master # исключить ветки
