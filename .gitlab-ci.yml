@@ -28,6 +28,8 @@ notify_error:
   stage: notification
   only:
     - production
+  tags:
+    - docker
   script:
     - sh deploy/.ci-notify.sh "Упс, что-то пошло не так... 😔"
   when: on_failure
