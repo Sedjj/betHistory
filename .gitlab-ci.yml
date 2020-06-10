@@ -10,8 +10,6 @@ deploy:
   stage: deploy
   only:
     - production # только для этой ветки
-  tags:
-    - deploy
   script:
     - sh deploy/.ci-notify.sh "Собираю проект ☺️" || true
     - docker-compose build --pull
@@ -23,6 +21,8 @@ deploy:
   when: always
   except:
     - master # исключить ветки
+  tags:
+    - docker
 
 notify_error:
   stage: notification
