@@ -11,7 +11,6 @@ deploy:
   only:
     - production # только для этой ветки
   script:
-    - echo "$TELEGRAM_BOT_TOKEN"
     - sh deploy/.ci-notify.sh "Собираю проект ☺️" $TELEGRAM_BOT_TOKEN $TELEGRAM_CHAT_ID || true
     - docker-compose build --pull
     - sh deploy/.ci-notify.sh "Перезапускаю контейнеры 🥳" $TELEGRAM_BOT_TOKEN $TELEGRAM_CHAT_ID || true
