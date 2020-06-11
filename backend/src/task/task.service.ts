@@ -45,7 +45,7 @@ export class TaskService implements OnApplicationBootstrap {
 		this.logger.debug(`onApplicationBootstrap: ${this.activeEventIds.join()}`);
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/02 * * * *')
+	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/05 * * * *')
 	public async searchFootball() {
 		let activeEventIds: number[] = await this.getActiveEventIds();
 		if (activeEventIds.length) {
@@ -61,7 +61,7 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/10 * * * * *' : '*/20 * * * *')
+	@Cron((process.env.NODE_ENV === 'development') ? '*/10 * * * * *' : '*/10 * * * *')
 	public async checkingResults() {
 		if (this.activeEventIds.length) {
 			this.logger.debug(`checkingResults: ${this.activeEventIds.join()}`);
