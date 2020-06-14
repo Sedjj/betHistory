@@ -45,7 +45,7 @@ export class TaskService implements OnApplicationBootstrap {
 		this.logger.debug(`start active event ids: ${this.activeEventIds.length ? this.activeEventIds.join() : 0}`);
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/15 * * * * *')
+	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/01 * * * *')
 	public async searchFootball() {
 		let activeEventIds: number[] = await this.getActiveEventIds();
 		if (activeEventIds.length) {
@@ -61,7 +61,7 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/10 * * * * *' : '*/10 * * * * *')
+	@Cron((process.env.NODE_ENV === 'development') ? '*/10 * * * * *' : '*/30 * * * * *')
 	public async checkingResults() {
 		if (this.activeEventIds.length) {
 			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', this.activeEventIds.join()));
