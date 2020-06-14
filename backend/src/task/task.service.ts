@@ -45,7 +45,7 @@ export class TaskService implements OnApplicationBootstrap {
 		this.logger.debug(`start active event ids: ${this.activeEventIds.length ? this.activeEventIds.join() : 0}`);
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/10 * * * *')
+	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/15 * * * *')
 	public async searchFootball() {
 		let activeEventIds: number[] = await this.getActiveEventIds();
 		if (activeEventIds.length) {
@@ -55,7 +55,7 @@ export class TaskService implements OnApplicationBootstrap {
 					let param: IFootball = this.parserFootballService.getParams(item);
 					this.dataAnalysisService.strategyDefinition(param, this.increaseActiveEventId);
 				} catch (error) {
-					this.logger.debug(`Ошибка при парсинге события: ${JSON.stringify(item)} error: ${error}`);
+					this.logger.debug(`Ошибка при parser события: ${JSON.stringify(item)} error: ${error}`);
 				}
 			});
 		}
