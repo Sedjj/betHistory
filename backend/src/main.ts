@@ -7,15 +7,10 @@ import {configWinston} from './utils/logger';
 const port: number = config.get<number>('port');
 
 async function bootstrap() {
-	/*const isDev = process.env.NODE_ENV === 'development';*/
 	const app = await NestFactory.create(AppModule, {
 		logger: WinstonModule.createLogger(configWinston)
 	});
 	app.enableCors();
-	/*const menu = app.get(TelegramBot);
-	if (!isDev) {
-		app.use(menu.getMiddleware('hook-path'));
-	}*/
 	await app.listen(port);
 	console.log('NODE_ENV=', process.env.NODE_ENV);
 }

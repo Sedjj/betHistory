@@ -26,24 +26,3 @@ services:
 #      dockerfile: docker/mongo-seed/Dockerfile
 #    links:
 #      - mongo-rate
-
-#  chrome:
-#    container_name: chrome
-#    restart: always
-#    image: selenium/node-chrome:3.141.59-xenon
-#    volumes:
-#      - /dev/shm:/dev/shm
-#    depends_on:
-#      - hub
-#    environment:
-#      HUB_HOST: hub
-#
-#  hub:
-#    container_name: hub
-#    restart: always
-#    image: selenium/hub:3.141.59-xenon
-#    environment:
-#      - GRID_BROWSER_TIMEOUT=3400
-#      - GRID_TIMEOUT=3600
-#    ports:
-#      - "4444:4444"

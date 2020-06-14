@@ -155,7 +155,7 @@ export class FetchService {
 	}
 
 	/**
-	 * Метод для получения расширеных ставок для текущего матча.
+	 * Метод для получения расширенных ставок для текущего матча.
 	 * types: MARKET_STATE,EVENT,RUNNER_STATE,RUNNER_DESCRIPTION,RUNNER_EXCHANGE_PRICES_BEST,MARKET_RATES,MARKET_DESCRIPTION,RUNNER_METADATA,MARKET_LINE_RANGE_INFO
 	 * @param {String} url адрес запроса
 	 * @returns {Promise<JSON | void>}
@@ -189,7 +189,7 @@ export class FetchService {
 	}
 
 	/**
-	 * Функция ожидания реализованая через промис + таймаут, прелполагается использовать с async/await.
+	 * Функция ожидания реализованная через промис + таймаут, предполагается использовать с async/await.
 	 *
 	 * @param {number} ms - количество миллисекунд которое требуется выждать
 	 * @return {Promise<number>} - промис, резолв которого будет означать что время вышло

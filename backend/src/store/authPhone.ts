@@ -1,7 +1,7 @@
 import {log} from '../utils/logger';
 
 /**
- * Класс для подтвержения телефона
+ * Класс для подтверждения телефона
  */
 export class AuthPhone {
 	private checkStatus: boolean;
