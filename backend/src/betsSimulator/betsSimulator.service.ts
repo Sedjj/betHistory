@@ -17,10 +17,7 @@ export class BetsSimulatorService {
 			marketId,
 		} = param;
 		switch (param.strategy) {
-			case 1:
-				// await this.telegramService.sendMessageChat(decorateMessageChannel(param));
-				break;
-			case 5:
+			case 4:
 				console.log(marketId);
 				await this.telegramService.sendMessageChat(decorateMessageChannel(param));
 				// await this.betfairService.bet(param);

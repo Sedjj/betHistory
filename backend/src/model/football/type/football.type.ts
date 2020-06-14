@@ -91,7 +91,7 @@ export type ITimeSnapshot = {
 	 */
 	bothTeamsToScoreNo: IOtherRates;
 	/**
-	 * Состояние "Колличество голо за матч" коэффициентов во время отбора
+	 * Состояние "Количество голов за матч" коэффициентов во время отбора
 	 */
 	allTotalGoals: IOtherRatesInArray;
 };
@@ -154,7 +154,13 @@ export type IOtherRatesInArray = {
  */
 export type IOtherRate = {
 	handicap: number;
+	/**
+	 * За
+	 */
 	behind: number;
+	/**
+	 * Против
+	 */
 	against: number;
 };
 
