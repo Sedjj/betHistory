@@ -9,6 +9,7 @@ import {TelegramService} from './telegram.service';
 import {ExportModule} from '../export/export.module';
 import {ContextMessageUpdate} from 'telegraf';
 import config from 'config';
+import {StackModule} from '../model/stack/stack.module';
 
 @Module({
 	imports: [
@@ -18,6 +19,7 @@ import config from 'config';
 			useClass: TelegrafConfigService,
 		}),
 		ExportModule,
+		StackModule,
 	],
 	providers: [
 		TelegrafModule,

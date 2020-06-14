@@ -14,6 +14,10 @@ export class CounterWaiting {
 		return this.waitingEndCount;
 	}
 
+	public set count(waitingEndCount: number) {
+		this.waitingEndCount = waitingEndCount;
+	}
+
 	public increment(): number {
 		log.debug(`Всего в очереди на окончание матча: ${this.waitingEndCount + 1}`);
 		return this.waitingEndCount++;

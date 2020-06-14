@@ -2,13 +2,15 @@ import {Injectable, Logger} from '@nestjs/common';
 import path from 'path';
 import {ContextMessageUpdate} from 'telegraf';
 import {TelegrafTelegramService, TelegramActionHandler} from 'nestjs-telegraf';
-import {authPhone, counterWaiting, exportStatus, rateAmount, rateStatus} from '../store';
+import {authPhone, exportStatus, rateAmount, rateStatus} from '../store';
 import config from 'config';
 import {IKeyboardButton, IMenuBot} from './type/telegram.type';
 import {menuList} from './menu';
 import {TelegramService} from './telegram.service';
 import {ExportService} from '../export/export.service';
 import {RateLimit} from 'nestjs-rate-limiter';
+import {StackService} from '../model/stack/stack.service';
+import {IStack} from '../model/stack/type/stack.type';
 
 @Injectable()
 export class TelegramActions {
@@ -28,7 +30,8 @@ export class TelegramActions {
 	constructor(
 		private readonly telegrafService: TelegrafTelegramService,
 		private readonly telegramService: TelegramService,
-		private readonly exportService: ExportService
+		private readonly exportService: ExportService,
+		private readonly stackService: StackService,
 	) {
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.logsDirectory = config.get<string>('path.directory.logs') || 'logs';
@@ -121,7 +124,7 @@ export class TelegramActions {
 
 	@TelegramActionHandler({message: 'Сколько матчей в ожидании'})
 	protected async waiting(ctx: ContextMessageUpdate) {
-		this.sendText(ctx, `Матчей ожидающих Total: ${counterWaiting.count}`);
+		this.sendText(ctx, `Матчей ожидающих Total: ${ await this.getActiveEvent()}`);
 	}
 
 	@TelegramActionHandler({message: 'Вид спорта'})
@@ -259,5 +262,16 @@ export class TelegramActions {
 		} catch (error) {
 			this.logger.error(`Error getLogs -> ${error}`);
 		}
+	}
+
+	private async getActiveEvent(): Promise<number> {
+		let activeEventIds: number = 0;
+		try {
+			let model: IStack = await this.stackService.getDataByParam(1);
+			activeEventIds = model.activeEventIds.length;
+		} catch (error) {
+			this.logger.error(`Error get active event ids`);
+		}
+		return activeEventIds;
 	}
 }
