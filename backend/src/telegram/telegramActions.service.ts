@@ -208,7 +208,13 @@ export class TelegramActions {
 	@TelegramActionHandler({action: 'debugLogs'})
 	protected async debugLogs(ctx: ContextMessageUpdate) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
-		await this.getLogs();
+		await this.getLogs('debug');
+	}
+
+	@TelegramActionHandler({action: 'errorLogs'})
+	protected async errorLogs(ctx: ContextMessageUpdate) {
+		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
+		await this.getLogs('error');
 	}
 
 	@TelegramActionHandler({action: 'enableVerification'})
@@ -256,9 +262,9 @@ export class TelegramActions {
 	/**
 	 * Метод для получения лог файла.
 	 */
-	private async getLogs(): Promise<void> {
+	private async getLogs(name: string): Promise<void> {
 		try {
-			await this.telegramService.sendFile(path.join(this.storagePath, this.logsDirectory, 'debug.log'));
+			await this.telegramService.sendFile(path.join(this.storagePath, this.logsDirectory, `${name}.log`));
 		} catch (error) {
 			this.logger.error(`Error getLogs -> ${error}`);
 		}

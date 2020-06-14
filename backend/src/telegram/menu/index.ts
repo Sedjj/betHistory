@@ -23,7 +23,7 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 		case 'selectSport':
 			return {
 				id: 2,
-				title: 'Выбирие вид спорта',
+				title: 'Выберете вид спорта',
 				buttons: [
 					[{text: 'Футбол', callback_data: 'exportFootball'}],
 				]
@@ -31,7 +31,7 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 		case 'rate':
 			return {
 				id: 3,
-				title: 'Выберите действие',
+				title: 'Выберете действие',
 				buttons: [
 					[{text: 'Вкл ставки', callback_data: 'enableBets'}],
 					[{text: 'Выкл ставки', callback_data: 'turnOffBets'}],
@@ -43,6 +43,7 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 				title: 'Выберите файл для скачивания',
 				buttons: [
 					[{text: 'debug logs', callback_data: 'debugLogs'}],
+					[{text: 'error logs', callback_data: 'errorLogs'}],
 				]
 			};
 		case 'betAmount':
