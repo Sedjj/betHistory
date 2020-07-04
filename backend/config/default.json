@@ -1,9 +1,13 @@
 {
 	"ip": "localhost",
 	"port": 3000,
+	"api": {
+		"server": "localhost",
+		"port": 3001
+	},
 	"auth": {
-		"login": "SemakovMN@gmail.com",
-		"password": "swcBGM4283uVpHt"
+		"login": "maksem20ex",
+		"password": "fg7Qn5xzYcL4vEB"
 	},
 	"dbDev": {
 		"name": "rateBotNest",

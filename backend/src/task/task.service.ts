@@ -47,9 +47,9 @@ export class TaskService implements OnApplicationBootstrap {
 
 	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/01 * * * *')
 	public async searchFootball() {
-		let activeEventIds: number[] = await this.getActiveEventIds();
-		if (activeEventIds.length) {
-			let eventDetails = await this.getEventDetailsForEvents(activeEventIds);
+		let activeEvents: number[] = await this.getActiveEventIds();
+		if (activeEvents.length) {
+			let eventDetails = await this.getEventDetailsForEvents(activeEvents);
 			eventDetails.forEach((item: EventDetails) => {
 				try {
 					let param: IFootball = this.parserFootballService.getParams(item);
@@ -61,7 +61,7 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/10 * * * * *' : '*/30 * * * * *')
+	@Cron((process.env.NODE_ENV === 'development') ? '*/10 * * * * *' : '*/20 * * * * *')
 	public async checkingResults() {
 		if (this.activeEventIds.length) {
 			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', this.activeEventIds.join()));

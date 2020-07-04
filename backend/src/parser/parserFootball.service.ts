@@ -32,10 +32,18 @@ export class ParserFootballService {
 
 	private static againstParser(exchange?: ExchangeMarketNodes): number {
 		let against: number = 0;
-		if (exchange && exchange.availableToLay && exchange.availableToLay.length) {
+		if (exchange && exchange.availableToLay && Array.isArray(exchange.availableToLay) && exchange.availableToLay.length) {
 			against = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
 		}
 		return against;
+	}
+
+	private static round(handicap: number | undefined): number {
+		let num = 0;
+		if (handicap && handicap !== 0.0) {
+			return handicap;
+		}
+		return num;
 	}
 
 	/**
@@ -240,7 +248,7 @@ export class ParserFootballService {
 	public parserWomenTeam(value: string): number {
 		let parserReturn: RegExpMatchArray | null = null;
 		if (value && value.length > 5) {
-			parserReturn = value.match(/(?!=\s)\(Women\)/ig);
+			parserReturn = value.match(/(?!=\s)\(Women\)|\(W\)/ig);
 		}
 		return parserReturn != null ? 1 : 0;
 	}
@@ -390,7 +398,7 @@ export class ParserFootballService {
 	/**
 	 * Метод для определения состояние основных коэффициентов во время отбора
 	 *
-	 * @param {RunnersMarketNodes[]} runners информаия о командах
+	 * @param {RunnersMarketNodes[]} runners информация о командах
 	 */
 	public parserMainRates(runners: RunnersMarketNodes[]): IMainRates {
 		let res: IMainRates = {
@@ -413,8 +421,9 @@ export class ParserFootballService {
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes, index: number) => {
 				let {exchange} = runner;
-				res.selectionId = runner.selectionId || 0;
-				res.handicap = runner.handicap || 0;
+				// FIXME нужно придумать другую структуру хранения чтоб собирать эти данные
+				// res.selectionId = runner.selectionId || 0;
+				// res.handicap = ParserFootballService.round(runner.handicap);
 				switch (index) {
 					case 0: { // p1
 						res.behind.p1 = ParserFootballService.behindParser(exchange);
@@ -453,9 +462,9 @@ export class ParserFootballService {
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes) => {
 				let {exchange, description} = runner;
-				res.selectionId = runner.selectionId || 0;
-				res.handicap = runner.handicap || 0;
 				if (description && description.runnerName === runnerName) {
+					res.selectionId = runner.selectionId || 0;
+					res.handicap = ParserFootballService.round(runner.handicap);
 					res.behind = ParserFootballService.behindParser(exchange);
 					res.against = ParserFootballService.againstParser(exchange);
 				}
@@ -465,7 +474,7 @@ export class ParserFootballService {
 	}
 
 	/**
-	 * Метод для определения состояние остальных коэффициентов во время отбора с большим числов вариантов
+	 * Метод для определения состояние остальных коэффициентов во время отбора с большим числом вариантов
 	 */
 	public parserOtherRatesInArray(runners: RunnersMarketNodes[], runnerName: string): IOtherRatesInArray {
 		let res: IOtherRatesInArray = {
@@ -476,10 +485,10 @@ export class ParserFootballService {
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes) => {
 				let {exchange, description} = runner;
-				res.selectionId = runner.selectionId || 0;
 				if (description && description.runnerName === runnerName) {
+					res.selectionId = runner.selectionId || 0;
 					res.list.push({
-						handicap: runner.handicap || 0,
+						handicap: ParserFootballService.round(runner.handicap),
 						behind: ParserFootballService.behindParser(exchange),
 						against: ParserFootballService.againstParser(exchange),
 					});

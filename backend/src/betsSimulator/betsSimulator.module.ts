@@ -1,12 +1,12 @@
 import {Module} from '@nestjs/common';
 import {BetsSimulatorService} from './betsSimulator.service';
 import {TelegramBotModule} from '../telegram/telegramBot.module';
-import {BetfairModule} from '../betsMethods/betfair/betfair.module';
+import {SeleniumApiModule} from '../betsMethods/seleniumApi/seleniumApi.module';
 
 @Module({
 	imports: [
 		TelegramBotModule,
-		BetfairModule
+		SeleniumApiModule
 	],
 	providers: [
 		BetsSimulatorService,

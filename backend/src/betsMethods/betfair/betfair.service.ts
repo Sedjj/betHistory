@@ -1,11 +1,11 @@
-import {Injectable, Logger, OnApplicationBootstrap} from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {CookieJar} from 'tough-cookie';
 import got, {Got} from 'got';
 import {IFootball} from '../../model/football/type/football.type';
 import FormData from 'form-data';
 
 @Injectable()
-export class BetfairService implements OnApplicationBootstrap {
+export class BetfairService {
 	private readonly logger = new Logger(BetfairService.name);
 	/**
 	 * Массив интервалов в миллисекундах после которых делается попытка снова
@@ -21,12 +21,14 @@ export class BetfairService implements OnApplicationBootstrap {
 		});
 	}
 
-	async onApplicationBootstrap() {
-		console.log('655464');
-	}
+	/*https://identitysso.betfair.com/api/login
+
+		POST
+
+	product=exchange&redirectMethod=GET&url=https%3A%2F%2Fwww.betfair.com%2Fexchange%2Fplus%2Ffootball%2Fmarket%2F1.170396923&submitForm=true&tmxId=3ad39046-0df1-4d8d-8f26-ae994bddd262&username=SemakovMN%40gmail.com&password=swcBGM4283uVpHt*/
 
 	/**
-	 * Метод для получения всех ставок по виду спорта.
+	 * Метод для получения токена.
 	 *
 	 * @returns {Promise<JSON | void>}
 	 */
@@ -62,7 +64,7 @@ export class BetfairService implements OnApplicationBootstrap {
 	}
 
 	/**
-	 * Метод для получения всех ставок по виду спорта.
+	 * Метод для ставок по отобранным критериям.
 	 *
 	 * @param {IFootball} param объект события
 	 * @returns {Promise<JSON | void>}
@@ -110,10 +112,10 @@ export class BetfairService implements OnApplicationBootstrap {
 	}
 
 	/**
-	 * Функция ожидания реализованая через промис + таймаут, прелполагается использовать с async/await.
+	 * Функция ожидания реализованная через промис + таймаут, предполагается использовать с async/await.
 	 *
 	 * @param {number} ms - количество миллисекунд которое требуется выждать
-	 * @return {Promise<number>} - промис, резолв которого будет означать что время вышло
+	 * @return {Promise<number>} - промис, resolve которого будет означать что время вышло
 	 */
 	private sleep(ms: number) {
 		return new Promise(resolve => setTimeout(resolve, ms));

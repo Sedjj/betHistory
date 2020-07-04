@@ -1,7 +1,4 @@
 import {log} from '../utils/logger';
-/*import config from 'config';*/
-
-// const betAmount: number = config.get<number>('emulator.betAmount');
 
 /**
  * Класс для размера ставки

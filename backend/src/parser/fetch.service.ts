@@ -192,7 +192,7 @@ export class FetchService {
 	 * Функция ожидания реализованная через промис + таймаут, предполагается использовать с async/await.
 	 *
 	 * @param {number} ms - количество миллисекунд которое требуется выждать
-	 * @return {Promise<number>} - промис, резолв которого будет означать что время вышло
+	 * @return {Promise<number>} - промис, resolve которого будет означать что время вышло
 	 */
 	private sleep(ms: number) {
 		return new Promise(resolve => setTimeout(resolve, ms));
