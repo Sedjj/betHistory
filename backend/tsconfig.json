@@ -4,7 +4,7 @@
 		"outDir": "./dist",
 		"module": "commonjs",
 		"target": "es2019",
-		"sourceMap": true,
+		"sourceMap": false,
 		"experimentalDecorators": true,
 		"allowJs": true,
 		"rootDirs": [
@@ -19,24 +19,18 @@
 		"strictNullChecks": true,
 		"suppressImplicitAnyIndexErrors": true,
 		"noUnusedLocals": true,
-		/*"paths": {
-			"*": [
-				"types*//*"
-			],
-			"utils*//*": [
-				"web/utils*//*"
-			]
-		},*/
 		"declaration": true,
 		"removeComments": true,
 		"emitDecoratorMetadata": true,
-		"incremental": true
+		"incremental": true,
+		"typeRoots": [
+			"./types",
+			"./node_modules/@types"
+		]
 	},
-	"typeRoots": [
-		"node_modules/@types"
-	],
 	"exclude": [
 		"node_modules",
+		"types",
 		"dist",
 		"test",
 		"docker",

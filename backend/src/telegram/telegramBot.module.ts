@@ -1,28 +1,30 @@
-import {TelegrafModule, TelegrafService} from 'nestjs-telegraf';
-import {HttpModule, Module, OnModuleInit} from '@nestjs/common';
-import {ModuleRef} from '@nestjs/core';
+import {TelegrafModule} from 'nestjs-telegraf';
+import {HttpModule, Module} from '@nestjs/common';
 import {TelegramActions} from './telegramActions.service';
-import {TelegrafConfigService} from './telegraf-config.service';
-import {ConfigModule} from '@nestjs/config';
-import telegramBotConfig from './telegramBot.config';
 import {TelegramService} from './telegram.service';
 import {ExportModule} from '../export/export.module';
-import {ContextMessageUpdate} from 'telegraf';
 import config from 'config';
 import {StackModule} from '../model/stack/stack.module';
+import {TelegramController} from './telegram.controller';
+
+let token: string;
+if (process.env.NODE_ENV === 'development') {
+	token = config.get<string>('bots.dev.token');
+} else {
+	token = config.get<string>('bots.prod.token');
+}
 
 @Module({
 	imports: [
 		HttpModule,
-		TelegrafModule.fromFactory({
-			imports: [ConfigModule.forFeature(telegramBotConfig)],
-			useClass: TelegrafConfigService,
-		}),
+		TelegrafModule.forRoot({token}),
 		ExportModule,
 		StackModule,
 	],
+	controllers: [
+		TelegramController
+	],
 	providers: [
-		TelegrafModule,
 		TelegramActions,
 		TelegramService
 	],
@@ -30,31 +32,5 @@ import {StackModule} from '../model/stack/stack.module';
 		TelegramService,
 	]
 })
-export class TelegramBotModule implements OnModuleInit {
-	constructor(
-		private readonly moduleRef: ModuleRef,
-		private readonly telegrafService: TelegrafService,
-	) {}
-
-	onModuleInit() {
-		this.telegrafService.bot.use(
-			this.accessCheck
-		);
-		this.telegrafService.init(this.moduleRef);
-		this.telegrafService.startPolling();
-	}
-
-	/**
-	 * Проверка прав на доступ к меню.
-	 *
-	 * @param {ContextMessageUpdate} ctx объект что пришел из telegram
-	 * @param {Object} next объект что пришел из telegram
-	 */
-	private async accessCheck(ctx: ContextMessageUpdate, next?: () => any) {
-		let administrators: number[] = config.get<number[]>('roles.admin');
-		const chat = ctx.chat != null ? ctx.chat.id : ctx.from != null ? ctx.from.id : 0;
-		if (administrators.some((user) => user === chat) && next) {
-			next();
-		}
-	}
+export class TelegramBotModule {
 }

@@ -1,6 +1,6 @@
 import {Injectable, Logger} from '@nestjs/common';
 import config from 'config';
-import {TelegrafTelegramService} from 'nestjs-telegraf';
+import {InjectBot, TelegrafProvider} from 'nestjs-telegraf';
 
 @Injectable()
 export class TelegramService {
@@ -10,7 +10,7 @@ export class TelegramService {
 	private readonly supportChatId: string;
 
 	constructor(
-		private readonly telegrafService: TelegrafTelegramService,
+		@InjectBot() private telegrafService: TelegrafProvider,
 	) {
 		if (process.env.NODE_ENV === 'development') {
 			this.chatId = config.get<string>('bots.dev.chatId');
@@ -31,7 +31,7 @@ export class TelegramService {
 	 */
 	public async sendMessageChat(text: string, newChatId = null): Promise<void> {
 		try {
-			await this.telegrafService.sendMessage(
+			await this.telegrafService.telegram.sendMessage(
 				newChatId || this.chatId,
 				text,
 				{
@@ -51,7 +51,7 @@ export class TelegramService {
 	 */
 	public async sendMessageChannel(text: string, newChannelId = null): Promise<void> {
 		try {
-			await this.telegrafService.sendMessage(
+			await this.telegrafService.telegram.sendMessage(
 				newChannelId || this.channelId,
 				text,
 				{
@@ -71,7 +71,7 @@ export class TelegramService {
 	 */
 	public async sendMessageSupport(text: string, newSupportChatId = null): Promise<void> {
 		try {
-			await this.telegrafService.sendMessage(
+			await this.telegrafService.telegram.sendMessage(
 				newSupportChatId || this.supportChatId,
 				text,
 				{
@@ -90,7 +90,7 @@ export class TelegramService {
 	 */
 	public async sendFile(file: string): Promise<void> {
 		try {
-			await this.telegrafService.sendDocument(
+			await this.telegrafService.telegram.sendDocument(
 				this.supportChatId, {
 					source: file
 				},
@@ -112,7 +112,7 @@ export class TelegramService {
 	 */
 	public async sendPhoto(file: string, title: string): Promise<void> {
 		try {
-			await this.telegrafService.sendPhoto(
+			await this.telegrafService.telegram.sendPhoto(
 				this.supportChatId,
 				{
 					source: file

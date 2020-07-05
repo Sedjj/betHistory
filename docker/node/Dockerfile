@@ -15,6 +15,7 @@ RUN mkdir -pv /home/app/logs /home/app/upload
 COPY backend/config /home/app/config
 COPY backend/exportTemplates /home/app/exportTemplates
 COPY backend/src /home/app/src
+COPY backend/types /home/app/types
 
 # Установить зависимости приложения
 # Используется символ подстановки для копирования как package.json, так и package-lock.json,
