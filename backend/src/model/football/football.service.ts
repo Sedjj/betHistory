@@ -2,7 +2,7 @@ import {Model} from 'mongoose';
 import {Injectable, Logger} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {IFootball, IFootballModel, IFootballQuery, IOtherRate} from './type/football.type';
-import {dateStringToShortDateString} from '../../utils/dateFormat';
+import {dateStringToFullDateString} from '../../utils/dateFormat';
 import {ScoreEvents} from '../../parser/type/scoreEvents.type';
 
 @Injectable()
@@ -125,8 +125,8 @@ export class FootballService {
 					list: statistic.rates.allTotalGoals.list.map((item: IOtherRate) => FootballService.mapPropsRate(item))
 				},
 			},
-			createdBy: dateStringToShortDateString(statistic.createdBy),
-			modifiedBy: dateStringToShortDateString(statistic.modifiedBy)
+			createdBy: dateStringToFullDateString(statistic.createdBy),
+			modifiedBy: dateStringToFullDateString(statistic.modifiedBy)
 		};
 	}
 
