@@ -1,9 +1,21 @@
 {
 	"name": "backend",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "",
-	"author": "",
-	"license": "MIT",
+	"author": "Eldar Salimzebarov",
+	"license": "FSF",
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged",
+			"post-commit": "git update-index -g"
+		}
+	},
+	"lint-staged": {
+		"*.{js.ts}": [
+			"prettier --write",
+			"git add"
+		]
+	},
 	"scripts": {
 		"build": "rimraf dist && tsc -p tsconfig.json",
 		"format": "prettier --write \"src/**/*.ts\"",
@@ -38,6 +50,8 @@
 		"cross-env": "^7.0.2",
 		"form-data": "^3.0.0",
 		"got": "^11.4.0",
+		"husky": "^4.2.5",
+		"lint-staged": "^10.2.11",
 		"moment": "^2.27.0",
 		"mongoose": "^5.9.21",
 		"nest-schedule": "^0.6.4",

@@ -1,4 +1,8 @@
-{
-  "singleQuote": true,
-  "trailingComma": "all"
-}
+# .prettierrc
+printWidth: 120
+semi: false
+singleQuote: true
+trailingComma: all
+bracketSpacing: false
+arrowParens: avoid
+useTabs: true
