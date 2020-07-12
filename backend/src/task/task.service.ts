@@ -26,9 +26,8 @@ export class TaskService implements OnApplicationBootstrap {
 		private fetchService: FetchService,
 		private parserFootballService: ParserFootballService,
 		private dataAnalysisService: DataAnalysisService,
-		private readonly stackService: StackService
-	) {
-	}
+		private readonly stackService: StackService,
+	) {}
 
 	async onApplicationBootstrap() {
 		this.logger.debug('****start scheduler search football****');
@@ -45,7 +44,7 @@ export class TaskService implements OnApplicationBootstrap {
 		this.logger.debug(`start active event ids: ${this.activeEventIds.length ? this.activeEventIds.join() : 0}`);
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/30 * * * * *' : '*/01 * * * *')
+	@Cron(process.env.NODE_ENV === 'development' ? '*/30 * * * * *' : '*/01 * * * *')
 	public async searchFootball() {
 		let activeEvents: number[] = await this.getActiveEventIds();
 		if (activeEvents.length) {
@@ -61,10 +60,12 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron((process.env.NODE_ENV === 'development') ? '*/10 * * * * *' : '*/20 * * * * *')
+	@Cron(process.env.NODE_ENV === 'development' ? '*/10 * * * * *' : '*/20 * * * * *')
 	public async checkingResults() {
 		if (this.activeEventIds.length) {
-			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', this.activeEventIds.join()));
+			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(
+				urlEventDetails.replace('${id}', this.activeEventIds.join()),
+			);
 			await this.decreaseActiveEventId(eventDetails);
 			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
 			scoreEvents.forEach((item: ScoreEvents) => {
@@ -115,26 +116,31 @@ export class TaskService implements OnApplicationBootstrap {
 	 * @param {EventDetails[]} eventDetails детальная информация о событии на бирже
 	 * @param {LiteMarkets} liteMarkets объекта с информацией о markets в событии.
 	 */
-	private async getMarketNodesForEvents(eventDetails: EventDetails[], liteMarkets: LiteMarkets): Promise<EventDetails[]> {
-		return await Promise.all(eventDetails.map(async (item: EventDetails) => {
-			let res = {...item};
-			if (item.eventId) {
-				let markets = liteMarkets[item.eventId];
-				if (markets && Array.isArray(markets) && markets.length) {
-					try {
-						let rateMarkets = await this.fetchService.getRateMarkets(urlByMarket.replace('${id}', markets.join()));
-						let marketNodes: MarketNodes[] = this.parserFootballService.getMarketNodes(rateMarkets);
-						res = {
-							...res,
-							marketNodes
-						};
-					} catch (error) {
-						this.logger.error(`Get rate markets: ${error}`);
+	private async getMarketNodesForEvents(
+		eventDetails: EventDetails[],
+		liteMarkets: LiteMarkets,
+	): Promise<EventDetails[]> {
+		return await Promise.all(
+			eventDetails.map(async (item: EventDetails) => {
+				let res = {...item};
+				if (item.eventId) {
+					let markets = liteMarkets[item.eventId];
+					if (markets && Array.isArray(markets) && markets.length) {
+						try {
+							let rateMarkets = await this.fetchService.getRateMarkets(urlByMarket.replace('${id}', markets.join()));
+							let marketNodes: MarketNodes[] = this.parserFootballService.getMarketNodes(rateMarkets);
+							res = {
+								...res,
+								marketNodes,
+							};
+						} catch (error) {
+							this.logger.error(`Get rate markets: ${error}`);
+						}
 					}
 				}
-			}
-			return res;
-		}));
+				return res;
+			}),
+		);
 	}
 
 	/**
@@ -179,7 +185,7 @@ export class TaskService implements OnApplicationBootstrap {
 		try {
 			await this.stackService.setDataByParam({
 				stackId: 1,
-				activeEventIds: ids
+				activeEventIds: ids,
 			});
 		} catch (error) {
 			this.logger.error(`Error set active event ids`);

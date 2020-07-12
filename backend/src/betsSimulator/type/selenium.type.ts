@@ -4,9 +4,15 @@ export type PlaceOrders = {
 	choice: {
 		selectionId: number;
 		handicap: number;
-	}
+	};
 	bet: {
+		/**
+		 * Odds
+		 */
 		price: number;
+		/**
+		 * Stake
+		 */
 		stake: number;
-	}
+	};
 };

@@ -1,8 +1,9 @@
 # .prettierrc
 printWidth: 120
-semi: false
+semi: true
 singleQuote: true
-trailingComma: all
+trailingComma: "all"
 bracketSpacing: false
 arrowParens: avoid
 useTabs: true
+eol: lf

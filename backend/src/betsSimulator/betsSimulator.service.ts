@@ -10,12 +10,11 @@ export class BetsSimulatorService {
 	constructor(
 		private readonly telegramService: TelegramService,
 		private readonly seleniumApiService: SeleniumApiService,
-	) {
-	}
+	) {}
 
 	public async matchRate(param: IFootball) {
 		const {
-			rates: {under25}
+			rates: {under25},
 		} = param;
 		switch (param.strategy) {
 			case 3:
@@ -29,7 +28,7 @@ export class BetsSimulatorService {
 					},
 					bet: {
 						price: 1.01, // TODO из базы under25.against under25.behind
-						stake: betAmount.bets
+						stake: betAmount.bets,
 					},
 				});
 				break;
