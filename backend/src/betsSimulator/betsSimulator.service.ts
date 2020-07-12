@@ -20,7 +20,7 @@ export class BetsSimulatorService {
 			case 3:
 				await this.telegramService.sendMessageChat(decorateMessageChannel(param));
 				await this.seleniumApiService.placeOrders({
-					marketId: under25.marketId,
+					marketId: under25.marketId, // FIXME по-моему не то уходит
 					layOrBack: 'lay', // TODO betAmount.bets для теста back для авто ставки
 					choice: {
 						selectionId: under25.selectionId,

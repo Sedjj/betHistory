@@ -2,16 +2,15 @@ import {Body, Controller, Post, UploadedFile, UseInterceptors} from '@nestjs/com
 import {TelegramService} from './telegram.service';
 import config from 'config';
 import {SendMessageDto} from './dto/send-message.dto';
-/*import {SendPhotoDto} from './dto/send-photo.dto';*/
 import {FileInterceptor} from '@nestjs/platform-express';
+import {SendPhotoDto} from './dto/send-photo.dto';
+import {FilePhoto} from './type/telegram.type';
 
 @Controller('telegram')
 export class TelegramController {
 	private readonly nameBot: string;
 
-	constructor(
-		private readonly telegramService: TelegramService,
-	) {
+	constructor(private readonly telegramService: TelegramService) {
 		if (process.env.NODE_ENV === 'development') {
 			this.nameBot = config.get<string>('bots.dev.name');
 		} else {
@@ -30,11 +29,10 @@ export class TelegramController {
 	}
 
 	@Post('sendPhoto')
-	@UseInterceptors(FileInterceptor('file'))
-	async uploadFile(@UploadedFile() file: any) {
+	@UseInterceptors(FileInterceptor('photo'))
+	async uploadFilePhoto(@UploadedFile() photo: FilePhoto, @Body() fileDto: SendPhotoDto) {
 		try {
-			console.log('file', file, 'nameBot', this.nameBot);
-			// await this.telegramService.sendPhoto(photoDto.file, this.nameBot);
+			await this.telegramService.sendFilePhoto(photo.buffer, fileDto.title || this.nameBot);
 		} catch (e) {
 			return `Photo not send -> ${e}`;
 		}

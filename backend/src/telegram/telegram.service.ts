@@ -9,9 +9,7 @@ export class TelegramService {
 	private readonly channelId: string;
 	private readonly supportChatId: string;
 
-	constructor(
-		@InjectBot() private telegrafService: TelegrafProvider,
-	) {
+	constructor(@InjectBot() private telegrafService: TelegrafProvider) {
 		if (process.env.NODE_ENV === 'development') {
 			this.chatId = config.get<string>('bots.dev.chatId');
 			this.channelId = config.get<string>('bots.dev.channelId');
@@ -31,13 +29,9 @@ export class TelegramService {
 	 */
 	public async sendMessageChat(text: string, newChatId = null): Promise<void> {
 		try {
-			await this.telegrafService.telegram.sendMessage(
-				newChatId || this.chatId,
-				text,
-				{
-					parse_mode: 'HTML'
-				}
-			);
+			await this.telegrafService.telegram.sendMessage(newChatId || this.chatId, text, {
+				parse_mode: 'HTML',
+			});
 		} catch (e) {
 			this.logger.error(`Error sendMessageChat -> ${e}`);
 		}
@@ -51,13 +45,9 @@ export class TelegramService {
 	 */
 	public async sendMessageChannel(text: string, newChannelId = null): Promise<void> {
 		try {
-			await this.telegrafService.telegram.sendMessage(
-				newChannelId || this.channelId,
-				text,
-				{
-					parse_mode: 'HTML'
-				}
-			);
+			await this.telegrafService.telegram.sendMessage(newChannelId || this.channelId, text, {
+				parse_mode: 'HTML',
+			});
 		} catch (e) {
 			this.logger.error(`Error sendMessageChannel -> ${e}`);
 		}
@@ -71,13 +61,9 @@ export class TelegramService {
 	 */
 	public async sendMessageSupport(text: string, newSupportChatId = null): Promise<void> {
 		try {
-			await this.telegrafService.telegram.sendMessage(
-				newSupportChatId || this.supportChatId,
-				text,
-				{
-					parse_mode: 'HTML'
-				}
-			);
+			await this.telegrafService.telegram.sendMessage(newSupportChatId || this.supportChatId, text, {
+				parse_mode: 'HTML',
+			});
 		} catch (e) {
 			this.logger.error(`Error sendMessageSupport -> ${e}`);
 		}
@@ -91,13 +77,14 @@ export class TelegramService {
 	public async sendFile(file: string): Promise<void> {
 		try {
 			await this.telegrafService.telegram.sendDocument(
-				this.supportChatId, {
-					source: file
+				this.supportChatId,
+				{
+					source: file,
 				},
 				{
 					caption: '',
-					parse_mode: 'HTML'
-				}
+					parse_mode: 'HTML',
+				},
 			);
 		} catch (e) {
 			this.logger.error(`Error sendFile -> ${e}`);
@@ -107,23 +94,23 @@ export class TelegramService {
 	/**
 	 * Метод отправки фотки в чат support из телеграмм бота.
 	 *
-	 * @param {ReadStream} file для отправки в чат
+	 * @param {Buffer} file для отправки в чат
 	 * @param {String} title Заголовок для фотки
 	 */
-	public async sendPhoto(file: string, title: string): Promise<void> {
+	public async sendFilePhoto(file: Buffer, title: string): Promise<void> {
 		try {
 			await this.telegrafService.telegram.sendPhoto(
 				this.supportChatId,
 				{
-					source: file
+					source: file,
 				},
 				{
 					caption: title,
-					parse_mode: 'HTML'
-				}
+					parse_mode: 'HTML',
+				},
 			);
 		} catch (e) {
-			this.logger.error(`Error sendPhoto -> ${e}`);
+			this.logger.error(`Error sendFilePhoto -> ${e}`);
 		}
 	}
 }

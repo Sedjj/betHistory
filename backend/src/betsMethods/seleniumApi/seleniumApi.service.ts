@@ -19,7 +19,7 @@ export class SeleniumApiService {
 		const port = config.get<string>('api.port');
 
 		this.client = got.extend({
-			prefixUrl: `https://${server}:${port}/selenium/`
+			prefixUrl: `http://${server}:${port}/selenium/`,
 		});
 	}
 
@@ -39,10 +39,10 @@ export class SeleniumApiService {
 					const {body} = await this.client.post('bet', {
 						headers: {
 							'Content-Type': 'application/json;charset=UTF-8',
-							'Accept': 'application/json, text/plain, */*'
+							Accept: 'application/json, text/plain, */*',
 						},
 						responseType: 'json',
-						body: JSON.stringify(param)
+						body: JSON.stringify(param),
 					});
 					if (body != null) {
 						resolve();

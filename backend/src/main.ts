@@ -9,12 +9,12 @@ const port: number = config.get<number>('port');
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
-		logger: WinstonModule.createLogger(configWinston)
+		logger: WinstonModule.createLogger(configWinston),
 	});
 	app.setGlobalPrefix('parser');
 	app.enableCors();
-	app.use(bodyParser.json({limit: '50mb'}));
-	app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+	app.use(bodyParser.json({limit: '5mb'}));
+	app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 	await app.listen(port);
 	console.log('NODE_ENV=', process.env.NODE_ENV);
 }
