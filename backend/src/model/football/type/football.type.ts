@@ -1,4 +1,5 @@
 import {Document} from 'mongoose';
+import {Status} from '../../../parser/type/byMarket.type';
 
 /**
  * Интерфейс для модели mongo
@@ -105,6 +106,7 @@ export type IMainRates = {
 	 * Идентификатор отбора по коэффициентам
 	 */
 	marketId: string;
+	status: Status;
 	handicap: number;
 	/**
 	 * За
@@ -135,6 +137,7 @@ export type IOtherRates = {
 	 * Идентификатор отбора по коэффициентам
 	 */
 	marketId: string;
+	status: Status;
 } & IOtherRate;
 
 /**
@@ -146,7 +149,8 @@ export type IOtherRatesInArray = {
 	 * Идентификатор отбора по коэффициентам
 	 */
 	marketId: string;
-	list: IOtherRate[]
+	status: Status;
+	list: IOtherRate[];
 };
 
 /**

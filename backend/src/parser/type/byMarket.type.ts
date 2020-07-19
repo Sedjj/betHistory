@@ -16,6 +16,21 @@ export type ExchangeMarketNodes = {
 	availableToLay?: AvailableMarketNodes[];
 };
 
+export enum StatusMarket {
+	CLOSE = 'CLOSE',
+	OPEN = 'OPEN',
+	SUSPENDED = 'SUSPENDED',
+}
+
+export type Status = 'OPEN' | 'SUSPENDED' | 'CLOSE';
+
+export type StateMarketNodes = {
+	/**
+	 * Enum статус маркета
+	 */
+	status: Status;
+};
+
 export type DescriptionMarketNodes = {
 	/**
 	 * Название биржи
@@ -31,13 +46,14 @@ export type RunnersMarketNodes = {
 	selectionId?: number;
 	handicap?: number;
 	description?: {
-		runnerName?: string,
-	},
+		runnerName?: string;
+	};
 	exchange?: ExchangeMarketNodes;
 };
 
 export type MarketNodes = {
 	marketId?: string;
+	state?: StateMarketNodes;
 	description?: DescriptionMarketNodes;
 	runners?: RunnersMarketNodes[];
 };

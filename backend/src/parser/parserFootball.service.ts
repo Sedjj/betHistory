@@ -8,32 +8,54 @@ import {
 	IOtherRates,
 	IOtherRatesInArray,
 	IScore,
-	ITimeSnapshot
+	ITimeSnapshot,
 } from '../model/football/type/football.type';
 import moment from 'moment';
 import {EventDetails, StateEventDetails, TeamInfoEventDetails} from './type/eventDetails.type';
 import {LiteMarkets, MarketType} from './type/marketsEvents.type';
-import {ExchangeMarketNodes, MarketNodes, RunnersMarketNodes} from './type/byMarket.type';
+import {ExchangeMarketNodes, MarketNodes, RunnersMarketNodes, StatusMarket} from './type/byMarket.type';
 import {ScoreEvents} from './type/scoreEvents.type';
 
 @Injectable()
 export class ParserFootballService {
 	private readonly logger = new Logger(ParserFootballService.name);
 
-	private choiceMarketType: MarketType[] = ['MATCH_ODDS', 'OVER_UNDER_15', 'OVER_UNDER_25', 'BOTH_TEAMS_TO_SCORE', 'ALT_TOTAL_GOALS'];
+	private choiceMarketType: MarketType[] = [
+		'MATCH_ODDS',
+		'OVER_UNDER_15',
+		'OVER_UNDER_25',
+		'BOTH_TEAMS_TO_SCORE',
+		'ALT_TOTAL_GOALS',
+	];
 
 	private static behindParser(exchange?: ExchangeMarketNodes): number {
 		let behind: number = 0;
-		if (exchange && exchange.availableToBack && Array.isArray(exchange.availableToBack) && exchange.availableToBack.length) {
-			behind = Math.max.apply(Math, exchange.availableToBack.map(o => o.price ? o.price : 0));
+		if (
+			exchange &&
+			exchange.availableToBack &&
+			Array.isArray(exchange.availableToBack) &&
+			exchange.availableToBack.length
+		) {
+			behind = Math.max.apply(
+				Math,
+				exchange.availableToBack.map(o => (o.price ? o.price : 0)),
+			);
 		}
 		return behind;
 	}
 
 	private static againstParser(exchange?: ExchangeMarketNodes): number {
 		let against: number = 0;
-		if (exchange && exchange.availableToLay && Array.isArray(exchange.availableToLay) && exchange.availableToLay.length) {
-			against = Math.min.apply(Math, exchange.availableToLay.map(o => o.price ? o.price : 0));
+		if (
+			exchange &&
+			exchange.availableToLay &&
+			Array.isArray(exchange.availableToLay) &&
+			exchange.availableToLay.length
+		) {
+			against = Math.min.apply(
+				Math,
+				exchange.availableToLay.map(o => (o.price ? o.price : 0)),
+			);
 		}
 		return against;
 	}
@@ -57,9 +79,9 @@ export class ParserFootballService {
 			let marketsList: any[] = Object.values(item['attachments']['markets']);
 			if (marketsList != null && marketsList.length) {
 				res = marketsList.reduce((acc: number[], {eventId, marketTime, marketStatus, inplay}) => {
-					if (inplay && (marketStatus === 'OPEN' || marketStatus === 'SUSPENDED')) {
+					if (inplay && (marketStatus === StatusMarket.OPEN || marketStatus === StatusMarket.SUSPENDED)) {
 						if (marketTime != null) {
-							let currentDate = moment((new Date()).toISOString());
+							let currentDate = moment(new Date().toISOString());
 							let openDate = moment(marketTime);
 							let difference = currentDate.diff(openDate, 'seconds');
 							if (difference >= 0) {
@@ -134,7 +156,7 @@ export class ParserFootballService {
 					acc.push({
 						eventId: item.state.eventId,
 						marketId: item.marketId,
-						resulting: `${home.score}:${away.score}`
+						resulting: `${home.score}:${away.score}`,
 					});
 				}
 			}
@@ -160,7 +182,7 @@ export class ParserFootballService {
 				rates: this.getRates(item.marketNodes),
 				cards: this.getCardsCommands(item.state),
 				createdBy: new Date().toISOString(),
-				modifiedBy: new Date().toISOString()
+				modifiedBy: new Date().toISOString(),
 			};
 		} catch (error) {
 			this.logger.debug(`getParams: ${error}`);
@@ -248,7 +270,7 @@ export class ParserFootballService {
 	public parserWomenTeam(value: string): number {
 		let parserReturn: RegExpMatchArray | null = null;
 		if (value && value.length > 5) {
-			parserReturn = value.match(/(?!=\s)\(Women\)|\(W\)/ig);
+			parserReturn = value.match(/(?!=\s)\(Women\)|\(W\)/gi);
 		}
 		return parserReturn != null ? 1 : 0;
 	}
@@ -261,7 +283,7 @@ export class ParserFootballService {
 	public parserYouthTeam(value: string): number {
 		let parserReturn: RegExpMatchArray | null = null;
 		if (value && value.length > 5) {
-			parserReturn = value.match(/(?!=\s)U\d{2}/ig);
+			parserReturn = value.match(/(?!=\s)U\d{2}/gi);
 		}
 		return parserReturn != null ? 1 : 0;
 	}
@@ -274,7 +296,9 @@ export class ParserFootballService {
 	public parserLimitedTeam(value: string): number {
 		let parserReturn: RegExpMatchArray | null = null;
 		if (value && value.length > 5) {
-			parserReturn = value.match(/\s?[\s?2\s?|\s?3\s?|\s?4\s?|\s?5\s?|\s?6\s?|\s?7\s?|\s?8\s?|\s?9\s?]\s?[х|x][\s?2\s?|\s?3\s?|\s?4\s?|\s?5\s?|\s?6\s?|\s?7\s?|\s?8\s?|\s?9\s?]\s?/ig);
+			parserReturn = value.match(
+				/\s?[\s?2\s?|\s?3\s?|\s?4\s?|\s?5\s?|\s?6\s?|\s?7\s?|\s?8\s?|\s?9\s?]\s?[х|x][\s?2\s?|\s?3\s?|\s?4\s?|\s?5\s?|\s?6\s?|\s?7\s?|\s?8\s?|\s?9\s?]\s?/gi,
+			);
 		}
 		return parserReturn != null ? 1 : 0;
 	}
@@ -327,6 +351,7 @@ export class ParserFootballService {
 		let rate: IMainRates = {
 			selectionId: 0,
 			marketId: '',
+			status: StatusMarket.CLOSE,
 			handicap: 0,
 			behind: {
 				p1: 0,
@@ -339,19 +364,21 @@ export class ParserFootballService {
 				x: 0,
 				p2: 0,
 				mod: 0,
-			}
+			},
 		};
 		let rateOther: IOtherRates = {
 			selectionId: 0,
 			marketId: '',
+			status: StatusMarket.CLOSE,
 			handicap: 0,
 			behind: 0,
-			against: 0
+			against: 0,
 		};
 		let rateOtherInArray: IOtherRatesInArray = {
 			selectionId: 0,
 			marketId: '',
-			list: []
+			status: StatusMarket.CLOSE,
+			list: [],
 		};
 		let res: ITimeSnapshot = {
 			matchOdds: rate,
@@ -362,31 +389,38 @@ export class ParserFootballService {
 			allTotalGoals: rateOtherInArray,
 		};
 		if (market != null && market.length) {
-			market.forEach((node) => {
-				let {description, runners, marketId} = node;
+			market.forEach(node => {
+				let {description, runners, marketId, state} = node;
 				if (description && runners != null && runners.length) {
 					switch (description.marketType) {
 						case 'MATCH_ODDS':
 							res.matchOdds = this.parserMainRates(runners);
 							res.matchOdds.marketId = marketId || '';
+							res.matchOdds.status = state?.status || StatusMarket.CLOSE;
 							break;
 						case 'OVER_UNDER_15':
 							res.under15 = this.parserOtherRates(runners, 'Under 1.5 Goals');
 							res.under15.marketId = marketId || '';
+							res.under15.status = state?.status || StatusMarket.CLOSE;
 							break;
 						case 'OVER_UNDER_25':
 							res.under25 = this.parserOtherRates(runners, 'Under 2.5 Goals');
 							res.under25.marketId = marketId || '';
+							res.under25.status = state?.status || StatusMarket.CLOSE;
 							break;
 						case 'BOTH_TEAMS_TO_SCORE':
 							res.bothTeamsToScoreYes = this.parserOtherRates(runners, 'Yes');
 							res.bothTeamsToScoreYes.marketId = marketId || '';
+							res.bothTeamsToScoreYes.status = state?.status || StatusMarket.CLOSE;
+
 							res.bothTeamsToScoreNo = this.parserOtherRates(runners, 'No');
 							res.bothTeamsToScoreNo.marketId = marketId || '';
+							res.bothTeamsToScoreNo.status = state?.status || StatusMarket.CLOSE;
 							break;
 						case 'ALT_TOTAL_GOALS':
 							res.allTotalGoals = this.parserOtherRatesInArray(runners, 'Under');
 							res.allTotalGoals.marketId = marketId || '';
+							res.allTotalGoals.status = state?.status || StatusMarket.CLOSE;
 							break;
 					}
 				}
@@ -404,6 +438,7 @@ export class ParserFootballService {
 		let res: IMainRates = {
 			selectionId: 0,
 			marketId: '',
+			status: StatusMarket.CLOSE,
 			handicap: 0,
 			behind: {
 				p1: 0,
@@ -416,7 +451,7 @@ export class ParserFootballService {
 				x: 0,
 				p2: 0,
 				mod: 0,
-			}
+			},
 		};
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes, index: number) => {
@@ -425,17 +460,20 @@ export class ParserFootballService {
 				// res.selectionId = runner.selectionId || 0;
 				// res.handicap = ParserFootballService.round(runner.handicap);
 				switch (index) {
-					case 0: { // p1
+					case 0: {
+						// p1
 						res.behind.p1 = ParserFootballService.behindParser(exchange);
 						res.against.p1 = ParserFootballService.againstParser(exchange);
 						break;
 					}
-					case 1: {  // p2
+					case 1: {
+						// p2
 						res.behind.p2 = ParserFootballService.behindParser(exchange);
 						res.against.p2 = ParserFootballService.againstParser(exchange);
 						break;
 					}
-					case 2: { // ничья
+					case 2: {
+						// ничья
 						res.behind.x = ParserFootballService.behindParser(exchange);
 						res.against.x = ParserFootballService.againstParser(exchange);
 						break;
@@ -455,9 +493,10 @@ export class ParserFootballService {
 		let res: IOtherRates = {
 			selectionId: 0,
 			marketId: '',
+			status: StatusMarket.CLOSE,
 			handicap: 0,
 			behind: 0,
-			against: 0
+			against: 0,
 		};
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes) => {
@@ -480,6 +519,7 @@ export class ParserFootballService {
 		let res: IOtherRatesInArray = {
 			selectionId: 0,
 			marketId: '',
+			status: StatusMarket.CLOSE,
 			list: [],
 		};
 		if (runners != null && runners.length) {

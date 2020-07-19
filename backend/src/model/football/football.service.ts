@@ -9,10 +9,7 @@ import {ScoreEvents} from '../../parser/type/scoreEvents.type';
 export class FootballService {
 	private readonly logger = new Logger(FootballService.name);
 
-	constructor(
-		@InjectModel('Football') private readonly footballModel: Model<IFootballModel>,
-	) {
-	}
+	constructor(@InjectModel('Football') private readonly footballModel: Model<IFootballModel>) {}
 
 	/**
 	 * Преобразовывает ставки в необходимый формат
@@ -51,7 +48,7 @@ export class FootballService {
 				group: statistic.command.group,
 				women: statistic.command.women,
 				youth: statistic.command.youth,
-				limited: statistic.command.limited
+				limited: statistic.command.limited,
 			},
 			cards: {
 				one: {
@@ -61,7 +58,7 @@ export class FootballService {
 					attacks: statistic.cards.one.attacks,
 					danAttacks: statistic.cards.one.danAttacks,
 					shotsOn: statistic.cards.one.shotsOn,
-					shotsOff: statistic.cards.one.shotsOff
+					shotsOff: statistic.cards.one.shotsOff,
 				},
 				two: {
 					red: statistic.cards.two.red,
@@ -70,13 +67,14 @@ export class FootballService {
 					attacks: statistic.cards.two.attacks,
 					danAttacks: statistic.cards.two.danAttacks,
 					shotsOn: statistic.cards.two.shotsOn,
-					shotsOff: statistic.cards.two.shotsOff
-				}
+					shotsOff: statistic.cards.two.shotsOff,
+				},
 			},
 			rates: {
 				matchOdds: {
 					selectionId: statistic.rates.matchOdds.selectionId,
 					marketId: statistic.rates.matchOdds.marketId,
+					status: statistic.rates.matchOdds.status,
 					handicap: statistic.rates.matchOdds.handicap,
 					behind: {
 						p1: statistic.rates.matchOdds.behind.p1,
@@ -89,11 +87,12 @@ export class FootballService {
 						x: statistic.rates.matchOdds.against.x,
 						p2: statistic.rates.matchOdds.against.p2,
 						mod: statistic.rates.matchOdds.against.mod,
-					}
+					},
 				},
 				under15: {
 					selectionId: statistic.rates.under15.selectionId,
 					marketId: statistic.rates.under15.marketId,
+					status: statistic.rates.under15.status,
 					handicap: statistic.rates.under15.handicap,
 					behind: statistic.rates.under15.behind,
 					against: statistic.rates.under15.against,
@@ -101,6 +100,7 @@ export class FootballService {
 				under25: {
 					selectionId: statistic.rates.under25.selectionId,
 					marketId: statistic.rates.under25.marketId,
+					status: statistic.rates.under25.status,
 					handicap: statistic.rates.under25.handicap,
 					behind: statistic.rates.under25.behind,
 					against: statistic.rates.under25.against,
@@ -108,6 +108,7 @@ export class FootballService {
 				bothTeamsToScoreYes: {
 					selectionId: statistic.rates.bothTeamsToScoreYes.selectionId,
 					marketId: statistic.rates.bothTeamsToScoreYes.marketId,
+					status: statistic.rates.bothTeamsToScoreYes.status,
 					handicap: statistic.rates.bothTeamsToScoreYes.handicap,
 					behind: statistic.rates.bothTeamsToScoreYes.behind,
 					against: statistic.rates.bothTeamsToScoreYes.against,
@@ -115,6 +116,7 @@ export class FootballService {
 				bothTeamsToScoreNo: {
 					selectionId: statistic.rates.bothTeamsToScoreNo.selectionId,
 					marketId: statistic.rates.bothTeamsToScoreNo.marketId,
+					status: statistic.rates.bothTeamsToScoreNo.status,
 					handicap: statistic.rates.bothTeamsToScoreNo.handicap,
 					behind: statistic.rates.bothTeamsToScoreNo.behind,
 					against: statistic.rates.bothTeamsToScoreNo.against,
@@ -122,11 +124,12 @@ export class FootballService {
 				allTotalGoals: {
 					selectionId: statistic.rates.allTotalGoals.selectionId,
 					marketId: statistic.rates.allTotalGoals.marketId,
-					list: statistic.rates.allTotalGoals.list.map((item: IOtherRate) => FootballService.mapPropsRate(item))
+					status: statistic.rates.allTotalGoals.status,
+					list: statistic.rates.allTotalGoals.list.map((item: IOtherRate) => FootballService.mapPropsRate(item)),
 				},
 			},
 			createdBy: dateStringToFullDateString(statistic.createdBy),
-			modifiedBy: dateStringToFullDateString(statistic.modifiedBy)
+			modifiedBy: dateStringToFullDateString(statistic.modifiedBy),
 		};
 	}
 
@@ -137,16 +140,19 @@ export class FootballService {
 	 * @returns {Promise<IFootball | null>}
 	 */
 	public async create(param: IFootball): Promise<IFootball | null> {
-		let findMatch = await this.footballModel.find({
-			marketId: param.marketId,
-			strategy: param.strategy
-		}).exec();
+		let findMatch = await this.footballModel
+			.find({
+				marketId: param.marketId,
+				strategy: param.strategy,
+			})
+			.exec();
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
 		let createdFootball = new this.footballModel(param);
-		return await createdFootball.save()
-			.then((model) => FootballService.mapProps(model))
+		return await createdFootball
+			.save()
+			.then(model => FootballService.mapProps(model))
 			.catch((error: any) => {
 				this.logger.error(`Error create football param=${JSON.stringify(param)}`);
 				throw new Error(error);
@@ -160,7 +166,8 @@ export class FootballService {
 	 * @returns {Promise<IFootball[]>}
 	 */
 	public async getDataByParam(param?: any): Promise<IFootball[]> {
-		return await this.footballModel.find(param != null ? param : {})
+		return await this.footballModel
+			.find(param != null ? param : {})
 			.read('secondary')
 			.exec()
 			.then((statistics: IFootballModel[]) => {
@@ -215,7 +222,7 @@ export class FootballService {
 					this.logger.error('Football with not found');
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
-				if (param.score && (param.score.resulting != null && param.score.resulting !== '')) {
+				if (param.score && param.score.resulting != null && param.score.resulting !== '') {
 					statistic.score.resulting = param.score.resulting;
 				}
 				if (param.rates != null) {
@@ -253,7 +260,7 @@ export class FootballService {
 						item.score.resulting = param.resulting;
 						await item.save();
 					}
-				}); 
+				});
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error set score by param football param=${JSON.stringify(param)}: ${error.message}`);
