@@ -39,7 +39,8 @@ timedatectl
 ## Установить MongoDB
 
 ###[Установить MongoDB](https://docs.mongodb.com/master/tutorial/install-mongodb-on-ubuntu/):
-```bash     
+
+```shell     
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 4B7C549A058F8B6B && 
 echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | 
 sudo tee /etc/apt/sources.list.d/mongodb.list &&
@@ -51,6 +52,7 @@ sudo apt-get install -y mongodb-org
 ```bash
 sudo systemctl enable mongod
 sudo systemctl start mongod 
+sudo systemctl unmask mongod 
 ```
 
 Наконец, используйте команду ниже, чтобы проверить установленную версию MongoDB в вашей системе.
@@ -59,7 +61,7 @@ mongod --version
 ```
 
 Также подключите MongoDB с помощью командной строки и выполните несколько тестовых команд для проверки правильности работы.
-```bash
+```mongo
 mongo 
 
 use mydb;
@@ -226,6 +228,11 @@ sudo ufw allow ftp
 ```bash
 sudo ufw allow ssh
 ```
+
+#### Включение web-service:
+```bash
+sudo ufw allow 3000/tcp
+``` 
 
 #### Включение mongo:
 ```bash
