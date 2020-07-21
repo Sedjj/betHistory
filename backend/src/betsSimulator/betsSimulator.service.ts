@@ -7,30 +7,51 @@ import {betAmount} from '../store';
 
 @Injectable()
 export class BetsSimulatorService {
+	private group: string[];
 	constructor(
 		private readonly telegramService: TelegramService,
 		private readonly seleniumApiService: SeleniumApiService,
-	) {}
+	) {
+		this.group = ['Belarusian', 'Faroe', 'Italian', 'Latvian', 'Slovenian', 'Swiss', 'Ukrainian'];
+	}
 
 	public async matchRate(param: IFootball) {
 		const {
-			rates: {under25},
+			rates: {
+				allTotalGoals: {list},
+				under15,
+				bothTeamsToScoreNo: {behind},
+			},
+			command: {group},
 		} = param;
+
+		const TM20 = list.reduce<number>((acc, x) => {
+			if (x.handicap === 2.0) {
+				acc = x.behind;
+			}
+			return acc;
+		}, 0);
+		const excludeGroup = this.group.some(x => group.includes(x));
+
 		switch (param.strategy) {
 			case 3:
-				await this.telegramService.sendMessageChat(decorateMessageChannel(param));
-				await this.seleniumApiService.placeOrders({
-					marketId: under25.marketId, // FIXME по-моему не то уходит
-					layOrBack: 'lay', // TODO betAmount.bets для теста back для авто ставки
-					choice: {
-						selectionId: under25.selectionId,
-						handicap: under25.handicap,
-					},
-					bet: {
-						price: 1.01, // TODO из базы under25.against under25.behind
-						stake: betAmount.bets,
-					},
-				});
+				if (!excludeGroup) {
+					if (TM20 > 1.33 && behind >= 1.15 && behind <= 1.53) {
+						await this.telegramService.sendMessageChat(decorateMessageChannel(param));
+						await this.seleniumApiService.placeOrders({
+							marketId: under15.marketId,
+							layOrBack: 'back', // TODO lay для теста - back для авто ставки
+							choice: {
+								selectionId: under15.selectionId,
+								handicap: under15.handicap,
+							},
+							bet: {
+								price: under15.behind - 0.1,
+								stake: betAmount.bets,
+							},
+						});
+					}
+				}
 				break;
 			default:
 				break;

@@ -7,7 +7,7 @@ import {
 	TelegrafHears,
 	TelegrafProvider,
 	TelegrafStart,
-	TelegrafUse
+	TelegrafUse,
 } from 'nestjs-telegraf';
 import {authPhone, betAmount, exportStatus, rateStatus} from '../store';
 import config from 'config';
@@ -65,7 +65,7 @@ export class TelegramActions {
 			reply_markup: {
 				inline_keyboard: msg.buttons,
 			},
-			parse_mode: 'Markdown'
+			parse_mode: 'Markdown',
 		});
 	}
 
@@ -89,7 +89,7 @@ export class TelegramActions {
 	 */
 	private static async editMessageReplyMarkup(ctx: Context, text: string, count: string): Promise<void> {
 		await ctx.editMessageReplyMarkup({
-			inline_keyboard: menuList(text, count).buttons
+			inline_keyboard: menuList(text, count).buttons,
 		});
 	}
 
@@ -117,7 +117,7 @@ export class TelegramActions {
 	protected async accessCheck(ctx: Context, next?: () => any) {
 		let administrators: number[] = config.get<number[]>('roles.admin');
 		const chat = ctx.chat != null ? ctx.chat.id : ctx.from != null ? ctx.from.id : 0;
-		if (administrators.some((user) => user === chat) && next) {
+		if (administrators.some(user => user === chat) && next) {
 			next();
 		}
 	}
@@ -188,14 +188,14 @@ export class TelegramActions {
 
 	@TelegrafAction('upBets')
 	protected async upBets(ctx: Context) {
-		betAmount.increase(10);
+		betAmount.increase(1);
 		await TelegramActions.editMessageReplyMarkup(ctx, 'betAmount', betAmount.bets.toString());
 	}
 
 	@TelegrafAction('downBets')
 	protected async downBets(ctx: Context) {
-		if (betAmount.bets > 10) {
-			betAmount.decrease(10);
+		if (betAmount.bets > 7) {
+			betAmount.decrease(1);
 			await TelegramActions.editMessageReplyMarkup(ctx, 'betAmount', betAmount.bets.toString());
 		}
 	}
@@ -259,7 +259,7 @@ export class TelegramActions {
 			reply_markup: {
 				keyboard: this.keyboard,
 			},
-			parse_mode: 'Markdown'
+			parse_mode: 'Markdown',
 		});
 	}
 
