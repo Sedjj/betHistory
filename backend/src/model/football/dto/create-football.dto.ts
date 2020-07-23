@@ -8,8 +8,4 @@ export class CreateFootballDto {
 	public readonly command: ICommand;
 	public readonly rates: ITimeSnapshot;
 	public readonly cards: ICardsCommands;
-
-	constructor() {
-		console.log('');
-	}
 }
