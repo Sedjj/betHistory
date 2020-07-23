@@ -1,9 +1,10 @@
-import {log} from '../utils/logger';
+import {Logger} from '@nestjs/common';
 
 /**
  * Класс для размера ставки
  */
 export class BetAmount {
+	private readonly logger = new Logger(BetAmount.name);
 	private amount: number;
 
 	constructor() {
@@ -15,12 +16,12 @@ export class BetAmount {
 	}
 
 	public increase(amount: number): number {
-		log.info(`Betting increments will on ${amount}`);
+		this.logger.debug(`Betting increments will on ${amount}`);
 		return (this.amount = this.amount + amount);
 	}
 
 	public decrease(amount: number): number {
-		log.info(`Betting decrements will on ${amount}`);
+		this.logger.debug(`Betting decrements will on ${amount}`);
 		return (this.amount = this.amount - amount);
 	}
 }

@@ -7,14 +7,9 @@ import {rateStatus} from '../../store';
 @Injectable()
 export class SeleniumApiService {
 	private readonly logger = new Logger(SeleniumApiService.name);
-	/**
-	 * Массив интервалов в миллисекундах после которых делается попытка снова
-	 */
-	private readonly searchTimeouts: number[];
 	private readonly client: Got;
 
 	constructor() {
-		this.searchTimeouts = [2000, 5000, 8000, 12000, 1];
 		const server = config.get<string>('api.server');
 		const port = config.get<string>('api.port');
 
@@ -33,41 +28,27 @@ export class SeleniumApiService {
 		if (!rateStatus.status) {
 			return Promise.resolve();
 		}
-		return new Promise(async (resolve, reject) => {
-			for (const timeout of this.searchTimeouts) {
-				try {
-					const {body} = await this.client.post('bet', {
-						headers: {
-							'Content-Type': 'application/json;charset=UTF-8',
-							Accept: 'application/json, text/plain, */*',
-						},
-						responseType: 'json',
-						body: JSON.stringify(param),
-					});
-					if (body != null) {
-						resolve();
-						break;
-					}
-					this.logger.error(`Error place orders -> ${body}`);
-					reject('request came empty');
+		try {
+			const {body} = await this.client.post('bet', {
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+					Accept: 'application/json, text/plain, */*',
+				},
+				body: JSON.stringify(param),
+			});
+			this.logger.debug(`Response successfully: ${body}`);
+		} catch (error) {
+			switch (error.name) {
+				case 'RequestError':
+					this.logger.error(`Error RequestError, message: ${error.message})}`);
 					break;
-				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
-					this.logger.debug(`Place orders sleep on ${timeout}ms`);
-					await this.sleep(timeout);
-				}
+				case 'ParseError':
+					this.logger.error(`Error ParseError, message: ${error.message})}`);
+					break;
+				default:
+					this.logger.error(`Error name: ${error.name}, message: ${error.message})}`);
+					break;
 			}
-			reject('Server is not responding');
-		});
-	}
-
-	/**
-	 * Функция ожидания реализованная через промис + таймаут, предполагается использовать с async/await.
-	 *
-	 * @param {number} ms - количество миллисекунд которое требуется выждать
-	 * @return {Promise<number>} - промис, resolve которого будет означать что время вышло
-	 */
-	private sleep(ms: number) {
-		return new Promise(resolve => setTimeout(resolve, ms));
+		}
 	}
 }

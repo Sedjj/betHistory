@@ -19,7 +19,7 @@ export class TelegramController {
 	}
 
 	@Post('sendMessageSupport')
-	async sendMessage(@Body() messageDto: SendMessageDto) {
+	public async sendMessage(@Body() messageDto: SendMessageDto) {
 		try {
 			await this.telegramService.sendMessageSupport(messageDto.text);
 		} catch (e) {
@@ -30,7 +30,7 @@ export class TelegramController {
 
 	@Post('sendPhoto')
 	@UseInterceptors(FileInterceptor('photo'))
-	async uploadFilePhoto(@UploadedFile() photo: FilePhoto, @Body() fileDto: SendPhotoDto) {
+	public async uploadFilePhoto(@UploadedFile() photo: FilePhoto, @Body() fileDto: SendPhotoDto) {
 		try {
 			await this.telegramService.sendFilePhoto(photo.buffer, fileDto.title || this.nameBot);
 		} catch (e) {

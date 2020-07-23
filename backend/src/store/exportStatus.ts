@@ -1,15 +1,16 @@
-import {log} from '../utils/logger';
+import {Logger} from '@nestjs/common';
 
 /**
  * Класс для состояния экспорта'
  */
 export class ExportStatus {
+	private readonly logger = new Logger(ExportStatus.name);
 	/**
 	 * Название метода для экспорта
 	 */
 	private nameMethod: string;
 	/**
-	 * Количест дней экспорта
+	 * Количество дней экспорта
 	 */
 	private countDay: number;
 
@@ -26,18 +27,18 @@ export class ExportStatus {
 	}
 
 	public setName(name: string): void {
-		log.info(`Name export: ${name}`);
+		this.logger.debug(`Name export: ${name}`);
 		this.nameMethod = name;
 	}
 
 	public increase(amount: number): number {
-		log.info(`Export increments will on ${amount}`);
-		return this.countDay = this.countDay + amount;
+		this.logger.debug(`Export increments will on ${amount}`);
+		return (this.countDay = this.countDay + amount);
 	}
 
 	public decrease(amount: number): number {
-		log.info(`Export decrements will on ${amount}`);
-		return this.countDay = this.countDay - amount;
+		this.logger.debug(`Export decrements will on ${amount}`);
+		return (this.countDay = this.countDay - amount);
 	}
 
 	public clear(): void {

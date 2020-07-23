@@ -1,9 +1,10 @@
-import {log} from '../utils/logger';
+import {Logger} from '@nestjs/common';
 
 /**
  * Класс для подтверждения телефона
  */
 export class AuthPhone {
+	private readonly logger = new Logger(AuthPhone.name);
 	private checkStatus: boolean;
 	private currentPhone: string;
 	private currentCode: string;
@@ -22,27 +23,27 @@ export class AuthPhone {
 		return this.currentCode;
 	}
 
-	public 	get status(): boolean {
+	public get status(): boolean {
 		return this.checkStatus;
 	}
 
 	public setPhone(phone: string): void {
-		log.info(`Confirmation phone: ${phone}`);
+		this.logger.debug(`Confirmation phone: ${phone}`);
 		this.currentPhone = phone;
 	}
 
 	public setCode(code: string): void {
-		log.info(`Verification code: ${code}`);
+		this.logger.debug(`Verification code: ${code}`);
 		this.currentCode = code;
 	}
 
 	public turnOn(): boolean {
-		log.info('Enable login verification');
-		return this.checkStatus = true;
+		this.logger.debug('Enable login verification');
+		return (this.checkStatus = true);
 	}
 
 	public turnOff(): boolean {
-		log.info('Stopped login verification');
-		return this.checkStatus = false;
+		this.logger.debug('Stopped login verification');
+		return (this.checkStatus = false);
 	}
 }
