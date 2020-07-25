@@ -16,7 +16,7 @@ export class FetchService {
 		this.searchTimeouts = [2000, 5000, 8000, 12000, 1];
 		const cookieJar = new CookieJar();
 		this.client = got.extend({
-			cookieJar
+			cookieJar,
 		});
 	}
 
@@ -33,24 +33,23 @@ export class FetchService {
 					const {body} = await this.client.post(url, {
 						headers: {
 							'Content-Type': 'application/json;charset=UTF-8',
-							'Accept': 'application/json, text/plain, */*'
+							Accept: 'application/json, text/plain, */*',
 						},
 						responseType: 'json',
 						body: JSON.stringify({
-								filter: {
-									marketBettingTypes: ['ASIAN_HANDICAP_SINGLE_LINE', 'ASIAN_HANDICAP_DOUBLE_LINE', 'ODDS'],
-									productTypes: ['EXCHANGE'],
-									marketTypeCodes: ['MATCH_ODDS'], // второй фильтр (переры, ставки, обе забъют) OVER_UNDER_45 BOTH_TEAMS_TO_SCORE HALF_TIME
-									selectBy: 'FIRST_TO_START_AZ', // первый фильтр (MAXIMUM_TRADED - в паре, RANK - соревнованияб FIRST_TO_START_AZ - время)
-									turnInPlayEnabled: true,
-									maxResults: 0,
-									eventTypeIds: [1] // 1 - это футбол
-								},
-								facets: [{type: 'MARKET'}],
-								currencyCode: 'EUR',
-								locale: 'en' // локаль на сайте
-							}
-						)
+							filter: {
+								marketBettingTypes: ['ASIAN_HANDICAP_SINGLE_LINE', 'ASIAN_HANDICAP_DOUBLE_LINE', 'ODDS'],
+								productTypes: ['EXCHANGE'],
+								marketTypeCodes: ['MATCH_ODDS'], // второй фильтр (переры, ставки, обе забъют) OVER_UNDER_45 BOTH_TEAMS_TO_SCORE HALF_TIME
+								selectBy: 'FIRST_TO_START_AZ', // первый фильтр (MAXIMUM_TRADED - в паре, RANK - соревнованияб FIRST_TO_START_AZ - время)
+								turnInPlayEnabled: true,
+								maxResults: 0,
+								eventTypeIds: [1], // 1 - это футбол
+							},
+							facets: [{type: 'MARKET'}],
+							currencyCode: 'EUR',
+							locale: 'en', // локаль на сайте
+						}),
 					});
 					if (body != null) {
 						resolve(body);
@@ -60,7 +59,7 @@ export class FetchService {
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
 					this.logger.debug(`Get all matches sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
@@ -82,7 +81,7 @@ export class FetchService {
 					const {body} = await this.client.get<EventDetails[]>(url, {
 						headers: {
 							'Content-Type': 'application/json;charset=UTF-8',
-							'Accept': 'application/json, text/plain, */*'
+							Accept: 'application/json, text/plain, */*',
 						},
 						responseType: 'json',
 					});
@@ -94,7 +93,7 @@ export class FetchService {
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
 					this.logger.debug(`Get event details sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
@@ -116,26 +115,31 @@ export class FetchService {
 					const {body} = await this.client.post(url, {
 						headers: {
 							'Content-Type': 'application/json;charset=UTF-8',
-							'Accept': 'application/json, text/plain, */*'
+							Accept: 'application/json, text/plain, */*',
 						},
 						responseType: 'json',
 						body: JSON.stringify({
-								filter: {
-									marketBettingTypes: ['ASIAN_HANDICAP_SINGLE_LINE', 'ASIAN_HANDICAP_DOUBLE_LINE', 'ODDS'],
-									eventTypeIds: [1],
-									productTypes: ['EXCHANGE'],
-									selectBy: 'RANK',
-									maxResults: 0,
-									attachments: ['MARKET_LITE'],
-									marketTypeCodes: ['MATCH_ODDS', 'OVER_UNDER_15', 'OVER_UNDER_25', 'BOTH_TEAMS_TO_SCORE', 'ALT_TOTAL_GOALS'],
-									upperLevelEventIds: eventIds,
-									turnInPlayEnabled: true
-								},
-								facets: [{type: 'MARKET'}],
-								currencyCode: 'EUR',
-								locale: 'en'
-							}
-						)
+							filter: {
+								marketBettingTypes: ['ASIAN_HANDICAP_SINGLE_LINE', 'ASIAN_HANDICAP_DOUBLE_LINE', 'ODDS'],
+								eventTypeIds: [1],
+								productTypes: ['EXCHANGE'],
+								selectBy: 'RANK',
+								maxResults: 0,
+								attachments: ['MARKET_LITE'],
+								marketTypeCodes: [
+									'MATCH_ODDS',
+									'OVER_UNDER_15',
+									'OVER_UNDER_25',
+									'BOTH_TEAMS_TO_SCORE',
+									'ALT_TOTAL_GOALS',
+								],
+								upperLevelEventIds: eventIds,
+								turnInPlayEnabled: true,
+							},
+							facets: [{type: 'MARKET'}],
+							currencyCode: 'EUR',
+							locale: 'en',
+						}),
 					});
 					if (body != null) {
 						resolve(body);
@@ -145,7 +149,7 @@ export class FetchService {
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
 					this.logger.debug(`Search markets by event sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
@@ -167,9 +171,9 @@ export class FetchService {
 					const {body} = await this.client.get(url, {
 						headers: {
 							'Content-Type': 'application/json;charset=UTF-8',
-							'Accept': 'application/json, text/plain, */*'
+							Accept: 'application/json, text/plain, */*',
 						},
-						responseType: 'json'
+						responseType: 'json',
 					});
 					if (body != null) {
 						resolve(body);
@@ -179,7 +183,7 @@ export class FetchService {
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
 					this.logger.debug(`Get rate markets sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}

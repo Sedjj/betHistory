@@ -178,7 +178,7 @@ export class FootballService {
 				return statistics.map((statistic: IFootballModel) => FootballService.mapProps(statistic));
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error getDataByParam param=${JSON.stringify(JSON.stringify(param))}: ${error.message}`);
+				this.logger.error(`Error getDataByParam param=${JSON.stringify(param)},  message: ${error.message}`);
 				throw new Error(error);
 			});
 	}
@@ -201,7 +201,7 @@ export class FootballService {
 				return FootballService.mapProps(model);
 			})
 			.catch((error: any) => {
-				this.logger.error(`deleteStatistic param=${JSON.stringify(param)}: ${error.message}`);
+				this.logger.error(`deleteStatistic param=${JSON.stringify(param)},  message: ${error.message}`);
 				throw new Error(error);
 			});
 	}
@@ -234,7 +234,9 @@ export class FootballService {
 				return statistic.save().then((x: IFootballModel) => FootballService.mapProps(x));
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error set data by param football param=${JSON.stringify(param)}: ${error.message}`);
+				this.logger.error(
+					`Error set data by param football param=${JSON.stringify(param)},  message: ${error.message}`,
+				);
 				throw new Error(error);
 			});
 	}
@@ -263,7 +265,9 @@ export class FootballService {
 				});
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error set score by param football param=${JSON.stringify(param)}: ${error.message}`);
+				this.logger.error(
+					`Error set score by param football param=${JSON.stringify(param)},  message: ${error.message}`,
+				);
 				throw new Error(error);
 			});
 	}

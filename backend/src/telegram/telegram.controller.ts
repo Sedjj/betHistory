@@ -1,4 +1,4 @@
-import {Body, Controller, Post, UploadedFile, UseInterceptors} from '@nestjs/common';
+import {Body, Controller, Logger, Post, UploadedFile, UseInterceptors} from '@nestjs/common';
 import {TelegramService} from './telegram.service';
 import config from 'config';
 import {SendMessageDto} from './dto/send-message.dto';
@@ -8,6 +8,7 @@ import {FilePhoto} from './type/telegram.type';
 
 @Controller('telegram')
 export class TelegramController {
+	private readonly logger = new Logger(TelegramController.name);
 	private readonly nameBot: string;
 
 	constructor(private readonly telegramService: TelegramService) {
@@ -19,9 +20,11 @@ export class TelegramController {
 	}
 
 	@Post('sendMessageSupport')
-	public async sendMessage(@Body() messageDto: SendMessageDto) {
+	public sendMessage(@Body() messageDto: SendMessageDto) {
 		try {
-			await this.telegramService.sendMessageSupport(messageDto.text);
+			this.telegramService.sendMessageSupport(messageDto.text).then(() => {
+				this.logger.debug('Send message fine');
+			});
 		} catch (e) {
 			return `Message not send -> ${e}`;
 		}
@@ -30,9 +33,11 @@ export class TelegramController {
 
 	@Post('sendPhoto')
 	@UseInterceptors(FileInterceptor('photo'))
-	public async uploadFilePhoto(@UploadedFile() photo: FilePhoto, @Body() fileDto: SendPhotoDto) {
+	public uploadFilePhoto(@UploadedFile() photo: FilePhoto, @Body() fileDto: SendPhotoDto) {
 		try {
-			await this.telegramService.sendFilePhoto(photo.buffer, fileDto.title || this.nameBot);
+			this.telegramService.sendFilePhoto(photo.buffer, fileDto.title || this.nameBot).then(() => {
+				this.logger.debug('Send photo fine');
+			});
 		} catch (e) {
 			return `Photo not send -> ${e}`;
 		}

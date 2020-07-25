@@ -36,19 +36,9 @@ export class SeleniumApiService {
 				},
 				body: JSON.stringify(param),
 			});
-			this.logger.debug(`Response successfully: ${body}`);
+			this.logger.debug(`Response bet ${param.marketId} successfully; Body: ${body}`);
 		} catch (error) {
-			switch (error.name) {
-				case 'RequestError':
-					this.logger.error(`Error RequestError, message: ${error.message})}`);
-					break;
-				case 'ParseError':
-					this.logger.error(`Error ParseError, message: ${error.message})}`);
-					break;
-				default:
-					this.logger.error(`Error name: ${error.name}, message: ${error.message})}`);
-					break;
-			}
+			this.logger.error(`Error name: ${error.name}, message: ${error.message}`);
 		}
 	}
 }

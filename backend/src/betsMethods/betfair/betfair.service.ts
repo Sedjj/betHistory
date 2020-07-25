@@ -17,7 +17,7 @@ export class BetfairService {
 		this.searchTimeouts = [2000, 5000, 8000, 12000, 1];
 		const cookieJar = new CookieJar();
 		this.client = got.extend({
-			cookieJar
+			cookieJar,
 		});
 	}
 
@@ -44,7 +44,7 @@ export class BetfairService {
 					form.append('password', 'swcBGM4283uVpHt');
 					const body = await this.client.post('https://identitysso.betfair.com/api/login', {
 						responseType: 'text',
-						body: JSON.stringify(form)
+						body: JSON.stringify(form),
 					});
 					if (body != null) {
 						resolve(body);
@@ -54,7 +54,7 @@ export class BetfairService {
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
 					this.logger.debug(`Get all matches sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
@@ -77,22 +77,24 @@ export class BetfairService {
 						headers: {
 							'Content-Type': 'application/json',
 							'X-Application': 'xXHoZhQ88z8byjKV',
-							'X-Authentication': 'TYQF6tkE8iaPSPZK283sJRMPrzuYyFVoR9cfRUTVg/8='
+							'X-Authentication': 'TYQF6tkE8iaPSPZK283sJRMPrzuYyFVoR9cfRUTVg/8=',
 						},
 						responseType: 'json',
 						body: JSON.stringify({
 							marketId: 1.170380516,
-							instructions: [{
-								selectionId: 7044483,
-								handicap: 1.0,
-								side: 'LAY',
-								orderType: 'LIMIT',
-								limitOrder: {
-									size: 3,
-									price: 1.01
-								}
-							}]
-						})
+							instructions: [
+								{
+									selectionId: 7044483,
+									handicap: 1.0,
+									side: 'LAY',
+									orderType: 'LIMIT',
+									limitOrder: {
+										size: 3,
+										price: 1.01,
+									},
+								},
+							],
+						}),
 					});
 					if (body != null) {
 						resolve(body);
@@ -102,7 +104,7 @@ export class BetfairService {
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message})}`);
+					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
 					this.logger.debug(`Get all matches sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
