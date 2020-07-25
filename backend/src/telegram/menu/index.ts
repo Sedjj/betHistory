@@ -64,15 +64,6 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 					],
 				],
 			};
-		case 'verification':
-			return {
-				id: 7,
-				title: 'Выберите действие',
-				buttons: [
-					[{text: 'Вкл verification', callback_data: 'enableVerification'}],
-					[{text: 'Выкл verification', callback_data: 'turnOffVerification'}],
-				],
-			};
 		default:
 			return {
 				id: 0,

@@ -9,7 +9,7 @@ import {
 	TelegrafStart,
 	TelegrafUse,
 } from 'nestjs-telegraf';
-import {authPhone, betAmount, exportStatus, rateStatus} from '../store';
+import {betAmount, exportStatus, rateStatus} from '../store';
 import config from 'config';
 import {IKeyboardButton, IMenuBot} from './type/telegram.type';
 import {menuList} from './menu';
@@ -31,7 +31,6 @@ export class TelegramActions {
 		rate: 'Ставки',
 		getFile: 'Получить файл',
 		betAmount: 'Сумма ставки',
-		verification: 'Проверку входа в систему',
 	};
 
 	constructor(
@@ -52,7 +51,6 @@ export class TelegramActions {
 			[this.buttons.selectSport],
 			[this.buttons.getFile],
 			[this.buttons.betAmount],
-			[this.buttons.verification],
 		];
 	}
 
@@ -124,26 +122,6 @@ export class TelegramActions {
 		}
 	}
 
-	@TelegrafHears(/code-(\d{4,6})/)
-	protected async code(ctx: Context) {
-		if (ctx.message && ctx.message.text) {
-			const code = ctx.message.text.split('-')[1];
-			if (code) {
-				authPhone.setCode(code);
-			}
-		}
-	}
-
-	@TelegrafHears(/tel-(\d{8})/)
-	protected async phone(ctx: Context) {
-		if (ctx.message && ctx.message.text) {
-			const phone = ctx.message.text.split('-')[1];
-			if (phone) {
-				authPhone.setPhone(phone);
-			}
-		}
-	}
-
 	@TelegrafHears('Сколько матчей в ожидании')
 	protected async waiting(ctx: Context) {
 		await this.sendText(ctx, `Матчей ожидающих Total: ${await this.getActiveEvent()}`);
@@ -167,11 +145,6 @@ export class TelegramActions {
 	@TelegrafHears('Сумма ставки')
 	protected async betAmount(ctx: Context) {
 		await TelegramActions.inlineKeyboard(ctx, menuList('betAmount', betAmount.bets.toString()));
-	}
-
-	@TelegrafHears('Проверку входа в систему')
-	protected async verification(ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList('verification'));
 	}
 
 	@TelegrafAction('up')
@@ -242,18 +215,6 @@ export class TelegramActions {
 	protected async errorBetLogs(ctx: Context) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.getLogs('error');
-	}
-
-	@TelegrafAction('enableVerification')
-	protected async enableVerification(ctx: Context) {
-		authPhone.turnOn();
-		await TelegramActions.sendAnswerText(ctx, 'Enable login verification');
-	}
-
-	@TelegrafAction('turnOffVerification')
-	protected async turnOffVerification(ctx: Context) {
-		authPhone.turnOff();
-		await TelegramActions.sendAnswerText(ctx, 'Stopped login verification');
 	}
 
 	/**
