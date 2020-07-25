@@ -23,7 +23,7 @@ export class BetsSimulatorService {
 		} = param;
 
 		const TM20 = list.reduce<number>((acc, x) => {
-			if (x.handicap === 2.0) {
+			if (x.handicap === 2.0 || x.handicap === 2) {
 				acc = x.behind;
 			}
 			return acc;

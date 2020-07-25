@@ -60,7 +60,7 @@ export class ExportService {
 				bothTeamsToScoreYes: statistic.rates.bothTeamsToScoreYes.behind,
 				bothTeamsToScoreNo: statistic.rates.bothTeamsToScoreNo.behind,
 				allTotalGoals: statistic.rates.allTotalGoals.list.reduce<number>((acc, x) => {
-					if (x.handicap === 2.0) {
+					if (x.handicap === 2.0 || x.handicap === 2) {
 						acc = x.behind;
 					}
 					return acc;
