@@ -44,8 +44,9 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 				id: 5,
 				title: 'Выберите файл для скачивания',
 				buttons: [
-					[{text: 'debug logs', callback_data: 'debugLogs'}],
-					[{text: 'error logs', callback_data: 'errorLogs'}],
+					[{text: 'debug bet logs', callback_data: 'debugBetLogs'}],
+					[{text: 'debug selenium logs', callback_data: 'debugSeleniumLogs'}],
+					[{text: 'error bet logs', callback_data: 'errorBetLogs'}],
 				],
 			};
 		case 'betAmount':

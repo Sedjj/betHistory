@@ -2,16 +2,13 @@ import {Injectable} from '@nestjs/common';
 import {IFootball} from '../model/football/type/football.type';
 import {TelegramService} from '../telegram/telegram.service';
 import {decorateMessageChannel} from '../utils/formateMessage';
-import {SeleniumApiService} from '../betsMethods/seleniumApi/seleniumApi.service';
 import {betAmount} from '../store';
+import {FetchService} from '../fetch/fetch.service';
 
 @Injectable()
 export class BetsSimulatorService {
 	private group: string[];
-	constructor(
-		private readonly telegramService: TelegramService,
-		private readonly seleniumApiService: SeleniumApiService,
-	) {
+	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
 		this.group = ['Belarusian', 'Faroe', 'Italian', 'Latvian', 'Slovenian', 'Swiss', 'Ukrainian'];
 	}
 
@@ -38,7 +35,7 @@ export class BetsSimulatorService {
 				if (!excludeGroup) {
 					if (TM20 > 1.33 && behind >= 1.15 && behind <= 1.53) {
 						await this.telegramService.sendMessageChat(decorateMessageChannel(param));
-						await this.seleniumApiService.placeOrders({
+						await this.fetchService.placeOrders({
 							marketId: under15.marketId,
 							layOrBack: 'back', // TODO lay для теста - back для авто ставки
 							choice: {

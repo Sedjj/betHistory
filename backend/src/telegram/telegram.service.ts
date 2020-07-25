@@ -70,11 +70,33 @@ export class TelegramService {
 	}
 
 	/**
-	 * Метод отправки файла в чат support из телеграмм бота.
+	 * Метод отправки файла через строковый параметр в чат support из телеграмм бота.
 	 *
 	 * @param {ReadStream} file для отправки в чат
 	 */
 	public async sendFile(file: string): Promise<void> {
+		try {
+			await this.telegrafService.telegram.sendDocument(
+				this.supportChatId,
+				{
+					source: file,
+				},
+				{
+					caption: '',
+					parse_mode: 'HTML',
+				},
+			);
+		} catch (e) {
+			this.logger.error(`Error sendFile -> ${e}`);
+		}
+	}
+
+	/**
+	 * Метод отправки файла через Buffer параметр в чат support из телеграмм бота.
+	 *
+	 * @param {ReadStream} file для отправки в чат
+	 */
+	public async sendFileOfBuffer(file: Buffer): Promise<void> {
 		try {
 			await this.telegrafService.telegram.sendDocument(
 				this.supportChatId,

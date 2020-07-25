@@ -17,6 +17,7 @@ import {TelegramService} from './telegram.service';
 import {ExportService} from '../export/export.service';
 import {StackService} from '../model/stack/stack.service';
 import {IStack} from '../model/stack/type/stack.type';
+import {FetchService} from '../fetch/fetch.service';
 
 @Injectable()
 export class TelegramActions {
@@ -38,6 +39,7 @@ export class TelegramActions {
 		private readonly telegramService: TelegramService,
 		private readonly exportService: ExportService,
 		private readonly stackService: StackService,
+		private readonly fetchService: FetchService,
 	) {
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.logsDirectory = config.get<string>('path.directory.logs') || 'logs';
@@ -224,14 +226,20 @@ export class TelegramActions {
 		await TelegramActions.sendAnswerText(ctx, 'Betting mechanism will be stopped');
 	}
 
-	@TelegrafAction('debugLogs')
-	protected async debugLogs(ctx: Context) {
+	@TelegrafAction('debugBetLogs')
+	protected async debugBetLogs(ctx: Context) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.getLogs('debug');
 	}
 
-	@TelegrafAction('errorLogs')
-	protected async errorLogs(ctx: Context) {
+	@TelegrafAction('debugSeleniumLogs')
+	protected async debugSeleniumLogs(ctx: Context) {
+		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
+		await this.getLogsOtherServer();
+	}
+
+	@TelegrafAction('errorBetLogs')
+	protected async errorBetLogs(ctx: Context) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.getLogs('error');
 	}
@@ -276,6 +284,19 @@ export class TelegramActions {
 			this.logger.error(`Error exportStatisticDebounce: ${error}`);
 		}
 		exportStatus.clear();
+	}
+
+	/**
+	 * Метод для получения лог файла.
+	 */
+	private async getLogsOtherServer(): Promise<void> {
+		try {
+			await this.fetchService.getLogOtherServer().then(async file => {
+				await this.telegramService.sendFileOfBuffer(file);
+			});
+		} catch (error) {
+			this.logger.error(`Error getLogs -> ${error}`);
+		}
 	}
 
 	/**

@@ -1,19 +1,11 @@
 import {Module} from '@nestjs/common';
 import {BetsSimulatorService} from './betsSimulator.service';
 import {TelegramBotModule} from '../telegram/telegramBot.module';
-import {SeleniumApiModule} from '../betsMethods/seleniumApi/seleniumApi.module';
+import {FetchModule} from '../fetch/fetch.module';
 
 @Module({
-	imports: [
-		TelegramBotModule,
-		SeleniumApiModule
-	],
-	providers: [
-		BetsSimulatorService,
-	],
-	exports: [
-		BetsSimulatorService,
-	]
+	imports: [TelegramBotModule, FetchModule],
+	providers: [BetsSimulatorService],
+	exports: [BetsSimulatorService],
 })
-export class BetsSimulatorModule {
-}
+export class BetsSimulatorModule {}

@@ -1,12 +1,12 @@
 import {Injectable, Logger} from '@nestjs/common';
 import got, {Got} from 'got';
 import config from 'config';
-import {PlaceOrders} from '../../betsSimulator/type/selenium.type';
-import {rateStatus} from '../../store';
+import {PlaceOrders} from '../betsSimulator/type/selenium.type';
+import {rateStatus} from '../store';
 
 @Injectable()
-export class SeleniumApiService {
-	private readonly logger = new Logger(SeleniumApiService.name);
+export class FetchService {
+	private readonly logger = new Logger(FetchService.name);
 	private readonly client: Got;
 
 	constructor() {
@@ -14,8 +14,24 @@ export class SeleniumApiService {
 		const port = config.get<string>('api.port');
 
 		this.client = got.extend({
-			prefixUrl: `http://${server}:${port}/selenium/`,
+			prefixUrl: `http://${server}:${port}/`,
 		});
+	}
+
+	/**
+	 * Метод отправки сообщений в чат support бота.
+	 */
+	public async getLogOtherServer(): Promise<Buffer> {
+		try {
+			const {body} = await this.client.get('log', {
+				responseType: 'buffer',
+			});
+			this.logger.debug('Response get log successfully');
+			return body;
+		} catch (error) {
+			this.logger.error(`Error name: ${error.name}, message: ${error.message}`);
+			throw new Error(error);
+		}
 	}
 
 	/**
@@ -29,7 +45,7 @@ export class SeleniumApiService {
 			return Promise.resolve();
 		}
 		try {
-			const {body} = await this.client.post('bet', {
+			const {body} = await this.client.post('selenium/bet', {
 				headers: {
 					'Content-Type': 'application/json;charset=UTF-8',
 					Accept: 'application/json, text/plain, */*',

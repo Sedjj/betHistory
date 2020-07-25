@@ -6,6 +6,7 @@ import {ExportModule} from '../export/export.module';
 import config from 'config';
 import {StackModule} from '../model/stack/stack.module';
 import {TelegramController} from './telegram.controller';
+import {FetchModule} from '../fetch/fetch.module';
 
 let token: string;
 if (process.env.NODE_ENV === 'development') {
@@ -15,22 +16,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 @Module({
-	imports: [
-		HttpModule,
-		TelegrafModule.forRoot({token}),
-		ExportModule,
-		StackModule,
-	],
-	controllers: [
-		TelegramController
-	],
-	providers: [
-		TelegramActions,
-		TelegramService
-	],
-	exports: [
-		TelegramService,
-	]
+	imports: [HttpModule, TelegrafModule.forRoot({token}), ExportModule, StackModule, FetchModule],
+	controllers: [TelegramController],
+	providers: [TelegramActions, TelegramService],
+	exports: [TelegramService],
 })
-export class TelegramBotModule {
-}
+export class TelegramBotModule {}
