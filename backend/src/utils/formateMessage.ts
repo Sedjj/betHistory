@@ -15,7 +15,7 @@ export function decorateMessageChannel(param: IFootball): string {
 			matchOdds: {
 				behind: {p1, x, p2},
 			},
-			under15: {behind: TM15},
+			under15: {marketId: market15, behind: TM15},
 			under25: {behind: TM25},
 			bothTeamsToScoreNo: {behind: OZ},
 		},
@@ -27,6 +27,6 @@ export function decorateMessageChannel(param: IFootball): string {
 	const difference = `${TM15} / ${TM25} / ${OZ}:НЕТ`;
 	const mobile = `<a href="https://www.betfair.com/exchange/football/event/${eventId}/multi-market?marketIds${marketId}">mobile</a>`;
 	const pc = `<a href="https://www.betfair.com/exchange/plus/football/market/${marketId}">pc</a>`;
-	const orbitx = `<a href="https://www.orbitExch.com/customer/sport/market/${marketId}">orbitx</a>`;
+	const orbitx = `<a href="https://www.orbitExch.com/customer/sport/market/${market15}">orbitx</a>`;
 	return `${mobile} / ${pc} / ${orbitx}\n${group}\n\n<b>${one}\n${two}</b>\n\n<pre>${scope} / ${time}'\n${index}\n${difference}</pre>`;
 }

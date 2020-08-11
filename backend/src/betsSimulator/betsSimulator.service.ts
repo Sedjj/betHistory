@@ -9,7 +9,7 @@ import {FetchService} from '../fetch/fetch.service';
 export class BetsSimulatorService {
 	private group: string[];
 	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
-		this.group = ['Belarusian', 'Faroe', 'Italian', 'Latvian', 'Slovenian', 'Swiss', 'Ukrainian'];
+		this.group = ['Belarusian', 'Faroe', 'Italian', 'Latvian', 'Slovenian', 'Swiss', 'Ukrainian', 'Cambodian'];
 	}
 
 	public async matchRate(param: IFootball) {
@@ -17,7 +17,7 @@ export class BetsSimulatorService {
 			rates: {
 				allTotalGoals: {list},
 				under15,
-				bothTeamsToScoreNo: {behind},
+				bothTeamsToScoreYes: {behind},
 			},
 			command: {group},
 		} = param;
@@ -33,7 +33,7 @@ export class BetsSimulatorService {
 		switch (param.strategy) {
 			case 3:
 				if (!excludeGroup) {
-					if (TM20 > 1.33 && behind >= 1.15 && behind <= 1.53) {
+					if (TM20 >= 1.3 && behind >= 2.4 && under15.behind >= 1.75) {
 						await this.telegramService.sendMessageChat(decorateMessageChannel(param));
 						await this.fetchService.placeOrders({
 							marketId: under15.marketId,
@@ -43,7 +43,7 @@ export class BetsSimulatorService {
 								handicap: under15.handicap,
 							},
 							bet: {
-								price: under15.behind - 0.1,
+								price: under15.behind - 0.3,
 								stake: betAmount.bets,
 							},
 						});
