@@ -14,8 +14,7 @@ export class DataAnalysisService {
 		private readonly confService: ConfService,
 		private readonly footballService: FootballService,
 		private readonly betsSimulatorService: BetsSimulatorService,
-	) {
-	}
+	) {}
 
 	/**
 	 * Метод для выбора стратегии ставки.
@@ -26,11 +25,17 @@ export class DataAnalysisService {
 	public async strategyDefinition(param: IFootball, incStack: (id: number) => void): Promise<void> {
 		let {
 			score: {sc1, sc2},
-			time
+			time,
 		} = param;
 		let timeSetting: ITime[] = await this.confService.getTime();
-		if ((sc1 + sc2) === 0) {
-			if ((time >= timeSetting[2].before) && (time <= timeSetting[2].after)) {
+		if (sc1 + sc2 === 2) {
+			if (time >= timeSetting[1].before && time <= timeSetting[1].after) {
+				this.footballLiveStrategy(param, 1);
+				await incStack(param.eventId);
+			}
+		}
+		if (sc1 + sc2 === 0) {
+			if (time >= timeSetting[2].before && time <= timeSetting[2].after) {
 				this.footballLiveStrategy(param, 2);
 				await incStack(param.eventId);
 			}
@@ -39,18 +44,14 @@ export class DataAnalysisService {
 				await incStack(param.eventId);
 			}
 		}
-		if ((sc1 + sc2) === 1) {
-			if ((time >= timeSetting[4].before) && (time <= timeSetting[4].after)) {
+		if (sc1 + sc2 === 1) {
+			if (time >= timeSetting[4].before && time <= timeSetting[4].after) {
 				this.footballLiveStrategy(param, 4);
 				await incStack(param.eventId);
 			}
-		}
-		if (sc1 === sc2) {
-			if ((time >= timeSetting[5].before) && (time <= timeSetting[5].after)) {
-				if (param.rates.matchOdds.against.x < 2) {
-					this.footballLiveStrategy(param, 5);
-					await incStack(param.eventId);
-				}
+			if (time >= timeSetting[5].before && time <= timeSetting[5].after) {
+				this.footballLiveStrategy(param, 5);
+				await incStack(param.eventId);
 			}
 		}
 	}
@@ -61,11 +62,10 @@ export class DataAnalysisService {
 	 * @param {ScoreEvents} scoreEvents объект события
 	 */
 	public setEvent(scoreEvents: ScoreEvents): Promise<void> {
-		return this.footballService.setScoreByParam(scoreEvents)
-			.catch((error: any) => {
-				this.logger.error(`Set rate: ${error}`);
-				throw new Error(error);
-			});
+		return this.footballService.setScoreByParam(scoreEvents).catch((error: any) => {
+			this.logger.error(`Set rate: ${error}`);
+			throw new Error(error);
+		});
 	}
 
 	/**
@@ -75,14 +75,14 @@ export class DataAnalysisService {
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
 	private footballLiveStrategy(param: IFootball, strategy: number = 1): void {
-		this.saveEvent(param, strategy)// пропускает дальше если запись ушла в БД
-			.then(async (statistic) => {
+		this.saveEvent(param, strategy) // пропускает дальше если запись ушла в БД
+			.then(async statistic => {
 				if (statistic !== null) {
 					this.logger.debug(`Найден ${param.marketId}: Футбол - стратегия ${strategy}`);
 					await this.betsSimulatorService.matchRate(statistic);
 				}
 			})
-			.catch((error) => {
+			.catch(error => {
 				this.logger.error(`footballLiveStrategy: ${error}`);
 			});
 	}
@@ -94,10 +94,9 @@ export class DataAnalysisService {
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
 	private saveEvent(param: IFootball, strategy: number): Promise<IFootball | null> {
-		return this.footballService.create({...param, strategy})
-			.catch((error: any) => {
-				this.logger.error(`Save event rate: ${error}`);
-				throw new Error(error);
-			});
+		return this.footballService.create({...param, strategy}).catch((error: any) => {
+			this.logger.error(`Save event rate: ${error}`);
+			throw new Error(error);
+		});
 	}
 }

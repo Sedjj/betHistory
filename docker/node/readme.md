@@ -3,6 +3,11 @@
 docker system prune -a -f --volumes
 ```
 
+Удаление контейнера
+```bash
+docker rm rate
+```
+
 Сборка контейнера
 ```bash
 docker build --rm -t rate -f docker/node/DockerFile .

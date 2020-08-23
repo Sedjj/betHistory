@@ -7,31 +7,47 @@ import {FetchService} from '../fetch/fetch.service';
 
 @Injectable()
 export class BetsSimulatorService {
-	private group: string[];
+	/*private group: string[];*/
 	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
-		this.group = ['Belarusian', 'Faroe', 'Italian', 'Latvian', 'Slovenian', 'Swiss', 'Ukrainian', 'Cambodian'];
+		/*this.group = ['Belarusian', 'Faroe', 'Italian', 'Latvian', 'Slovenian', 'Swiss', 'Ukrainian', 'Cambodian'];*/
 	}
 
 	public async matchRate(param: IFootball) {
 		const {
 			rates: {
-				allTotalGoals: {list},
-				under15,
-				bothTeamsToScoreYes: {behind},
+				/*allTotalGoals: {list},*/
+				/*under15,*/
+				under25,
+				/*bothTeamsToScoreYes: {behind},*/
 			},
-			command: {group},
+			/*command: {group},*/
 		} = param;
 
-		const TM20 = list.reduce<number>((acc, x) => {
+		/*const TM20 = list.reduce<number>((acc, x) => {
 			if (x.handicap === 2.0 || x.handicap === 2) {
 				acc = x.behind;
 			}
 			return acc;
 		}, 0);
-		const excludeGroup = this.group.some(x => group.includes(x));
+		const excludeGroup = this.group.some(x => group.includes(x));*/
 
 		switch (param.strategy) {
-			case 3:
+			case 1:
+				await this.telegramService.sendMessageChat(decorateMessageChannel(param));
+				await this.fetchService.placeOrders({
+					marketId: under25.marketId,
+					layOrBack: 'lay', // TODO lay для теста - back для авто ставки
+					choice: {
+						selectionId: under25.selectionId,
+						handicap: under25.handicap,
+					},
+					bet: {
+						price: 0.01,
+						stake: betAmount.bets,
+					},
+				});
+				break;
+			/*case 3:
 				if (!excludeGroup) {
 					if (TM20 >= 1.3 && behind >= 2.4 && under15.behind >= 1.75) {
 						await this.telegramService.sendMessageChat(decorateMessageChannel(param));
@@ -49,7 +65,7 @@ export class BetsSimulatorService {
 						});
 					}
 				}
-				break;
+				break;*/
 			default:
 				break;
 		}

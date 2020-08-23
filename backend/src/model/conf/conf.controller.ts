@@ -6,67 +6,60 @@ import {IConf} from './type/conf.type';
 export class ConfController implements OnApplicationBootstrap {
 	private readonly logger = new Logger(ConfController.name);
 
-	constructor(
-		private readonly confService: ConfService
-	) {}
+	constructor(private readonly confService: ConfService) {}
 
 	onApplicationBootstrap() {
-		this.confService.create({
+		this.confService
+			.create({
 				confId: 1,
 				betAmount: 1,
 				time: [
 					{
 						before: 0,
-						after: 0
+						after: 0,
 					},
 					{
-						before: 5,
-						after: 10
+						before: 85,
+						after: 90,
 					},
 					{
 						before: 25,
-						after: 35
+						after: 35,
 					},
 					{
 						before: 45,
-						after: 45
+						after: 45,
 					},
 					{
 						before: 0,
-						after: 35
+						after: 35,
 					},
 					{
-						before: 45,
-						after: 110
+						before: 85,
+						after: 90,
 					},
 				],
-				typeRate: [
-					1.5,
-					1.5,
-					1.5,
-					0.5,
-					0.5,
-				],
+				typeRate: [1.5, 1.5, 1.5, 0.5, 0.5],
 				rate: [
 					{
 						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2
+						rate: 2,
 					},
 					{
 						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2
+						rate: 2,
 					},
 					{
 						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2
+						rate: 2,
 					},
 					{
 						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2
+						rate: 2,
 					},
 					{
 						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2
+						rate: 2,
 					},
 				],
 			})
