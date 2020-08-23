@@ -19,7 +19,7 @@ export class ConfController implements OnApplicationBootstrap {
 						after: 0,
 					},
 					{
-						before: 85,
+						before: 60,
 						after: 90,
 					},
 					{
