@@ -122,13 +122,42 @@ sudo apt install docker-ce
 ```bash
 sudo systemctl status docker
 ```
+
+## Настроим docker что бы проброс портов не обходил UFW
+
+Откроем файл настроек docker
+```bash
+sudo nano /etc/default/docker
+```
+
+Меняем в конфиге параметр
+```bash
+DOCKER_OPTS="--iptables=false"
+```
+
+Перезапускам docker
+```bash
+sudo systemctl restart docker
+```
+Теперь, когда вы развертываете контейнер, он больше не будет изменять iptables и будет учитывать UFW
  
  
 ### Настройка Docker compose
+
 ```bash
-sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose &&
-sudo chmod +x /usr/local/bin/docker-compose  &&
+sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose &&
+sudo chmod +x /usr/local/bin/docker-compose &&
 docker-compose --version
+```
+
+Данная команда нужна для переопределения расхода памяти [https://access.redhat.com/documentation/ru-ru/red_hat_enterprise_linux/6/html/performance_tuning_guide/s-memory-captun]
+```bash
+sudo sysctl vm.overcommit_memory=1
+```
+
+## Некая полезная документация по docker-compose
+```
+https://dker.ru/docs/docker-compose/compose-file-reference/
 ```
 
 ## Настройка безопасности
