@@ -11,32 +11,39 @@ export class BetsSimulatorService {
 
 	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
 		this.group = [
-			'Bosnian',
 			'Austrian',
+			'Belarusian',
 			'Belgian',
-			'Brazilian Serie A',
 			'Bulgarian',
-			'Cambodian',
-			'Chinese',
-			'Costa Rican',
-			'Croatian',
+			'Cup',
+			'Danish',
 			'Ecuadorian',
-			'Faroe',
+			'Finnish Veikkausliiga',
+			'Finnish Ykkonen',
+			'Icelandic',
+			'Hungarian',
 			'Italian',
 			'Latvian',
-			'Mexican',
-			'Moldovan',
-			'Norwegian Eliteserien',
+			'Mongolian',
+			'Norwegian 2nd Division',
 			'Polish',
-			'Portuguese',
-			'Russian',
-			'Slovakian Super League',
-			'Korean',
 			'Swiss',
-			'Turkish Super League',
+			'Swedish Superettan',
 			'UEFA',
-			'Ukrainian',
+			'Turkish',
+			'Uruguayan',
+			'Vietnamese',
+			'Faroe',
 			'German Oberliga',
+			'Portuguese',
+			'Maltese',
+			'Elite Friendlies',
+			'English',
+			'Greek',
+			'Serbian',
+			'Russian Professional Football League',
+			'Ukrainian',
+			'Tajikistani',
 		];
 	}
 
@@ -48,10 +55,8 @@ export class BetsSimulatorService {
 				},
 				allTotalGoals: {list},
 				under15,
-				bothTeamsToScoreNo: {behind},
 			},
-			cards,
-			command: {group},
+			command: {group, youth},
 		} = param;
 
 		const TM20 = list.reduce<number>((acc, x) => {
@@ -80,8 +85,8 @@ export class BetsSimulatorService {
 				break;*/
 			case 3:
 				if (!excludeGroup) {
-					if (TM20 >= 1.3 && behind > 1.02 && mod >= 2.2) {
-						if (cards.one.corners < 5 && cards.two.corners < 7) {
+					if (TM20 > 1.15 && mod > 3.6) {
+						if (under15.behind > 1.6 && youth === 0) {
 							await this.telegramService.sendMessageChat(decorateMessageChannel(param));
 							await this.fetchService.placeOrders({
 								marketId: under15.marketId,
