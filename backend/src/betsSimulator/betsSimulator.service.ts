@@ -41,18 +41,25 @@ export class BetsSimulatorService {
 			'English',
 			'Greek',
 			'Serbian',
-			'Russian Professional Football League',
+			'Russian',
 			'Ukrainian',
 			'Tajikistani',
+			'Brazilian',
+			'EFL Trophy',
+			'Icelandic',
+			'Romanian',
+			'US Major',
+			'Welsh',
+			'Dutch Eerste Divisie',
+			'Czech',
+			'Costa Rican',
 		];
 	}
 
 	public async matchRate(param: IFootball) {
 		const {
 			rates: {
-				matchOdds: {
-					behind: {mod},
-				},
+				bothTeamsToScoreNo: {behind: ScoreNo},
 				allTotalGoals: {list},
 				under15,
 			},
@@ -85,22 +92,20 @@ export class BetsSimulatorService {
 				break;*/
 			case 3:
 				if (!excludeGroup) {
-					if (TM20 > 1.15 && mod > 3.6) {
-						if (under15.behind > 1.6 && youth === 0) {
-							await this.telegramService.sendMessageChat(decorateMessageChannel(param));
-							await this.fetchService.placeOrders({
-								marketId: under15.marketId,
-								layOrBack: 'back', // TODO lay для теста - back для авто ставки
-								choice: {
-									selectionId: under15.selectionId,
-									handicap: under15.handicap,
-								},
-								bet: {
-									price: under15.behind - 0.3,
-									stake: betAmount.bets,
-								},
-							});
-						}
+					if (TM20 >= 1.3 && ScoreNo <= 1.5 && youth === 0) {
+						await this.telegramService.sendMessageChat(decorateMessageChannel(param));
+						await this.fetchService.placeOrders({
+							marketId: under15.marketId,
+							layOrBack: 'back', // TODO lay для теста - back для авто ставки
+							choice: {
+								selectionId: under15.selectionId,
+								handicap: under15.handicap,
+							},
+							bet: {
+								price: under15.behind - 0.3,
+								stake: betAmount.bets,
+							},
+						});
 					}
 				}
 				break;

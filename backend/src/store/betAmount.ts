@@ -8,7 +8,7 @@ export class BetAmount {
 	private amount: number;
 
 	constructor() {
-		this.amount = 7;
+		this.amount = 10;
 	}
 
 	public get bets(): number {
