@@ -1,16 +1,16 @@
 import {Injectable} from '@nestjs/common';
 import {IFootball} from '../model/football/type/football.type';
-import {TelegramService} from '../telegram/telegram.service';
+/*import {TelegramService} from '../telegram/telegram.service';
 import {decorateMessageChannel} from '../utils/formateMessage';
 import {betAmount} from '../store';
-import {FetchService} from '../fetch/fetch.service';
+import {FetchService} from '../fetch/fetch.service';*/
 
 @Injectable()
 export class BetsSimulatorService {
-	private group: string[];
+	/*private group: string[];*/
 
-	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
-		this.group = [
+	constructor(/*private readonly telegramService: TelegramService, private readonly fetchService: FetchService*/) {
+		/*this.group = [
 			'Austrian',
 			'Belarusian',
 			'Belgian',
@@ -53,11 +53,11 @@ export class BetsSimulatorService {
 			'Dutch Eerste Divisie',
 			'Czech',
 			'Costa Rican',
-		];
+		];*/
 	}
 
 	public async matchRate(param: IFootball) {
-		const {
+		/*const {
 			rates: {
 				bothTeamsToScoreNo: {behind: ScoreNo},
 				allTotalGoals: {list},
@@ -72,7 +72,7 @@ export class BetsSimulatorService {
 			}
 			return acc;
 		}, 0);
-		const excludeGroup = this.group.some(x => group.includes(x));
+		const excludeGroup = this.group.some(x => group.includes(x));*/
 
 		switch (param.strategy) {
 			/*case 1:
@@ -90,7 +90,7 @@ export class BetsSimulatorService {
 					},
 				});
 				break;*/
-			case 3:
+			/*case 3:
 				if (!excludeGroup) {
 					if (TM20 >= 1.3 && ScoreNo <= 1.5 && youth === 0) {
 						await this.telegramService.sendMessageChat(decorateMessageChannel(param));
@@ -108,7 +108,7 @@ export class BetsSimulatorService {
 						});
 					}
 				}
-				break;
+				break;*/
 			default:
 				break;
 		}
