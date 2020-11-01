@@ -5,17 +5,8 @@ import {ConfModule} from '../model/conf/conf.module';
 import {FootballModule} from '../model/football/football.module';
 
 @Module({
-	imports: [
-		BetsSimulatorModule,
-		ConfModule,
-		FootballModule,
-	],
-	providers: [
-		DataAnalysisService,
-	],
-	exports: [
-		DataAnalysisService
-	]
+	imports: [BetsSimulatorModule, ConfModule, FootballModule],
+	providers: [DataAnalysisService],
+	exports: [DataAnalysisService],
 })
-export class DataAnalysisModule {
-}
+export class DataAnalysisModule {}

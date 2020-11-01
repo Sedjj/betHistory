@@ -19,28 +19,41 @@ export class ConfController implements OnApplicationBootstrap {
 						after: 0,
 					},
 					{
-						before: 60,
-						after: 90,
+						// 1
+						before: 0,
+						after: 60,
 					},
 					{
+						// 2
 						before: 25,
 						after: 35,
 					},
 					{
+						// 3
 						before: 45,
 						after: 45,
 					},
 					{
+						// 4
 						before: 0,
-						after: 35,
+						after: 2,
 					},
 					{
-						before: 85,
-						after: 90,
+						// 5
+						before: 15,
+						after: 17,
 					},
 				],
-				typeRate: [1.5, 1.5, 1.5, 0.5, 0.5],
+				typeRate: [1.5, 1.5, 1.5, 0.5, 0.5, 0.5, 0.5],
 				rate: [
+					{
+						title: 'Math.abs(p1 - p2) < rate',
+						rate: 2,
+					},
+					{
+						title: 'Math.abs(p1 - p2) < rate',
+						rate: 2,
+					},
 					{
 						title: 'Math.abs(p1 - p2) < rate',
 						rate: 2,
