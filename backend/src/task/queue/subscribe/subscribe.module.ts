@@ -3,7 +3,7 @@ import {BullModule} from '@nestjs/bull';
 import config from 'config';
 import {SubscribeService} from './subscribe.service';
 
-const host = process.env.NODE_ENV === 'development' ? '127.0.0.1' : 'redis';
+const host = process.env.NODE_ENV === 'development' ? '127.0.0.1' : '127.0.0.1';
 const port = config.get<number>('redis.port');
 const password = config.get<string>('redis.password');
 
