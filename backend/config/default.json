@@ -9,6 +9,10 @@
 		"login": "maksem20ex",
 		"password": "fg7Qn5xzYcL4vEB"
 	},
+	"redis": {
+		"port": 11718,
+		"password": "l}GARxOC}G<YxAD38g6vKaA7Dq_Sl(2Y>6D7UqflE8fj6(1rl3<[ON87IcbHOcSpEu6SPVQ(2ejzvJW2{qUHG)O[A5IRY[LPWiwO2o_]LP(T)Htb{1LcR(8mTcRrDJ[)(HzipyBrUGruxfp87[L3)b_si34Y)T4]egCit984Gm79iID{[2DuWagRCh92W-1m)VlpX2_dcdXzln7Dz}_j4IMeAzC4{J14z-PRsr)3aT0CuvlXpX6(5x4nLPF5UciH"
+	},
 	"dbDev": {
 		"name": "rateBotNest",
 		"hostString": "localhost:27017/",
