@@ -4,7 +4,7 @@ import {TelegramActions} from './telegramActions.service';
 import {TelegramService} from './telegram.service';
 import {ExportModule} from '../export/export.module';
 import config from 'config';
-import {StackModule} from '../model/stack/stack.module';
+import {StackDBModule} from '../model/stack/stackDB.module';
 import {TelegramController} from './telegram.controller';
 import {FetchModule} from '../fetch/fetch.module';
 
@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 @Module({
-	imports: [HttpModule, TelegrafModule.forRoot({token}), ExportModule, StackModule, FetchModule],
+	imports: [HttpModule, TelegrafModule.forRoot({token}), ExportModule, StackDBModule, FetchModule],
 	controllers: [TelegramController],
 	providers: [TelegramActions, TelegramService],
 	exports: [TelegramService],

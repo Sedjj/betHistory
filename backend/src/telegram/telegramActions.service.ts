@@ -15,7 +15,7 @@ import {IKeyboardButton, IMenuBot} from './type/telegram.type';
 import {menuList} from './menu';
 import {TelegramService} from './telegram.service';
 import {ExportService} from '../export/export.service';
-import {StackService} from '../model/stack/stack.service';
+import {StackDBService} from '../model/stack/stackDB.service';
 import {IStack} from '../model/stack/type/stack.type';
 import {FetchService} from '../fetch/fetch.service';
 
@@ -37,7 +37,7 @@ export class TelegramActions {
 		@InjectBot() private bot: TelegrafProvider,
 		private readonly telegramService: TelegramService,
 		private readonly exportService: ExportService,
-		private readonly stackService: StackService,
+		private readonly stackDBService: StackDBService,
 		private readonly fetchService: FetchService,
 	) {
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
@@ -274,7 +274,7 @@ export class TelegramActions {
 	private async getActiveEvent(): Promise<number> {
 		let activeEventIds: number = 0;
 		try {
-			let model: IStack = await this.stackService.getDataByParam(1);
+			let model: IStack = await this.stackDBService.getDataByParam(1);
 			activeEventIds = model.activeEventIds.length;
 		} catch (error) {
 			this.logger.error(`Error get active event ids`);
