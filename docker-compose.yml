@@ -20,5 +20,5 @@ services:
       dockerfile: docker/node/Dockerfile
     ports:
       - 3000:3000
-    mem_limit: 200m
+    mem_limit: 400m
     network_mode: "host"
