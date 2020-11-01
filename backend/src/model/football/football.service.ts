@@ -222,11 +222,11 @@ export class FootballService {
 					this.logger.error('Football with not found');
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
-				if (param.score && param.score.resulting != null && param.score.resulting !== '') {
-					statistic.score.resulting = param.score.resulting;
-				}
 				if (param.rates != null) {
 					statistic.rates = param.rates;
+				}
+				if (param.cards != null) {
+					statistic.cards = param.cards;
 				}
 				if (param.modifiedBy != null) {
 					statistic.modifiedBy = param.modifiedBy;
