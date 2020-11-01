@@ -28,6 +28,49 @@ export class ParserFootballService {
 		'ALT_TOTAL_GOALS',
 	];
 
+	public static initRates(count: number): ITimeSnapshot {
+		let rate: IMainRates = {
+			selectionId: 0,
+			marketId: '',
+			status: StatusMarket.CLOSE,
+			handicap: 0,
+			behind: {
+				p1: count,
+				x: count,
+				p2: count,
+				mod: count,
+			},
+			against: {
+				p1: count,
+				x: count,
+				p2: count,
+				mod: count,
+			},
+		};
+		let rateOther: IOtherRates = {
+			selectionId: 0,
+			marketId: '',
+			status: StatusMarket.CLOSE,
+			handicap: 0,
+			behind: count,
+			against: count,
+		};
+		let rateOtherInArray: IOtherRatesInArray = {
+			selectionId: 0,
+			marketId: '',
+			status: StatusMarket.CLOSE,
+			list: [],
+		};
+		return {
+			matchOdds: rate,
+			under15: rateOther,
+			under25: rateOther,
+			bothTeamsToScoreYes: rateOther,
+			bothTeamsToScoreNo: rateOther,
+			allTotalGoals: rateOtherInArray,
+		};
+	}
+
 	private static behindParser(exchange?: ExchangeMarketNodes): number {
 		let behind: number = 0;
 		if (
@@ -348,46 +391,7 @@ export class ParserFootballService {
 	 * @param {MarketNodes[]} market элементы рынка
 	 */
 	public getRates(market?: MarketNodes[]): ITimeSnapshot {
-		let rate: IMainRates = {
-			selectionId: 0,
-			marketId: '',
-			status: StatusMarket.CLOSE,
-			handicap: 0,
-			behind: {
-				p1: 0,
-				x: 0,
-				p2: 0,
-				mod: 0,
-			},
-			against: {
-				p1: 0,
-				x: 0,
-				p2: 0,
-				mod: 0,
-			},
-		};
-		let rateOther: IOtherRates = {
-			selectionId: 0,
-			marketId: '',
-			status: StatusMarket.CLOSE,
-			handicap: 0,
-			behind: 0,
-			against: 0,
-		};
-		let rateOtherInArray: IOtherRatesInArray = {
-			selectionId: 0,
-			marketId: '',
-			status: StatusMarket.CLOSE,
-			list: [],
-		};
-		let res: ITimeSnapshot = {
-			matchOdds: rate,
-			under15: rateOther,
-			under25: rateOther,
-			bothTeamsToScoreYes: rateOther,
-			bothTeamsToScoreNo: rateOther,
-			allTotalGoals: rateOtherInArray,
-		};
+		let res: ITimeSnapshot = ParserFootballService.initRates(0);
 		if (market != null && market.length) {
 			market.forEach(node => {
 				let {description, runners, marketId, state} = node;
@@ -435,24 +439,8 @@ export class ParserFootballService {
 	 * @param {RunnersMarketNodes[]} runners информация о командах
 	 */
 	public parserMainRates(runners: RunnersMarketNodes[]): IMainRates {
-		let res: IMainRates = {
-			selectionId: 0,
-			marketId: '',
-			status: StatusMarket.CLOSE,
-			handicap: 0,
-			behind: {
-				p1: 0,
-				x: 0,
-				p2: 0,
-				mod: 0,
-			},
-			against: {
-				p1: 0,
-				x: 0,
-				p2: 0,
-				mod: 0,
-			},
-		};
+		let initRates: ITimeSnapshot = ParserFootballService.initRates(0);
+		let res: IMainRates = initRates.matchOdds;
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes, index: number) => {
 				let {exchange} = runner;
@@ -490,14 +478,8 @@ export class ParserFootballService {
 	 * Метод для определения состояние остальных коэффициентов во время отбора
 	 */
 	public parserOtherRates(runners: RunnersMarketNodes[], runnerName: string): IOtherRates {
-		let res: IOtherRates = {
-			selectionId: 0,
-			marketId: '',
-			status: StatusMarket.CLOSE,
-			handicap: 0,
-			behind: 0,
-			against: 0,
-		};
+		let initRates: ITimeSnapshot = ParserFootballService.initRates(0);
+		let res: IOtherRates = initRates.under15;
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes) => {
 				let {exchange, description} = runner;
@@ -516,12 +498,8 @@ export class ParserFootballService {
 	 * Метод для определения состояние остальных коэффициентов во время отбора с большим числом вариантов
 	 */
 	public parserOtherRatesInArray(runners: RunnersMarketNodes[], runnerName: string): IOtherRatesInArray {
-		let res: IOtherRatesInArray = {
-			selectionId: 0,
-			marketId: '',
-			status: StatusMarket.CLOSE,
-			list: [],
-		};
+		let initRates: ITimeSnapshot = ParserFootballService.initRates(0);
+		let res: IOtherRatesInArray = initRates.allTotalGoals;
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes) => {
 				let {exchange, description} = runner;
