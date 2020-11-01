@@ -4,13 +4,10 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 
 @Injectable()
-export class StackService {
-	private readonly logger = new Logger(StackService.name);
+export class StackDBService {
+	private readonly logger = new Logger(StackDBService.name);
 
-	constructor(
-		@InjectModel('Stack') private readonly stackModel: Model<IStackModel>
-	) {
-	}
+	constructor(@InjectModel('Stack') private readonly stackModel: Model<IStackModel>) {}
 
 	/**
 	 * Преобразовывает стек в необходимый формат
@@ -32,17 +29,20 @@ export class StackService {
 	 * @returns {Promise<IStack | null>}
 	 */
 	async create(param: IStack): Promise<null | IStack> {
-		let findMatch = await this.stackModel.find({
-			stackId: param.stackId
-		}).exec();
+		let findMatch = await this.stackModel
+			.find({
+				stackId: param.stackId,
+			})
+			.exec();
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
 		let createdFootball = new this.stackModel(param);
-		return await createdFootball.save()
+		return await createdFootball
+			.save()
 			.then((model: IStackModel) => {
 				this.logger.debug('Stack model created');
-				return StackService.mapProps(model);
+				return StackDBService.mapProps(model);
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error create stack param=${JSON.stringify(param)}`);
@@ -56,7 +56,8 @@ export class StackService {
 	 * @param {Number} stackId id объекта конфига
 	 */
 	async getDataByParam(stackId: number): Promise<IStack> {
-		return await this.stackModel.findOne({stackId})
+		return await this.stackModel
+			.findOne({stackId})
 			.read('secondary')
 			.exec()
 			.then((model: IStackModel | null) => {
@@ -64,7 +65,7 @@ export class StackService {
 					this.logger.error('Stack with not found');
 					throw new Error(`Stack with not found: ${stackId}`);
 				}
-				return StackService.mapProps(model);
+				return StackDBService.mapProps(model);
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error getDataByParam stackId=${stackId}`);
@@ -78,7 +79,8 @@ export class StackService {
 	 * @param {IStack} param параметры которые нужно поменять
 	 */
 	async setDataByParam(param: IStack): Promise<IStack | void> {
-		return await this.stackModel.findOne({stackId: param.stackId})
+		return await this.stackModel
+			.findOne({stackId: param.stackId})
 			.read('secondary')
 			.exec()
 			.then((model: IStackModel | null) => {
@@ -88,12 +90,17 @@ export class StackService {
 				}
 
 				if (param.activeEventIds !== undefined) {
-					this.stackModel.findOneAndUpdate({_id: model._id}, {
-							activeEventIds: param.activeEventIds
-						}, {new: true})
+					this.stackModel
+						.findOneAndUpdate(
+							{_id: model._id},
+							{
+								activeEventIds: param.activeEventIds,
+							},
+							{new: true},
+						)
 						.read('secondary')
 						.exec()
-						.then((x: IStackModel) => StackService.mapProps(x));
+						.then((x: IStackModel) => StackDBService.mapProps(x));
 				}
 				return Promise.resolve();
 			})
