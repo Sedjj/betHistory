@@ -9,8 +9,9 @@ import {EventDetails} from '../parser/type/eventDetails.type';
 import {LiteMarkets} from '../parser/type/marketsEvents.type';
 import {MarketNodes} from '../parser/type/byMarket.type';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
-import {StackService} from '../model/stack/stack.service';
-import {IStack} from '../model/stack/type/stack.type';
+import {SubscribeService} from './queue/subscribe/subscribe.service';
+/*import {PublishService} from './queue/publish/publish.service';*/
+import {StackService} from './stack/stack.service';
 
 const urlSearch = config.get<string>('parser.football.search');
 const urlEventDetails = config.get<string>('parser.football.eventDetails');
@@ -20,39 +21,53 @@ const urlByMarket = config.get<string>('parser.football.byMarket');
 @Injectable()
 export class TaskService implements OnApplicationBootstrap {
 	private readonly logger = new Logger(TaskService.name);
-	private activeEventIds: number[] = [];
 
 	constructor(
 		private fetchService: FetchService,
 		private parserFootballService: ParserFootballService,
 		private dataAnalysisService: DataAnalysisService,
 		private readonly stackService: StackService,
+		private readonly subscribeService: SubscribeService /*private readonly publishService: PublishService,*/,
 	) {}
 
 	async onApplicationBootstrap() {
 		this.logger.debug('****start scheduler search football****');
 		this.logger.debug('****start scheduler checking results****');
-		let stack: null | IStack = await this.stackService.create({
-			stackId: 1,
-			activeEventIds: [],
-		});
-		if (stack != null) {
-			this.logger.debug(`Stack migration in bd`);
-		} else {
-			this.activeEventIds = await this.getActiveEvent();
-		}
-		this.logger.debug(`start active event ids: ${this.activeEventIds.length ? this.activeEventIds.join() : 0}`);
 	}
 
 	@Cron(process.env.NODE_ENV === 'development' ? '*/30 * * * * *' : '*/01 * * * *')
 	public async searchFootball() {
 		let activeEvents: number[] = await this.getActiveEventIds();
 		if (activeEvents.length) {
-			let eventDetails = await this.getEventDetailsForEvents(activeEvents);
+			let eventDetails: EventDetails[] = await this.getEventDetailsForEvents(activeEvents);
 			eventDetails.forEach((item: EventDetails) => {
 				try {
 					let param: IFootball = this.parserFootballService.getParams(item);
-					this.dataAnalysisService.strategyDefinition(param, this.increaseActiveEventId);
+					this.dataAnalysisService.strategyDefinition(
+						param,
+						this.stackService.increaseActiveEventId,
+						/*this.publishService.addQueueWithDelay,*/
+					);
+				} catch (error) {
+					this.logger.debug(`Ошибка при parser события: ${JSON.stringify(item)} error: ${error}`);
+				}
+			});
+		}
+	}
+
+	// @Cron(process.env.NODE_ENV === 'development' ? '*/10 * * * * *' : '*/05 * * * * *')
+	public async reCheckMatch() {
+		if (this.subscribeService.getLengthEvent()) {
+			const ids = this.subscribeService.getEventIds();
+			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(
+				urlEventDetails.replace('${id}', this.subscribeService.getStringEventIds()),
+			);
+			this.subscribeService.decreaseEventId(ids);
+
+			eventDetails.forEach((item: EventDetails) => {
+				try {
+					let param: IFootball = this.parserFootballService.getParams(item);
+					this.dataAnalysisService.reCheckStrategyDefinition(param);
 				} catch (error) {
 					this.logger.debug(`Ошибка при parser события: ${JSON.stringify(item)} error: ${error}`);
 				}
@@ -62,11 +77,11 @@ export class TaskService implements OnApplicationBootstrap {
 
 	@Cron(process.env.NODE_ENV === 'development' ? '*/10 * * * * *' : '*/20 * * * * *')
 	public async checkingResults() {
-		if (this.activeEventIds.length) {
+		if (this.stackService.getLengthEvent()) {
 			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(
-				urlEventDetails.replace('${id}', this.activeEventIds.join()),
+				urlEventDetails.replace('${id}', this.stackService.getStringEventIds()),
 			);
-			await this.decreaseActiveEventId(eventDetails);
+			await this.stackService.decreaseActiveEventId(eventDetails);
 			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
 			scoreEvents.forEach((item: ScoreEvents) => {
 				try {
@@ -141,54 +156,5 @@ export class TaskService implements OnApplicationBootstrap {
 				return res;
 			}),
 		);
-	}
-
-	/**
-	 * Метод для добавления событий в активные
-	 *
-	 * @param {Number} id идентификатор события
-	 */
-	private increaseActiveEventId = async (id: number): Promise<void> => {
-		if (!this.activeEventIds.includes(id)) {
-			this.activeEventIds.push(id);
-			await this.setActiveEvent(this.activeEventIds);
-		}
-	};
-
-	/**
-	 * Метод для обновления активных событий.
-	 *
-	 * @param {EventDetails[]} eventDetails детальная информация о событии на бирже
-	 */
-	private decreaseActiveEventId = async (eventDetails: EventDetails[]): Promise<void> => {
-		this.activeEventIds = eventDetails.reduce<number[]>((acc, eventDetail) => {
-			if (eventDetail.eventId) {
-				acc.push(eventDetail.eventId);
-			}
-			return acc;
-		}, []);
-		await this.setActiveEvent(this.activeEventIds);
-	};
-
-	private async getActiveEvent(): Promise<number[]> {
-		let activeEventIds: number[] = [];
-		try {
-			let model: IStack = await this.stackService.getDataByParam(1);
-			activeEventIds = model.activeEventIds;
-		} catch (error) {
-			this.logger.error(`Error get active event ids`);
-		}
-		return activeEventIds;
-	}
-
-	private async setActiveEvent(ids: number[]): Promise<void> {
-		try {
-			await this.stackService.setDataByParam({
-				stackId: 1,
-				activeEventIds: ids,
-			});
-		} catch (error) {
-			this.logger.error(`Error set active event ids`);
-		}
 	}
 }
