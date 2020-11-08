@@ -33,6 +33,7 @@ export class ParserFootballService {
 			selectionId: 0,
 			marketId: '',
 			status: StatusMarket.CLOSE,
+			totalMatched: 0,
 			handicap: 0,
 			behind: {
 				p1: count,
@@ -51,6 +52,7 @@ export class ParserFootballService {
 			selectionId: 0,
 			marketId: '',
 			status: StatusMarket.CLOSE,
+			totalMatched: 0,
 			handicap: 0,
 			behind: count,
 			against: count,
@@ -59,6 +61,7 @@ export class ParserFootballService {
 			selectionId: 0,
 			marketId: '',
 			status: StatusMarket.CLOSE,
+			totalMatched: 0,
 			list: [],
 		};
 		return {
@@ -103,12 +106,16 @@ export class ParserFootballService {
 		return against;
 	}
 
-	private static round(handicap: number | undefined): number {
+	private static roundHandicap(handicap: number | undefined): number {
 		let num = 0;
 		if (handicap && handicap !== 0.0) {
 			return handicap;
 		}
 		return num;
+	}
+
+	private static roundNumber(value: number, decimals: number): number {
+		return Number(Math.round(Number(value + 'e' + decimals)) + 'e-' + decimals);
 	}
 
 	/**
@@ -401,30 +408,36 @@ export class ParserFootballService {
 							res.matchOdds = this.parserMainRates(runners);
 							res.matchOdds.marketId = marketId || '';
 							res.matchOdds.status = state?.status || StatusMarket.CLOSE;
+							res.matchOdds.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 							break;
 						case 'OVER_UNDER_15':
 							res.under15 = this.parserOtherRates(runners, 'Under 1.5 Goals');
 							res.under15.marketId = marketId || '';
 							res.under15.status = state?.status || StatusMarket.CLOSE;
+							res.under15.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 							break;
 						case 'OVER_UNDER_25':
 							res.under25 = this.parserOtherRates(runners, 'Under 2.5 Goals');
 							res.under25.marketId = marketId || '';
 							res.under25.status = state?.status || StatusMarket.CLOSE;
+							res.under25.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 							break;
 						case 'BOTH_TEAMS_TO_SCORE':
 							res.bothTeamsToScoreYes = this.parserOtherRates(runners, 'Yes');
 							res.bothTeamsToScoreYes.marketId = marketId || '';
 							res.bothTeamsToScoreYes.status = state?.status || StatusMarket.CLOSE;
+							res.bothTeamsToScoreYes.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 
 							res.bothTeamsToScoreNo = this.parserOtherRates(runners, 'No');
 							res.bothTeamsToScoreNo.marketId = marketId || '';
 							res.bothTeamsToScoreNo.status = state?.status || StatusMarket.CLOSE;
+							res.bothTeamsToScoreNo.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 							break;
 						case 'ALT_TOTAL_GOALS':
 							res.allTotalGoals = this.parserOtherRatesInArray(runners, 'Under');
 							res.allTotalGoals.marketId = marketId || '';
 							res.allTotalGoals.status = state?.status || StatusMarket.CLOSE;
+							res.allTotalGoals.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 							break;
 					}
 				}
@@ -446,7 +459,7 @@ export class ParserFootballService {
 				let {exchange} = runner;
 				// FIXME нужно придумать другую структуру хранения чтоб собирать эти данные
 				// res.selectionId = runner.selectionId || 0;
-				// res.handicap = ParserFootballService.round(runner.handicap);
+				// res.handicap = ParserFootballService.roundHandicap(runner.handicap);
 				switch (index) {
 					case 0: {
 						// p1
@@ -485,7 +498,7 @@ export class ParserFootballService {
 				let {exchange, description} = runner;
 				if (description && description.runnerName === runnerName) {
 					res.selectionId = runner.selectionId || 0;
-					res.handicap = ParserFootballService.round(runner.handicap);
+					res.handicap = ParserFootballService.roundHandicap(runner.handicap);
 					res.behind = ParserFootballService.behindParser(exchange);
 					res.against = ParserFootballService.againstParser(exchange);
 				}
@@ -506,7 +519,7 @@ export class ParserFootballService {
 				if (description && description.runnerName === runnerName) {
 					res.selectionId = runner.selectionId || 0;
 					res.list.push({
-						handicap: ParserFootballService.round(runner.handicap),
+						handicap: ParserFootballService.roundHandicap(runner.handicap),
 						behind: ParserFootballService.behindParser(exchange),
 						against: ParserFootballService.againstParser(exchange),
 					});

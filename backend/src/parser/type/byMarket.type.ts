@@ -1,6 +1,6 @@
 export type AvailableMarketNodes = {
 	/**
-	 * Коэфициент ставки
+	 * Коэффициент ставки
 	 */
 	price?: number;
 };
@@ -29,6 +29,10 @@ export type StateMarketNodes = {
 	 * Enum статус маркета
 	 */
 	status: Status;
+	/**
+	 * Сумма сделанных ставок
+	 */
+	totalMatched: number;
 };
 
 export type DescriptionMarketNodes = {

@@ -20,6 +20,11 @@ let rates = new Schema({
 		validate: isRequiredString,
 		default: '',
 	},
+	totalMatched: {
+		type: Number,
+		required: true,
+		default: 0,
+	},
 	handicap: {
 		type: Number,
 		required: true,
@@ -87,6 +92,11 @@ let otherRates = new Schema({
 		validate: isRequiredString,
 		default: '',
 	},
+	totalMatched: {
+		type: Number,
+		required: true,
+		default: 0,
+	},
 	handicap: {
 		type: Number,
 		required: true,
@@ -137,6 +147,11 @@ let otherRatesInArray = new Schema({
 		type: String,
 		validate: isRequiredString,
 		default: '',
+	},
+	totalMatched: {
+		type: Number,
+		required: true,
+		default: 0,
 	},
 	list: [otherRate],
 });

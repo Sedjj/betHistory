@@ -107,6 +107,7 @@ export type IMainRates = {
 	 */
 	marketId: string;
 	status: Status;
+	totalMatched: number;
 	handicap: number;
 	/**
 	 * За
@@ -138,6 +139,7 @@ export type IOtherRates = {
 	 */
 	marketId: string;
 	status: Status;
+	totalMatched: number;
 } & IOtherRate;
 
 /**
@@ -150,6 +152,7 @@ export type IOtherRatesInArray = {
 	 */
 	marketId: string;
 	status: Status;
+	totalMatched: number;
 	list: IOtherRate[];
 };
 

@@ -21,4 +21,5 @@ services:
     ports:
       - 3000:3000
     mem_limit: 500m
+    mem_reservation: 300m
     network_mode: "host"

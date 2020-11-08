@@ -46,6 +46,7 @@ export class ExportService {
 				limited: statistic.command.limited,
 				score: statistic.score.sc1 + ':' + statistic.score.sc2,
 				time: statistic.time,
+				totalMatched: statistic.rates.under25.totalMatched,
 				/**
 				 * Коэффициенты
 				 */
