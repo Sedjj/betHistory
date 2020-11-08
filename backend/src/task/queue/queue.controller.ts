@@ -1,18 +1,19 @@
+import {Controller, Logger, Post} from '@nestjs/common';
 import {InjectQueue} from '@nestjs/bull';
-import {Injectable, Logger} from '@nestjs/common';
 import {Queue} from 'bull';
 
 type QueueDTO = {
 	eventId: number;
 };
 
-@Injectable()
-export class PublishService {
-	private readonly logger = new Logger(PublishService.name);
+@Controller()
+export class QueueController {
+	private readonly logger = new Logger(QueueController.name);
 
 	constructor(@InjectQueue('tasks') private readonly queueService: Queue<QueueDTO>) {}
 
-	public addQueueWithDelay(eventId: number): void {
+	@Post()
+	public addJob(eventId: number) {
 		try {
 			this.queueService
 				.add(

@@ -6,7 +6,7 @@ type QueueDTO = {
 };
 
 @Processor('task')
-export class SubscribeService {
+export class QueueProcessor {
 	private eventIds: number[] = [];
 
 	@Process('wait')
