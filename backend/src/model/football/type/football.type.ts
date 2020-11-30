@@ -74,33 +74,29 @@ export type ICommand = {
  *  Интерфейс коэффициентов для ставки
  */
 export type ITimeSnapshot = {
-	matchOdds: IMainRates;
+	matchOdds: IMatchOdds;
 	/**
 	 * Состояние "Менее 1,5" коэффициентов во время отбора
 	 */
-	under15: IOtherRates;
+	overUnder15: IOverUnderRates;
 	/**
 	 * Состояние "Менее 2,5" коэффициентов во время отбора
 	 */
-	under25: IOtherRates;
+	overUnder25: IOverUnderRates;
 	/**
 	 * Состояние "Обе забьют да" коэффициентов во время отбора
 	 */
-	bothTeamsToScoreYes: IOtherRates;
-	/**
-	 * Состояние "Обе забьют нет" коэффициентов во время отбора
-	 */
-	bothTeamsToScoreNo: IOtherRates;
+	bothTeamsToScore: IBothTeamsToScore;
 	/**
 	 * Состояние "Количество голов за матч" коэффициентов во время отбора
 	 */
-	allTotalGoals: IOtherRatesInArray;
+	goalLines: IGoalLines;
 };
 
 /**
  * Состояние основных коэффициентов во время отбора
  */
-export type IMainRates = {
+export type IMatchOdds = {
 	selectionId: number;
 	/**
 	 * Идентификатор отбора по коэффициентам
@@ -130,9 +126,9 @@ export type IMainRates = {
 };
 
 /**
- * Состояние остальных коэффициентов во время отбора
+ * Состояние "больше-меньше" коэффициентов во время отбора
  */
-export type IOtherRates = {
+export type IOverUnderRates = {
 	selectionId: number;
 	/**
 	 * Идентификатор отбора по коэффициентам
@@ -143,9 +139,31 @@ export type IOtherRates = {
 } & IOtherRate;
 
 /**
- * Состояние остальных коэффициентов во время отбора с большим числов вариантов
+ * Состояние "Обе команды забьют" коэффициентов во время отбора
  */
-export type IOtherRatesInArray = {
+export type IBothTeamsToScore = {
+	selectionId: number;
+	/**
+	 * Идентификатор отбора по коэффициентам
+	 */
+	marketId: string;
+	status: Status;
+	totalMatched: number;
+	handicap: number;
+	/**
+	 * За
+	 */
+	behind: IYesNo;
+	/**
+	 * Против
+	 */
+	against: IYesNo;
+};
+
+/**
+ * Состояние "Количество голов за матч" коэффициентов во время отбора с большим числом вариантов
+ */
+export type IGoalLines = {
 	selectionId: number;
 	/**
 	 * Идентификатор отбора по коэффициентам
@@ -156,19 +174,38 @@ export type IOtherRatesInArray = {
 	list: IOtherRate[];
 };
 
-/**
- * Состояние остальных коэффициентов
- */
 export type IOtherRate = {
 	handicap: number;
 	/**
 	 * За
 	 */
-	behind: number;
+	behind: IOverUnder;
 	/**
 	 * Против
 	 */
-	against: number;
+	against: IOverUnder;
+};
+
+export type IYesNo = {
+	/**
+	 * "Обе забьют да"
+	 */
+	yes: number;
+	/**
+	 * "Обе забьют нет"
+	 */
+	no: number;
+};
+
+export type IOverUnder = {
+	/**
+	 * Больше
+	 */
+	over: number;
+	/**
+	 * Меньше
+	 */
+	under: number;
 };
 
 /**

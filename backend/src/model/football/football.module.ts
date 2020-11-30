@@ -6,18 +6,15 @@ import {FootballSchema} from './schemas/football.schema';
 
 @Module({
 	imports: [
-		MongooseModule.forFeature(
-			[
-				{
-					name: 'Football',
-					schema: FootballSchema
-				}
-			]
-		)
+		MongooseModule.forFeature([
+			{
+				name: 'Football',
+				schema: FootballSchema,
+			},
+		]),
 	],
 	controllers: [FootballController],
 	providers: [FootballService],
-	exports: [FootballService]
+	exports: [FootballService],
 })
-export class FootballModule {
-}
+export class FootballModule {}
