@@ -1,14 +1,18 @@
 import {Injectable, Logger} from '@nestjs/common';
 import {
+	IBothTeamsToScore,
 	ICards,
 	ICardsCommands,
 	ICommand,
 	IFootball,
-	IMainRates,
-	IOtherRates,
-	IOtherRatesInArray,
+	IMatchOdds,
+	IOverUnderRates,
+	IGoalLines,
 	IScore,
 	ITimeSnapshot,
+	IOverUnder,
+	IYesNo,
+	IOtherRate,
 } from '../model/football/type/football.type';
 import moment from 'moment';
 import {EventDetails, StateEventDetails, TeamInfoEventDetails} from './type/eventDetails.type';
@@ -29,7 +33,7 @@ export class ParserFootballService {
 	];
 
 	public static initRates(count: number): ITimeSnapshot {
-		let rate: IMainRates = {
+		let rate: IMatchOdds = {
 			selectionId: 0,
 			marketId: '',
 			status: StatusMarket.CLOSE,
@@ -48,16 +52,33 @@ export class ParserFootballService {
 				mod: count,
 			},
 		};
-		let rateOther: IOtherRates = {
+		let overUnder: IOverUnder = {
+			over: count,
+			under: count,
+		};
+		let yesNo: IYesNo = {
+			yes: count,
+			no: count,
+		};
+		let overUnderRates: IOverUnderRates = {
 			selectionId: 0,
 			marketId: '',
 			status: StatusMarket.CLOSE,
 			totalMatched: 0,
 			handicap: 0,
-			behind: count,
-			against: count,
+			behind: overUnder,
+			against: overUnder,
 		};
-		let rateOtherInArray: IOtherRatesInArray = {
+		let bothTeamsToScore: IBothTeamsToScore = {
+			selectionId: 0,
+			marketId: '',
+			status: StatusMarket.CLOSE,
+			totalMatched: 0,
+			handicap: 0,
+			behind: yesNo,
+			against: yesNo,
+		};
+		let rateOtherInArray: IGoalLines = {
 			selectionId: 0,
 			marketId: '',
 			status: StatusMarket.CLOSE,
@@ -66,11 +87,24 @@ export class ParserFootballService {
 		};
 		return {
 			matchOdds: rate,
-			under15: rateOther,
-			under25: rateOther,
-			bothTeamsToScoreYes: rateOther,
-			bothTeamsToScoreNo: rateOther,
-			allTotalGoals: rateOtherInArray,
+			overUnder15: overUnderRates,
+			overUnder25: overUnderRates,
+			bothTeamsToScore,
+			goalLines: rateOtherInArray,
+		};
+	}
+
+	public static initOtherRate(count: number): IOtherRate {
+		return {
+			handicap: 0,
+			behind: {
+				under: count,
+				over: count,
+			},
+			against: {
+				under: count,
+				over: count,
+			},
 		};
 	}
 
@@ -242,7 +276,7 @@ export class ParserFootballService {
 	}
 
 	/**
-	 * Метод для определения текущго времени матча в секундах.
+	 * Метод для определения текущего времени матча в секундах.
 	 *
 	 * @param {StateEventDetails} event объект события
 	 */
@@ -284,7 +318,7 @@ export class ParserFootballService {
 	}
 
 	/**
-	 * Метод для определения общей информации о команндах.
+	 * Метод для определения общей информации о командах.
 	 *
 	 * @param {EventDetails} eventDetails объект события
 	 */
@@ -354,7 +388,7 @@ export class ParserFootballService {
 	}
 
 	/**
-	 * Метод для определения общей информаци о картах.
+	 * Метод для определения общей информации о картах.
 	 *
 	 * @param {StateEventDetails} state объект события
 	 */
@@ -411,33 +445,28 @@ export class ParserFootballService {
 							res.matchOdds.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 							break;
 						case 'OVER_UNDER_15':
-							res.under15 = this.parserOtherRates(runners, 'Under 1.5 Goals');
-							res.under15.marketId = marketId || '';
-							res.under15.status = state?.status || StatusMarket.CLOSE;
-							res.under15.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
+							res.overUnder15 = this.parserOverUnderRates(runners, '1.5');
+							res.overUnder15.marketId = marketId || '';
+							res.overUnder15.status = state?.status || StatusMarket.CLOSE;
+							res.overUnder15.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 							break;
 						case 'OVER_UNDER_25':
-							res.under25 = this.parserOtherRates(runners, 'Under 2.5 Goals');
-							res.under25.marketId = marketId || '';
-							res.under25.status = state?.status || StatusMarket.CLOSE;
-							res.under25.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
+							res.overUnder25 = this.parserOverUnderRates(runners, '2.5');
+							res.overUnder25.marketId = marketId || '';
+							res.overUnder25.status = state?.status || StatusMarket.CLOSE;
+							res.overUnder25.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 							break;
 						case 'BOTH_TEAMS_TO_SCORE':
-							res.bothTeamsToScoreYes = this.parserOtherRates(runners, 'Yes');
-							res.bothTeamsToScoreYes.marketId = marketId || '';
-							res.bothTeamsToScoreYes.status = state?.status || StatusMarket.CLOSE;
-							res.bothTeamsToScoreYes.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
-
-							res.bothTeamsToScoreNo = this.parserOtherRates(runners, 'No');
-							res.bothTeamsToScoreNo.marketId = marketId || '';
-							res.bothTeamsToScoreNo.status = state?.status || StatusMarket.CLOSE;
-							res.bothTeamsToScoreNo.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
+							res.bothTeamsToScore = this.parserBothTeamsToScoreRates(runners);
+							res.bothTeamsToScore.marketId = marketId || '';
+							res.bothTeamsToScore.status = state?.status || StatusMarket.CLOSE;
+							res.bothTeamsToScore.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 							break;
 						case 'ALT_TOTAL_GOALS':
-							res.allTotalGoals = this.parserOtherRatesInArray(runners, 'Under');
-							res.allTotalGoals.marketId = marketId || '';
-							res.allTotalGoals.status = state?.status || StatusMarket.CLOSE;
-							res.allTotalGoals.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
+							res.goalLines = this.parserOtherRatesInArray(runners);
+							res.goalLines.marketId = marketId || '';
+							res.goalLines.status = state?.status || StatusMarket.CLOSE;
+							res.goalLines.totalMatched = ParserFootballService.roundNumber(state?.totalMatched || 0, 2);
 							break;
 					}
 				}
@@ -451,9 +480,9 @@ export class ParserFootballService {
 	 *
 	 * @param {RunnersMarketNodes[]} runners информация о командах
 	 */
-	public parserMainRates(runners: RunnersMarketNodes[]): IMainRates {
+	public parserMainRates(runners: RunnersMarketNodes[]): IMatchOdds {
 		let initRates: ITimeSnapshot = ParserFootballService.initRates(0);
-		let res: IMainRates = initRates.matchOdds;
+		let res: IMatchOdds = initRates.matchOdds;
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes, index: number) => {
 				let {exchange} = runner;
@@ -490,17 +519,47 @@ export class ParserFootballService {
 	/**
 	 * Метод для определения состояние остальных коэффициентов во время отбора
 	 */
-	public parserOtherRates(runners: RunnersMarketNodes[], runnerName: string): IOtherRates {
+	public parserOverUnderRates(runners: RunnersMarketNodes[], runnerName: string): IOverUnderRates {
 		let initRates: ITimeSnapshot = ParserFootballService.initRates(0);
-		let res: IOtherRates = initRates.under15;
+		let res: IOverUnderRates = initRates.overUnder15;
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes) => {
 				let {exchange, description} = runner;
-				if (description && description.runnerName === runnerName) {
+				if (description && description.runnerName === `Under ${runnerName} Goals`) {
 					res.selectionId = runner.selectionId || 0;
 					res.handicap = ParserFootballService.roundHandicap(runner.handicap);
-					res.behind = ParserFootballService.behindParser(exchange);
-					res.against = ParserFootballService.againstParser(exchange);
+					res.behind.under = ParserFootballService.behindParser(exchange);
+					res.against.under = ParserFootballService.againstParser(exchange);
+				} else if (description && description.runnerName === `Over ${runnerName} Goals`) {
+					res.selectionId = runner.selectionId || 0;
+					res.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					res.behind.over = ParserFootballService.behindParser(exchange);
+					res.against.over = ParserFootballService.againstParser(exchange);
+				}
+			});
+		}
+		return res;
+	}
+
+	/**
+	 * Метод для определения состояние остальных коэффициентов во время отбора
+	 */
+	public parserBothTeamsToScoreRates(runners: RunnersMarketNodes[]): IBothTeamsToScore {
+		let initRates: ITimeSnapshot = ParserFootballService.initRates(0);
+		let res: IBothTeamsToScore = initRates.bothTeamsToScore;
+		if (runners != null && runners.length) {
+			runners.forEach((runner: RunnersMarketNodes) => {
+				let {exchange, description} = runner;
+				if (description && description.runnerName === 'Yes') {
+					res.selectionId = runner.selectionId || 0;
+					res.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					res.behind.yes = ParserFootballService.behindParser(exchange);
+					res.against.yes = ParserFootballService.againstParser(exchange);
+				} else if (description && description.runnerName === 'No') {
+					res.selectionId = runner.selectionId || 0;
+					res.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					res.behind.no = ParserFootballService.behindParser(exchange);
+					res.against.no = ParserFootballService.againstParser(exchange);
 				}
 			});
 		}
@@ -510,21 +569,26 @@ export class ParserFootballService {
 	/**
 	 * Метод для определения состояние остальных коэффициентов во время отбора с большим числом вариантов
 	 */
-	public parserOtherRatesInArray(runners: RunnersMarketNodes[], runnerName: string): IOtherRatesInArray {
+	public parserOtherRatesInArray(runners: RunnersMarketNodes[]): IGoalLines {
 		let initRates: ITimeSnapshot = ParserFootballService.initRates(0);
-		let res: IOtherRatesInArray = initRates.allTotalGoals;
+		let other: IOtherRate = ParserFootballService.initOtherRate(0);
+		let res: IGoalLines = initRates.goalLines;
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes) => {
 				let {exchange, description} = runner;
-				if (description && description.runnerName === runnerName) {
+				if (description && description.runnerName === 'Under') {
 					res.selectionId = runner.selectionId || 0;
-					res.list.push({
-						handicap: ParserFootballService.roundHandicap(runner.handicap),
-						behind: ParserFootballService.behindParser(exchange),
-						against: ParserFootballService.againstParser(exchange),
-					});
+					other.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					other.behind.under = ParserFootballService.behindParser(exchange);
+					other.against.under = ParserFootballService.againstParser(exchange);
+				} else if (description && description.runnerName === 'Over') {
+					res.selectionId = runner.selectionId || 0;
+					other.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					other.behind.over = ParserFootballService.behindParser(exchange);
+					other.against.over = ParserFootballService.againstParser(exchange);
 				}
 			});
+			res.list.push(other);
 		}
 		return res;
 	}
