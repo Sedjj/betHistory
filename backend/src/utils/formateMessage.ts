@@ -15,9 +15,16 @@ export function decorateMessageChannel(param: IFootball): string {
 			matchOdds: {
 				behind: {p1, x, p2},
 			},
-			under15: {marketId: market15, behind: TM15},
-			under25: {behind: TM25},
-			bothTeamsToScoreNo: {behind: OZ},
+			overUnder15: {
+				marketId: market15,
+				behind: {under: TM15},
+			},
+			overUnder25: {
+				behind: {under: TM25},
+			},
+			bothTeamsToScore: {
+				behind: {no: OZ},
+			},
 		},
 		score: {sc1, sc2},
 		time,

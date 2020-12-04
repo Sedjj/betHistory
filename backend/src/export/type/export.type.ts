@@ -27,6 +27,7 @@ export type ExcelProps = {
 	};
 	under15: number;
 	under25: number;
+	over25: number;
 	bothTeamsToScoreYes: number;
 	bothTeamsToScoreNo: number;
 	allTotalGoals: number;

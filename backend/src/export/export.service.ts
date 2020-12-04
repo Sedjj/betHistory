@@ -46,7 +46,7 @@ export class ExportService {
 				limited: statistic.command.limited,
 				score: statistic.score.sc1 + ':' + statistic.score.sc2,
 				time: statistic.time,
-				totalMatched: statistic.rates.under25.totalMatched,
+				totalMatched: statistic.rates.overUnder25.totalMatched,
 				/**
 				 * Коэффициенты
 				 */
@@ -56,13 +56,14 @@ export class ExportService {
 					p2: statistic.rates.matchOdds.behind.p2,
 					mod: statistic.rates.matchOdds.behind.mod,
 				},
-				under15: statistic.rates.under15.behind,
-				under25: statistic.rates.under25.behind,
-				bothTeamsToScoreYes: statistic.rates.bothTeamsToScoreYes.behind,
-				bothTeamsToScoreNo: statistic.rates.bothTeamsToScoreNo.behind,
-				allTotalGoals: statistic.rates.allTotalGoals.list.reduce<number>((acc, x) => {
+				under15: statistic.rates.overUnder15.behind.under,
+				under25: statistic.rates.overUnder25.behind.under,
+				over25: statistic.rates.overUnder25.behind.over,
+				bothTeamsToScoreYes: statistic.rates.bothTeamsToScore.behind.yes,
+				bothTeamsToScoreNo: statistic.rates.bothTeamsToScore.behind.no,
+				allTotalGoals: statistic.rates.goalLines.list.reduce<number>((acc, x) => {
 					if (x.handicap === 2.0 || x.handicap === 2) {
-						acc = x.behind;
+						acc = x.behind.under;
 					}
 					return acc;
 				}, 0),
