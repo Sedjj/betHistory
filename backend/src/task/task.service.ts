@@ -80,6 +80,7 @@ export class TaskService implements OnApplicationBootstrap {
 
 	@Cron(process.env.NODE_ENV === 'development' ? '*/10 * * * * *' : '*/20 * * * * *')
 	public async checkingResults() {
+		// FIXME суспенд может нужно не фильтровать
 		if (this.stackService.getLengthEvent()) {
 			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(
 				urlEventDetails.replace('${id}', this.stackService.getStringEventIds()),
