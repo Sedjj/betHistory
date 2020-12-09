@@ -1,12 +1,8 @@
 import {Schema} from 'mongoose';
 import {isRequiredString} from '../utils/check';
+import {behindAgainst} from './behindAgainst.schema';
 
 export let matchOdds = new Schema({
-	selectionId: {
-		type: Number,
-		required: true,
-		default: 0,
-	},
 	marketId: {
 		type: String,
 		validate: isRequiredString,
@@ -22,53 +18,8 @@ export let matchOdds = new Schema({
 		required: true,
 		default: 0,
 	},
-	handicap: {
-		type: Number,
-		required: true,
-		default: 0,
-	},
-	behind: {
-		p1: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-		x: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-		p2: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-		mod: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-	},
-	against: {
-		p1: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-		x: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-		p2: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-		mod: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-	},
+	p1: behindAgainst,
+	x: behindAgainst,
+	p2: behindAgainst,
+	mod: behindAgainst,
 });

@@ -97,39 +97,22 @@ export type ITimeSnapshot = {
  * Состояние основных коэффициентов во время отбора
  */
 export type IMatchOdds = {
-	selectionId: number;
 	/**
 	 * Идентификатор отбора по коэффициентам
 	 */
 	marketId: string;
 	status: Status;
 	totalMatched: number;
-	handicap: number;
-	/**
-	 * За
-	 */
-	behind: {
-		p1: number;
-		x: number;
-		p2: number;
-		mod: number;
-	};
-	/**
-	 * Против
-	 */
-	against: {
-		p1: number;
-		x: number;
-		p2: number;
-		mod: number;
-	};
+	p1: IBehindAgainst;
+	x: IBehindAgainst;
+	p2: IBehindAgainst;
+	mod: IBehindAgainst;
 };
 
 /**
  * Состояние "больше-меньше" коэффициентов во время отбора
  */
 export type IOverUnderRates = {
-	selectionId: number;
 	/**
 	 * Идентификатор отбора по коэффициентам
 	 */
@@ -142,29 +125,26 @@ export type IOverUnderRates = {
  * Состояние "Обе команды забьют" коэффициентов во время отбора
  */
 export type IBothTeamsToScore = {
-	selectionId: number;
 	/**
 	 * Идентификатор отбора по коэффициентам
 	 */
 	marketId: string;
 	status: Status;
 	totalMatched: number;
-	handicap: number;
 	/**
-	 * За
+	 * "Обе забьют да"
 	 */
-	behind: IYesNo;
+	yes: IBehindAgainst;
 	/**
-	 * Против
+	 * "Обе забьют нет"
 	 */
-	against: IYesNo;
+	no: IBehindAgainst;
 };
 
 /**
  * Состояние "Количество голов за матч" коэффициентов во время отбора с большим числом вариантов
  */
 export type IGoalLines = {
-	selectionId: number;
 	/**
 	 * Идентификатор отбора по коэффициентам
 	 */
@@ -175,37 +155,27 @@ export type IGoalLines = {
 };
 
 export type IOtherRate = {
+	/**
+	 * Больше
+	 */
+	over: IBehindAgainst;
+	/**
+	 * Меньше
+	 */
+	under: IBehindAgainst;
+};
+
+export type IBehindAgainst = {
+	selectionId: number;
 	handicap: number;
 	/**
 	 * За
 	 */
-	behind: IOverUnder;
+	behind: number;
 	/**
 	 * Против
 	 */
-	against: IOverUnder;
-};
-
-export type IYesNo = {
-	/**
-	 * "Обе забьют да"
-	 */
-	yes: number;
-	/**
-	 * "Обе забьют нет"
-	 */
-	no: number;
-};
-
-export type IOverUnder = {
-	/**
-	 * Больше
-	 */
-	over: number;
-	/**
-	 * Меньше
-	 */
-	under: number;
+	against: number;
 };
 
 /**

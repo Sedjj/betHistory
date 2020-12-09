@@ -51,19 +51,19 @@ export class ExportService {
 				 * Коэффициенты
 				 */
 				main: {
-					p1: statistic.rates.matchOdds.behind.p1,
-					x: statistic.rates.matchOdds.behind.x,
-					p2: statistic.rates.matchOdds.behind.p2,
-					mod: statistic.rates.matchOdds.behind.mod,
+					p1: statistic.rates.matchOdds.p1.behind,
+					x: statistic.rates.matchOdds.x.behind,
+					p2: statistic.rates.matchOdds.p2.behind,
+					mod: statistic.rates.matchOdds.mod.behind,
 				},
-				under15: statistic.rates.overUnder15.behind.under,
-				under25: statistic.rates.overUnder25.behind.under,
-				over25: statistic.rates.overUnder25.behind.over,
-				bothTeamsToScoreYes: statistic.rates.bothTeamsToScore.behind.yes,
-				bothTeamsToScoreNo: statistic.rates.bothTeamsToScore.behind.no,
+				under15: statistic.rates.overUnder15.under.behind,
+				under25: statistic.rates.overUnder25.under.behind,
+				over25: statistic.rates.overUnder25.over.behind,
+				bothTeamsToScoreYes: statistic.rates.bothTeamsToScore.yes.behind,
+				bothTeamsToScoreNo: statistic.rates.bothTeamsToScore.no.behind,
 				allTotalGoals: statistic.rates.goalLines.list.reduce<number>((acc, x) => {
-					if (x.handicap === 2.0 || x.handicap === 2) {
-						acc = x.behind.under;
+					if (x.under.handicap === 2.0 || x.under.handicap === 2) {
+						acc = x.under.behind;
 					}
 					return acc;
 				}, 0),
@@ -109,7 +109,7 @@ export class ExportService {
 	}
 
 	/**
-	 * Возвращает заполненый шаблон списка статистики.
+	 * Возвращает заполненный шаблон списка статистики.
 	 *
 	 * @param {Number} days количество дней для экспорта
 	 * @returns {Promise<{statistics: Array} | never>}

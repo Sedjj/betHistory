@@ -1,44 +1,13 @@
 import {Schema} from 'mongoose';
 import {isRequiredString} from '../utils/check';
+import {behindAgainst} from './behindAgainst.schema';
 
 let otherRate = new Schema({
-	handicap: {
-		type: Number,
-		required: true,
-		default: 0,
-	},
-	behind: {
-		Over: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-		Under: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-	},
-	against: {
-		Over: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-		Under: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-	},
+	over: behindAgainst,
+	under: behindAgainst,
 });
 
 export let goalLines = new Schema({
-	selectionId: {
-		type: Number,
-		required: true,
-		default: 0,
-	},
 	marketId: {
 		type: String,
 		validate: isRequiredString,

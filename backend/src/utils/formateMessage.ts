@@ -12,25 +12,23 @@ export function decorateMessageChannel(param: IFootball): string {
 		eventId,
 		command: {one, two, group},
 		rates: {
-			matchOdds: {
-				behind: {p1, x, p2},
-			},
+			matchOdds: {p1, x, p2},
 			overUnder15: {
 				marketId: market15,
-				behind: {under: TM15},
+				under: {behind: TM15},
 			},
 			overUnder25: {
-				behind: {under: TM25},
+				under: {behind: TM25},
 			},
 			bothTeamsToScore: {
-				behind: {no: OZ},
+				no: {behind: OZ},
 			},
 		},
 		score: {sc1, sc2},
 		time,
 	} = param;
 	const scope = `${sc1}:${sc2}`;
-	const index = `${p1} / ${x} / ${p2}`;
+	const index = `${p1.behind} / ${x.behind} / ${p2.behind}`;
 	const difference = `${TM15} / ${TM25} / ${OZ}:НЕТ`;
 	const mobile = `<a href="https://www.betfair.com/exchange/football/event/${eventId}/multi-market?marketIds${marketId}">mobile</a>`;
 	const pc = `<a href="https://www.betfair.com/exchange/plus/football/market/${marketId}">pc</a>`;

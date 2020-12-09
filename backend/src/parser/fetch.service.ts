@@ -40,8 +40,8 @@ export class FetchService {
 							filter: {
 								marketBettingTypes: ['ASIAN_HANDICAP_SINGLE_LINE', 'ASIAN_HANDICAP_DOUBLE_LINE', 'ODDS'],
 								productTypes: ['EXCHANGE'],
-								marketTypeCodes: ['MATCH_ODDS'], // второй фильтр (переры, ставки, обе забъют) OVER_UNDER_45 BOTH_TEAMS_TO_SCORE HALF_TIME
-								selectBy: 'FIRST_TO_START_AZ', // первый фильтр (MAXIMUM_TRADED - в паре, RANK - соревнованияб FIRST_TO_START_AZ - время)
+								marketTypeCodes: ['MATCH_ODDS'], // второй фильтр (перерыв, ставки, обе забьют) OVER_UNDER_45 BOTH_TEAMS_TO_SCORE HALF_TIME
+								selectBy: 'FIRST_TO_START_AZ', // первый фильтр (MAXIMUM_TRADED - в паре, RANK - соревнования FIRST_TO_START_AZ - время)
 								turnInPlayEnabled: true,
 								maxResults: 0,
 								eventTypeIds: [1], // 1 - это футбол
@@ -84,6 +84,18 @@ export class FetchService {
 							Accept: 'application/json, text/plain, */*',
 						},
 						responseType: 'json',
+						hooks: {
+							beforeRetry: [
+								(options, error, retryCount) => {
+									if (error && error.response && error.response.statusCode === 413) {
+										this.logger.debug(`Get event details 413 - url ${url}`);
+									}
+									if (error && error.response && error.response.statusCode === 414) {
+										this.logger.debug(`Get event details 414 - url ${url}`);
+									}
+								},
+							],
+						},
 					});
 					if (body != null) {
 						resolve(body);
@@ -140,6 +152,18 @@ export class FetchService {
 							currencyCode: 'EUR',
 							locale: 'en',
 						}),
+						hooks: {
+							beforeRetry: [
+								(options, error, retryCount) => {
+									if (error && error.response && error.response.statusCode === 413) {
+										this.logger.debug(`Search markets by event 413 - eventIds ${eventIds}`);
+									}
+									if (error && error.response && error.response.statusCode === 414) {
+										this.logger.debug(`Search markets by event 414 - eventIds ${eventIds}`);
+									}
+								},
+							],
+						},
 					});
 					if (body != null) {
 						resolve(body);
@@ -174,6 +198,18 @@ export class FetchService {
 							Accept: 'application/json, text/plain, */*',
 						},
 						responseType: 'json',
+						hooks: {
+							beforeRetry: [
+								(options, error, retryCount) => {
+									if (error && error.response && error.response.statusCode === 413) {
+										this.logger.debug(`Get rate markets 413 - url ${url}`);
+									}
+									if (error && error.response && error.response.statusCode === 414) {
+										this.logger.debug(`Get rate markets 414 - url ${url}`);
+									}
+								},
+							],
+						},
 					});
 					if (body != null) {
 						resolve(body);

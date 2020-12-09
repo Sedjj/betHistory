@@ -19,14 +19,17 @@ export class FootballService {
 	 */
 	private static mapPropsRate(item: IOtherRate): IOtherRate {
 		return {
-			handicap: item.handicap,
-			behind: {
-				over: item.behind.over,
-				under: item.behind.under,
+			over: {
+				selectionId: item.over.selectionId,
+				handicap: item.over.handicap,
+				behind: item.over.behind,
+				against: item.over.against,
 			},
-			against: {
-				over: item.behind.over,
-				under: item.behind.under,
+			under: {
+				selectionId: item.under.selectionId,
+				handicap: item.under.handicap,
+				behind: item.under.behind,
+				against: item.under.against,
 			},
 		};
 	}
@@ -78,71 +81,64 @@ export class FootballService {
 			},
 			rates: {
 				matchOdds: {
-					selectionId: statistic.rates.matchOdds.selectionId,
 					marketId: statistic.rates.matchOdds.marketId,
 					status: statistic.rates.matchOdds.status,
 					totalMatched: statistic.rates.matchOdds.totalMatched,
-					handicap: statistic.rates.matchOdds.handicap,
-					behind: {
-						p1: statistic.rates.matchOdds.behind.p1,
-						x: statistic.rates.matchOdds.behind.x,
-						p2: statistic.rates.matchOdds.behind.p2,
-						mod: statistic.rates.matchOdds.behind.mod,
+					p1: {
+						selectionId: statistic.rates.matchOdds.p1.selectionId,
+						handicap: statistic.rates.matchOdds.p1.handicap,
+						behind: statistic.rates.matchOdds.p1.behind,
+						against: statistic.rates.matchOdds.p1.against,
 					},
-					against: {
-						p1: statistic.rates.matchOdds.against.p1,
-						x: statistic.rates.matchOdds.against.x,
-						p2: statistic.rates.matchOdds.against.p2,
-						mod: statistic.rates.matchOdds.against.mod,
+					x: {
+						selectionId: statistic.rates.matchOdds.x.selectionId,
+						handicap: statistic.rates.matchOdds.x.handicap,
+						behind: statistic.rates.matchOdds.x.behind,
+						against: statistic.rates.matchOdds.x.against,
+					},
+					p2: {
+						selectionId: statistic.rates.matchOdds.p2.selectionId,
+						handicap: statistic.rates.matchOdds.p2.handicap,
+						behind: statistic.rates.matchOdds.p2.behind,
+						against: statistic.rates.matchOdds.p2.against,
+					},
+					mod: {
+						selectionId: statistic.rates.matchOdds.mod.selectionId,
+						handicap: statistic.rates.matchOdds.mod.handicap,
+						behind: statistic.rates.matchOdds.mod.behind,
+						against: statistic.rates.matchOdds.mod.against,
 					},
 				},
 				overUnder15: {
-					selectionId: statistic.rates.overUnder15.selectionId,
 					marketId: statistic.rates.overUnder15.marketId,
 					status: statistic.rates.overUnder15.status,
 					totalMatched: statistic.rates.overUnder15.totalMatched,
-					handicap: statistic.rates.overUnder15.handicap,
-					behind: {
-						over: statistic.rates.overUnder15.behind.over,
-						under: statistic.rates.overUnder15.behind.under,
-					},
-					against: {
-						over: statistic.rates.overUnder15.against.over,
-						under: statistic.rates.overUnder15.against.under,
-					},
+					...FootballService.mapPropsRate(statistic.rates.overUnder15),
 				},
 				overUnder25: {
-					selectionId: statistic.rates.overUnder25.selectionId,
 					marketId: statistic.rates.overUnder25.marketId,
 					status: statistic.rates.overUnder25.status,
 					totalMatched: statistic.rates.overUnder25.totalMatched,
-					handicap: statistic.rates.overUnder25.handicap,
-					behind: {
-						over: statistic.rates.overUnder25.behind.over,
-						under: statistic.rates.overUnder25.behind.under,
-					},
-					against: {
-						over: statistic.rates.overUnder25.against.over,
-						under: statistic.rates.overUnder25.against.under,
-					},
+					...FootballService.mapPropsRate(statistic.rates.overUnder25),
 				},
 				bothTeamsToScore: {
-					selectionId: statistic.rates.bothTeamsToScore.selectionId,
 					marketId: statistic.rates.bothTeamsToScore.marketId,
 					status: statistic.rates.bothTeamsToScore.status,
 					totalMatched: statistic.rates.bothTeamsToScore.totalMatched,
-					handicap: statistic.rates.bothTeamsToScore.handicap,
-					behind: {
-						yes: statistic.rates.bothTeamsToScore.behind.yes,
-						no: statistic.rates.bothTeamsToScore.behind.no,
+					yes: {
+						selectionId: statistic.rates.bothTeamsToScore.yes.selectionId,
+						handicap: statistic.rates.bothTeamsToScore.yes.handicap,
+						behind: statistic.rates.bothTeamsToScore.yes.behind,
+						against: statistic.rates.bothTeamsToScore.yes.against,
 					},
-					against: {
-						yes: statistic.rates.bothTeamsToScore.against.yes,
-						no: statistic.rates.bothTeamsToScore.against.no,
+					no: {
+						selectionId: statistic.rates.bothTeamsToScore.no.selectionId,
+						handicap: statistic.rates.bothTeamsToScore.no.handicap,
+						behind: statistic.rates.bothTeamsToScore.no.behind,
+						against: statistic.rates.bothTeamsToScore.no.against,
 					},
 				},
 				goalLines: {
-					selectionId: statistic.rates.goalLines.selectionId,
 					marketId: statistic.rates.goalLines.marketId,
 					status: statistic.rates.goalLines.status,
 					totalMatched: statistic.rates.goalLines.totalMatched,

@@ -10,8 +10,7 @@ import {
 	IGoalLines,
 	IScore,
 	ITimeSnapshot,
-	IOverUnder,
-	IYesNo,
+	IBehindAgainst,
 	IOtherRate,
 } from '../model/football/type/football.type';
 import moment from 'moment';
@@ -33,53 +32,36 @@ export class ParserFootballService {
 	];
 
 	public static initRates(count: number): ITimeSnapshot {
+		let behindAgainst: IBehindAgainst = {
+			selectionId: count,
+			handicap: count,
+			behind: count,
+			against: count,
+		};
 		let rate: IMatchOdds = {
-			selectionId: 0,
 			marketId: '',
 			status: StatusMarket.CLOSE,
 			totalMatched: 0,
-			handicap: 0,
-			behind: {
-				p1: count,
-				x: count,
-				p2: count,
-				mod: count,
-			},
-			against: {
-				p1: count,
-				x: count,
-				p2: count,
-				mod: count,
-			},
-		};
-		let overUnder: IOverUnder = {
-			over: count,
-			under: count,
-		};
-		let yesNo: IYesNo = {
-			yes: count,
-			no: count,
+			p1: Object.assign({}, behindAgainst),
+			x: Object.assign({}, behindAgainst),
+			p2: Object.assign({}, behindAgainst),
+			mod: Object.assign({}, behindAgainst),
 		};
 		let overUnderRates: IOverUnderRates = {
-			selectionId: 0,
 			marketId: '',
 			status: StatusMarket.CLOSE,
 			totalMatched: 0,
-			handicap: 0,
-			behind: overUnder,
-			against: overUnder,
+			over: Object.assign({}, behindAgainst),
+			under: Object.assign({}, behindAgainst),
 		};
 		let bothTeamsToScore: IBothTeamsToScore = {
-			selectionId: 0,
 			marketId: '',
 			status: StatusMarket.CLOSE,
 			totalMatched: 0,
-			handicap: 0,
-			behind: yesNo,
-			against: yesNo,
+			yes: Object.assign({}, behindAgainst),
+			no: Object.assign({}, behindAgainst),
 		};
 		let rateOtherInArray: IGoalLines = {
-			selectionId: 0,
 			marketId: '',
 			status: StatusMarket.CLOSE,
 			totalMatched: 0,
@@ -87,8 +69,8 @@ export class ParserFootballService {
 		};
 		return {
 			matchOdds: rate,
-			overUnder15: overUnderRates,
-			overUnder25: overUnderRates,
+			overUnder15: Object.assign({}, overUnderRates),
+			overUnder25: Object.assign({}, overUnderRates),
 			bothTeamsToScore,
 			goalLines: rateOtherInArray,
 		};
@@ -96,14 +78,17 @@ export class ParserFootballService {
 
 	public static initOtherRate(count: number): IOtherRate {
 		return {
-			handicap: 0,
-			behind: {
-				under: count,
-				over: count,
+			under: {
+				selectionId: count,
+				handicap: count,
+				behind: count,
+				against: count,
 			},
-			against: {
-				under: count,
-				over: count,
+			over: {
+				selectionId: count,
+				handicap: count,
+				behind: count,
+				against: count,
 			},
 		};
 	}
@@ -486,32 +471,35 @@ export class ParserFootballService {
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes, index: number) => {
 				let {exchange} = runner;
-				// FIXME нужно придумать другую структуру хранения чтоб собирать эти данные
-				// res.selectionId = runner.selectionId || 0;
-				// res.handicap = ParserFootballService.roundHandicap(runner.handicap);
 				switch (index) {
 					case 0: {
 						// p1
-						res.behind.p1 = ParserFootballService.behindParser(exchange);
-						res.against.p1 = ParserFootballService.againstParser(exchange);
+						res.p1.selectionId = runner.selectionId || 0;
+						res.p1.handicap = ParserFootballService.roundHandicap(runner.handicap);
+						res.p1.behind = ParserFootballService.behindParser(exchange);
+						res.p1.against = ParserFootballService.againstParser(exchange);
 						break;
 					}
 					case 1: {
 						// p2
-						res.behind.p2 = ParserFootballService.behindParser(exchange);
-						res.against.p2 = ParserFootballService.againstParser(exchange);
+						res.p2.selectionId = runner.selectionId || 0;
+						res.p2.handicap = ParserFootballService.roundHandicap(runner.handicap);
+						res.p2.behind = ParserFootballService.behindParser(exchange);
+						res.p2.against = ParserFootballService.againstParser(exchange);
 						break;
 					}
 					case 2: {
 						// ничья
-						res.behind.x = ParserFootballService.behindParser(exchange);
-						res.against.x = ParserFootballService.againstParser(exchange);
+						res.x.selectionId = runner.selectionId || 0;
+						res.x.handicap = ParserFootballService.roundHandicap(runner.handicap);
+						res.x.behind = ParserFootballService.behindParser(exchange);
+						res.x.against = ParserFootballService.againstParser(exchange);
 						break;
 					}
 				}
 			});
-			res.behind.mod = Math.abs(res.behind.p1 - res.behind.p2);
-			res.against.mod = Math.abs(res.against.p1 - res.against.p2);
+			res.mod.behind = Math.abs(res.p1.behind - res.p2.behind);
+			res.mod.against = Math.abs(res.p1.against - res.p2.against);
 		}
 		return res;
 	}
@@ -526,15 +514,15 @@ export class ParserFootballService {
 			runners.forEach((runner: RunnersMarketNodes) => {
 				let {exchange, description} = runner;
 				if (description && description.runnerName === `Under ${runnerName} Goals`) {
-					res.selectionId = runner.selectionId || 0;
-					res.handicap = ParserFootballService.roundHandicap(runner.handicap);
-					res.behind.under = ParserFootballService.behindParser(exchange);
-					res.against.under = ParserFootballService.againstParser(exchange);
+					res.under.selectionId = runner.selectionId || 0;
+					res.under.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					res.under.behind = ParserFootballService.behindParser(exchange);
+					res.under.against = ParserFootballService.againstParser(exchange);
 				} else if (description && description.runnerName === `Over ${runnerName} Goals`) {
-					res.selectionId = runner.selectionId || 0;
-					res.handicap = ParserFootballService.roundHandicap(runner.handicap);
-					res.behind.over = ParserFootballService.behindParser(exchange);
-					res.against.over = ParserFootballService.againstParser(exchange);
+					res.over.selectionId = runner.selectionId || 0;
+					res.over.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					res.over.behind = ParserFootballService.behindParser(exchange);
+					res.over.against = ParserFootballService.againstParser(exchange);
 				}
 			});
 		}
@@ -551,15 +539,15 @@ export class ParserFootballService {
 			runners.forEach((runner: RunnersMarketNodes) => {
 				let {exchange, description} = runner;
 				if (description && description.runnerName === 'Yes') {
-					res.selectionId = runner.selectionId || 0;
-					res.handicap = ParserFootballService.roundHandicap(runner.handicap);
-					res.behind.yes = ParserFootballService.behindParser(exchange);
-					res.against.yes = ParserFootballService.againstParser(exchange);
+					res.yes.selectionId = runner.selectionId || 0;
+					res.yes.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					res.yes.behind = ParserFootballService.behindParser(exchange);
+					res.yes.against = ParserFootballService.againstParser(exchange);
 				} else if (description && description.runnerName === 'No') {
-					res.selectionId = runner.selectionId || 0;
-					res.handicap = ParserFootballService.roundHandicap(runner.handicap);
-					res.behind.no = ParserFootballService.behindParser(exchange);
-					res.against.no = ParserFootballService.againstParser(exchange);
+					res.no.selectionId = runner.selectionId || 0;
+					res.no.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					res.no.behind = ParserFootballService.behindParser(exchange);
+					res.no.against = ParserFootballService.againstParser(exchange);
 				}
 			});
 		}
@@ -571,24 +559,24 @@ export class ParserFootballService {
 	 */
 	public parserOtherRatesInArray(runners: RunnersMarketNodes[]): IGoalLines {
 		let initRates: ITimeSnapshot = ParserFootballService.initRates(0);
-		let other: IOtherRate = ParserFootballService.initOtherRate(0);
 		let res: IGoalLines = initRates.goalLines;
 		if (runners != null && runners.length) {
 			runners.forEach((runner: RunnersMarketNodes) => {
 				let {exchange, description} = runner;
+				let other: IOtherRate = ParserFootballService.initOtherRate(0);
 				if (description && description.runnerName === 'Under') {
-					res.selectionId = runner.selectionId || 0;
-					other.handicap = ParserFootballService.roundHandicap(runner.handicap);
-					other.behind.under = ParserFootballService.behindParser(exchange);
-					other.against.under = ParserFootballService.againstParser(exchange);
+					other.under.selectionId = runner.selectionId || 0;
+					other.under.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					other.under.behind = ParserFootballService.behindParser(exchange);
+					other.under.against = ParserFootballService.againstParser(exchange);
+					res.list.push(other);
 				} else if (description && description.runnerName === 'Over') {
-					res.selectionId = runner.selectionId || 0;
-					other.handicap = ParserFootballService.roundHandicap(runner.handicap);
-					other.behind.over = ParserFootballService.behindParser(exchange);
-					other.against.over = ParserFootballService.againstParser(exchange);
+					res.list[res.list.length - 1].over.selectionId = runner.selectionId || 0;
+					res.list[res.list.length - 1].over.handicap = ParserFootballService.roundHandicap(runner.handicap);
+					res.list[res.list.length - 1].over.behind = ParserFootballService.behindParser(exchange);
+					res.list[res.list.length - 1].over.against = ParserFootballService.againstParser(exchange);
 				}
 			});
-			res.list.push(other);
 		}
 		return res;
 	}
