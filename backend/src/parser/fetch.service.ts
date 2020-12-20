@@ -59,7 +59,7 @@ export class FetchService {
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
+					this.logger.error(`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`);
 					this.logger.debug(`Get all matches sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
@@ -84,18 +84,6 @@ export class FetchService {
 							Accept: 'application/json, text/plain, */*',
 						},
 						responseType: 'json',
-						hooks: {
-							beforeRetry: [
-								(options, error, retryCount) => {
-									if (error && error.response && error.response.statusCode === 413) {
-										this.logger.debug(`Get event details 413 - url ${url}`);
-									}
-									if (error && error.response && error.response.statusCode === 414) {
-										this.logger.debug(`Get event details 414 - url ${url}`);
-									}
-								},
-							],
-						},
 					});
 					if (body != null) {
 						resolve(body);
@@ -105,7 +93,7 @@ export class FetchService {
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
+					this.logger.error(`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`);
 					this.logger.debug(`Get event details sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
@@ -152,18 +140,6 @@ export class FetchService {
 							currencyCode: 'EUR',
 							locale: 'en',
 						}),
-						hooks: {
-							beforeRetry: [
-								(options, error, retryCount) => {
-									if (error && error.response && error.response.statusCode === 413) {
-										this.logger.debug(`Search markets by event 413 - eventIds ${eventIds}`);
-									}
-									if (error && error.response && error.response.statusCode === 414) {
-										this.logger.debug(`Search markets by event 414 - eventIds ${eventIds}`);
-									}
-								},
-							],
-						},
 					});
 					if (body != null) {
 						resolve(body);
@@ -173,7 +149,7 @@ export class FetchService {
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
+					this.logger.error(`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`);
 					this.logger.debug(`Search markets by event sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
@@ -198,18 +174,6 @@ export class FetchService {
 							Accept: 'application/json, text/plain, */*',
 						},
 						responseType: 'json',
-						hooks: {
-							beforeRetry: [
-								(options, error, retryCount) => {
-									if (error && error.response && error.response.statusCode === 413) {
-										this.logger.debug(`Get rate markets 413 - url ${url}`);
-									}
-									if (error && error.response && error.response.statusCode === 414) {
-										this.logger.debug(`Get rate markets 414 - url ${url}`);
-									}
-								},
-							],
-						},
 					});
 					if (body != null) {
 						resolve(body);
@@ -219,7 +183,7 @@ export class FetchService {
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
+					this.logger.error(`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`);
 					this.logger.debug(`Get rate markets sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}

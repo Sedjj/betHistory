@@ -56,9 +56,9 @@ export class ExportService {
 					p2: statistic.rates.matchOdds.p2.behind,
 					mod: statistic.rates.matchOdds.mod.behind,
 				},
-				under15: statistic.rates.overUnder15.under.behind,
-				under25: statistic.rates.overUnder25.under.behind,
-				over25: statistic.rates.overUnder25.over.behind,
+				over15A: statistic.rates.overUnder15.over.against,
+				over25A: statistic.rates.overUnder25.over.against,
+				over25B: statistic.rates.overUnder25.over.behind,
 				bothTeamsToScoreYes: statistic.rates.bothTeamsToScore.yes.behind,
 				bothTeamsToScoreNo: statistic.rates.bothTeamsToScore.no.behind,
 				allTotalGoals: statistic.rates.goalLines.list.reduce<number>((acc, x) => {

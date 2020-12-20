@@ -25,9 +25,9 @@ export type ExcelProps = {
 		p2: number;
 		mod: number;
 	};
-	under15: number;
-	under25: number;
-	over25: number;
+	over15A: number;
+	over25A: number;
+	over25B: number;
 	bothTeamsToScoreYes: number;
 	bothTeamsToScoreNo: number;
 	allTotalGoals: number;

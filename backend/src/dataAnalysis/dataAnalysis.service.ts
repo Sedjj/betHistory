@@ -30,36 +30,34 @@ export class DataAnalysisService {
 		addQueueWithDelay: (id: number) => void,
 	): Promise<void> {
 		let {
-			/*score: {sc1, sc2},*/
+			score: {sc1, sc2},
 			time,
 		} = param;
 		let timeSetting: ITime[] = await this.confService.getTime();
-		/*if (sc1 + sc2 === 1) {
+		if (sc1 + sc2 === 0) {
 			if (time >= timeSetting[1].before && time <= timeSetting[1].after) {
 				this.footballLiveStrategy(param, 1);
 				await incStack(param.eventId);
 				// await addQueueWithDelay(param.eventId);
 			}
-		}*/
-		/*if (sc1 + sc2 === 0) {
 			if (time >= timeSetting[2].before && time <= timeSetting[2].after) {
 				this.footballLiveStrategy(param, 2);
 				await incStack(param.eventId);
 			}
-			if (time === timeSetting[3].before) {
+			if (time >= timeSetting[3].before && time <= timeSetting[3].after) {
 				this.footballLiveStrategy(param, 3);
 				await incStack(param.eventId);
 			}
-		}*/
-		/*if (sc1 + sc2 === 0) {
+		}
+		if (sc1 + sc2 === 1) {
 			if (time >= timeSetting[4].before && time <= timeSetting[4].after) {
 				this.footballLiveStrategy(param, 4);
 				await incStack(param.eventId);
 			}
-		}*/
-		if (time >= timeSetting[5].before && time <= timeSetting[5].after) {
-			this.footballLiveStrategy(param, 5);
-			await incStack(param.eventId);
+			if (time >= timeSetting[5].before && time <= timeSetting[5].after) {
+				this.footballLiveStrategy(param, 5);
+				await incStack(param.eventId);
+			}
 		}
 	}
 

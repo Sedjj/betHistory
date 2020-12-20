@@ -78,13 +78,10 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron(process.env.NODE_ENV === 'development' ? '*/10 * * * * *' : '*/20 * * * * *')
+	@Cron(process.env.NODE_ENV === 'development' ? '*/20 * * * * *' : '*/05 * * * * *')
 	public async checkingResults() {
-		// FIXME суспенд может нужно не фильтровать
 		if (this.stackService.getLengthEvent()) {
-			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(
-				urlEventDetails.replace('${id}', this.stackService.getStringEventIds()),
-			);
+			let eventDetails: EventDetails[] = await this.getEventDetails();
 			await this.stackService.decreaseActiveEventId(eventDetails);
 			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
 			scoreEvents.forEach((item: ScoreEvents) => {
@@ -160,5 +157,22 @@ export class TaskService implements OnApplicationBootstrap {
 				return res;
 			}),
 		);
+	}
+
+	/**
+	 * Метод для объединения детальной информации о событии из параллельных запросов.
+	 */
+	private async getEventDetails(): Promise<EventDetails[]> {
+		const idEventsArray: string[] = this.stackService.getStringEventIds();
+		return await Promise.all(
+			idEventsArray.map(async (item: string) => {
+				return await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', item));
+			}),
+		).then(arr => {
+			return arr.reduce((acc: EventDetails[], ids: EventDetails[]) => {
+				acc.push(...ids);
+				return acc;
+			}, []);
+		});
 	}
 }

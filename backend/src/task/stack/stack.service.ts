@@ -27,8 +27,13 @@ export class StackService implements OnApplicationBootstrap {
 		return this.activeEventIds;
 	}
 
-	public getStringEventIds(): string {
-		return this.activeEventIds.join();
+	public getStringEventIds(): string[] {
+		const arraySize: number = 50;
+		let res: string[] = [];
+		for (let i = 0; i < this.activeEventIds.length; i += arraySize) {
+			res.push(this.activeEventIds.slice(i, i + arraySize).join());
+		}
+		return res;
 	}
 
 	public getLengthEvent(): number {
