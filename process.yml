@@ -1,7 +1,23 @@
 apps:
-  - script: 'dist/main.js'
-    name: 'rate-cluster'
+  - name: 'rate-cluster'
+    script: 'dist/main.js'
     exec_mode: 'cluster'
     instances: 1
+    max_memory_restart: '1024M'
     env:
-      NODE_ENV: production # development
+      NODE_ENV: production
+
+  - name: 'rate-cluster-dev'
+    script: 'dist/main.js'
+    exec_mode: 'cluster'
+    instances: 1
+    watch: true
+    watch_delay: 5000
+    merge_logs: true
+    ignore_watch: 'node_modules'
+    log_date_format: 'YYYY-MM-DD'
+    max_memory_restart: '1024M'
+    error_file: 'logs/pm2_error.log'
+    log_file: 'logs/pm2_all.log'
+    env:
+      NODE_ENV: development
