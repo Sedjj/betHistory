@@ -146,21 +146,15 @@
 						"allowExpressions": true
 					}
 				],
-				"@typescript-eslint/interface-name-prefix": [
+				/*"@typescript-eslint/interface-name-prefix": [
 					"error",
 					{
 						"prefixWithI": "always"
 					}
-				],
-				"@typescript-eslint/camelcase": [
-					"error",
-					{
-						"allow": [
-							"minus_Id",
-							"ru_RU"
-						]
-					}
-				],
+				],*/
+				/*"@typescript-eslint/camelcase": [
+					"error"
+				],*/
 				"@typescript-eslint/explicit-member-accessibility": "off"
 			}
 		},
