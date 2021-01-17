@@ -1,13 +1,13 @@
 {
 	"compilerOptions": {
-		"outDir": "./dist/",
+		"baseUrl": "./",
+		"outDir": "./dist",
 		"module": "esnext",
 		/*для поддержки динамического импорта модулей*/
-		"target": "es2019",
+		"target": "es6",
 		"downlevelIteration": true,
-		/*компилируем код в es5*/
 		"lib": [
-			"es5",
+			"es2019",
 			"dom"
 		],
 		"sourceMap": true,
@@ -15,7 +15,7 @@
 		"allowJs": true,
 		"jsx": "react",
 		"moduleResolution": "node",
-		"rootDirs": ["web", ".storybook"],
+		"rootDirs": ["src"],
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitReturns": true,
 		"noImplicitThis": true,
@@ -30,12 +30,13 @@
 	],
 	"exclude": [
 		"node_modules",
+		"coverage",
 		"dist",
 		"webpack"
 	],
 	"include": [
-		"./web/**/*",
-		"./web/types/*.d.ts"
+		"./src/**/*",
+		"./src/types/*.d.ts"
 	],
 	"member-ordering": [
 		true,

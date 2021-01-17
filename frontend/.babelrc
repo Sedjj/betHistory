@@ -1,0 +1,77 @@
+{
+	"presets": [
+		[
+			"@babel/preset-env",
+			{
+				"corejs": 3,
+				"useBuiltIns": "usage",
+				"shippedProposals": true,
+				"targets": {
+					"firefox": "68",
+					"chrome": "70",
+					"ie": "11"
+				}
+			}
+		],
+		[
+			"@babel/preset-typescript",
+			{
+				"isTSX": true,
+				"allExtensions": true
+			}
+		],
+		"@babel/preset-react"
+	],
+	"plugins": [
+		"@babel/plugin-proposal-optional-chaining",
+		"@babel/plugin-proposal-numeric-separator",
+		"@babel/plugin-transform-typescript",
+		[
+			"@babel/plugin-proposal-decorators",
+			{
+				"legacy": true
+			}
+		],
+		"@babel/plugin-proposal-class-properties",
+		[
+			"@babel/plugin-transform-runtime",
+			{
+				"corejs": 3,
+				"proposals": true
+			}
+		],
+		[
+			"@babel/plugin-proposal-object-rest-spread",
+			{
+				"loose": true,
+				"useBuiltIns": true
+			}
+		]
+	],
+	"overrides": [
+		{
+			"test": "./node_modules",
+			"sourceType": "unambiguous"
+		}
+	],
+	"env": {
+		"test": {
+			"plugins": [
+				[
+					"istanbul",
+					{
+						"exclude": [
+							"**/*.spec.(js|jsx)?$",
+							"**/*.test.(js|jsx)?$"
+						],
+						"useInlineSourceMaps": false
+					}
+				]
+			]
+		}
+	},
+	"ignore": [
+		"core-js",
+		"node_modules"
+	]
+}

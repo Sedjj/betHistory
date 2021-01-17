@@ -13,7 +13,7 @@ docker build --rm -t mongo-rate -f docker/mongo-seed/DockerFile .
 docker run -p 27017:27017 -i -t mongo-rate
 ```
 
-Проверка что все данные подтянулись
+Проверка, что все данные подтянулись
 ```bash
 ls /data/dump/
 ls /data/log/

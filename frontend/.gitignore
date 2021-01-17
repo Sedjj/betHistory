@@ -1,2 +1,14 @@
-# compiled output
+# development
+.idea/
+/docker
+/build_ts
+
+# production
+/dist
+/logs
+
+# dependencies
 /node_modules
+
+# Tests
+/coverage

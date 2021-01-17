@@ -2,24 +2,72 @@
   "name": "frontend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "author": "Eldar Salimzebarov",
+  "license": "FSF",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-commit": "git update-index -g"
+    }
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier --write",
+      "npm run --silent lint:fix",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "start:dev": "cross-env NODE_ENV=development webpack serve --mode=development  --config webpack.config.js",
+    "build": "cross-env NODE_ENV=production webpack --mode=production --config webpack.prod.config.js --progress --profile --colors",
+    "eslint": "eslint --ext ..ts,.tsx,.jsx,.js src/ --ignore-pattern *.test.*",
+    "eslint:fix": "npm run eslint -- --fix",
+    "babelTest": "npx babel src --out-dir build_ts --extensions \".ts,.tsx\" --source-maps inline"
+  },
   "devDependencies": {
-    "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.9.0",
-    "source-map-loader": "^0.2.4",
-    "ts-loader": "^6.1.2",
-    "typescript": "^3.6.3",
-    "webpack": "^4.40.2",
-    "webpack-cli": "^3.3.9"
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-decorators": "^7.12.12",
+    "@babel/plugin-proposal-numeric-separator": "^7.12.7",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "@babel/preset-typescript": "^7.12.7",
+    "@babel/runtime": "^7.12.5",
+    "@babel/runtime-corejs3": "^7.12.5",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/webpack": "4.41.26",
+    "ts-loader": "^8.0.14",
+    "typescript": "^4.1.3",
+    "webpack": "^5.15.0",
+    "webpack-cli": "^4.3.1",
+    "prettier": "^2.2.1",
+    "jest": "^26.6.3",
+    "css-loader": "5.0.1",
+    "less-loader": "^7.2.1",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^4.5.1",
+    "resolve-path": "^1.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^26.6.3",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-istanbul": "^6.0.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "eslint": "^7.18.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-react": "^7.22.0"
   },
   "dependencies": {
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+    "cross-env": "^7.0.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "webpack-dev-server": "^3.11.2"
   }
 }

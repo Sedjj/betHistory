@@ -1,20 +1,21 @@
 {
 	"defaultSeverity": "error",
 	"extends": [
-		"tslint:latest",
+		"tslint:recommended",
 		"tslint-react"
 		/*"tslint-config-prettier"*/
 	],
 	"plugins": [
 		"react"
 	],
+	"jsRules": {
+		"no-unused-expression": true
+	},
 	"linterOptions": {
 		"exclude": [
-			"config/**/*.js",
-			"*.js",
+			"docker/**/*.js",
 			"node_modules/",
-			"node_modules/**/*.ts(x)",
-			"web/utils/*.js"
+			"node_modules/**/*.ts(x)"
 		]
 	},
 	"rules": {
@@ -33,6 +34,9 @@
 		"no-string-literal": false,
 		"eol-last": false,
 		"jsx-no-lambda": [
+			false
+		],
+		"prefer-const": [
 			false
 		],
 		"jsx-wrap-multiline": false,
@@ -64,6 +68,7 @@
 		"max-line-length": [
 			false
 		],
+		"interface-over-type-literal": false,
 		"jsx-alignment": false,
 		"jsx-self-close": false,
 		"arrow-parens": false,
@@ -76,6 +81,12 @@
 		"no-implicit-dependencies": [
 			true,
 			"dev"
+		],
+		"member-access": [
+			false
+		],
+		"member-ordering": [
+			false
 		],
 		"interface-name": [
 			true,
