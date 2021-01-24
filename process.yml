@@ -3,6 +3,10 @@ apps:
     script: 'dist/main.js'
     exec_mode: 'cluster'
     instances: 1
+    watch_delay: 5000
+    merge_logs: true
+    ignore_watch: 'node_modules'
+    log_date_format: 'YYYY-MM-DD'
     max_memory_restart: '1024M'
     env:
       NODE_ENV: production
