@@ -11,6 +11,7 @@ import {MarketNodes} from '../parser/type/byMarket.type';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
 import {QueueProcessor} from './queue/queue.processor';
 import {StackService} from './stack/stack.service';
+import {StackType} from '../model/stack/type/stack.type';
 /*import {QueueService} from './queue/queue.service';*/
 
 const urlSearch = config.get<string>('parser.football.search');
@@ -78,11 +79,32 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
+	// TODO чистить базу за месяц
+	// TODO смотреть не перезаписывает ли матч. т.е возможно случайно его проверил уже и забыл
+	// TODO посмотреть почему файл не формируется
+	// TODO в pm2 под нагрузкой сформировать файл
+
 	@Cron(process.env.NODE_ENV === 'development' ? '*/20 * * * * *' : '*/05 * * * * *')
-	public async checkingResults() {
-		if (this.stackService.getLengthEvent()) {
-			let eventDetails: EventDetails[] = await this.getEventDetails();
-			await this.stackService.decreaseActiveEventId(eventDetails);
+	public async oftenCheckOfResults() {
+		if (this.stackService.getLengthEvent(StackType.OFTEN)) {
+			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.OFTEN);
+			await this.stackService.decreaseActiveEventId(StackType.OFTEN, eventDetails);
+			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
+			scoreEvents.forEach((item: ScoreEvents) => {
+				try {
+					this.dataAnalysisService.setEvent(item);
+				} catch (error) {
+					this.logger.debug(`Ошибка при сохранении результата события: ${JSON.stringify(item)} error: ${error}`);
+				}
+			});
+		}
+	}
+
+	@Cron(process.env.NODE_ENV === 'development' ? '*/40 * * * * *' : '*/60 * * * * *')
+	public async usuallyCheckOfResults() {
+		if (this.stackService.getLengthEvent(StackType.USUALLY)) {
+			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.USUALLY);
+			await this.stackService.decreaseActiveEventId(StackType.USUALLY, eventDetails);
 			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
 			scoreEvents.forEach((item: ScoreEvents) => {
 				try {
@@ -162,8 +184,8 @@ export class TaskService implements OnApplicationBootstrap {
 	/**
 	 * Метод для объединения детальной информации о событии из параллельных запросов.
 	 */
-	private async getEventDetails(): Promise<EventDetails[]> {
-		const idEventsArray: string[] = this.stackService.getStringEventIds();
+	private async getEventDetails(stackType: StackType): Promise<EventDetails[]> {
+		const idEventsArray: string[] = this.stackService.getStringEventIds(stackType);
 		return await Promise.all(
 			idEventsArray.map(async (item: string) => {
 				return await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', item));

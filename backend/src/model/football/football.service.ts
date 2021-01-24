@@ -276,8 +276,10 @@ export class FootballService {
 				}
 				await asyncForEach<IFootballModel>(statistics, async (item: IFootballModel) => {
 					if (param.resulting != null && param.resulting !== '') {
-						item.score.resulting = param.resulting;
-						await item.save();
+						if (item.score.resulting !== param.resulting) {
+							item.score.resulting = param.resulting;
+							await item.save();
+						}
 					}
 				});
 			})

@@ -1,5 +1,5 @@
 import {Injectable, Logger} from '@nestjs/common';
-import {IStack, IStackModel} from './type/stack.type';
+import {IStack, IStackModel, StackType} from './type/stack.type';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 
@@ -55,7 +55,7 @@ export class StackDBService {
 	 *
 	 * @param {Number} stackId id объекта конфига
 	 */
-	async getDataByParam(stackId: number): Promise<IStack> {
+	async getDataByParam(stackId: StackType): Promise<IStack> {
 		return await this.stackModel
 			.findOne({stackId})
 			.read('secondary')

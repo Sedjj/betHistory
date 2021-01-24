@@ -16,7 +16,7 @@ import {menuList} from './menu';
 import {TelegramService} from './telegram.service';
 import {ExportService} from '../export/export.service';
 import {StackDBService} from '../model/stack/stackDB.service';
-import {IStack} from '../model/stack/type/stack.type';
+import {IStack, StackType} from '../model/stack/type/stack.type';
 import {FetchService} from '../fetch/fetch.service';
 
 @Injectable()
@@ -274,8 +274,9 @@ export class TelegramActions {
 	private async getActiveEvent(): Promise<number> {
 		let activeEventIds: number = 0;
 		try {
-			let model: IStack = await this.stackDBService.getDataByParam(1);
-			activeEventIds = model.activeEventIds.length;
+			let stackUsually: IStack = await this.stackDBService.getDataByParam(StackType.USUALLY);
+			let stackOften: IStack = await this.stackDBService.getDataByParam(StackType.OFTEN);
+			activeEventIds = stackUsually.activeEventIds.length + stackOften.activeEventIds.length;
 		} catch (error) {
 			this.logger.error(`Error get active event ids`);
 		}

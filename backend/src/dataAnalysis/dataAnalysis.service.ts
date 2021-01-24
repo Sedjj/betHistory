@@ -6,6 +6,7 @@ import {BetsSimulatorService} from '../betsSimulator/betsSimulator.service';
 import {ITime} from '../model/conf/type/conf.type';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
 import {ParserFootballService} from '../parser/parserFootball.service';
+import {StackType} from '../model/stack/type/stack.type';
 
 @Injectable()
 export class DataAnalysisService {
@@ -21,12 +22,12 @@ export class DataAnalysisService {
 	 * Метод для выбора стратегии ставки.
 	 *
 	 * @param {IFootball} param объект события
-	 * @param {(id: number) => void} incStack функция для добавления в стек
+	 * @param {(stackType: StackType, id: number) => void} incStack функция для добавления в стек
 	 * @param {(id: number) => void} addQueueWithDelay функция для добавления в стек
 	 */
 	public async strategyDefinition(
 		param: IFootball,
-		incStack: (id: number) => void,
+		incStack: (stackType: StackType, id: number) => void,
 		addQueueWithDelay: (id: number) => void,
 	): Promise<void> {
 		let {
@@ -35,28 +36,28 @@ export class DataAnalysisService {
 		} = param;
 		let timeSetting: ITime[] = await this.confService.getTime();
 		if (sc1 + sc2 === 0) {
-			if (time >= timeSetting[1].before && time <= timeSetting[1].after) {
+			/*if (time >= timeSetting[1].before && time <= timeSetting[1].after) {
 				this.footballLiveStrategy(param, 1);
-				await incStack(param.eventId);
-				// await addQueueWithDelay(param.eventId);
-			}
+				await incStack(StackType.USUALLY, param.eventId);
+				await addQueueWithDelay(param.eventId);
+			}*/
 			if (time >= timeSetting[2].before && time <= timeSetting[2].after) {
 				this.footballLiveStrategy(param, 2);
-				await incStack(param.eventId);
+				await incStack(StackType.USUALLY, param.eventId);
 			}
-			if (time >= timeSetting[3].before && time <= timeSetting[3].after) {
+			/*if (time >= timeSetting[3].before && time <= timeSetting[3].after) {
 				this.footballLiveStrategy(param, 3);
-				await incStack(param.eventId);
-			}
+				await incStack(StackType.USUALLY, param.eventId);
+			}*/
 		}
 		if (sc1 + sc2 === 1) {
 			if (time >= timeSetting[4].before && time <= timeSetting[4].after) {
 				this.footballLiveStrategy(param, 4);
-				await incStack(param.eventId);
+				await incStack(StackType.USUALLY, param.eventId);
 			}
 			if (time >= timeSetting[5].before && time <= timeSetting[5].after) {
 				this.footballLiveStrategy(param, 5);
-				await incStack(param.eventId);
+				await incStack(StackType.USUALLY, param.eventId);
 			}
 		}
 	}

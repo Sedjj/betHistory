@@ -95,6 +95,7 @@
 				"*.ts",
 				"*.tsx"
 			],
+			"excludedFiles": "backend/**",
 			"rules": {
 				"@typescript-eslint/no-use-before-define": ["off"],
 				// отключает сортировку полей объекта
