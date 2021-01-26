@@ -34,7 +34,7 @@ export class StackService implements OnApplicationBootstrap {
 			this.activeEventIds.usually = await this.getActiveEvent(StackType.USUALLY);
 			this.activeEventIds.often = await this.getActiveEvent(StackType.OFTEN);
 			const length = this.activeEventIds.usually.length + this.activeEventIds.often.length;
-			const list = this.activeEventIds.usually.join() + this.activeEventIds.often.join();
+			const list = [...this.activeEventIds.usually, ...this.activeEventIds.often].join();
 
 			this.logger.debug(`start active event ids: ${length ? list : 0}`);
 		}

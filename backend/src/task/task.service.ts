@@ -90,6 +90,9 @@ export class TaskService implements OnApplicationBootstrap {
 			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.OFTEN);
 			await this.stackService.decreaseActiveEventId(StackType.OFTEN, eventDetails);
 			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
+			this.logger.log(
+				`Количество событий в быстрой очереди oftenCheckOfResults: ${scoreEvents.map(x => x.marketId).join()}`,
+			);
 			scoreEvents.forEach((item: ScoreEvents) => {
 				try {
 					this.dataAnalysisService.setEvent(item);
