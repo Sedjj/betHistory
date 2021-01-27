@@ -88,11 +88,13 @@ export let FootballSchema = new Schema({
 		two: cards,
 	},
 	createdBy: {
-		type: Date,
-		default: new Date(),
+		type: String,
+		required: true,
+		default: new Date().toISOString(),
 	},
 	modifiedBy: {
-		type: Date,
-		default: new Date(),
+		type: String,
+		required: true,
+		default: new Date().toISOString(),
 	},
 });

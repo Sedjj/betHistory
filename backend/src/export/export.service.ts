@@ -80,6 +80,7 @@ export class ExportService {
 				 * Побочные
 				 */
 				createdBy: statistic.createdBy,
+				modifiedBy: statistic.modifiedBy,
 				resulting: statistic.score.resulting,
 			};
 		} catch (error) {

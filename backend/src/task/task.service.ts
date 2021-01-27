@@ -90,9 +90,9 @@ export class TaskService implements OnApplicationBootstrap {
 			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.OFTEN);
 			await this.stackService.decreaseActiveEventId(StackType.OFTEN, eventDetails);
 			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
-			this.logger.log(
+			/*this.logger.log(
 				`Количество событий в быстрой очереди oftenCheckOfResults: ${scoreEvents.map(x => x.marketId).join()}`,
-			);
+			)*/
 			scoreEvents.forEach((item: ScoreEvents) => {
 				try {
 					this.dataAnalysisService.setEvent(item);
@@ -103,7 +103,7 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron(process.env.NODE_ENV === 'development' ? '*/40 * * * * *' : '*/60 * * * * *')
+	@Cron(process.env.NODE_ENV === 'development' ? '*/30 * * * * *' : '0 */02 * * * *')
 	public async usuallyCheckOfResults() {
 		if (this.stackService.getLengthEvent(StackType.USUALLY)) {
 			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.USUALLY);

@@ -44,5 +44,6 @@ export type ExcelProps = {
 	 * Побочные
 	 */
 	createdBy: string;
+	modifiedBy: string;
 	resulting: string;
 };

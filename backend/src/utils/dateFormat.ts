@@ -15,9 +15,9 @@ export function dateStringToShortDateString(ISODateString: string): string {
  * Преобразование даты из ISO в формат для вывода
  *
  * @param {String} ISODateString - дата в формате ISO
- * @return {String} пример 19.12.2018 9:27
+ * @return {String} пример 19.12.2018 9:27:03
  */
 export function dateStringToFullDateString(ISODateString: string): string {
 	const tempDate: Moment = ISODateString ? moment(ISODateString) : moment();
-	return tempDate.format('DD.MM.YYYY HH:mm');
+	return tempDate.format('DD.MM.YYYY HH:mm:ss');
 }

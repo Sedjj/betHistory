@@ -278,6 +278,7 @@ export class FootballService {
 					if (param.resulting != null && param.resulting !== '') {
 						if (item.score.resulting !== param.resulting) {
 							item.score.resulting = param.resulting;
+							item.modifiedBy = new Date().toISOString();
 							await item.save();
 						}
 					}
