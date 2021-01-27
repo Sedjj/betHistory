@@ -12,6 +12,7 @@ deploy:
     - production # только для этой ветки
   script:
     - sh deploy/.ci-notify.sh "Собираю проект парсер ☺️" $TELEGRAM_BOT_TOKEN $TELEGRAM_CHAT_ID || true
+    - docker-compose stop rate
     - docker-compose build --pull
     - sh deploy/.ci-notify.sh "Перезапускаю контейнеры 🥳" $TELEGRAM_BOT_TOKEN $TELEGRAM_CHAT_ID || true
     - docker-compose down --remove-orphans
@@ -32,4 +33,5 @@ notify_error:
     - docker
   script:
     - sh deploy/.ci-notify.sh "Упс, что-то пошло не так... 😔"
+    - docker-compose start rate
   when: on_failure
