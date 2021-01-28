@@ -11,12 +11,12 @@ export class TelegramService {
 
 	constructor(@InjectBot() private telegrafService: TelegrafProvider) {
 		if (process.env.NODE_ENV === 'development') {
-			this.chatId = config.get<string>('bots.dev.chatId');
 			this.channelId = config.get<string>('bots.dev.channelId');
+			this.chatId = config.get<string>('bots.dev.chatId');
 			this.supportChatId = config.get<string>('bots.dev.supportChatId');
 		} else {
-			this.chatId = config.get<string>('bots.prod.chatId');
 			this.channelId = config.get<string>('bots.prod.channelId');
+			this.chatId = config.get<string>('bots.prod.chatId');
 			this.supportChatId = config.get<string>('bots.prod.supportChatId');
 		}
 	}

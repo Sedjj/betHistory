@@ -59,9 +59,6 @@ export class BetsSimulatorService {
 	public async matchRate(param: IFootball) {
 		const {
 			rates: {
-				bothTeamsToScore: {
-					no: {behind: behindNo},
-				},
 				overUnder25: {
 					over: {behind: TB25},
 				},
@@ -82,9 +79,9 @@ export class BetsSimulatorService {
 
 		switch (param.strategy) {
 			case 1:
-				if (behindMod < 9 && TB25 > 1.6 && behindNo < 2.5) {
-					await this.telegramService.sendMessageChat(decorateMessageChannel(param));
-					await this.telegramService.sendMessageChat('ТБ2.5:');
+				if (behindMod < 7 && TB25 > 1.6) {
+					await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
+					await this.telegramService.sendMessageChannel('ТБ2.5:');
 				}
 				/*await this.fetchService.placeOrders({
 					marketId: under25.marketId,
