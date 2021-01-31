@@ -51,15 +51,12 @@ export function decorateMessageChannel(param: IFootball): string {
 				under: {behind: TM25},
 				over: {behind: TB25},
 			},
-			bothTeamsToScore: {
-				no: {behind: OZ},
-			},
 		},
 		score: {sc1, sc2},
 		time,
 	} = param;
 	const scope = `${sc1}:${sc2}`;
-	const difference = `${TM25} / ${TB25} / ${OZ}:НЕТ`;
+	const difference = `${TM25} / ${TB25}`;
 	const orbitx = `<a href="https://www.orbitExch.com/customer/sport/market/${market25}">${market25}</a>`;
 	return `${orbitx}\n${group}\n\n<b>${one}\n${two}</b>\n\n<pre>${scope} / ${time}'\n${difference}</pre>`;
 }

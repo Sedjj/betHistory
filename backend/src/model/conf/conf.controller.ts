@@ -25,18 +25,18 @@ export class ConfController implements OnApplicationBootstrap {
 					},
 					{
 						// 2
-						before: 30,
-						after: 33,
+						before: 20,
+						after: 21,
 					},
 					{
 						// 3
-						before: 45,
-						after: 48,
+						before: 30,
+						after: 35,
 					},
 					{
 						// 4
-						before: 15,
-						after: 18,
+						before: 45,
+						after: 45,
 					},
 					{
 						// 5

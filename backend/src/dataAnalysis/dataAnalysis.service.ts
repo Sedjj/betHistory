@@ -35,28 +35,28 @@ export class DataAnalysisService {
 			time,
 		} = param;
 		let timeSetting: ITime[] = await this.confService.getTime();
-		if (sc1 + sc2 === 0) {
-			/*if (time >= timeSetting[1].before && time <= timeSetting[1].after) {
+		if (sc1 + sc2 === 1) {
+			if (time >= timeSetting[1].before && time <= timeSetting[1].after) {
 				this.footballLiveStrategy(param, 1);
 				await incStack(StackType.USUALLY, param.eventId);
-				await addQueueWithDelay(param.eventId);
-			}*/
-			if (time >= timeSetting[2].before && time <= timeSetting[2].after) {
-				this.footballLiveStrategy(param, 2);
-				await incStack(StackType.USUALLY, param.eventId);
+				// await addQueueWithDelay(param.eventId);
 			}
-			/*if (time >= timeSetting[3].before && time <= timeSetting[3].after) {
-				this.footballLiveStrategy(param, 3);
-				await incStack(StackType.USUALLY, param.eventId);
-			}*/
+			if (time >= timeSetting[2].before && time <= timeSetting[2].after) {
+				if (await this.isEvent(param, 1)) {
+					this.footballLiveStrategy(param, 2);
+					await incStack(StackType.USUALLY, param.eventId);
+				}
+			}
+			if (time >= timeSetting[3].before && time <= timeSetting[3].after) {
+				if (await this.isEvent(param, 1)) {
+					this.footballLiveStrategy(param, 3);
+					await incStack(StackType.USUALLY, param.eventId);
+				}
+			}
 		}
-		if (sc1 + sc2 === 1) {
+		if (sc1 + sc2 === 0) {
 			if (time >= timeSetting[4].before && time <= timeSetting[4].after) {
 				this.footballLiveStrategy(param, 4);
-				await incStack(StackType.USUALLY, param.eventId);
-			}
-			if (time >= timeSetting[5].before && time <= timeSetting[5].after) {
-				this.footballLiveStrategy(param, 5);
 				await incStack(StackType.USUALLY, param.eventId);
 			}
 		}
@@ -125,6 +125,19 @@ export class DataAnalysisService {
 	private saveEvent(param: IFootball, strategy: number): Promise<IFootball | null> {
 		return this.footballService.create({...param, strategy}).catch((error: any) => {
 			this.logger.error(`Save event rate: ${error}`);
+			throw new Error(error);
+		});
+	}
+
+	/**
+	 * Метод для поверки матча в других стратегиях.
+	 *
+	 * @param {IFootball} param объект события
+	 * @param {Number} strategy идентификатор выбранной стратегии
+	 */
+	private isEvent(param: IFootball, strategy: number): Promise<boolean> {
+		return this.footballService.isMatch(param, strategy).catch((error: any) => {
+			this.logger.error(`Check event rate: ${error}`);
 			throw new Error(error);
 		});
 	}

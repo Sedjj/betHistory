@@ -177,6 +177,26 @@ export class FootballService {
 	}
 
 	/**
+	 * Проверка что матч есть в другой стратегии
+	 *
+	 * @param {IFootball} param для таблицы
+	 * @param {Number} strategy идентификатор выбранной стратегии
+	 * @returns {Promise<IFootball | null>}
+	 */
+	public async isMatch(param: IFootball, strategy: number): Promise<boolean> {
+		let findMatch = await this.footballModel
+			.find({
+				marketId: param.marketId,
+				strategy,
+			})
+			.exec();
+		if (findMatch.length) {
+			return Promise.resolve(true);
+		}
+		return Promise.resolve(false);
+	}
+
+	/**
 	 * Получить записи из таблицы статистика.
 	 *
 	 * @param {IFootballQuery} param для таблицы.
