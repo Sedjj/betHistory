@@ -78,7 +78,7 @@ export class BetsSimulatorService {
 		const excludeGroup = this.group.some(x => group.includes(x));*/
 
 		switch (param.strategy) {
-			case 4:
+			case 1:
 				if (behindMod < 7 && TB25 > 1.6) {
 					await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
 					await this.telegramService.sendMessageChannel('ТБ2.5');
