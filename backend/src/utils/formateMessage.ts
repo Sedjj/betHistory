@@ -46,17 +46,17 @@ export function decorateMessageChannel(param: IFootball): string {
 	const {
 		command: {one, two, group},
 		rates: {
-			overUnder25: {
-				marketId: market25,
-				under: {behind: TM25},
-				over: {behind: TB25},
+			overUnder15: {
+				marketId: market15,
+				under: {behind: TM15},
+				over: {behind: TB15},
 			},
 		},
 		score: {sc1, sc2},
 		time,
 	} = param;
 	const scope = `${sc1}:${sc2}`;
-	const difference = `${TM25} / ${TB25}`;
-	const orbitx = `<a href="https://www.orbitExch.com/customer/sport/market/${market25}">${market25}</a>`;
+	const difference = `${TM15} / ${TB15}`;
+	const orbitx = `<a href="https://www.orbitExch.com/customer/sport/market/${market15}">${market15}</a>`;
 	return `${orbitx}\n${group}\n\n<b>${one}\n${two}</b>\n\n<pre>${scope} / ${time}'\n${difference}</pre>`;
 }

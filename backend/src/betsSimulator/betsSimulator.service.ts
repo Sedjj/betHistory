@@ -58,7 +58,7 @@ export class BetsSimulatorService {
 
 	public async matchRate(param: IFootball) {
 		const {
-			rates: {
+			/*rates: {
 				overUnder25: {
 					over: {behind: TB25},
 				},
@@ -66,7 +66,7 @@ export class BetsSimulatorService {
 					mod: {behind: behindMod},
 				},
 			},
-			/*command: {group, youth},*/
+			command: {group, youth},*/
 		} = param;
 
 		/*const TM20 = list.reduce<number>((acc, x) => {
@@ -78,11 +78,11 @@ export class BetsSimulatorService {
 		const excludeGroup = this.group.some(x => group.includes(x));*/
 
 		switch (param.strategy) {
-			case 1:
-				if (behindMod < 7 && TB25 > 1.6) {
-					await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
-					await this.telegramService.sendMessageChannel('ТБ2.5');
-				}
+			case 3:
+				// if (behindMod < 7 && TB25 > 1.6) {
+				await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
+				await this.telegramService.sendMessageChannel('ТБ1.5');
+				// }
 				/*await this.fetchService.placeOrders({
 					marketId: under25.marketId,
 					layOrBack: 'lay', // TODO lay для теста - back для авто ставки
