@@ -7,7 +7,6 @@ import {ITime} from '../model/conf/type/conf.type';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
 import {ParserFootballService} from '../parser/parserFootball.service';
 import {StackType} from '../model/stack/type/stack.type';
-import moment from 'moment';
 
 @Injectable()
 export class DataAnalysisService {
@@ -109,15 +108,7 @@ export class DataAnalysisService {
 			.then(async statistic => {
 				if (statistic !== null) {
 					this.logger.debug(`Найден ${param.marketId}: Футбол - стратегия ${strategy}`);
-					if (await this.isEvent(param, 2)) {
-						const {createdBy, modifiedBy} = await this.getEvent(param, 2);
-						let createdDate = moment(createdBy);
-						let modifiedDate = moment(modifiedBy);
-						let difference = createdDate.diff(modifiedDate, 'second') + 1;
-						if (difference <= 120) {
-							await this.betsSimulatorService.matchRate(statistic);
-						}
-					}
+					await this.betsSimulatorService.matchRate(statistic);
 				}
 			})
 			.catch(error => {
@@ -149,25 +140,6 @@ export class DataAnalysisService {
 			this.logger.error(`Check event rate: ${error}`);
 			throw new Error(error);
 		});
-	}
-
-	/**
-	 * Метод для получения матча по marketId и стратегии.
-	 *
-	 * @param {IFootball} param объект события
-	 * @param {Number} strategy идентификатор выбранной стратегии
-	 */
-	private getEvent(param: IFootball, strategy: number): Promise<IFootball> {
-		return this.footballService
-			.getDataByParam({
-				marketId: param.marketId,
-				strategy,
-			})
-			.then(x => x[0])
-			.catch((error: any) => {
-				this.logger.error(`Get event rate: ${error}`);
-				throw new Error(error);
-			});
 	}
 
 	/**

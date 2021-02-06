@@ -83,7 +83,6 @@ export class TaskService implements OnApplicationBootstrap {
 	// TODO смотреть не перезаписывает ли матч. т.е возможно случайно его проверил уже и забыл
 	// TODO посмотреть почему файл не формируется
 	// TODO в pm2 под нагрузкой сформировать файл
-	// TODO сделать экспорт для других дат
 
 	@Cron(process.env.NODE_ENV === 'development' ? '*/20 * * * * *' : '*/05 * * * * *')
 	public async oftenCheckOfResults() {
@@ -91,9 +90,6 @@ export class TaskService implements OnApplicationBootstrap {
 			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.OFTEN);
 			await this.stackService.decreaseActiveEventId(StackType.OFTEN, eventDetails);
 			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
-			/*this.logger.log(
-				`Количество событий в быстрой очереди oftenCheckOfResults: ${scoreEvents.map(x => x.marketId).join()}`,
-			)*/
 			scoreEvents.forEach((item: ScoreEvents) => {
 				try {
 					this.dataAnalysisService.setEvent(item);
