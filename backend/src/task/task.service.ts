@@ -105,14 +105,6 @@ export class TaskService implements OnApplicationBootstrap {
 		if (this.stackService.getLengthEvent(StackType.USUALLY)) {
 			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.USUALLY);
 			await this.stackService.decreaseActiveEventId(StackType.USUALLY, eventDetails);
-			let scoreEvents: ScoreEvents[] = this.parserFootballService.getScoreEvents(eventDetails);
-			scoreEvents.forEach((item: ScoreEvents) => {
-				try {
-					this.dataAnalysisService.setEvent(item);
-				} catch (error) {
-					this.logger.debug(`Ошибка при сохранении результата события: ${JSON.stringify(item)} error: ${error}`);
-				}
-			});
 		}
 	}
 

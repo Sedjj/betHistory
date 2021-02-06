@@ -8,7 +8,7 @@ import {IActiveEvent} from './stack.type';
 export class StackService implements OnApplicationBootstrap {
 	private readonly logger = new Logger(StackService.name);
 	private readonly activeEventIds: IActiveEvent;
-	private normalStackLimit: number = 85;
+	private normalStackLimit: number = 82;
 
 	constructor(private readonly stackDBService: StackDBService) {
 		this.activeEventIds = {
