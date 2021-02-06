@@ -81,7 +81,7 @@ export class StackDBService {
 	async setDataByParam(param: IStack): Promise<IStack | void> {
 		return await this.stackModel
 			.findOne({stackId: param.stackId})
-			.read('secondary')
+			// .read('secondary')
 			.exec()
 			.then((model: IStackModel | null) => {
 				if (!model) {
@@ -98,7 +98,7 @@ export class StackDBService {
 							},
 							{new: true},
 						)
-						.read('secondary')
+						// .read('secondary')
 						.exec()
 						.then((x: IStackModel) => StackDBService.mapProps(x));
 				}
