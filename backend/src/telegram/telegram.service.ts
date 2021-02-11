@@ -73,8 +73,9 @@ export class TelegramService {
 	 * Метод отправки файла через строковый параметр в чат support из телеграмм бота.
 	 *
 	 * @param {ReadStream} file для отправки в чат
+	 * @param {String} title Заголовок для фотки
 	 */
-	public async sendFile(file: string): Promise<void> {
+	public async sendFile(file: string, title: string = ''): Promise<void> {
 		try {
 			await this.telegrafService.telegram.sendDocument(
 				this.supportChatId,
@@ -82,7 +83,7 @@ export class TelegramService {
 					source: file,
 				},
 				{
-					caption: '',
+					caption: title,
 					parse_mode: 'HTML',
 				},
 			);
@@ -95,21 +96,24 @@ export class TelegramService {
 	 * Метод отправки файла через Buffer параметр в чат support из телеграмм бота.
 	 *
 	 * @param {ReadStream} file для отправки в чат
+	 * @param {String} filename имя файла с расширением
+	 * @param {String} title Заголовок для фотки
 	 */
-	public async sendFileOfBuffer(file: Buffer): Promise<void> {
+	public async sendFileOfBuffer(file: Buffer, filename?: string, title: string = ''): Promise<void> {
 		try {
 			await this.telegrafService.telegram.sendDocument(
 				this.supportChatId,
 				{
 					source: file,
+					filename: filename ? filename : undefined,
 				},
 				{
-					caption: '',
+					caption: title,
 					parse_mode: 'HTML',
 				},
 			);
 		} catch (e) {
-			this.logger.error(`Error sendFile -> ${e}`);
+			this.logger.error(`Error sendFileOfBuffer -> ${e}`);
 		}
 	}
 

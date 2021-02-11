@@ -238,8 +238,8 @@ export class TelegramActions {
 	private async exportStatisticDebounce(): Promise<void> {
 		try {
 			if (exportStatus.name === 'football') {
-				const stream: string = await this.exportService.exportFootballStatistic(exportStatus.count);
-				await this.telegramService.sendFile(stream);
+				const file = await this.exportService.exportFootballStatisticStream(exportStatus.count);
+				await this.telegramService.sendFileOfBuffer(file.buffer, file.filename);
 			}
 		} catch (error) {
 			this.logger.error(`Error exportStatisticDebounce: ${error}`);
@@ -253,7 +253,7 @@ export class TelegramActions {
 	private async getLogsOtherServer(): Promise<void> {
 		try {
 			await this.fetchService.getLogOtherServer().then(async file => {
-				await this.telegramService.sendFileOfBuffer(file);
+				await this.telegramService.sendFileOfBuffer(file, 'debug_selenium.log');
 			});
 		} catch (error) {
 			this.logger.error(`Error getLogs -> ${error}`);

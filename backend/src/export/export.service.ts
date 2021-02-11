@@ -89,7 +89,7 @@ export class ExportService {
 	}
 
 	/**
-	 * Метод для отправки экспорта статистики футбола
+	 * Метод для отправки экспорта статистики футбола через сохранение файла
 	 *
 	 * @param {Number} days количество дней для экспорта
 	 * @returns {Promise<void>}
@@ -97,12 +97,31 @@ export class ExportService {
 	public async exportFootballStatistic(days: number): Promise<string> {
 		try {
 			const file: Buffer = await this.getStatisticsFootball(days);
+			this.logger.debug(`Сохранение файла на диск: ${days}days-${this.outputFootball}`);
 			const filePath: string = await saveBufferToFile(
 				path.join(this.storagePath, this.uploadDirectory, `${days}days-${this.outputFootball}`),
 				file,
 			);
 			this.logger.debug(`Файл statistic отправлен ${filePath}`);
 			return filePath;
+		} catch (error) {
+			this.logger.error(`Error send statistic: ${error.message}`);
+			throw new Error(error);
+		}
+	}
+
+	/**
+	 * Метод для отправки экспорта статистики футбола потоком
+	 *
+	 * @param {Number} days количество дней для экспорта
+	 * @returns {Promise<void>}
+	 */
+	public async exportFootballStatisticStream(days: number): Promise<{filename: string; buffer: Buffer}> {
+		try {
+			const buffer: Buffer = await this.getStatisticsFootball(days);
+			const filename: string = `${days}days-${this.outputFootball}`;
+			this.logger.debug(`Файл statistic ${filename}`);
+			return {filename, buffer};
 		} catch (error) {
 			this.logger.error(`Error send statistic: ${error.message}`);
 			throw new Error(error);
@@ -127,15 +146,16 @@ export class ExportService {
 
 		return this.footballService
 			.getDataByParam(query)
-			.then((items: IFootball[]) =>
-				items.reduce<ExcelProps[]>((acc, item) => {
+			.then((items: IFootball[]) => {
+				this.logger.debug('Преобразование данных');
+				return items.reduce<ExcelProps[]>((acc, item) => {
 					let res = ExportService.mapProps(item);
 					if (res != null) {
 						acc.push(res);
 					}
 					return acc;
-				}, []),
-			)
+				}, []);
+			})
 			.then(async (prop: ExcelProps[]) => {
 				try {
 					this.logger.debug(`Подготовлено данных ${prop.length}`);

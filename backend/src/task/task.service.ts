@@ -36,7 +36,7 @@ export class TaskService implements OnApplicationBootstrap {
 		this.logger.debug('****start scheduler checking results****');
 	}
 
-	@Cron(process.env.NODE_ENV === 'development' ? '*/30 * * * * *' : '*/01 * * * *')
+	@Cron(process.env.NODE_ENV !== 'development' ? '*/30 * * * * *' : '*/15 * * * * *')
 	public async searchFootball() {
 		let activeEvents: number[] = await this.getActiveEventIds();
 		if (activeEvents.length) {
