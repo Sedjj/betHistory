@@ -47,12 +47,12 @@ export class DataAnalysisService {
 					await incStack(StackType.USUALLY, param.eventId);
 				}
 			}
-			if (time >= timeSetting[3].before && time <= timeSetting[3].after) {
+			/*if (time >= timeSetting[3].before && time <= timeSetting[3].after) {
 				if (await this.isEvent(param, 1)) {
 					this.footballLiveStrategy(param, 3);
 					await incStack(StackType.USUALLY, param.eventId);
 				}
-			}
+			}*/
 		}
 		if (sc1 + sc2 === 0) {
 			if (time >= timeSetting[4].before && time <= timeSetting[4].after) {

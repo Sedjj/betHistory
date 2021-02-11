@@ -7,66 +7,27 @@ import {FetchService} from '../fetch/fetch.service';*/
 
 @Injectable()
 export class BetsSimulatorService {
-	/*private group: string[];*/
+	private group: string[];
 
 	constructor(private readonly telegramService: TelegramService /*private readonly fetchService: FetchService*/) {
-		/*this.group = [
-			'Austrian',
-			'Belarusian',
-			'Belgian',
-			'Bulgarian',
-			'Cup',
-			'Danish',
-			'Ecuadorian',
-			'Finnish Veikkausliiga',
-			'Finnish Ykkonen',
-			'Icelandic',
-			'Hungarian',
-			'Italian',
-			'Latvian',
-			'Mongolian',
-			'Norwegian 2nd Division',
-			'Polish',
-			'Swiss',
-			'Swedish Superettan',
-			'UEFA',
-			'Turkish',
-			'Uruguayan',
-			'Vietnamese',
-			'Faroe',
-			'German Oberliga',
-			'Portuguese',
-			'Maltese',
-			'Elite Friendlies',
-			'English',
-			'Greek',
-			'Serbian',
-			'Russian',
-			'Ukrainian',
-			'Tajikistani',
-			'Brazilian',
-			'EFL Trophy',
-			'Icelandic',
-			'Romanian',
-			'US Major',
-			'Welsh',
-			'Dutch Eerste Divisie',
-			'Czech',
-			'Costa Rican',
-		];*/
+		this.group = ['Colombian', 'Portuguese', 'Mexican'];
 	}
 
 	public async matchRate(param: IFootball) {
 		const {
 			rates: {
-				matchOdds: {
-					x: {behind: xOdds},
+				overUnder25: {
+					over: {behind: TB25},
 				},
 				bothTeamsToScore: {
-					no: {behind: both},
+					yes: {behind: bothYes},
 				},
 			},
-			/*command: {group, youth},*/
+			cards: {
+				one: {corners: cornersOne},
+				two: {corners: cornersTwo},
+			},
+			command: {group},
 		} = param;
 
 		/*const TM20 = list.reduce<number>((acc, x) => {
@@ -74,14 +35,18 @@ export class BetsSimulatorService {
 				acc = x.behind;
 			}
 			return acc;
-		}, 0);
-		const excludeGroup = this.group.some(x => group.includes(x));*/
+		}, 0);*/
+		const excludeGroup = this.group.some(x => group.includes(x));
 
 		switch (param.strategy) {
 			case 2:
-				if (xOdds < 6 && 0 < both && both < 2.8) {
-					await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
-					await this.telegramService.sendMessageChannel('ТБ2.5');
+				if (!excludeGroup) {
+					if (TB25 > 1.4 && bothYes < 1.8) {
+						if (cornersOne < 2 && cornersTwo < 2) {
+							await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
+							await this.telegramService.sendMessageChannel('ТБ2.5');
+						}
+					}
 				}
 				/*await this.fetchService.placeOrders({
 					marketId: under25.marketId,
