@@ -10,7 +10,7 @@ export class BetsSimulatorService {
 	private group: string[];
 
 	constructor(private readonly telegramService: TelegramService /*private readonly fetchService: FetchService*/) {
-		this.group = ['Colombian', 'Portuguese', 'Mexican'];
+		this.group = ['French', 'Portuguese', 'Spanish'];
 	}
 
 	public async matchRate(param: IFootball) {
@@ -22,29 +22,34 @@ export class BetsSimulatorService {
 				bothTeamsToScore: {
 					yes: {behind: bothYes},
 				},
+				matchOdds: {
+					mod: {behind: behindMod},
+				},
+				goalLines: {list},
 			},
 			cards: {
-				one: {corners: cornersOne},
 				two: {corners: cornersTwo},
 			},
 			command: {group},
 		} = param;
 
-		/*const TM20 = list.reduce<number>((acc, x) => {
-			if (x.handicap === 2.0 || x.handicap === 2) {
-				acc = x.behind;
+		const TM20 = list.reduce<number>((acc, x) => {
+			if (x.under.handicap === 2.0 || x.under.handicap === 2) {
+				acc = x.under.behind;
 			}
 			return acc;
-		}, 0);*/
+		}, 0);
 		const excludeGroup = this.group.some(x => group.includes(x));
 
 		switch (param.strategy) {
 			case 2:
 				if (!excludeGroup) {
-					if (TB25 > 1.4 && bothYes < 1.8) {
-						if (cornersOne < 2 && cornersTwo < 2) {
-							await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
-							await this.telegramService.sendMessageChannel('ТБ2.5');
+					if (TB25 > 1.4 && bothYes > 0 && bothYes < 1.55) {
+						if (TM20 < 4.7 && cornersTwo < 2) {
+							if (behindMod >= 0.3 && behindMod <= 5.5) {
+								await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
+								await this.telegramService.sendMessageChannel('ТБ2.5');
+							}
 						}
 					}
 				}
