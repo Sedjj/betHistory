@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import {IFootball} from '../model/football/type/football.type';
 import {TelegramService} from '../telegram/telegram.service';
-import {decorateMessageChannel} from '../utils/formateMessage';
+import {decorateMessageChannel, decorateMessageChat} from '../utils/formateMessage';
 import {betAmount} from '../store';
 import {FetchService} from '../fetch/fetch.service';
 
@@ -107,7 +107,7 @@ export class BetsSimulatorService {
 				if (!excludeGroupRate) {
 					if (TM15 > 1.5 && bothNo > 1.2 && bothNo < 1.5) {
 						if (TM20 >= 1.2 && youth === 0) {
-							await this.telegramService.sendMessageChat(decorateMessageChannel(param));
+							await this.telegramService.sendMessageChat(decorateMessageChat(param));
 							await this.fetchService.placeOrders({
 								marketId,
 								layOrBack: 'lay', // TODO lay для теста - back для авто ставки
@@ -116,7 +116,7 @@ export class BetsSimulatorService {
 									handicap,
 								},
 								bet: {
-									price: 0.01, // TM15 - 0.3
+									price: 0.01, // TM15 - 0.03
 									stake: betAmount.bets,
 								},
 							});
