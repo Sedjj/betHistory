@@ -155,7 +155,7 @@ export class TelegramActions {
 
 	@TelegrafAction('down')
 	protected async down(ctx: Context) {
-		if (exportStatus.count > 2) {
+		if (exportStatus.count > 0) {
 			exportStatus.decrease(1);
 			await TelegramActions.editMessageReplyMarkup(ctx, 'days', exportStatus.count.toString());
 		}

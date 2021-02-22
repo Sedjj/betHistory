@@ -1,6 +1,6 @@
 import {Injectable, Logger} from '@nestjs/common';
 import config from 'config';
-import {readFile, saveBufferToFile} from '../utils/fsHelpers';
+import {readFile} from '../utils/fsHelpers';
 import path from 'path';
 import {FootballService} from '../model/football/football.service';
 // @ts-ignore
@@ -12,7 +12,6 @@ import {ExcelProps} from './type/export.type';
 export class ExportService {
 	private readonly logger = new Logger(ExportService.name);
 	private readonly storagePath: string;
-	private readonly uploadDirectory: string;
 	private readonly outputFootball: string;
 	private readonly inputFootball: string;
 	private readonly exportTemplatesDirectory: string;
@@ -20,7 +19,6 @@ export class ExportService {
 
 	constructor(private readonly footballService: FootballService) {
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
-		this.uploadDirectory = config.get<string>('path.directory.upload') || 'upload';
 		this.exportTemplatesDirectory = config.get<string>('path.directory.exportTemplates') || 'exportTemplates';
 		this.inputFootball = config.get<string>('path.storage.football.inputName') || 'Reports-football-default.xlsx';
 		this.outputFootball = config.get<string>('path.storage.football.outputName') || 'Reports.xlsx';
@@ -89,34 +87,12 @@ export class ExportService {
 	}
 
 	/**
-	 * Метод для отправки экспорта статистики футбола через сохранение файла
-	 *
-	 * @param {Number} days количество дней для экспорта
-	 * @returns {Promise<void>}
-	 */
-	public async exportFootballStatistic(days: number): Promise<string> {
-		try {
-			const file: Buffer = await this.getStatisticsFootball(days);
-			this.logger.debug(`Сохранение файла на диск: ${days}days-${this.outputFootball}`);
-			const filePath: string = await saveBufferToFile(
-				path.join(this.storagePath, this.uploadDirectory, `${days}days-${this.outputFootball}`),
-				file,
-			);
-			this.logger.debug(`Файл statistic отправлен ${filePath}`);
-			return filePath;
-		} catch (error) {
-			this.logger.error(`Error send statistic: ${error.message}`);
-			throw new Error(error);
-		}
-	}
-
-	/**
 	 * Метод для отправки экспорта статистики футбола потоком
 	 *
 	 * @param {Number} days количество дней для экспорта
 	 * @returns {Promise<void>}
 	 */
-	public async exportFootballStatisticStream(days: number): Promise<{filename: string; buffer: Buffer}> {
+	public async exportFootballStatisticStream(days = 2): Promise<{filename: string; buffer: Buffer}> {
 		try {
 			const buffer: Buffer = await this.getStatisticsFootball(days);
 			const filename: string = `${days}days-${this.outputFootball}`;

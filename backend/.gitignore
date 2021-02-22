@@ -3,7 +3,6 @@
 /logs
 /example
 /node_modules
-/upload
 
 # Tests
 /coverage

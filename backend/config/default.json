@@ -70,7 +70,6 @@
 		},
 		"directory": {
 			"exportTemplates": "exportTemplates",
-			"upload": "upload",
 			"logs": "logs"
 		}
 	}
