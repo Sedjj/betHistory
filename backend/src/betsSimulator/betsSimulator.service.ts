@@ -66,7 +66,7 @@ export class BetsSimulatorService {
 			cards: {
 				two: {corners: cornersTwo},
 			},
-			command: {group},
+			command: {group, youth},
 		} = param;
 
 		const TM20 = list.reduce<number>((acc, x) => {
@@ -106,7 +106,7 @@ export class BetsSimulatorService {
 			case 4:
 				if (!excludeGroupRate) {
 					if (TM15 > 1.5 && bothNo > 1.2 && bothNo < 1.5) {
-						if (TM20 >= 1.3) {
+						if (TM20 >= 1.2 && youth === 0) {
 							await this.telegramService.sendMessageChat(decorateMessageChannel(param));
 							await this.fetchService.placeOrders({
 								marketId,
