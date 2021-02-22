@@ -2,7 +2,7 @@
 	"ip": "localhost",
 	"port": 3000,
 	"api": {
-		"server": "140.82.33.21",
+		"server": "199.247.17.161",
 		"port": 3000
 	},
 	"auth": {

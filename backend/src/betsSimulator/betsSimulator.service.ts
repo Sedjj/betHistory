@@ -2,15 +2,46 @@ import {Injectable} from '@nestjs/common';
 import {IFootball} from '../model/football/type/football.type';
 import {TelegramService} from '../telegram/telegram.service';
 import {decorateMessageChannel} from '../utils/formateMessage';
-/*import {betAmount} from '../store';
-import {FetchService} from '../fetch/fetch.service';*/
+import {betAmount} from '../store';
+import {FetchService} from '../fetch/fetch.service';
 
 @Injectable()
 export class BetsSimulatorService {
-	private group: string[];
+	private groupForChannel: string[];
+	private groupForRate: string[];
 
-	constructor(private readonly telegramService: TelegramService /*private readonly fetchService: FetchService*/) {
-		this.group = ['French', 'Portuguese', 'Spanish'];
+	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
+		this.groupForChannel = ['French', 'Portuguese', 'Spanish'];
+		this.groupForRate = [
+			'Argentinian',
+			'Bahraini Premier',
+			'Bangladesh',
+			'Brazilian',
+			'Dutch',
+			'EFL Trophy',
+			'Egyptian',
+			'English Premier League',
+			'Greek',
+			'Italian Serie A (W)',
+			'Italian Serie B',
+			'Italian Serie C',
+			'Nicaraguan',
+			'New Zealand',
+			'Paraguayan',
+			'Portuguese Campeonato',
+			'Romanian',
+			'Russian',
+			'Salvadoran',
+			'Scottish',
+			'South African',
+			'Spanish La Liga',
+			'Spanish Segunda',
+			'Swedish',
+			'Swiss',
+			'Thai',
+			'UEFA',
+			'Uruguayan',
+		];
 	}
 
 	public async matchRate(param: IFootball) {
@@ -19,8 +50,13 @@ export class BetsSimulatorService {
 				overUnder25: {
 					over: {behind: TB25},
 				},
+				overUnder15: {
+					marketId,
+					under: {behind: TM15, selectionId, handicap},
+				},
 				bothTeamsToScore: {
 					yes: {behind: bothYes},
+					no: {behind: bothNo},
 				},
 				matchOdds: {
 					mod: {behind: behindMod},
@@ -39,11 +75,12 @@ export class BetsSimulatorService {
 			}
 			return acc;
 		}, 0);
-		const excludeGroup = this.group.some(x => group.includes(x));
+		const excludeGroupChannel = this.groupForChannel.some(x => group.includes(x));
+		const excludeGroupRate = this.groupForRate.some(x => group.includes(x));
 
 		switch (param.strategy) {
 			case 2:
-				if (!excludeGroup) {
+				if (!excludeGroupChannel) {
 					if (TB25 > 1.4 && bothYes > 0 && bothYes < 1.55) {
 						if (TM20 < 4.7 && cornersTwo < 2) {
 							if (behindMod >= 0.3 && behindMod <= 5.5) {
@@ -66,25 +103,27 @@ export class BetsSimulatorService {
 					},
 				});*/
 				break;
-			/*case 3:
-				if (!excludeGroup) {
-					if (TM20 >= 1.3 && ScoreNo <= 1.5 && youth === 0) {
-						await this.telegramService.sendMessageChat(decorateMessageChannel(param));
-						await this.fetchService.placeOrders({
-							marketId: under15.marketId,
-							layOrBack: 'back', // TODO lay для теста - back для авто ставки
-							choice: {
-								selectionId: under15.selectionId,
-								handicap: under15.handicap,
-							},
-							bet: {
-								price: under15.behind - 0.3,
-								stake: betAmount.bets,
-							},
-						});
+			case 4:
+				if (!excludeGroupRate) {
+					if (TM15 > 1.5 && bothNo > 1.2 && bothNo < 1.5) {
+						if (TM20 >= 1.3) {
+							await this.telegramService.sendMessageChat(decorateMessageChannel(param));
+							await this.fetchService.placeOrders({
+								marketId,
+								layOrBack: 'lay', // TODO lay для теста - back для авто ставки
+								choice: {
+									selectionId,
+									handicap,
+								},
+								bet: {
+									price: 0.01, // TM15 - 0.3
+									stake: betAmount.bets,
+								},
+							});
+						}
 					}
 				}
-				break;*/
+				break;
 			default:
 				break;
 		}
