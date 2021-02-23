@@ -90,6 +90,19 @@ export class BetsSimulatorService {
 						}
 					}
 				}
+				await this.telegramService.sendMessageChat(decorateMessageChat(param));
+				await this.fetchService.placeOrders({
+					marketId,
+					layOrBack: 'lay', // TODO lay для теста - back для авто ставки
+					choice: {
+						selectionId,
+						handicap,
+					},
+					bet: {
+						price: 0.01, // TM15 - 0.03
+						stake: betAmount.bets,
+					},
+				});
 				/*await this.fetchService.placeOrders({
 					marketId: under25.marketId,
 					layOrBack: 'lay', // TODO lay для теста - back для авто ставки
@@ -103,6 +116,8 @@ export class BetsSimulatorService {
 					},
 				});*/
 				break;
+			case 1:
+			case 3:
 			case 4:
 				/*if (!excludeGroupRate) {
 					if (TM15 > 1.5 && bothNo > 1.2 && bothNo < 1.5) {
