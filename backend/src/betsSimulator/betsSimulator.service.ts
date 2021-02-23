@@ -118,6 +118,7 @@ export class BetsSimulatorService {
 				break;
 			case 1:
 			case 3:
+			case 6:
 			case 4:
 				/*if (!excludeGroupRate) {
 					if (TM15 > 1.5 && bothNo > 1.2 && bothNo < 1.5) {
