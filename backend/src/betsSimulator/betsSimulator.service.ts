@@ -8,11 +8,11 @@ import {FetchService} from '../fetch/fetch.service';
 @Injectable()
 export class BetsSimulatorService {
 	private groupForChannel: string[];
-	private groupForRate: string[];
+	/*private groupForRate: string[];*/
 
 	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
 		this.groupForChannel = ['French', 'Portuguese', 'Spanish'];
-		this.groupForRate = [
+		/*this.groupForRate = [
 			'Argentinian',
 			'Bahraini Premier',
 			'Bangladesh',
@@ -41,7 +41,7 @@ export class BetsSimulatorService {
 			'Thai',
 			'UEFA',
 			'Uruguayan',
-		];
+		];*/
 	}
 
 	public async matchRate(param: IFootball) {
@@ -52,11 +52,11 @@ export class BetsSimulatorService {
 				},
 				overUnder15: {
 					marketId,
-					under: {behind: TM15, selectionId, handicap},
+					under: {/*behind: TM15,*/ selectionId, handicap},
 				},
 				bothTeamsToScore: {
 					yes: {behind: bothYes},
-					no: {behind: bothNo},
+					/*no: {behind: bothNo},*/
 				},
 				matchOdds: {
 					mod: {behind: behindMod},
@@ -66,7 +66,7 @@ export class BetsSimulatorService {
 			cards: {
 				two: {corners: cornersTwo},
 			},
-			command: {group, youth},
+			command: {group /*, youth*/},
 		} = param;
 
 		const TM20 = list.reduce<number>((acc, x) => {
@@ -76,7 +76,7 @@ export class BetsSimulatorService {
 			return acc;
 		}, 0);
 		const excludeGroupChannel = this.groupForChannel.some(x => group.includes(x));
-		const excludeGroupRate = this.groupForRate.some(x => group.includes(x));
+		// const excludeGroupRate = this.groupForRate.some(x => group.includes(x));
 
 		switch (param.strategy) {
 			case 2:
@@ -104,25 +104,25 @@ export class BetsSimulatorService {
 				});*/
 				break;
 			case 4:
-				if (!excludeGroupRate) {
+				/*if (!excludeGroupRate) {
 					if (TM15 > 1.5 && bothNo > 1.2 && bothNo < 1.5) {
-						if (TM20 >= 1.2 && youth === 0) {
-							await this.telegramService.sendMessageChat(decorateMessageChat(param));
-							await this.fetchService.placeOrders({
-								marketId,
-								layOrBack: 'lay', // TODO lay для теста - back для авто ставки
-								choice: {
-									selectionId,
-									handicap,
-								},
-								bet: {
-									price: 0.01, // TM15 - 0.03
-									stake: betAmount.bets,
-								},
-							});
-						}
+						if (TM20 >= 1.2 && youth === 0) {*/
+				await this.telegramService.sendMessageChat(decorateMessageChat(param));
+				await this.fetchService.placeOrders({
+					marketId,
+					layOrBack: 'lay', // TODO lay для теста - back для авто ставки
+					choice: {
+						selectionId,
+						handicap,
+					},
+					bet: {
+						price: 0.01, // TM15 - 0.03
+						stake: betAmount.bets,
+					},
+				});
+				/*			}
 					}
-				}
+				}*/
 				break;
 			default:
 				break;

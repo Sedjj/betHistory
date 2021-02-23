@@ -28,6 +28,11 @@ sudo apt-get upgrade
 sudo apt-get install htop
 ```
 
+### Установка netcat для проверки открытых портов
+```bash
+sudo apt-get install netcat
+```
+
 ### Установка часового пояса
 ```bash
 sudo dpkg-reconfigure tzdata &&
