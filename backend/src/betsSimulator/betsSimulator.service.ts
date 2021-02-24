@@ -11,7 +11,15 @@ export class BetsSimulatorService {
 	/*private groupForRate: string[];*/
 
 	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
-		this.groupForChannel = ['French', 'Portuguese', 'Spanish'];
+		this.groupForChannel = [
+			'French',
+			'Portuguese',
+			'Spanish',
+			'Turkish Super League',
+			'Hungarian',
+			'Iranian',
+			'Romanian',
+		];
 		/*this.groupForRate = [
 			'Argentinian',
 			'Bahraini Premier',
@@ -49,17 +57,14 @@ export class BetsSimulatorService {
 			rates: {
 				overUnder25: {
 					over: {behind: TB25},
+					totalMatched,
 				},
 				overUnder15: {
 					marketId,
 					under: {/*behind: TM15,*/ selectionId, handicap},
 				},
 				bothTeamsToScore: {
-					yes: {behind: bothYes},
-					/*no: {behind: bothNo},*/
-				},
-				matchOdds: {
-					mod: {behind: behindMod},
+					no: {behind: bothNo},
 				},
 				goalLines: {list},
 			},
@@ -81,9 +86,9 @@ export class BetsSimulatorService {
 		switch (param.strategy) {
 			case 2:
 				if (!excludeGroupChannel) {
-					if (TB25 > 1.4 && bothYes > 0 && bothYes < 1.55) {
-						if (TM20 < 4.7 && cornersTwo < 2) {
-							if (behindMod >= 0.3 && behindMod <= 5.5) {
+					if (TB25 > 1.4 && bothNo > 1.5) {
+						if (TM20 < 4 && cornersTwo === 0) {
+							if (totalMatched > 200) {
 								await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
 								await this.telegramService.sendMessageChannel('ТБ2.5');
 							}
@@ -103,6 +108,8 @@ export class BetsSimulatorService {
 					},
 				});*/
 				break;
+			case 1:
+			case 3:
 			case 4:
 				/*if (!excludeGroupRate) {
 					if (TM15 > 1.5 && bothNo > 1.2 && bothNo < 1.5) {
