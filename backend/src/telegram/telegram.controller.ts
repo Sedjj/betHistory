@@ -34,6 +34,7 @@ export class TelegramController {
 	@Post('sendPhoto')
 	@UseInterceptors(FileInterceptor('photo'))
 	public uploadFilePhoto(@UploadedFile() photo: FilePhoto, @Body() fileDto: SendPhotoDto) {
+		this.logger.debug('File accepted');
 		try {
 			this.telegramService.sendFilePhoto(photo.buffer, fileDto.title || this.nameBot).then(() => {
 				this.logger.debug('Send photo fine');
