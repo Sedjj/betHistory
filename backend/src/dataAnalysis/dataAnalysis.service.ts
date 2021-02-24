@@ -60,7 +60,6 @@ export class DataAnalysisService {
 				await incStack(StackType.USUALLY, param.eventId);
 			}
 		}
-		this.footballLiveStrategy(param, 6);
 	}
 
 	/**
