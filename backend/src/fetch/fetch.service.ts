@@ -14,7 +14,7 @@ export class FetchService {
 		const port = config.get<string>('api.port');
 
 		this.client = got.extend({
-			prefixUrl: `http://${server}:${port}/`,
+			prefixUrl: `http://${server}:${port}/rate/`,
 		});
 	}
 

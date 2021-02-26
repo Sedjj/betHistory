@@ -252,9 +252,8 @@ export class TelegramActions {
 	 */
 	private async getLogsOtherServer(): Promise<void> {
 		try {
-			await this.fetchService.getLogOtherServer().then(async file => {
-				await this.telegramService.sendFileOfBuffer(file, 'debug_selenium.log');
-			});
+			const file = await this.fetchService.getLogOtherServer();
+			await this.telegramService.sendFileOfBuffer(file, 'debug_selenium.log');
 		} catch (error) {
 			this.logger.error(`Error getLogs -> ${error}`);
 		}

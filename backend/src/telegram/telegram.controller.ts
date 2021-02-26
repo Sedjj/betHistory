@@ -1,10 +1,9 @@
-import {Body, Controller, Logger, Post, UploadedFile, UseInterceptors} from '@nestjs/common';
+import {Body, Controller, Logger, Post, UseInterceptors} from '@nestjs/common';
 import {TelegramService} from './telegram.service';
 import config from 'config';
 import {SendMessageDto} from './dto/send-message.dto';
 import {FileInterceptor} from '@nestjs/platform-express';
 import {SendPhotoDto} from './dto/send-photo.dto';
-import {FilePhoto} from './type/telegram.type';
 
 @Controller('telegram')
 export class TelegramController {
@@ -33,10 +32,10 @@ export class TelegramController {
 
 	@Post('sendPhoto')
 	@UseInterceptors(FileInterceptor('photo'))
-	public uploadFilePhoto(@UploadedFile() photo: FilePhoto, @Body() fileDto: SendPhotoDto) {
-		this.logger.debug('File accepted');
+	public uploadFilePhoto(@Body() fileDto: SendPhotoDto) {
 		try {
-			this.telegramService.sendFilePhoto(photo.buffer, fileDto.title || this.nameBot).then(() => {
+			const buffer: Buffer = Buffer.from(fileDto.base64Image, 'base64');
+			this.telegramService.sendFilePhoto(buffer, fileDto.title || this.nameBot).then(() => {
 				this.logger.debug('Send photo fine');
 			});
 		} catch (e) {
