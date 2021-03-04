@@ -23,31 +23,38 @@ export class BetsSimulatorService {
 		this.groupForRate = [
 			'Argentinian',
 			'Bahraini Premier',
-			'Bangladesh',
-			'Brazilian',
+			'Belgian',
+			'Brazilian Serie A',
+			'Costa Rican',
+			'Czech',
 			'Dutch',
 			'EFL Trophy',
 			'Egyptian',
+			'English Championship',
 			'English Premier League',
-			'Greek',
-			'Italian Serie A (W)',
-			'Italian Serie B',
+			'English League 1',
+			'Finnish',
+			'German',
+			'Greek Super League',
+			'Italian Serie A',
 			'Italian Serie C',
+			'Japanese',
+			'Mexican Ascenso MX',
 			'Nicaraguan',
-			'New Zealand',
-			'Paraguayan',
-			'Portuguese Campeonato',
+			'Palestinian',
+			'Portuguese',
 			'Romanian',
 			'Russian',
 			'Salvadoran',
 			'Scottish',
 			'South African',
-			'Spanish La Liga',
 			'Spanish Segunda',
 			'Swedish',
 			'Swiss',
-			'Thai',
 			'UEFA',
+			'Thai',
+			'Tunisian',
+			'Turkish',
 			'Uruguayan',
 		];
 	}
@@ -112,19 +119,21 @@ export class BetsSimulatorService {
 				if (!excludeGroupRate) {
 					if (TM15 > 1.5 && bothNo > 1.2 && bothNo < 1.5) {
 						if (TM20 >= 1.2 && youth === 0) {
-							await this.telegramService.sendMessageChat(decorateMessageChat(param));
-							await this.fetchService.placeOrders({
-								marketId,
-								layOrBack: 'back', // TODO lay для теста - back для авто ставки
-								choice: {
-									selectionId,
-									handicap,
-								},
-								bet: {
-									price: TM15 - 0.2,
-									stake: betAmount.bets,
-								},
-							});
+							if (totalMatched > 10 && totalMatched < 20000) {
+								await this.telegramService.sendMessageChat(decorateMessageChat(param));
+								await this.fetchService.placeOrders({
+									marketId,
+									layOrBack: 'back', // TODO lay для теста - back для авто ставки
+									choice: {
+										selectionId,
+										handicap,
+									},
+									bet: {
+										price: TM15 - 0.2,
+										stake: betAmount.bets,
+									},
+								});
+							}
 						}
 					}
 				}
