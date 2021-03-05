@@ -20,6 +20,7 @@ export class BetsSimulatorService {
 			'Iranian',
 			'Romanian',
 		];
+
 		this.groupForRate = [
 			'Argentinian',
 			'Bahraini Premier',
