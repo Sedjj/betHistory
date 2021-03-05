@@ -158,7 +158,6 @@ export class ParserFootballService {
 							}
 						}
 					}
-					acc.push(eventId);
 					return acc;
 				}, res);
 			}
