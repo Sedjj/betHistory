@@ -110,7 +110,7 @@ export class BetsSimulatorService {
 								await this.telegramService.sendMessageChat(decorateMessageChat(param));
 								await this.fetchService.placeOrders({
 									marketId,
-									layOrBack: 'back', // TODO lay для теста - back для авто ставки
+									layOrBack: 'lay', // TODO lay для теста - back для авто ставки
 									choice: {
 										selectionId,
 										handicap,
