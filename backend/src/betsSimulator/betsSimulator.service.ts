@@ -26,6 +26,7 @@ export class BetsSimulatorService {
 			'Austrian',
 			'Bahraini',
 			'Bangalore',
+			'CONMEBOL',
 			'Croatian 2',
 			'Danish',
 			'Dutch',
@@ -36,24 +37,34 @@ export class BetsSimulatorService {
 			'English National',
 			'Finnish',
 			'French',
+			'Estonian',
 			'German',
+			'Guatemalan',
 			'Hungarian',
-			'Israeli Liga Alef',
+			'Israeli',
 			'Italian',
 			'Japanese',
 			'Kuwaiti',
+			'Latvian',
+			'Lithuanian',
+			'Mexican Segunda',
+			'New Zealand',
 			'Palestinian',
+			'Panamanian',
+			'Paraguayan',
 			'Polish',
+			'Portuguese Primeira',
 			'Russian',
 			'Salvadoran',
 			'Slovakian',
 			'Spanish',
 			'Swiss Challenge',
+			'Swedish',
 			'Thai',
+			'Tanzanian',
 			'Turkish',
 			'UEFA',
 			'Uruguayan',
-			'Portuguese Primeira',
 		];
 	}
 
@@ -105,8 +116,8 @@ export class BetsSimulatorService {
 				}
 				if (!excludeGroupRate) {
 					if (TB25A >= 1.3 && TB25A <= 1.8 && youth === 0) {
-						if (matchOddsX >= 3.6 && matchOddsX < 11) {
-							if (mod >= -3 && mod < 28) {
+						if (matchOddsX >= 3.6 && matchOddsX <= 11) {
+							if (mod >= -3) {
 								await this.telegramService.sendMessageChat(decorateMessageChat(param));
 								await this.fetchService.placeOrders({
 									marketId,
