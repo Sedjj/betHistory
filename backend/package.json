@@ -61,7 +61,7 @@
 		"form-data": "^3.0.0",
 		"got": "^11.8.1",
 		"moment": "^2.29.1",
-		"mongoose": "5.10.11",
+		"mongoose": "5.10.3",
 		"nest-schedule": "^0.6.4",
 		"nest-winston": "^1.4.0",
 		"nestjs-telegraf": "^1.2.1",
