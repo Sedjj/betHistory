@@ -24,47 +24,33 @@ export class BetsSimulatorService {
 			'Argentinian',
 			'Australian',
 			'Austrian',
+			'Azerbaijan',
 			'Bahraini',
 			'Bangalore',
-			'CONMEBOL',
-			'Croatian 2',
-			'Danish',
-			'Dutch',
-			'Ecuadorian',
-			'EFL Trophy',
-			'Egyptian',
-			'English League 2',
-			'English National',
-			'Finnish',
 			'French',
-			'Estonian',
-			'German',
-			'Guatemalan',
-			'Hungarian',
-			'Israeli',
-			'Italian',
+			'French Ligue 1',
+			'Friend',
+			'German 3 Liga',
+			'German 3 Liga',
+			'Israeli Liga Alef',
+			'Italian Serie A',
+			'Italian Serie D',
 			'Japanese',
 			'Kuwaiti',
-			'Latvian',
-			'Lithuanian',
-			'Mexican Segunda',
-			'New Zealand',
-			'Palestinian',
-			'Panamanian',
-			'Paraguayan',
-			'Polish',
-			'Portuguese Primeira',
+			'Mexican Ascenso MX',
+			'Regionalliga',
 			'Russian',
-			'Salvadoran',
-			'Slovakian',
-			'Spanish',
-			'Swiss Challenge',
+			'Scottish',
+			'South Korean',
+			'Spanish Women',
 			'Swedish',
-			'Thai',
 			'Tanzanian',
-			'Turkish',
+			'Turkish Cup',
+			'Turkish Super League',
 			'UEFA',
+			'Ugandan',
 			'Uruguayan',
+			'Welsh',
 		];
 	}
 
@@ -81,12 +67,16 @@ export class BetsSimulatorService {
 					over: {behind: TB25B, against: TB25A, selectionId, handicap},
 					totalMatched,
 				},
+				overUnder15: {
+					over: {against: TB15A},
+				},
 				bothTeamsToScore: {
 					no: {behind: bothNo},
 				},
 				goalLines: {list},
 			},
 			cards: {
+				one: {corners: cornersOne},
 				two: {corners: cornersTwo},
 			},
 			command: {group, youth},
@@ -101,6 +91,7 @@ export class BetsSimulatorService {
 		const excludeGroupChannel = this.groupForChannel.some(x => group.includes(x));
 		const excludeGroupRate = this.groupForRate.some(x => group.includes(x));
 		const mod = matchOddsP2 - matchOddsP1;
+		const sumCorners = cornersOne + cornersTwo;
 
 		switch (param.strategy) {
 			case 2:
@@ -115,22 +106,26 @@ export class BetsSimulatorService {
 					}
 				}
 				if (!excludeGroupRate) {
-					if (TB25A >= 1.3 && TB25A <= 1.8 && youth === 0) {
-						if (matchOddsX >= 3.6 && matchOddsX <= 11) {
-							if (mod >= -3) {
-								await this.telegramService.sendMessageChat(decorateMessageChat(param));
-								await this.fetchService.placeOrders({
-									marketId,
-									layOrBack: 'lay', // TODO lay для теста - back для авто ставки
-									choice: {
-										selectionId,
-										handicap,
-									},
-									bet: {
-										price: TB25A + 0.1,
-										stake: betAmount.bets,
-									},
-								});
+					if (TB25A <= 1.85 && TB15A < 1.2 && youth === 0) {
+						if (4 <= matchOddsX && matchOddsX <= 11) {
+							if (4 <= mod && mod <= 33) {
+								if (0 < sumCorners && sumCorners < 5) {
+									if (2.2 < TM20 && TM20 < 5) {
+										await this.telegramService.sendMessageChat(decorateMessageChat(param));
+										await this.fetchService.placeOrders({
+											marketId,
+											layOrBack: 'lay', // TODO lay для теста - back для авто ставки
+											choice: {
+												selectionId,
+												handicap,
+											},
+											bet: {
+												price: TB25A + 0.1,
+												stake: betAmount.bets,
+											},
+										});
+									}
+								}
 							}
 						}
 					}
