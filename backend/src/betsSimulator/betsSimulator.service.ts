@@ -21,34 +21,69 @@ export class BetsSimulatorService {
 			'Romanian',
 		];
 		this.groupForRate = [
+			'African',
 			'Argentinian',
-			'Australian',
 			'Austrian',
-			'Azerbaijan',
 			'Bahraini',
 			'Bangalore',
+			'Bangladesh',
+			'Belarusian Reserves',
+			'Belgian',
+			'Bolivian',
+			'Brazilian Serie A',
+			'Bulgarian',
+			'Chilean',
+			'CONMEBOL',
+			'Costa Rican',
+			'Croatian 2',
+			'Cup',
+			'Czech',
+			'Danish 1st Division',
+			'Dutch Eredivisie',
+			'Ecuadorian',
+			'EFL Trophy',
+			'English Premier League',
+			'Estonian',
+			'Ethiopian',
+			'Faroe',
 			'French',
-			'French Ligue 1',
 			'Friend',
-			'German 3 Liga',
-			'German 3 Liga',
-			'Israeli Liga Alef',
+			'German',
+			'Greek',
+			'Guatemalan',
+			'Honduras',
+			'Hungarian',
+			'Icelandic',
+			'Indian',
+			'Israeli',
 			'Italian Serie A',
-			'Italian Serie D',
+			'Italian Serie C',
 			'Japanese',
+			'Kenyan',
 			'Kuwaiti',
-			'Mexican Ascenso MX',
-			'Regionalliga',
+			'Latvian',
+			'Lithuanian',
+			'Macedonian',
+			'Mexican',
+			'Moldovan',
+			'New Zealand',
+			'Palestinian',
+			'Peruvian',
+			'Polish',
+			'Portuguese Primeira',
 			'Russian',
-			'Scottish',
+			'Serbian',
+			'Singapore',
+			'Slovakian',
 			'South Korean',
-			'Spanish Women',
-			'Swedish',
+			'Swiss Challenge League',
 			'Tanzanian',
-			'Turkish Cup',
-			'Turkish Super League',
+			'Thai ',
+			'Tunisian',
+			'Turkish',
 			'UEFA',
 			'Ugandan',
+			'Ukrainian',
 			'Uruguayan',
 			'Welsh',
 		];
@@ -79,7 +114,7 @@ export class BetsSimulatorService {
 				one: {corners: cornersOne},
 				two: {corners: cornersTwo},
 			},
-			command: {group, youth},
+			command: {group, youth, women},
 		} = param;
 
 		const TM20 = list.reduce<number>((acc, x) => {
@@ -106,11 +141,11 @@ export class BetsSimulatorService {
 					}
 				}
 				if (!excludeGroupRate) {
-					if (TB25A <= 1.85 && TB15A < 1.2 && youth === 0) {
-						if (4 <= matchOddsX && matchOddsX <= 11) {
-							if (4 <= mod && mod <= 33) {
-								if (0 < sumCorners && sumCorners < 5) {
-									if (2.2 < TM20 && TM20 < 5) {
+					if (TB25A < 1.85 && TB15A < 1.2 && youth === 0 && women === 0) {
+						if (3.25 <= matchOddsX && matchOddsX <= 11) {
+							if (-4.5 <= mod && mod <= 33) {
+								if (0 < sumCorners && sumCorners < 6) {
+									if (bothNo <= 3.6) {
 										await this.telegramService.sendMessageChat(decorateMessageChat(param));
 										await this.fetchService.placeOrders({
 											marketId,
