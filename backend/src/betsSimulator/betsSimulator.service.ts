@@ -21,71 +21,27 @@ export class BetsSimulatorService {
 			'Romanian',
 		];
 		this.groupForRate = [
-			'African',
-			'Argentinian',
-			'Austrian',
-			'Bahraini',
-			'Bangalore',
-			'Bangladesh',
-			'Belarusian Reserves',
+			'Argentinian Primera B',
+			'Belarusian',
 			'Belgian',
-			'Bolivian',
-			'Brazilian Serie A',
-			'Bulgarian',
-			'Chilean',
+			'CAF',
+			'Czech 1 Liga',
 			'CONMEBOL',
-			'Costa Rican',
-			'Croatian 2',
-			'Cup',
-			'Czech',
-			'Danish 1st Division',
-			'Dutch Eredivisie',
-			'Ecuadorian',
-			'EFL Trophy',
-			'English Premier League',
 			'Estonian',
-			'Ethiopian',
-			'Faroe',
-			'French',
-			'Friend',
-			'German',
-			'Greek',
-			'Guatemalan',
+			'FIFA',
 			'Honduras',
 			'Hungarian',
-			'Icelandic',
-			'Indian',
-			'Israeli',
-			'Italian Serie A',
-			'Italian Serie C',
-			'Japanese',
+			'Iranian',
+			'Italian Serie D',
 			'Kenyan',
-			'Kuwaiti',
-			'Latvian',
-			'Lithuanian',
-			'Macedonian',
-			'Mexican',
-			'Moldovan',
-			'New Zealand',
-			'Palestinian',
-			'Peruvian',
-			'Polish',
+			'Mexican Liga MX',
 			'Portuguese Primeira',
+			'Romanian',
+			'Scottish',
 			'Russian',
-			'Serbian',
-			'Singapore',
-			'Slovakian',
-			'South Korean',
-			'Swiss Challenge League',
+			'Spanish Tercera',
 			'Tanzanian',
-			'Thai ',
-			'Tunisian',
-			'Turkish',
-			'UEFA',
-			'Ugandan',
-			'Ukrainian',
 			'Uruguayan',
-			'Welsh',
 		];
 	}
 
@@ -93,7 +49,6 @@ export class BetsSimulatorService {
 		const {
 			rates: {
 				matchOdds: {
-					x: {behind: matchOddsX},
 					p1: {behind: matchOddsP1},
 					p2: {behind: matchOddsP2},
 				},
@@ -111,10 +66,9 @@ export class BetsSimulatorService {
 				goalLines: {list},
 			},
 			cards: {
-				one: {corners: cornersOne},
 				two: {corners: cornersTwo},
 			},
-			command: {group, youth, women},
+			command: {group},
 		} = param;
 
 		const TM20 = list.reduce<number>((acc, x) => {
@@ -126,7 +80,6 @@ export class BetsSimulatorService {
 		const excludeGroupChannel = this.groupForChannel.some(x => group.includes(x));
 		const excludeGroupRate = this.groupForRate.some(x => group.includes(x));
 		const mod = matchOddsP2 - matchOddsP1;
-		const sumCorners = cornersOne + cornersTwo;
 
 		switch (param.strategy) {
 			case 2:
@@ -141,26 +94,22 @@ export class BetsSimulatorService {
 					}
 				}
 				if (!excludeGroupRate) {
-					if (TB25A < 1.85 && TB15A < 1.2 && youth === 0 && women === 0) {
-						if (3.25 <= matchOddsX && matchOddsX <= 11) {
-							if (-4.5 <= mod && mod <= 33) {
-								if (0 < sumCorners && sumCorners < 6) {
-									if (bothNo <= 3.6) {
-										await this.telegramService.sendMessageChat(decorateMessageChat(param));
-										await this.fetchService.placeOrders({
-											marketId,
-											layOrBack: 'lay', // TODO lay для теста - back для авто ставки
-											choice: {
-												selectionId,
-												handicap,
-											},
-											bet: {
-												price: TB25A + 0.1,
-												stake: betAmount.bets,
-											},
-										});
-									}
-								}
+					if (TB25A < 1.9 && TM20 <= 2.45) {
+						if (1.1 < TB15A && TB15A < 1.2) {
+							if (-3.4 < mod && mod < 22) {
+								await this.telegramService.sendMessageChat(decorateMessageChat(param));
+								await this.fetchService.placeOrders({
+									marketId,
+									layOrBack: 'lay', // TODO lay для теста - back для авто ставки
+									choice: {
+										selectionId,
+										handicap,
+									},
+									bet: {
+										price: TB25A + 0.1,
+										stake: betAmount.bets,
+									},
+								});
 							}
 						}
 					}
