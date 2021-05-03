@@ -135,7 +135,7 @@ export class BetsSimulatorService {
 													handicap,
 												},
 												bet: {
-													price: TB15A < 1.55 ? TB25A + 0.1 : TM15B - 0.2,
+													price: TB15A < 1.55 ? TB15A + 0.1 : TM15B - 0.2,
 													stake: betAmount.bets,
 												},
 											});
