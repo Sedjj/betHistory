@@ -86,13 +86,13 @@ export class BetsSimulatorService {
 					x: {behind: matchOddsX},
 				},
 				overUnder25: {
-					marketId,
-					over: {/*behind: TB25B,*/ against: TB25A, selectionId, handicap},
+					over: {/*behind: TB25B,*/ against: TB25A},
 					/*totalMatched,*/
 				},
 				overUnder15: {
-					over: {against: TB15A},
-					under: {behind: TM15B},
+					marketId,
+					over: {against: TB15A, selectionId: overSelectionId, handicap: overHandicap},
+					under: {behind: TM15B, selectionId: underSelectionId, handicap: underHandicap},
 				},
 				bothTeamsToScore: {
 					no: {behind: bothNo},
@@ -131,8 +131,8 @@ export class BetsSimulatorService {
 												marketId,
 												layOrBack: TB15A < 1.55 ? 'lay' : 'back', // TODO lay "против" - back "за"
 												choice: {
-													selectionId,
-													handicap,
+													selectionId: TB15A < 1.55 ? overSelectionId : underSelectionId,
+													handicap: TB15A < 1.55 ? overHandicap : underHandicap,
 												},
 												bet: {
 													price: TB15A < 1.55 ? TB15A + 0.1 : TM15B - 0.2,
