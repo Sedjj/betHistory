@@ -191,12 +191,14 @@ export class TelegramActions {
 	protected async enableBets(ctx: Context) {
 		rateStatus.turnOn();
 		await TelegramActions.sendAnswerText(ctx, 'Betting mechanism will be enabled');
+		await this.telegramService.sendMessageChat('Вкл ставки');
 	}
 
 	@TelegrafAction('turnOffBets')
 	protected async turnOffBets(ctx: Context) {
 		rateStatus.turnOff();
 		await TelegramActions.sendAnswerText(ctx, 'Betting mechanism will be stopped');
+		await this.telegramService.sendMessageChat('Выкл ставки');
 	}
 
 	@TelegrafAction('debugBetLogs')

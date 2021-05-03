@@ -1,47 +1,79 @@
 import {Injectable} from '@nestjs/common';
 import {IFootball} from '../model/football/type/football.type';
 import {TelegramService} from '../telegram/telegram.service';
-import {decorateMessageChannel, decorateMessageChat} from '../utils/formateMessage';
+import {decorateMessageChat} from '../utils/formateMessage';
 import {betAmount} from '../store';
 import {FetchService} from '../fetch/fetch.service';
 
 @Injectable()
 export class BetsSimulatorService {
-	private groupForChannel: string[];
+	/*private groupForChannel: string[];*/
 	private groupForRate: string[];
 
 	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
-		this.groupForChannel = [
-			'French',
-			'Portuguese',
-			'Spanish',
-			'Turkish Super League',
-			'Hungarian',
-			'Iranian',
-			'Romanian',
-		];
+		/*this.groupForChannel = [];*/
 		this.groupForRate = [
-			'Argentinian Primera B',
-			'Belarusian',
-			'Belgian',
-			'CAF',
-			'Czech 1 Liga',
-			'CONMEBOL',
-			'Estonian',
+			'AFC',
+			'Argentinian',
+			'Azerbaijan',
+			'Bahraini Premier',
+			'Bangladesh Premier',
+			'Belgian First Division A',
+			'Bulgarian Cup',
+			'CONMEBOL Copa Libertadores',
+			'Costa Rican',
+			'Croatian 3',
+			'Czech Cup',
+			'Danish',
+			'Ecuadorian',
+			'EFL Trophy',
+			'Egyptian',
+			'English Championship',
+			'English League 1',
+			'English Premier League',
+			'Estonian Cup',
 			'FIFA',
-			'Honduras',
-			'Hungarian',
-			'Iranian',
-			'Italian Serie D',
-			'Kenyan',
-			'Mexican Liga MX',
-			'Portuguese Primeira',
-			'Romanian',
+			'Finnish',
+			'French',
+			'Friend',
+			'Georgian',
+			'German',
+			'Greek',
+			'Guatemalan Liga Nacional',
+			'Hungarian Cup',
+			'Icelandic',
+			'Israeli',
+			'Irish Premier Division',
+			'Italian',
+			'Kazakhstan',
+			'Latvian',
+			'Malaysian Super League',
+			'Malian',
+			'Mexican Ascenso',
+			'Moldovan',
+			'New Zealand',
+			'Nicaraguan',
+			'Northern Irish',
+			'Palestinian',
+			'Paraguayan',
+			'Portuguese',
+			'Qatari',
+			'Romanian Liga III',
+			'Russian Premier League',
 			'Scottish',
-			'Russian',
-			'Spanish Tercera',
-			'Tanzanian',
+			'Serbian',
+			'Slovakian 2 Liga',
+			'Swedish Cup',
+			'Swiss',
+			'Spanish',
+			'Taiwanese',
+			'Thai Cup',
+			'Tunisian',
+			'UEFA',
+			'Ukrainian',
+			'US Major',
 			'Uruguayan',
+			'Turkish',
 		];
 	}
 
@@ -51,85 +83,70 @@ export class BetsSimulatorService {
 				matchOdds: {
 					p1: {behind: matchOddsP1},
 					p2: {behind: matchOddsP2},
+					x: {behind: matchOddsX},
 				},
 				overUnder25: {
 					marketId,
-					over: {behind: TB25B, against: TB25A, selectionId, handicap},
-					totalMatched,
+					over: {/*behind: TB25B,*/ against: TB25A, selectionId, handicap},
+					/*totalMatched,*/
 				},
 				overUnder15: {
 					over: {against: TB15A},
+					under: {behind: TM15B},
 				},
 				bothTeamsToScore: {
 					no: {behind: bothNo},
 				},
-				goalLines: {list},
+				/*goalLines: {list},*/
 			},
 			cards: {
+				one: {corners: cornersOne},
 				two: {corners: cornersTwo},
 			},
-			command: {group},
+			command: {group, youth, women},
 		} = param;
 
-		const TM20 = list.reduce<number>((acc, x) => {
+		/*const TM20 = list.reduce<number>((acc, x) => {
 			if (x.under.handicap === 2.0 || x.under.handicap === 2) {
 				acc = x.under.behind;
 			}
 			return acc;
-		}, 0);
-		const excludeGroupChannel = this.groupForChannel.some(x => group.includes(x));
+		}, 0);*/
+		// const excludeGroupChannel = this.groupForChannel.some(x => group.includes(x));
 		const excludeGroupRate = this.groupForRate.some(x => group.includes(x));
-		const mod = matchOddsP2 - matchOddsP1;
+		// const mod = matchOddsP2 - matchOddsP1;
+		const P1P2 = matchOddsP1 - matchOddsP2;
 
 		switch (param.strategy) {
-			case 2:
-				if (!excludeGroupChannel) {
-					if (TB25B > 1.4 && bothNo > 1.5) {
-						if (TM20 < 4 && cornersTwo === 0) {
-							if (totalMatched > 200) {
-								await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
-								await this.telegramService.sendMessageChannel('ТБ2.5');
-							}
-						}
-					}
-				}
+			case 4:
 				if (!excludeGroupRate) {
-					if (TB25A < 1.9 && TM20 <= 2.45) {
-						if (1.1 < TB15A && TB15A < 1.2) {
-							if (-3.4 < mod && mod < 22) {
-								await this.telegramService.sendMessageChat(decorateMessageChat(param));
-								await this.fetchService.placeOrders({
-									marketId,
-									layOrBack: 'lay', // TODO lay для теста - back для авто ставки
-									choice: {
-										selectionId,
-										handicap,
-									},
-									bet: {
-										price: TB25A + 0.1,
-										stake: betAmount.bets,
-									},
-								});
+					if (cornersOne < 5 && cornersTwo < 5) {
+						if (youth === 0 && women === 0) {
+							if (TB25A < 6 && TB15A <= 2.4) {
+								if (2 < matchOddsX) {
+									if (-6.5 < P1P2 && P1P2 < 4.3) {
+										if (0 < bothNo && bothNo < 1.8) {
+											await this.telegramService.sendMessageChat(decorateMessageChat(param));
+											await this.fetchService.placeOrders({
+												marketId,
+												layOrBack: TB15A < 1.55 ? 'lay' : 'back', // TODO lay "против" - back "за"
+												choice: {
+													selectionId,
+													handicap,
+												},
+												bet: {
+													price: TB15A < 1.55 ? TB25A + 0.1 : TM15B - 0.2,
+													stake: betAmount.bets,
+												},
+											});
+										}
+									}
+								}
 							}
 						}
 					}
 				}
 				break;
-			/*case 4:
-				await this.telegramService.sendMessageChat(decorateMessageChat(param));
-				await this.fetchService.placeOrders({
-					marketId,
-					layOrBack: 'back', // TODO lay для теста - back для авто ставки
-					choice: {
-						selectionId,
-						handicap,
-					},
-					bet: {
-						price: TM15 - 0.2,
-						stake: betAmount.bets,
-					},
-				});
-				break;*/
 			default:
 				break;
 		}
