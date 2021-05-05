@@ -22,7 +22,7 @@ export class BetsSimulatorService {
 			'Bulgarian Cup',
 			'CONMEBOL Copa Libertadores',
 			'Costa Rican',
-			'Croatian 3',
+			'Croatian',
 			'Czech Cup',
 			'Danish',
 			'Ecuadorian',
@@ -56,6 +56,7 @@ export class BetsSimulatorService {
 			'Northern Irish',
 			'Palestinian',
 			'Paraguayan',
+			'Peruvian',
 			'Portuguese',
 			'Qatari',
 			'Romanian Liga III',
@@ -114,8 +115,7 @@ export class BetsSimulatorService {
 		}, 0);*/
 		// const excludeGroupChannel = this.groupForChannel.some(x => group.includes(x));
 		const excludeGroupRate = this.groupForRate.some(x => group.includes(x));
-		// const mod = matchOddsP2 - matchOddsP1;
-		const P1P2 = matchOddsP1 - matchOddsP2;
+		const mod = matchOddsP2 - matchOddsP1;
 
 		switch (param.strategy) {
 			case 4:
@@ -124,7 +124,7 @@ export class BetsSimulatorService {
 						if (youth === 0 && women === 0) {
 							if (TB25A < 6 && TB15A <= 2.4) {
 								if (2 < matchOddsX) {
-									if (-6.5 < P1P2 && P1P2 < 4.3) {
+									if (-6.5 < mod && mod < 4.3) {
 										if (0 < bothNo && bothNo < 1.8) {
 											await this.telegramService.sendMessageChat(decorateMessageChat(param));
 											await this.fetchService.placeOrders({
