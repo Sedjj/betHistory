@@ -14,67 +14,38 @@ export class BetsSimulatorService {
 		/*this.groupForChannel = [];*/
 		this.groupForRate = [
 			'AFC',
-			'Argentinian',
-			'Azerbaijan',
-			'Bahraini Premier',
-			'Bangladesh Premier',
-			'Belgian First Division A',
-			'Bulgarian Cup',
-			'CONMEBOL Copa Libertadores',
-			'Costa Rican',
-			'Croatian',
-			'Czech Cup',
-			'Danish',
-			'Ecuadorian',
-			'EFL Trophy',
-			'Egyptian',
-			'English Championship',
-			'English League 1',
-			'English Premier League',
-			'Estonian Cup',
-			'FIFA',
+			'Belarusian Premier League',
+			'Belgian',
+			'Costa Rican Primera',
+			'Croatian 3',
+			'Czech 2',
+			'Dutch',
 			'Finnish',
 			'French',
-			'Friend',
-			'Georgian',
 			'German',
-			'Greek',
-			'Guatemalan Liga Nacional',
-			'Hungarian Cup',
+			'Hungarian',
 			'Icelandic',
+			'Indian',
+			'Iranian',
 			'Israeli',
-			'Irish Premier Division',
 			'Italian',
-			'Kazakhstan',
-			'Latvian',
-			'Malaysian Super League',
-			'Malian',
+			'Maltese',
 			'Mexican Ascenso',
 			'Moldovan',
-			'New Zealand',
-			'Nicaraguan',
-			'Northern Irish',
-			'Palestinian',
+			'Montenegrin',
 			'Paraguayan',
-			'Peruvian',
-			'Portuguese',
 			'Qatari',
-			'Romanian Liga III',
+			'Romanian',
 			'Russian Premier League',
-			'Scottish',
-			'Serbian',
-			'Slovakian 2 Liga',
-			'Swedish Cup',
+			'Scottish League One',
+			'Scottish League Two',
+			'Spanish Women',
 			'Swiss',
-			'Spanish',
-			'Taiwanese',
-			'Thai Cup',
-			'Tunisian',
+			'Syrian',
+			'Thai Playoffs',
+			'Turkish 1 Lig',
 			'UEFA',
-			'Ukrainian',
-			'US Major',
 			'Uruguayan',
-			'Turkish',
 		];
 	}
 
@@ -82,9 +53,7 @@ export class BetsSimulatorService {
 		const {
 			rates: {
 				matchOdds: {
-					p1: {behind: matchOddsP1},
 					p2: {behind: matchOddsP2},
-					x: {behind: matchOddsX},
 				},
 				overUnder25: {
 					over: {/*behind: TB25B,*/ against: TB25A},
@@ -92,55 +61,47 @@ export class BetsSimulatorService {
 				},
 				overUnder15: {
 					marketId,
-					over: {against: TB15A, selectionId: overSelectionId, handicap: overHandicap},
-					under: {behind: TM15B, selectionId: underSelectionId, handicap: underHandicap},
+					over: {against: TB15A, selectionId: over15SelectionId, handicap: over15Handicap},
 				},
-				bothTeamsToScore: {
-					no: {behind: bothNo},
-				},
-				/*goalLines: {list},*/
+				goalLines: {list},
 			},
 			cards: {
 				one: {corners: cornersOne},
 				two: {corners: cornersTwo},
 			},
-			command: {group, youth, women},
+			command: {group, youth},
 		} = param;
 
-		/*const TM20 = list.reduce<number>((acc, x) => {
+		const TM20 = list.reduce<number>((acc, x) => {
 			if (x.under.handicap === 2.0 || x.under.handicap === 2) {
 				acc = x.under.behind;
 			}
 			return acc;
-		}, 0);*/
+		}, 0);
 		// const excludeGroupChannel = this.groupForChannel.some(x => group.includes(x));
 		const excludeGroupRate = this.groupForRate.some(x => group.includes(x));
-		const mod = matchOddsP2 - matchOddsP1;
+		const cornerSum = cornersOne + cornersTwo;
 
 		switch (param.strategy) {
 			case 4:
 				if (!excludeGroupRate) {
-					if (cornersOne < 5 && cornersTwo < 5) {
-						if (youth === 0 && women === 0) {
-							if (TB25A < 6 && TB15A <= 2.4) {
-								if (2 < matchOddsX) {
-									if (-6.5 < mod && mod < 4.3) {
-										if (0 < bothNo && bothNo < 1.8) {
-											await this.telegramService.sendMessageChat(decorateMessageChat(param));
-											await this.fetchService.placeOrders({
-												marketId,
-												layOrBack: TB15A < 1.55 ? 'lay' : 'back', // TODO lay "против" - back "за"
-												choice: {
-													selectionId: TB15A < 1.55 ? overSelectionId : underSelectionId,
-													handicap: TB15A < 1.55 ? overHandicap : underHandicap,
-												},
-												bet: {
-													price: TB15A < 1.55 ? TB15A + 0.1 : TM15B - 0.2,
-													stake: betAmount.bets,
-												},
-											});
-										}
-									}
+					if (0 < cornerSum && youth === 0) {
+						if (2.8 < TB25A && TB25A < 5) {
+							if (1.55 <= TB15A && TB15A <= 1.8) {
+								if (matchOddsP2 <= 11 && TM20 <= 1.7) {
+									await this.telegramService.sendMessageChat(decorateMessageChat(param));
+									await this.fetchService.placeOrders({
+										marketId,
+										layOrBack: 'lay', // TODO lay "против" - back "за"
+										choice: {
+											selectionId: over15SelectionId,
+											handicap: over15Handicap,
+										},
+										bet: {
+											price: TB15A + 0.1,
+											stake: betAmount.bets,
+										},
+									});
 								}
 							}
 						}
