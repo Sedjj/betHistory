@@ -14,8 +14,10 @@ export class BetsSimulatorService {
 		/*this.groupForChannel = [];*/
 		this.groupForRate = [
 			'AFC',
+			'Argentinian Matches',
 			'Belarusian Premier League',
 			'Belgian',
+			'CONMEBOL Copa Libertadores',
 			'Costa Rican Primera',
 			'Croatian 3',
 			'Czech 2',
@@ -33,6 +35,8 @@ export class BetsSimulatorService {
 			'Mexican Ascenso',
 			'Moldovan',
 			'Montenegrin',
+			'Northern Irish',
+			'Norwegian',
 			'Paraguayan',
 			'Qatari',
 			'Romanian',
