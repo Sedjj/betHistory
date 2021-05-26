@@ -14,42 +14,56 @@ export class BetsSimulatorService {
 		/*this.groupForChannel = [];*/
 		this.groupForRate = [
 			'AFC',
-			'Argentinian Matches',
-			'Belarusian Premier League',
+			'Argentinian',
+			'Austrian Bundesliga',
+			'Azerbaijan',
+			'Bangladesh',
 			'Belgian',
-			'CONMEBOL Copa Libertadores',
-			'Costa Rican Primera',
-			'Croatian 3',
-			'Czech 2',
-			'Dutch',
-			'Finnish',
+			'Bulgarian',
+			'Colombian',
+			'CONCACAF',
+			'CONMEBOL',
+			'Croatian 2 HNL',
+			'Croatian 3. HNL',
+			'Czech',
+			'Danish',
+			'Dutch Eredivisie',
+			'Ecuadorian',
+			'Egyptian',
+			'FIFA',
+			'English Premier League',
 			'French',
-			'German',
-			'Hungarian',
+			'Friend',
+			'Georgian',
+			'German 3 Liga',
+			'Guatemalan',
+			'Honduras',
 			'Icelandic',
-			'Indian',
-			'Iranian',
+			'Irish',
 			'Israeli',
 			'Italian',
-			'Maltese',
-			'Mexican Ascenso',
-			'Moldovan',
-			'Montenegrin',
-			'Northern Irish',
-			'Norwegian',
+			'Kazakhstan',
+			'Lithuanian',
+			'Malaysian Super League',
+			'Nicaraguan',
+			'Palestinian',
 			'Paraguayan',
-			'Qatari',
-			'Romanian',
-			'Russian Premier League',
-			'Scottish League One',
-			'Scottish League Two',
-			'Spanish Women',
+			'Peruvian',
+			'Qatari Stars',
+			'Russian',
+			'Scottish',
+			'Serbian',
+			'African',
+			'Spanish Segunda Division B',
+			'Swedish Division 1',
 			'Swiss',
 			'Syrian',
-			'Thai Playoffs',
-			'Turkish 1 Lig',
 			'UEFA',
+			'Ukrainian',
 			'Uruguayan',
+			'US Major',
+			'Welsh',
+			'US National',
 		];
 	}
 
@@ -59,50 +73,50 @@ export class BetsSimulatorService {
 				matchOdds: {
 					p2: {behind: matchOddsP2},
 				},
-				overUnder25: {
-					over: {/*behind: TB25B,*/ against: TB25A},
-					/*totalMatched,*/
-				},
+				/*overUnder25: {
+					over: {behind: TB25B, against: TB25A},
+					totalMatched,
+				},*/
 				overUnder15: {
 					marketId,
 					over: {against: TB15A, selectionId: over15SelectionId, handicap: over15Handicap},
+					under: {behind: TM15B, selectionId: under15SelectionId, handicap: under15Handicap},
 				},
-				goalLines: {list},
+				/*goalLines: {list},*/
 			},
 			cards: {
 				one: {corners: cornersOne},
 				two: {corners: cornersTwo},
 			},
-			command: {group, youth},
+			command: {group, youth, women},
 		} = param;
 
-		const TM20 = list.reduce<number>((acc, x) => {
+		/*const TM20 = list.reduce<number>((acc, x) => {
 			if (x.under.handicap === 2.0 || x.under.handicap === 2) {
 				acc = x.under.behind;
 			}
 			return acc;
-		}, 0);
+		}, 0);*/
 		// const excludeGroupChannel = this.groupForChannel.some(x => group.includes(x));
 		const excludeGroupRate = this.groupForRate.some(x => group.includes(x));
-		const cornerSum = cornersOne + cornersTwo;
 
 		switch (param.strategy) {
 			case 4:
 				if (!excludeGroupRate) {
-					if (0 < cornerSum && youth === 0) {
-						if (2.8 < TB25A && TB25A < 5) {
-							if (1.55 <= TB15A && TB15A <= 1.8) {
-								if (matchOddsP2 <= 11 && TM20 <= 1.7) {
+					if (women === 0 && youth === 0) {
+						if (cornersTwo < 2 && cornersOne < 3) {
+							if (1.6 <= TB15A && TB15A <= 2.4) {
+								if (matchOddsP2 > 2) {
 									await this.telegramService.sendMessageChat(decorateMessageChat(param));
 									await this.fetchService.placeOrders({
 										marketId,
-										layOrBack: 'lay', // TODO lay "против" - back "за"
+										layOrBack: TB15A <= 1.9 ? 'lay' : 'back', // TODO lay "против" - back "за"
 										choice: {
-											selectionId: over15SelectionId,
-											handicap: over15Handicap,
+											selectionId: TB15A <= 1.9 ? over15SelectionId : under15SelectionId,
+											handicap: TB15A <= 1.9 ? over15Handicap : under15Handicap,
 										},
 										bet: {
-											price: TB15A + 0.1,
+											price: TB15A <= 1.9 ? TB15A + 0.1 : TM15B - 0.2,
 											stake: betAmount.bets,
 										},
 									});
