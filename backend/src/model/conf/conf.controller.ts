@@ -40,8 +40,13 @@ export class ConfController implements OnApplicationBootstrap {
 					},
 					{
 						// 5
-						before: 30,
-						after: 33,
+						before: 38,
+						after: 70,
+					},
+					{
+						// 6
+						before: 40,
+						after: 72,
 					},
 				],
 				typeRate: [1.5, 1.5, 1.5, 0.5, 0.5, 0.5, 0.5],

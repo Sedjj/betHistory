@@ -30,10 +30,26 @@ export class DataAnalysisService {
 		incStack: (stackType: StackType, id: number) => void,
 		addQueueWithDelay: (id: number) => void,
 	): Promise<void> {
-		let {
+		const {
+			/*rates: {
+				matchOdds: {
+					p2: {behind: matchOddsP2},
+					x: {behind: matchOddsX},
+				},
+				overUnder25: {totalMatched},
+				overUnder15: {
+					over: {against: TB15A},
+				},
+			},
+			cards: {
+				one: {corners: cornersOne},
+				two: {corners: cornersTwo},
+			},
+			command: {youth, women},*/
 			score: {sc1, sc2},
 			time,
 		} = param;
+
 		let timeSetting: ITime[] = await this.confService.getTime();
 		if (sc1 + sc2 === 1) {
 			if (time >= timeSetting[1].before && time <= timeSetting[1].after) {
@@ -60,6 +76,30 @@ export class DataAnalysisService {
 				await incStack(StackType.USUALLY, param.eventId);
 			}
 		}
+		/*if (sc1 + sc2 === 1) {
+			if (time >= timeSetting[5].before && time <= timeSetting[5].after) {
+				if (await this.isEvent(param, 4)) {
+					if (women === 0 && youth === 0) {
+						if (cornersTwo < 2 && cornersOne < 4) {
+							if (1.6 <= TB15A && TB15A <= 2.4) {
+								if (matchOddsP2 > 2 && matchOddsX < 3.1) {
+									if (totalMatched > 300) {
+										this.footballLiveStrategy(param, 5);
+										await incStack(StackType.USUALLY, param.eventId);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (time >= timeSetting[6].before && time <= timeSetting[6].after) {
+				if (await this.isEvent(param, 5)) {
+					this.footballLiveStrategy(param, 6);
+					await incStack(StackType.USUALLY, param.eventId);
+				}
+			}
+		}*/
 	}
 
 	/**
