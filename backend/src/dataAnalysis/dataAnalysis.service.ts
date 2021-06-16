@@ -76,9 +76,27 @@ export class DataAnalysisService {
 				await incStack(StackType.USUALLY, param.eventId);
 			}
 		}
-		/*if (sc1 + sc2 === 1) {
+		if (sc1 + sc2 === 1) {
 			if (time >= timeSetting[5].before && time <= timeSetting[5].after) {
-				if (await this.isEvent(param, 4)) {
+				const match = this.getMatch(param, 4);
+				if (!match) {
+					const {
+						rates: {
+							matchOdds: {
+								p2: {behind: matchOddsP2},
+								x: {behind: matchOddsX},
+							},
+							overUnder25: {totalMatched},
+							overUnder15: {
+								over: {against: TB15A},
+							},
+						},
+						cards: {
+							one: {corners: cornersOne},
+							two: {corners: cornersTwo},
+						},
+						command: {youth, women},
+					} = match;
 					if (women === 0 && youth === 0) {
 						if (cornersTwo < 2 && cornersOne < 4) {
 							if (1.6 <= TB15A && TB15A <= 2.4) {
@@ -94,12 +112,17 @@ export class DataAnalysisService {
 				}
 			}
 			if (time >= timeSetting[6].before && time <= timeSetting[6].after) {
-				if (await this.isEvent(param, 5)) {
-					this.footballLiveStrategy(param, 6);
-					await incStack(StackType.USUALLY, param.eventId);
+				const match = this.getMatch(param, 5);
+				if (!match) {
+					const {time: timeOldMatch} = match;
+					const timeSpentIn5 = timeOldMatch + 2;
+					if (time === timeSpentIn5) {
+						this.footballLiveStrategy(param, 6);
+						await incStack(StackType.USUALLY, param.eventId);
+					}
 				}
 			}
-		}*/
+		}
 	}
 
 	/**
@@ -170,14 +193,27 @@ export class DataAnalysisService {
 	}
 
 	/**
-	 * Метод для поверки матча в других стратегиях.
+	 * Метод для проверки матча в других стратегиях.
 	 *
 	 * @param {IFootball} param объект события
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
 	private isEvent(param: IFootball, strategy: number): Promise<boolean> {
 		return this.footballService.isMatch(param, strategy).catch((error: any) => {
-			this.logger.error(`Check event rate: ${error}`);
+			this.logger.error(`Is event rate: ${error}`);
+			throw new Error(error);
+		});
+	}
+
+	/**
+	 * Метод для проверки матча в других стратегиях и вернуть объект.
+	 *
+	 * @param {IFootball} param объект события
+	 * @param {Number} strategy идентификатор выбранной стратегии
+	 */
+	private getMatch(param: IFootball, strategy: number): Promise<IFootball | null> {
+		return this.footballService.getMatch(param, strategy).catch((error: any) => {
+			this.logger.error(`Get match rate: ${error}`);
 			throw new Error(error);
 		});
 	}

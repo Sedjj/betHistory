@@ -171,7 +171,7 @@ export class FootballService {
 			.save()
 			.then(model => FootballService.mapProps(model))
 			.catch((error: any) => {
-				this.logger.error(`Error create football param=${JSON.stringify(param)}`);
+				this.logger.error(`Error create football param=${JSON.stringify(param)},  message: ${error.message}`);
 				throw new Error(error);
 			});
 	}
@@ -189,11 +189,40 @@ export class FootballService {
 				marketId: param.marketId,
 				strategy,
 			})
+			.read('secondary')
 			.exec();
 		if (findMatch.length) {
 			return Promise.resolve(true);
 		}
 		return Promise.resolve(false);
+	}
+
+	/**
+	 * Проверка что матч есть в другой стратегии и вернуть объект
+	 *
+	 * @param {IFootball} param для таблицы
+	 * @param {Number} strategy идентификатор выбранной стратегии
+	 * @returns {Promise<IFootball | null>}
+	 */
+	public async getMatch(param: IFootball, strategy: number): Promise<IFootball | null> {
+		return await this.footballModel
+			.findOne({
+				marketId: param.marketId,
+				strategy,
+			})
+			.read('secondary')
+			.exec()
+			.then((findMatch: IFootballModel) => {
+				if (!findMatch) {
+					this.logger.error('match with not found');
+					return Promise.resolve(null);
+				}
+				return FootballService.mapProps(findMatch);
+			})
+			.catch((error: any) => {
+				this.logger.error(`Error get match param=${JSON.stringify(param)},  message: ${error.message}`);
+				throw new Error(error);
+			});
 	}
 
 	/**
@@ -215,7 +244,7 @@ export class FootballService {
 				return statistics.map((statistic: IFootballModel) => FootballService.mapProps(statistic));
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error getDataByParam param=${JSON.stringify(param)},  message: ${error.message}`);
+				this.logger.error(`Error get data by param param=${JSON.stringify(param)},  message: ${error.message}`);
 				throw new Error(error);
 			});
 	}
