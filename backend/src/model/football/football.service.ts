@@ -212,9 +212,8 @@ export class FootballService {
 			})
 			.read('secondary')
 			.exec()
-			.then((findMatch: IFootballModel) => {
+			.then((findMatch: IFootballModel | null) => {
 				if (!findMatch) {
-					this.logger.error('match with not found');
 					return Promise.resolve(null);
 				}
 				return FootballService.mapProps(findMatch);

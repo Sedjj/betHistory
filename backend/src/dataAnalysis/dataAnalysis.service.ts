@@ -31,21 +31,6 @@ export class DataAnalysisService {
 		addQueueWithDelay: (id: number) => void,
 	): Promise<void> {
 		const {
-			/*rates: {
-				matchOdds: {
-					p2: {behind: matchOddsP2},
-					x: {behind: matchOddsX},
-				},
-				overUnder25: {totalMatched},
-				overUnder15: {
-					over: {against: TB15A},
-				},
-			},
-			cards: {
-				one: {corners: cornersOne},
-				two: {corners: cornersTwo},
-			},
-			command: {youth, women},*/
 			score: {sc1, sc2},
 			time,
 		} = param;
@@ -78,8 +63,8 @@ export class DataAnalysisService {
 		}
 		if (sc1 + sc2 === 1) {
 			if (time >= timeSetting[5].before && time <= timeSetting[5].after) {
-				const match = this.getMatch(param, 4);
-				if (!match) {
+				const match = await this.getMatch(param, 4);
+				if (match) {
 					const {
 						rates: {
 							matchOdds: {
@@ -112,8 +97,8 @@ export class DataAnalysisService {
 				}
 			}
 			if (time >= timeSetting[6].before && time <= timeSetting[6].after) {
-				const match = this.getMatch(param, 5);
-				if (!match) {
+				const match = await this.getMatch(param, 5);
+				if (match) {
 					const {time: timeOldMatch} = match;
 					const timeSpentIn5 = timeOldMatch + 2;
 					if (time === timeSpentIn5) {
