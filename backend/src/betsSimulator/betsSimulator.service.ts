@@ -23,39 +23,51 @@ export class BetsSimulatorService {
 		];
 		this.groupForRate = [
 			'AFC',
-			'Argentinian Primera C',
-			'Austrian Bundesliga',
-			'Bahraini Premier',
-			'Bangladesh Premier',
-			'Costa Rican',
-			'Croatian 2 HNL',
-			'Danish 1st Division',
+			'Argentinian',
+			'Azerbaijan',
+			'Bahraini',
+			'Bangladesh',
+			'Belarusian 1st Division',
+			'Bosnian',
+			'Belgian',
+			'Goiano',
+			'Gaucho',
+			'Ecuadorian',
 			'Egyptian',
+			'Estonian',
 			'FIFA',
-			'French',
-			'Friend',
+			'English National',
+			'English Premier',
+			'French Ligue 2',
+			'Friendly',
 			'Georgian',
-			'German 3 Liga',
+			'German',
+			'Greek',
 			'Guatemalan',
-			'Honduras',
-			'Irish',
 			'Israeli',
-			'Italian Serie A',
-			'Japanese Football League',
+			'Irish',
+			'Italian Serie B',
+			'Italian Serie C',
+			'Japanese J League 3',
+			'Jordanian',
 			'Kazakhstan',
+			'Latvian',
+			'Lithuanian',
+			'Malaysian Super League',
+			'Mexican Ascenso MX',
 			'Nicaraguan',
 			'Palestinian',
-			'Portuguese Campeonato',
-			'Qatari',
-			'Russian Premier',
+			'Paraguayan',
+			'Peruvian',
+			'Salvadoran',
 			'Scottish',
-			'Serbian First League',
-			'Spanish Segunda',
-			'Swedish Division',
+			'Spanish',
 			'Swiss',
-			'Thai',
+			'Swedish',
 			'UEFA',
+			'Ukrainian',
 			'Uruguayan',
+			'Welsh',
 		];
 	}
 
@@ -64,7 +76,7 @@ export class BetsSimulatorService {
 			rates: {
 				matchOdds: {
 					p2: {behind: matchOddsP2},
-					x: {behind: matchOddsX},
+					// x: {behind: matchOddsX},
 				},
 				overUnder25: {
 					/*over: {behind: TB25B, against: TB25A},*/
@@ -83,7 +95,7 @@ export class BetsSimulatorService {
 			},
 			cards: {
 				one: {corners: cornersOne},
-				two: {corners: cornersTwo},
+				// two: {corners: cornersTwo},
 			},
 			command: {group, youth, women},
 		} = param;
@@ -113,10 +125,10 @@ export class BetsSimulatorService {
 			case 4:
 				if (!excludeGroupRate) {
 					if (women === 0 && youth === 0) {
-						if (cornersTwo < 2 && cornersOne < 4) {
-							if (1.6 <= TB15A && TB15A <= 2.4) {
-								if (matchOddsP2 > 2 && matchOddsX < 3.1) {
-									if (totalMatched > 300) {
+						if (0 < cornersOne && cornersOne < 3) {
+							if (TB15A <= 2.4 && TM20 <= 1.45) {
+								if (2 <= matchOddsP2 && matchOddsP2 <= 8) {
+									if (totalMatched > 350) {
 										await this.telegramService.sendMessageChat(decorateMessageChat(param));
 										await this.fetchService.placeOrders({
 											marketId,
