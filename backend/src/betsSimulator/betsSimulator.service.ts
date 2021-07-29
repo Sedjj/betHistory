@@ -22,34 +22,26 @@ export class BetsSimulatorService {
 			'Argentinian Primera',
 		];
 		this.groupForRate = [
-			'AFC',
 			'Argentinian',
-			'Azerbaijan',
 			'Bahraini',
 			'Bangladesh',
-			'Belarusian 1st Division',
-			'Bosnian',
 			'Belgian',
+			'Bosnian',
 			'Goiano',
-			'Gaucho',
+			'Danish 1st Division',
 			'Ecuadorian',
+			'EFL Trophy',
 			'Egyptian',
-			'Estonian',
+			'English Premier League',
 			'FIFA',
-			'English National',
-			'English Premier',
-			'French Ligue 2',
-			'Friendly',
+			'French',
 			'Georgian',
 			'German',
 			'Greek',
-			'Guatemalan',
-			'Israeli',
 			'Irish',
+			'Israeli',
 			'Italian Serie B',
 			'Italian Serie C',
-			'Japanese J League 3',
-			'Jordanian',
 			'Kazakhstan',
 			'Latvian',
 			'Lithuanian',
@@ -57,17 +49,22 @@ export class BetsSimulatorService {
 			'Mexican Ascenso MX',
 			'Nicaraguan',
 			'Palestinian',
+			'Panamanian',
 			'Paraguayan',
 			'Peruvian',
+			'Polish III Liga',
+			'Romanian Liga III',
 			'Salvadoran',
 			'Scottish',
-			'Spanish',
+			'Serbian First',
+			'Spanish Segunda',
 			'Swiss',
-			'Swedish',
+			'Tanzanian',
 			'UEFA',
 			'Ukrainian',
 			'Uruguayan',
 			'Welsh',
+			'Venezuelan',
 		];
 	}
 
@@ -76,7 +73,7 @@ export class BetsSimulatorService {
 			rates: {
 				matchOdds: {
 					p2: {behind: matchOddsP2},
-					// x: {behind: matchOddsX},
+					x: {behind: matchOddsX},
 				},
 				overUnder25: {
 					/*over: {behind: TB25B, against: TB25A},*/
@@ -125,24 +122,22 @@ export class BetsSimulatorService {
 			case 4:
 				if (!excludeGroupRate) {
 					if (women === 0 && youth === 0) {
-						if (0 < cornersOne && cornersOne < 3) {
-							if (TB15A <= 2.4 && TM20 <= 1.45) {
-								if (2 <= matchOddsP2 && matchOddsP2 <= 8) {
-									if (totalMatched > 350) {
-										await this.telegramService.sendMessageChat(decorateMessageChat(param));
-										await this.fetchService.placeOrders({
-											marketId,
-											layOrBack: TB15A <= 1.9 ? 'lay' : 'back', // TODO lay "против" - back "за"
-											choice: {
-												selectionId: TB15A <= 1.9 ? over15SelectionId : under15SelectionId,
-												handicap: TB15A <= 1.9 ? over15Handicap : under15Handicap,
-											},
-											bet: {
-												price: TB15A <= 1.9 ? TB15A + 0.1 : TM15B - 0.2,
-												stake: betAmount.bets,
-											},
-										});
-									}
+						if (cornersOne < 3 && TB15A <= 2.4) {
+							if (matchOddsP2 <= 6 && matchOddsX < 3.5) {
+								if (totalMatched > 35) {
+									await this.telegramService.sendMessageChat(decorateMessageChat(param));
+									await this.fetchService.placeOrders({
+										marketId,
+										layOrBack: TB15A <= 1.9 ? 'lay' : 'back', // TODO lay "против" - back "за"
+										choice: {
+											selectionId: TB15A <= 1.9 ? over15SelectionId : under15SelectionId,
+											handicap: TB15A <= 1.9 ? over15Handicap : under15Handicap,
+										},
+										bet: {
+											price: TB15A <= 1.9 ? TB15A + 0.1 : TM15B - 0.2,
+											stake: betAmount.bets,
+										},
+									});
 								}
 							}
 						}
