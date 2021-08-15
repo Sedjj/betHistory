@@ -16,10 +16,7 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 					[
 						{text: '-', callback_data: 'down'},
 						{text, callback_data: 'value'},
-						{
-							text: '+',
-							callback_data: 'up',
-						},
+						{text: '+', callback_data: 'up'},
 					],
 					[{text: 'экспорт', callback_data: 'export'}],
 				],
@@ -27,8 +24,15 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 		case 'selectSport':
 			return {
 				id: 2,
-				title: 'Выберете вид спорта',
-				buttons: [[{text: 'Футбол', callback_data: 'exportFootball'}]],
+				title: 'Выберете вид спорта и начало экспорта',
+				buttons: [
+					[
+						{text: 'день -1', callback_data: 'day_down'},
+						{text, callback_data: 'value'},
+						{text: 'день +1', callback_data: 'day_up'},
+					],
+					[{text: 'футбол', callback_data: 'exportFootball'}],
+				],
 			};
 		case 'rate':
 			return {
@@ -55,12 +59,9 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 				title: 'Выберите сумму ставки',
 				buttons: [
 					[
-						{text: '-1', callback_data: 'downBets'},
+						{text: '-1', callback_data: 'bets_down'},
 						{text, callback_data: 'value'},
-						{
-							text: '+1',
-							callback_data: 'upBets',
-						},
+						{text: '+1', callback_data: 'bets_up'},
 					],
 				],
 			};
@@ -72,10 +73,7 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 					[
 						{text: '', callback_data: ''},
 						{text, callback_data: ''},
-						{
-							text: '',
-							callback_data: '',
-						},
+						{text: '', callback_data: ''},
 					],
 				],
 			};

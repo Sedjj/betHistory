@@ -161,14 +161,28 @@ export class TelegramActions {
 		}
 	}
 
-	@TelegrafAction('upBets')
-	protected async upBets(ctx: Context) {
+	@TelegrafAction('day_up')
+	protected async upDay(ctx: Context) {
+		exportStatus.increaseDay(1);
+		await TelegramActions.editMessageReplyMarkup(ctx, 'selectSport', exportStatus.day.toString());
+	}
+
+	@TelegrafAction('day_down')
+	protected async downDay(ctx: Context) {
+		if (exportStatus.day > 0) {
+			exportStatus.decreaseDay(1);
+			await TelegramActions.editMessageReplyMarkup(ctx, 'selectSport', exportStatus.day.toString());
+		}
+	}
+
+	@TelegrafAction('bets_up')
+	protected async betsUp(ctx: Context) {
 		betAmount.increase(1);
 		await TelegramActions.editMessageReplyMarkup(ctx, 'betAmount', betAmount.bets.toString());
 	}
 
-	@TelegrafAction('downBets')
-	protected async downBets(ctx: Context) {
+	@TelegrafAction('bets_down')
+	protected async betsDown(ctx: Context) {
 		if (betAmount.bets > 7) {
 			betAmount.decrease(1);
 			await TelegramActions.editMessageReplyMarkup(ctx, 'betAmount', betAmount.bets.toString());
@@ -240,7 +254,7 @@ export class TelegramActions {
 	private async exportStatisticDebounce(): Promise<void> {
 		try {
 			if (exportStatus.name === 'football') {
-				const file = await this.exportService.exportFootballStatisticStream(exportStatus.count);
+				const file = await this.exportService.exportFootballStatisticStream(exportStatus.count, exportStatus.day);
 				await this.telegramService.sendFileOfBuffer(file.buffer, file.filename);
 			}
 		} catch (error) {

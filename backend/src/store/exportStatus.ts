@@ -13,6 +13,10 @@ export class ExportStatus {
 	 * Количество дней экспорта
 	 */
 	private countDay: number;
+	/**
+	 * День начала экспорта
+	 */
+	private currentDay: number;
 
 	constructor() {
 		this.clear();
@@ -20,6 +24,10 @@ export class ExportStatus {
 
 	public get count(): number {
 		return this.countDay;
+	}
+
+	public get day(): number {
+		return this.currentDay;
 	}
 
 	public get name(): string {
@@ -41,8 +49,19 @@ export class ExportStatus {
 		return (this.countDay = this.countDay - amount);
 	}
 
+	public increaseDay(amount: number): number {
+		this.logger.debug(`Export increments day will on ${amount}`);
+		return (this.currentDay = this.currentDay + amount);
+	}
+
+	public decreaseDay(amount: number): number {
+		this.logger.debug(`Export decrements day will on ${amount}`);
+		return (this.currentDay = this.currentDay - amount);
+	}
+
 	public clear(): void {
 		this.nameMethod = '';
 		this.countDay = 2;
+		this.currentDay = 0;
 	}
 }

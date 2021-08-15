@@ -90,11 +90,12 @@ export class ExportService {
 	 * Метод для отправки экспорта статистики футбола потоком
 	 *
 	 * @param {Number} days количество дней для экспорта
+	 * @param {Number} startDay стартовый днень для экспорта
 	 * @returns {Promise<void>}
 	 */
-	public async exportFootballStatisticStream(days = 2): Promise<{filename: string; buffer: Buffer}> {
+	public async exportFootballStatisticStream(days = 2, startDay = 0): Promise<{filename: string; buffer: Buffer}> {
 		try {
-			const buffer: Buffer = await this.getStatisticsFootball(days);
+			const buffer: Buffer = await this.getStatisticsFootball(days, startDay);
 			const filename: string = `${days}days-${this.outputFootball}`;
 			this.logger.debug(`Файл statistic ${filename}`);
 			return {filename, buffer};
@@ -108,12 +109,14 @@ export class ExportService {
 	 * Возвращает заполненный шаблон списка статистики.
 	 *
 	 * @param {Number} days количество дней для экспорта
+	 * @param {Number} startDay стартовый днень для экспорта
 	 * @returns {Promise<{statistics: Array} | never>}
 	 */
-	private getStatisticsFootball(days = 2): Promise<Buffer> {
-		const beforeDate = new Date(new Date().setUTCHours(0, 0, 0, 1));
+	private getStatisticsFootball(days = 2, startDay = 0): Promise<Buffer> {
 		const currentDate = new Date(new Date().setUTCHours(23, 59, 59, 59));
-		beforeDate.setUTCDate(beforeDate.getUTCDate() - days);
+		const beforeDate = new Date(new Date().setUTCHours(0, 0, 0, 1));
+		currentDate.setUTCDate(currentDate.getUTCDate() - startDay);
+		beforeDate.setUTCDate(beforeDate.getUTCDate() - days - startDay);
 		const query = {};
 		query['$and'] = [];
 		query['$and'].push({modifiedBy: {$gte: beforeDate.toISOString()}});
