@@ -36,7 +36,7 @@ export class DataAnalysisService {
 		} = param;
 
 		let timeSetting: ITime[] = await this.confService.getTime();
-		if (sc1 + sc2 === 1) {
+		/*if (sc1 + sc2 === 1) {
 			if (time >= timeSetting[1].before && time <= timeSetting[1].after) {
 				this.footballLiveStrategy(param, 1);
 				await incStack(StackType.USUALLY, param.eventId);
@@ -48,20 +48,20 @@ export class DataAnalysisService {
 					await incStack(StackType.USUALLY, param.eventId);
 				}
 			}
-			/*if (time >= timeSetting[3].before && time <= timeSetting[3].after) {
+			if (time >= timeSetting[3].before && time <= timeSetting[3].after) {
 				if (await this.isEvent(param, 1)) {
 					this.footballLiveStrategy(param, 3);
 					await incStack(StackType.USUALLY, param.eventId);
 				}
-			}*/
-		}
+			}
+		}*/
 		if (sc1 + sc2 === 0) {
 			if (time >= timeSetting[4].before && time <= timeSetting[4].after) {
 				this.footballLiveStrategy(param, 4);
 				await incStack(StackType.USUALLY, param.eventId);
 			}
 		}
-		if (sc1 + sc2 === 1) {
+		/*if (sc1 + sc2 === 1) {
 			if (time >= timeSetting[5].before && time <= timeSetting[5].after) {
 				const match = await this.getMatch(param, 4);
 				if (match) {
@@ -107,7 +107,7 @@ export class DataAnalysisService {
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 	/**
@@ -183,12 +183,12 @@ export class DataAnalysisService {
 	 * @param {IFootball} param объект события
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
-	private isEvent(param: IFootball, strategy: number): Promise<boolean> {
+	/*private isEvent(param: IFootball, strategy: number): Promise<boolean> {
 		return this.footballService.isMatch(param, strategy).catch((error: any) => {
 			this.logger.error(`Is event rate: ${error}`);
 			throw new Error(error);
 		});
-	}
+	}*/
 
 	/**
 	 * Метод для проверки матча в других стратегиях и вернуть объект.
@@ -196,12 +196,12 @@ export class DataAnalysisService {
 	 * @param {IFootball} param объект события
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
-	private getMatch(param: IFootball, strategy: number): Promise<IFootball | null> {
+	/*private getMatch(param: IFootball, strategy: number): Promise<IFootball | null> {
 		return this.footballService.getMatch(param, strategy).catch((error: any) => {
 			this.logger.error(`Get match rate: ${error}`);
 			throw new Error(error);
 		});
-	}
+	}*/
 
 	/**
 	 * Метод для поверки уникальности и сохранения отобранного матча.

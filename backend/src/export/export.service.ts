@@ -55,7 +55,7 @@ export class ExportService {
 					mod: statistic.rates.matchOdds.mod.behind,
 				},
 				over15A: statistic.rates.overUnder15.over.against,
-				over25A: statistic.rates.overUnder25.over.against,
+				over15B: statistic.rates.overUnder15.over.behind,
 				over25B: statistic.rates.overUnder25.over.behind,
 				bothTeamsToScoreYes: statistic.rates.bothTeamsToScore.yes.behind,
 				bothTeamsToScoreNo: statistic.rates.bothTeamsToScore.no.behind,
