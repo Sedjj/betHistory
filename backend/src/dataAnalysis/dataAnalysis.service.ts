@@ -37,7 +37,7 @@ export class DataAnalysisService {
 
 		let timeSetting: ITime[] = await this.confService.getTime();
 
-		// TODO пока только для теста
+		// TODO пока только для теста.
 		if (time > timeSetting[6].after) {
 			this.footballLiveStrategy(param, 6);
 			await incStack(StackType.UNUSUAL, param.eventId);
