@@ -289,7 +289,7 @@ export class TelegramActions {
 	private async getActiveEvent(): Promise<number> {
 		let activeEventIds: number = 0;
 		try {
-			let stackUsually: IStack = await this.stackDBService.getDataByParam(StackType.USUALLY);
+			let stackUsually: IStack = await this.stackDBService.getDataByParam(StackType.UNUSUAL);
 			let stackOften: IStack = await this.stackDBService.getDataByParam(StackType.OFTEN);
 			activeEventIds = stackUsually.activeEventIds.length + stackOften.activeEventIds.length;
 		} catch (error) {

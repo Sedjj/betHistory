@@ -10,7 +10,7 @@ export type IStackModel = IStack & Document;
  */
 export enum StackType {
 	OFTEN = 'often',
-	USUALLY = 'usually',
+	UNUSUAL = 'unusual',
 }
 
 export type IStack = {

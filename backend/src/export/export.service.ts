@@ -156,7 +156,10 @@ export class ExportService {
 						tr: prop.filter((item: {strategy: number}) => item.strategy === 5),
 					});
 					template.substitute(6, {
-						tr: prop.filter((item: {strategy: number}) => item.strategy === 5),
+						tr: prop.filter((item: {strategy: number}) => item.strategy === 6),
+					});
+					template.substitute(7, {
+						tr: prop.filter((item: {strategy: number}) => item.strategy === 7),
 					});
 					this.logger.debug('Генерация файла');
 					return template.generate<Buffer>({type: 'nodebuffer'});

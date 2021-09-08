@@ -8,18 +8,18 @@ import {IActiveEvent} from './stack.type';
 export class StackService implements OnApplicationBootstrap {
 	private readonly logger = new Logger(StackService.name);
 	private readonly activeEventIds: IActiveEvent;
-	private normalStackLimit: number = 82;
+	private normalStackLimit: number = 70;
 
 	constructor(private readonly stackDBService: StackDBService) {
 		this.activeEventIds = {
 			often: [],
-			usually: [],
+			unusual: [],
 		};
 	}
 
 	async onApplicationBootstrap() {
 		let stackUsually: null | IStack = await this.stackDBService.create({
-			stackId: StackType.USUALLY,
+			stackId: StackType.UNUSUAL,
 			activeEventIds: [],
 		});
 		let stackOften: null | IStack = await this.stackDBService.create({
@@ -31,10 +31,10 @@ export class StackService implements OnApplicationBootstrap {
 			this.logger.debug(`Stack migration in bd`);
 			this.logger.debug(`Start active event ids: 0`);
 		} else {
-			this.activeEventIds.usually = await this.getActiveEvent(StackType.USUALLY);
+			this.activeEventIds.unusual = await this.getActiveEvent(StackType.UNUSUAL);
 			this.activeEventIds.often = await this.getActiveEvent(StackType.OFTEN);
-			const length = this.activeEventIds.usually.length + this.activeEventIds.often.length;
-			const list = [...this.activeEventIds.usually, ...this.activeEventIds.often].join();
+			const length = this.activeEventIds.unusual.length + this.activeEventIds.often.length;
+			const list = [...this.activeEventIds.unusual, ...this.activeEventIds.often].join();
 
 			this.logger.debug(`start active event ids: ${length ? list : 0}`);
 		}
@@ -84,8 +84,8 @@ export class StackService implements OnApplicationBootstrap {
 				}
 			}
 		});
-		if (stackType === StackType.USUALLY) {
-			this.activeEventIds.usually = activeEventUsually;
+		if (stackType === StackType.UNUSUAL) {
+			this.activeEventIds.unusual = activeEventUsually;
 			if (activeEventOften.length > 0) {
 				this.activeEventIds.often.push(...activeEventOften.filter(x => !this.activeEventIds.often.includes(x)));
 			}
@@ -93,11 +93,11 @@ export class StackService implements OnApplicationBootstrap {
 		if (stackType === StackType.OFTEN) {
 			this.activeEventIds.often = activeEventOften;
 			if (activeEventUsually.length > 0) {
-				this.activeEventIds.usually.push(...activeEventUsually.filter(x => !this.activeEventIds.usually.includes(x)));
+				this.activeEventIds.unusual.push(...activeEventUsually.filter(x => !this.activeEventIds.unusual.includes(x)));
 			}
 		}
 
-		await this.setActiveEvent(StackType.USUALLY, this.activeEventIds.usually);
+		await this.setActiveEvent(StackType.UNUSUAL, this.activeEventIds.unusual);
 		await this.setActiveEvent(StackType.OFTEN, this.activeEventIds.often);
 	};
 

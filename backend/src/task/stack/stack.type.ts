@@ -1,4 +1,4 @@
 export type IActiveEvent = {
 	often: number[];
-	usually: number[];
+	unusual: number[];
 };

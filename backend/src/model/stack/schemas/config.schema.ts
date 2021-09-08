@@ -5,7 +5,7 @@ export let StackSchema = new Schema({
 	stackId: {
 		type: StackType,
 		required: true,
-		default: StackType.USUALLY,
+		default: StackType.UNUSUAL,
 	},
 	activeEventIds: [
 		{

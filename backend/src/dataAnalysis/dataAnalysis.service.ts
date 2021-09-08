@@ -36,78 +36,19 @@ export class DataAnalysisService {
 		} = param;
 
 		let timeSetting: ITime[] = await this.confService.getTime();
-		/*if (sc1 + sc2 === 1) {
-			if (time >= timeSetting[1].before && time <= timeSetting[1].after) {
-				this.footballLiveStrategy(param, 1);
-				await incStack(StackType.USUALLY, param.eventId);
-				// await addQueueWithDelay(param.eventId);
-			}
-			if (time >= timeSetting[2].before && time <= timeSetting[2].after) {
-				if (await this.isEvent(param, 1)) {
-					this.footballLiveStrategy(param, 2);
-					await incStack(StackType.USUALLY, param.eventId);
-				}
-			}
-			if (time >= timeSetting[3].before && time <= timeSetting[3].after) {
-				if (await this.isEvent(param, 1)) {
-					this.footballLiveStrategy(param, 3);
-					await incStack(StackType.USUALLY, param.eventId);
-				}
-			}
-		}*/
+
+		// TODO пока только для теста
+		if (time > timeSetting[6].after) {
+			this.footballLiveStrategy(param, 6);
+			await incStack(StackType.UNUSUAL, param.eventId);
+		}
+
 		if (sc1 + sc2 === 0) {
 			if (time >= timeSetting[4].before && time <= timeSetting[4].after) {
 				this.footballLiveStrategy(param, 4);
-				await incStack(StackType.USUALLY, param.eventId);
+				await incStack(StackType.UNUSUAL, param.eventId);
 			}
 		}
-		/*if (sc1 + sc2 === 1) {
-			if (time >= timeSetting[5].before && time <= timeSetting[5].after) {
-				const match = await this.getMatch(param, 4);
-				if (match) {
-					const {
-						rates: {
-							matchOdds: {
-								p2: {behind: matchOddsP2},
-								x: {behind: matchOddsX},
-							},
-							overUnder25: {totalMatched},
-							overUnder15: {
-								over: {against: TB15A},
-							},
-						},
-						cards: {
-							one: {corners: cornersOne},
-							two: {corners: cornersTwo},
-						},
-						command: {youth, women},
-					} = match;
-					if (women === 0 && youth === 0) {
-						if (cornersTwo < 2 && cornersOne < 4) {
-							if (1.6 <= TB15A && TB15A <= 2.4) {
-								if (matchOddsP2 > 2 && matchOddsX < 3.1) {
-									if (totalMatched > 300) {
-										this.footballLiveStrategy(param, 5);
-										await incStack(StackType.USUALLY, param.eventId);
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			if (time >= timeSetting[6].before && time <= timeSetting[6].after) {
-				const match = await this.getMatch(param, 5);
-				if (match) {
-					const {time: timeOldMatch} = match;
-					const timeSpentIn5 = timeOldMatch + 2;
-					if (time === timeSpentIn5) {
-						this.footballLiveStrategy(param, 6);
-						await incStack(StackType.USUALLY, param.eventId);
-					}
-				}
-			}
-		}*/
 	}
 
 	/**

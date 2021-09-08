@@ -102,9 +102,9 @@ export class TaskService implements OnApplicationBootstrap {
 
 	@Cron(process.env.NODE_ENV === 'development' ? '*/30 * * * * *' : '0 */02 * * * *')
 	public async usuallyCheckOfResults() {
-		if (this.stackService.getLengthEvent(StackType.USUALLY)) {
-			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.USUALLY);
-			await this.stackService.decreaseActiveEventId(StackType.USUALLY, eventDetails);
+		if (this.stackService.getLengthEvent(StackType.UNUSUAL)) {
+			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.UNUSUAL);
+			await this.stackService.decreaseActiveEventId(StackType.UNUSUAL, eventDetails);
 		}
 	}
 
