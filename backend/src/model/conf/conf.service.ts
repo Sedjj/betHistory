@@ -8,15 +8,13 @@ import {dateStringToShortDateString} from '../../utils/dateFormat';
 export class ConfService {
 	private readonly logger = new Logger(ConfService.name);
 
-	constructor(
-		@InjectModel('Config') private readonly confModel: Model<IConfModel>
-	) {
-	}
+	constructor(@InjectModel('Config') private readonly confModel: Model<IConfModel>) {}
 
 	/**
 	 * Преобразовывает статистику в необходимый формат
 	 *
 	 * @param {IConfModel} model статистика
+	 *
 	 * @return {IConf}
 	 */
 	private static mapProps(model: IConfModel): IConf {
@@ -27,7 +25,7 @@ export class ConfService {
 			typeRate: model.typeRate,
 			rate: model.rate,
 			createdBy: model.createdBy ? dateStringToShortDateString(model.createdBy) : undefined,
-			modifiedBy: model.modifiedBy ? dateStringToShortDateString(model.modifiedBy) : undefined
+			modifiedBy: model.modifiedBy ? dateStringToShortDateString(model.modifiedBy) : undefined,
 		};
 	}
 
@@ -38,14 +36,17 @@ export class ConfService {
 	 * @returns {Promise<IConf | null>}
 	 */
 	async create(param: IConf): Promise<null | IConf> {
-		let findMatch = await this.confModel.find({
-			confId: param.confId
-		}).exec();
+		let findMatch = await this.confModel
+			.find({
+				confId: param.confId,
+			})
+			.exec();
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
 		let createdFootball = new this.confModel(param);
-		return await createdFootball.save()
+		return await createdFootball
+			.save()
 			.then((model: IConfModel) => {
 				this.logger.debug('Configuration model created');
 				return ConfService.mapProps(model);
@@ -62,7 +63,8 @@ export class ConfService {
 	 * @param {Number} confId id объекта конфига
 	 */
 	async getDataByParam(confId: number): Promise<IConf> {
-		return await this.confModel.findOne({confId})
+		return await this.confModel
+			.findOne({confId})
 			.read('secondary')
 			.exec()
 			.then((model: IConfModel | null) => {
@@ -84,7 +86,8 @@ export class ConfService {
 	 * @param {IConf} param параметры которые нужно поменять
 	 */
 	async setDataByParam(param: IConf): Promise<IConf | null> {
-		return await this.confModel.findOne({confId: param.confId})
+		return await this.confModel
+			.findOne({confId: param.confId})
 			.read('secondary')
 			.exec()
 			.then((model: IConfModel | null) => {
@@ -116,23 +119,20 @@ export class ConfService {
 	}
 
 	getTypeRate(strategy: number): Promise<number> {
-		return this.getDataByParam(1)
-			.then((model: IConf) => {
-				return model.typeRate[strategy - 1];
-			});
+		return this.getDataByParam(1).then((model: IConf) => {
+			return model.typeRate[strategy - 1];
+		});
 	}
 
 	getRateStrategy(strategy: number): Promise<IRateStrategy> {
-		return this.getDataByParam(1)
-			.then((model: IConf) => {
-				return model.rate[strategy - 1];
-			});
+		return this.getDataByParam(1).then((model: IConf) => {
+			return model.rate[strategy - 1];
+		});
 	}
 
 	getTime(): Promise<ITime[]> {
-		return this.getDataByParam(1)
-			.then((model: IConf) => {
-				return model.time;
-			});
+		return this.getDataByParam(1).then((model: IConf) => {
+			return model.time;
+		});
 	}
 }
