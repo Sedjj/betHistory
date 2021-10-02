@@ -25,7 +25,7 @@ cd /home/docker/OpenVPN/
 ###Настройка и инициализация
 Далее нужно задать адрес сервер `docker-compose run --rm openvpn ovpn_genconfig -u udp://IP.ИЛИ.ДОМЕН.ВАШЕГО.СЕРЕРА`
 ```bash
-docker-compose run --rm openvpn ovpn_genconfig -u udp://95.179.177.9
+docker-compose run --rm openvpn ovpn_genconfig -u udp://209.222.30.94
 ```
 
 ###Инициализируем

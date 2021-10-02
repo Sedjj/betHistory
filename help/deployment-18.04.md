@@ -268,9 +268,9 @@ sudo ufw allow ssh
 sudo ufw allow 3000/tcp
 ``` 
 
-#### Включение mongo:
+#### Включение mongo (209.222.30.94 - текущий сервер):
 ```bash
-sudo ufw allow from  31.162.27.57 to any port 27017
+sudo ufw allow from  209.222.30.94 to any port 27017
 ```
 
 #### Некоторые полезные команды:
