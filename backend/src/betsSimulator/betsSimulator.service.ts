@@ -11,55 +11,47 @@ export class BetsSimulatorService {
 
 	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
 		this.groupForRate = [
-			'Bangladesh',
-			'FIFA',
-			'Kazakhstan',
-			'Latvian',
-			'Lithuanian',
-			'Scottish',
-			'UEFA',
-			'Swiss',
-			'Welsh',
-			'Nicaraguan',
-			'Palestinian',
-			'Panamanian',
-			'AFC',
-			'Argentinian Primera B Nacional',
 			'Austrian Bundesliga',
-			'Bahraini',
-			'Bangalore',
-			'Belarusian 1st Division',
+			'Austrian Regionalliga',
+			'Bangladesh',
+			'Belarusian',
 			'Belgian',
-			'Goiano',
-			'Gaucho',
-			'Colombian',
-			'CONCACAF',
-			'Danish 1st Division',
-			'Egyptian',
-			'English Championship',
-			'Faroe',
+			'Bosnian',
+			'Canadian',
+			'Chilean Primera',
+			'Chinese',
+			'Colombian Primera A',
+			'Costa Rican',
+			'Czech 2 Liga',
+			'Czech 3 Liga',
+			'Egyptian Premier',
+			'English',
 			'Finnish Kakkonen',
-			'French',
+			'French Ligue 1',
+			'French Cup',
 			'Georgian',
-			'German',
-			'Greek',
-			'Guatemalan',
-			'Irish',
+			'Regionalliga',
+			'Hungarian',
 			'Israeli',
-			'Jordanian',
+			'Lithuanian',
 			'Malaysian Super League',
+			'Maltese',
 			'Mexican Ascenso MX',
+			'Nicaraguan',
 			'Norwegian Eliteserien',
 			'Paraguayan',
-			'Polish 2 Liga',
-			'Qatari',
-			'Russian Premier League',
-			'Salvadoran',
+			'Peruvian',
+			'Polish',
+			'Portuguese Segunda',
+			'Romanian Liga III',
+			'Rwandan',
+			'Scottish League',
 			'Serbian',
-			'Spanish Segunda',
-			'Swedish Division 1',
+			'South Korean Matches',
+			'Swiss',
+			'Thai',
+			'UEFA',
 			'Ukrainian',
-			'Uruguayan',
 			'Soccer',
 		];
 	}
@@ -69,68 +61,41 @@ export class BetsSimulatorService {
 			rates: {
 				matchOdds: {
 					p2: {behind: matchOddsP2},
+					p1: {behind: matchOddsP1},
 					x: {behind: matchOddsX},
-				},
-				overUnder25: {
-					/*over: {behind: TB25B, against: TB25A},*/
-					totalMatched,
 				},
 				overUnder15: {
 					marketId,
 					over: {against: TB15A, selectionId: over15SelectionId, handicap: over15Handicap},
 					under: {behind: TM15B, selectionId: under15SelectionId, handicap: under15Handicap},
 				},
-				/*goalLines: {list},*/
-				/*bothTeamsToScore: {
-					yes: {behind: bothYes},
-					no: {behind: bothNo},
-				},*/
 			},
 			cards: {
 				one: {corners: cornersOne},
-				two: {corners: cornersTwo},
 			},
 			command: {group, youth, women},
 		} = param;
 
-		/*const TM20 = list.reduce<number>((acc, x) => {
-			if (x.under.handicap === 2.0 || x.under.handicap === 2) {
-				acc = x.under.behind;
-			}
-			return acc;
-		}, 0);*/
-		/*const excludeGroupChannel = this.groupForChannel.some(x => group.includes(x));*/
 		const excludeGroupRate = this.groupForRate.some(x => group.includes(x));
+		const mod = Math.abs(matchOddsP1 - matchOddsP2);
 
 		switch (param.strategy) {
-			/*case 2:
-				if (!excludeGroupChannel) {
-					if (women === 0 && 2.4 <= TM20) {
-						if (1.1 <= bothNo && bothNo <= 2.2) {
-							if (bothYes < 1.9) {
-								await this.telegramService.sendMessageChannel(decorateMessageChannel(param));
-								await this.telegramService.sendMessageChannel('ТБ2.5');
-							}
-						}
-					}
-				}
-				break;*/
 			case 4:
 				if (!excludeGroupRate) {
 					if (women === 0 && youth === 0) {
-						if (cornersOne < 3 && cornersTwo < 2 && TB15A <= 2.4) {
-							if (2 <= matchOddsP2 && matchOddsX < 3.4) {
-								if (totalMatched > 35) {
+						if (cornersOne < 4 && TB15A < 2.1) {
+							if (0.35 < mod && matchOddsX < 3.4) {
+								if (matchOddsP2 < 6.5) {
 									await this.telegramService.sendMessageChat(decorateMessageChat(param));
 									await this.fetchService.placeOrders({
 										marketId,
-										layOrBack: TB15A <= 1.9 ? 'lay' : 'back', // TODO lay "против" - back "за"
+										layOrBack: TB15A <= 1.45 ? 'lay' : 'back', // TODO lay "против" - back "за"
 										choice: {
-											selectionId: TB15A <= 1.9 ? over15SelectionId : under15SelectionId,
-											handicap: TB15A <= 1.9 ? over15Handicap : under15Handicap,
+											selectionId: TB15A <= 1.45 ? over15SelectionId : under15SelectionId,
+											handicap: TB15A <= 1.45 ? over15Handicap : under15Handicap,
 										},
 										bet: {
-											price: TB15A <= 1.9 ? TB15A + 0.1 : TM15B - 0.2,
+											price: TB15A <= 1.45 ? TB15A + 0.1 : TM15B - 0.2,
 											stake: betAmount.bets,
 										},
 									});
