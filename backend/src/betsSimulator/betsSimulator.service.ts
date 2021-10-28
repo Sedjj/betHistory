@@ -11,28 +11,29 @@ export class BetsSimulatorService {
 
 	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
 		this.groupForRate = [
-			'Austrian Bundesliga',
-			'Austrian Regionalliga',
+			'Bahraini',
 			'Bangladesh',
-			'Belarusian',
 			'Belgian',
-			'Bosnian',
 			'Canadian',
-			'Chilean Primera',
-			'Chinese',
-			'Colombian Primera A',
+			'Chilean Primera Division',
+			'Chinese League 1',
+			'Colombian',
 			'Costa Rican',
 			'Czech 2 Liga',
 			'Czech 3 Liga',
+			'Danish Cup',
+			'Dutch Cup',
+			'EFL Trophy',
 			'Egyptian Premier',
 			'English',
+			'FIFA',
+			'Finnish Cup',
 			'Finnish Kakkonen',
 			'French Ligue 1',
-			'French Cup',
 			'Georgian',
-			'Regionalliga',
-			'Hungarian',
 			'Israeli',
+			'Italian',
+			'Latvian',
 			'Lithuanian',
 			'Malaysian Super League',
 			'Maltese',
@@ -43,19 +44,24 @@ export class BetsSimulatorService {
 			'Peruvian',
 			'Polish',
 			'Portuguese Segunda',
+			'Qatari',
+			'Regionalliga',
 			'Romanian Liga III',
+			'Russian Football National',
 			'Rwandan',
-			'Scottish League',
-			'Serbian',
+			'Scottish',
+			'Slovakian 2 Liga',
+			'Soccer',
+			'South Korean K League 1',
 			'South Korean Matches',
 			'Swiss',
 			'Thai',
 			'UEFA',
 			'Ukrainian',
-			'Soccer',
+			'Uruguayan',
 		];
 	}
-
+	//bothTeamsToScoreYes: statistic.rates.bothTeamsToScore.yes.behind,
 	public async matchRate(param: IFootball) {
 		const {
 			rates: {
@@ -68,6 +74,9 @@ export class BetsSimulatorService {
 					marketId,
 					over: {against: TB15A, selectionId: over15SelectionId, handicap: over15Handicap},
 					under: {behind: TM15B, selectionId: under15SelectionId, handicap: under15Handicap},
+				},
+				bothTeamsToScore: {
+					yes: {behind: bothYes},
 				},
 			},
 			cards: {
@@ -85,7 +94,7 @@ export class BetsSimulatorService {
 					if (women === 0 && youth === 0) {
 						if (cornersOne < 4 && TB15A < 2.1) {
 							if (0.35 < mod && matchOddsX < 3.4) {
-								if (matchOddsP2 < 6.5) {
+								if (bothYes <= 3) {
 									await this.telegramService.sendMessageChat(decorateMessageChat(param));
 									await this.fetchService.placeOrders({
 										marketId,
