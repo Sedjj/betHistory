@@ -13,7 +13,10 @@
         "build": "cross-env NODE_ENV=production webpack --config webpack.config.babel.js",
         "profile": "cross-env NODE_ENV=production webpack --profile --json --config webpack.config.babel.js > ./dist/profile.json && webpack-bundle-analyzer ./dist/profile.json",
         "start": "cross-env WEBPACK_IS_DEV_SERVER=true NODE_ENV=development webpack serve --config webpack.config.babel.js",
-        "release": "npm version patch"
+        "release": "npm version patch",
+        "eslint": "eslint --ext ..ts,.tsx,.jsx,.js src/ --ignore-pattern *.test.*",
+        "eslint:fix": "npm run eslint -- --fix --ext .ts,.tsx src/ --ignore-pattern *.test.*",
+        "babelTest": "npx babel src --out-dir build_ts --extensions \".ts,.tsx\" --source-maps inline"
     },
     "husky": {
         "hooks": {
@@ -24,6 +27,7 @@
     "lint-staged": {
         "*.{js,ts,tsx}": [
             "prettier --write",
+            "npm run --silent eslint:fix",
             "git add"
         ]
     },
@@ -50,7 +54,7 @@
         "@babel/register": "~7.12.1",
         "@pmmmwh/react-refresh-webpack-plugin": "~0.4.2",
         "@svgr/webpack": "~5.4.0",
-        "@teamsupercell/typings-for-css-modules-loader": "~2.4.0",
+        "@teamsupercell/typings-for-css-modules-loader": "~2.5.1",
         "@typescript-eslint/eslint-plugin": "~4.7.0",
         "@typescript-eslint/parser": "~4.7.0",
         "autoprefixer": "~10.0.1",

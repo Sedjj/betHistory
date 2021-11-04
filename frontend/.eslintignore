@@ -1,5 +1,13 @@
-node_modules
-dist
-webpack
+# dependencies
+../backend
+../../betSelenium
+/node_modules
+/build_ts
+/webpack
+/coverage
+/docker
+.eslintignore
 .eslintrc.js
+.babelrc.js
+tsconfig.json
 webpack.config.babel.js

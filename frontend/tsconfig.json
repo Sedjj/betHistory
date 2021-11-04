@@ -3,15 +3,20 @@
         "outDir": "./dist",
         "module": "esnext",
         "target": "es6",
+        "downlevelIteration": true,
         "lib": ["es6", "dom"],
         "sourceMap": true,
         "allowJs": true,
         "jsx": "react",
         "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "noUnusedLocals": true,
         "baseUrl": "./",
         "rootDir": "./",
         "typeRoots": ["./node_modules/@types", "./src/@types"],
@@ -26,6 +31,15 @@
         "importsNotUsedAsValues": "preserve",
         "incremental": true
     },
+    "typeRoots": [
+        "node_modules/@types"
+    ],
     "include": ["src"],
-    "exclude": ["**/node_modules", "**/.*/"]
+    "exclude": [
+        "node_modules",
+        "coverage",
+        "dist",
+        "old",
+        "webpack"
+    ],
 }

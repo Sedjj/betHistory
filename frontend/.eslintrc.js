@@ -21,28 +21,103 @@ module.exports = {
         },
     },
     rules: {
-        // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-        // e.g. "@typescript-eslint/explicit-function-return-type": "off",
-        '@typescript-eslint/explicit-function-return-type': 'off',
-        '@typescript-eslint/no-unused-vars': 'off',
-        '@typescript-eslint/ban-ts-comment': 'off',
-        // These rules don't add much value, are better covered by TypeScript and good definition files
-        'react/no-direct-mutation-state': 'off',
-        'react/no-deprecated': 'off',
-        'react/no-string-refs': 'off',
-        'react/require-render-return': 'off',
-
-        'react/jsx-filename-extension': [
-            'warn',
+        // разрешить console
+        'no-console': [
+            'error',
             {
-                extensions: ['.jsx', '.tsx'],
+                allow: ['warn', 'error'],
             },
-        ], // also want to use with ".tsx"
-        'react/prop-types': 'off', // Is this incompatible with TS props type?
+        ],
+        // Конец файла должен заканчиваться новой строкой
+        'eol-last': ['error', 'never'],
+        quotes: [
+            'error',
+            'single',
+            {
+                allowTemplateLiterals: true,
+            },
+        ],
+        indent: 'off',
+        'max-len': [
+            'error',
+            {
+                code: 10000,
+            },
+        ],
+        'no-prototype-builtins': 0,
+        'arrow-parens': ['error', 'as-needed'],
+        'prefer-const': 0,
+        'no-unused-vars': [
+            'error',
+            {
+                varsIgnorePattern: '^h$',
+            },
+        ],
+        'import/extensions': 'off',
+        'import/no-unresolved': 'off',
     },
     settings: {
         react: {
-            version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
+            pragma: 'React',
+            // Tells eslint-plugin-react to automatically detect the version of React to use
+            version: 'detect',
         },
     },
+    overrides: [
+        {
+            files: ['*.ts', '*.tsx'],
+            excludedFiles: ['backend/**', '*.less.d.ts'],
+            rules: {
+                '@typescript-eslint/no-use-before-define': ['off'],
+                // отключает сортировку полей объекта
+                '@typescript-eslint/object-literal-sort-keys': 0,
+                // Запрещает листинг объекта объекта в выражении утверждения типа
+                '@typescript-eslint/no-object-literal-type-assertion': 0,
+                // отключает сортировку import
+                '@typescript-eslint/ordered-imports': 0,
+                // Запрещает ненужный доступ к строковым литералам
+                '@typescript-eslint/no-string-literal': 0,
+                '@typescript-eslint/jsx-no-lambda': 0,
+                '@typescript-eslint/jsx-wrap-multiline': 0,
+                '@typescript-eslint/trailing-comma': 0,
+                '@typescript-eslint/jsx-no-multiline-js': 0,
+                '@typescript-eslint/indent': [
+                    'error',
+                    'tab',
+                    {
+                        ignoredNodes: ['ConditionalExpression'],
+                        SwitchCase: 1,
+                        outerIIFEBody: 0,
+                        MemberExpression: 1,
+                        FunctionDeclaration: {
+                            parameters: 'first',
+                        },
+                        FunctionExpression: {
+                            parameters: 'first',
+                        },
+                        CallExpression: {
+                            arguments: 'first',
+                        },
+                        ObjectExpression: 1,
+                        ImportDeclaration: 1,
+                        flatTernaryExpressions: false,
+                    },
+                ],
+                '@typescript-eslint/no-trailing-whitespace': 0,
+                '@typescript-eslint/jsx-alignment': 0,
+                '@typescript-eslint/jsx-self-close': 0,
+                '@typescript-eslint/align': 0,
+                // разрешает ! в типах
+                '@typescript-eslint/no-non-null-assertion': 0,
+                '@typescript-eslint/no-inferrable-types': 'off',
+                '@typescript-eslint/explicit-function-return-type': [
+                    'error',
+                    {
+                        allowExpressions: true,
+                    },
+                ],
+                '@typescript-eslint/explicit-member-accessibility': 'off',
+            },
+        },
+    ],
 };
