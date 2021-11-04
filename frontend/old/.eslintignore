@@ -1,0 +1,9 @@
+# dependencies
+../backend
+../../betSelenium
+/node_modules
+/build_ts
+/webpack
+/coverage
+/docker
+webpack.config.js

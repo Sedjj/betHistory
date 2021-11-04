@@ -1,0 +1,76 @@
+{
+	"name": "frontend",
+	"version": "1.0.0",
+	"description": "",
+	"author": "Eldar Salimzebarov",
+	"license": "FSF",
+	"main": "./src/index.tsx",
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged",
+			"post-commit": "git update-index -g"
+		}
+	},
+	"lint-staged": {
+		"*.{js,ts,tsx}": [
+			"prettier --write",
+			"npm run --silent lint:fix",
+			"git add"
+		]
+	},
+	"scripts": {
+		"start:dev": "cross-env NODE_ENV=development webpack serve --mode=development  --config webpack.config.js",
+		"build": "cross-env NODE_ENV=production webpack --mode=production --config webpack.prod.config.js --progress --profile --colors",
+		"eslint": "eslint --ext ..ts,.tsx,.jsx,.js src/ --ignore-pattern *.test.*",
+		"eslint:fix": "npm run eslint -- --fix",
+		"babelTest": "npx babel src --out-dir build_ts --extensions \".ts,.tsx\" --source-maps inline"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.16.0",
+		"@babel/core": "^7.16.0",
+		"@babel/plugin-proposal-class-properties": "^7.16.0",
+		"@babel/plugin-proposal-decorators": "^7.16.0",
+		"@babel/plugin-proposal-numeric-separator": "^7.16.0",
+		"@babel/plugin-proposal-object-rest-spread": "^7.16.0",
+		"@babel/plugin-proposal-optional-chaining": "^7.16.0",
+		"@babel/plugin-transform-runtime": "^7.16.0",
+		"@babel/preset-env": "^7.16.0",
+		"@babel/preset-react": "^7.16.0",
+		"@babel/preset-typescript": "^7.16.0",
+		"@babel/runtime": "^7.16.0",
+		"@babel/runtime-corejs3": "^7.16.0",
+		"@types/react": "^17.0.34",
+		"@types/react-dom": "^17.0.11",
+		"@types/webpack": "5.28.0",
+		"@typescript-eslint/eslint-plugin": "^5.3.0",
+		"@typescript-eslint/parser": "^5.3.0",
+		"babel-core": "^7.0.0-bridge.0",
+		"babel-jest": "^27.3.1",
+		"babel-loader": "^8.2.3",
+		"babel-plugin-istanbul": "^6.1.1",
+		"babel-plugin-module-resolver": "^4.1.0",
+		"css-loader": "6.5.1",
+		"eslint": "^8.1.0",
+		"eslint-loader": "^3.0.3",
+		"eslint-plugin-jest": "^25.2.2",
+		"eslint-plugin-react": "^7.26.1",
+		"file-loader": "^6.2.0",
+		"html-webpack-plugin": "^5.5.0",
+		"jest": "^27.3.1",
+		"less-loader": "^10.2.0",
+		"prettier": "^2.4.1",
+		"resolve-path": "^1.4.0",
+		"style-loader": "^3.3.1",
+		"ts-loader": "^9.2.6",
+		"typescript": "^4.4.4",
+		"webpack": "^5.61.0",
+		"webpack-cli": "^4.9.1",
+		"webpack-dev-server": "^4.4.0"
+	},
+	"dependencies": {
+		"cross-env": "^7.0.3",
+		"is-windows": "^1.0.2",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
+	}
+}

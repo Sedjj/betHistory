@@ -1,9 +1,5 @@
-# dependencies
-../backend
-../../betSelenium
-/node_modules
-/build_ts
-/webpack
-/coverage
-/docker
-webpack.config.js
+node_modules
+dist
+webpack
+.eslintrc.js
+webpack.config.babel.js
