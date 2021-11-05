@@ -11,7 +11,7 @@ export class ConfService {
 	constructor(@InjectModel('Config') private readonly confModel: Model<IConfModel>) {}
 
 	/**
-	 * Преобразовывает статистику в необходимый формат
+	 * Преобразовывает конфигурацию в необходимый формат
 	 *
 	 * @param {IConfModel} model статистика
 	 *
@@ -44,8 +44,8 @@ export class ConfService {
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
-		let createdFootball = new this.confModel(param);
-		return await createdFootball
+		let createdConfig = new this.confModel(param);
+		return await createdConfig
 			.save()
 			.then((model: IConfModel) => {
 				this.logger.debug('Configuration model created');
@@ -58,7 +58,7 @@ export class ConfService {
 	}
 
 	/**
-	 * Метод для получения настроект конфигурации.
+	 * Метод для получения настроек конфигурации.
 	 *
 	 * @param {Number} confId id объекта конфига
 	 */
