@@ -9,6 +9,7 @@
 	"linterOptions": {
 		"exclude": [
 			"docker/**/*.js",
+			"src/**/**/*.less.d.ts",
 			"node_modules/",
 			"node_modules/**/*.ts(x)"
 		]
