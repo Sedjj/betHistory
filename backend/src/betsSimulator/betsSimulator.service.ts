@@ -11,31 +11,20 @@ export class BetsSimulatorService {
 
 	constructor(private readonly telegramService: TelegramService, private readonly fetchService: FetchService) {
 		this.groupForRate = [
-			'Austrian Bundesliga',
+			'AFC',
+			'Argentinian',
 			'Azerbaijan',
-			'Bahraini',
-			'Bangladesh',
-			'Belarusian',
 			'Belgian',
-			'Brazilian Serie B',
+			'Bosnian',
+			'Brazilian',
 			'Canadian',
-			'Chilean Primera Division',
-			'Croatian',
+			'Chilean',
 			'Cup',
-			'Czech 2 Liga',
-			'EFL Trophy',
-			'Egyptian Premier',
-			'English',
-			'Finnish',
+			'Egyptian',
 			'French Ligue 1',
-			'Georgian',
 			'German',
-			'Goiano',
 			'Honduras',
 			'Israeli',
-			'Italian',
-			'Latvian',
-			'Lithuanian',
 			'Maltese Premier League',
 			'Mexican Ascenso MX',
 			'Nicaraguan',
@@ -43,22 +32,15 @@ export class BetsSimulatorService {
 			'Paraguayan',
 			'Peruvian',
 			'Polish',
-			'Qatari',
+			'Portuguese',
 			'Regionalliga',
-			'Rwandan',
 			'Scottish',
-			'Slovakian 2 Liga',
-			'Soccer',
-			'South Korean K League 1',
-			'South Korean Matches',
 			'Spanish Segunda',
 			'Swiss',
 			'Thai',
 			'Turkish',
-			'UEFA',
 			'Ukrainian',
 			'Uruguayan',
-			'Welsh',
 		];
 	}
 
@@ -75,9 +57,6 @@ export class BetsSimulatorService {
 					under: {behind: TM15B, selectionId: under15SelectionId, handicap: under15Handicap},
 				},
 			},
-			cards: {
-				one: {corners: cornersOne},
-			},
 			command: {group, youth, women},
 		} = param;
 
@@ -88,8 +67,8 @@ export class BetsSimulatorService {
 			case 4:
 				if (!excludeGroupRate) {
 					if (women === 0 && youth === 0) {
-						if (TB15A < 2.1 && TB15A > 1.5) {
-							if (0.35 < mod && cornersOne < 5) {
+						if (1.5 < TB15A && TB15A < 2.1) {
+							if (mod > 0.35) {
 								await this.telegramService.sendMessageChat(decorateMessageChat(param));
 								await this.fetchService.placeOrders({
 									marketId,
