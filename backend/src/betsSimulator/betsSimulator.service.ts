@@ -49,7 +49,7 @@ export class BetsSimulatorService {
 					if (1.45 < TB15A && TB15A < 2.1) {
 						if (mod > 0.35 && matchOddsX > 2.7) {
 							if (TM20 < 1.85) {
-								if (excludeBlackGroup || !excludeWhiteGroup) {
+								if (excludeWhiteGroup || !excludeBlackGroup) {
 									await this.telegramService.sendMessageChat(decorateMessageChat(param));
 									await this.fetchService.placeOrders({
 										marketId,
