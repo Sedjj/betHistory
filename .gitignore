@@ -5,3 +5,4 @@ docker/build/
 docker/OpenVPN/openvpn-data/
 docker/mongo-seed/scripts_test/
 docker/mongo-seed/db/
+frontend/old/
