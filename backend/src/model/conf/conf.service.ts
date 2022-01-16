@@ -125,14 +125,10 @@ export class ConfService {
 	}
 
 	getRateStrategy(strategy: number): Promise<IRateStrategy> {
-		return this.getDataByParam(1).then((model: IConf) => {
-			return model.rate[strategy - 1];
-		});
+		return this.getDataByParam(1).then((model: IConf) => model.rate[strategy - 1]);
 	}
 
 	getTime(): Promise<ITime[]> {
-		return this.getDataByParam(1).then((model: IConf) => {
-			return model.time;
-		});
+		return this.getDataByParam(1).then((model: IConf) => model.time);
 	}
 }
