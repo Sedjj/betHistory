@@ -39,6 +39,7 @@ export class BetsSimulatorService {
 			}
 			return acc;
 		}, 0);
+
 		const excludeWhiteGroup = this.groupWhite.some(x => group.includes(x));
 		const excludeBlackGroup = this.groupBlack.some(x => group.includes(x));
 		const mod = Math.abs(matchOddsP1 - matchOddsP2);
