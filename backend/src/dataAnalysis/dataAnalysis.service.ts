@@ -23,12 +23,10 @@ export class DataAnalysisService {
 	 *
 	 * @param {IFootball} param объект события
 	 * @param {(stackType: StackType, id: number) => void} incStack функция для добавления в стек
-	 * @param {(id: number) => void} addQueueWithDelay функция для добавления в стек
 	 */
 	public async strategyDefinition(
 		param: IFootball,
 		incStack: (stackType: StackType, id: number) => void,
-		addQueueWithDelay: (id: number) => void,
 	): Promise<void> {
 		const {
 			score: {sc1, sc2},

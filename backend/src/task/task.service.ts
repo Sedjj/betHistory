@@ -9,10 +9,8 @@ import {EventDetails} from '../parser/type/eventDetails.type';
 import {LiteMarkets} from '../parser/type/marketsEvents.type';
 import {MarketNodes} from '../parser/type/byMarket.type';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
-import {QueueProcessor} from './queue/queue.processor';
 import {StackService} from './stack/stack.service';
 import {StackType} from '../model/stack/type/stack.type';
-/*import {QueueService} from './queue/queue.service';*/
 
 const urlSearch = config.get<string>('parser.football.search');
 const urlEventDetails = config.get<string>('parser.football.eventDetails');
@@ -28,7 +26,6 @@ export class TaskService implements OnApplicationBootstrap {
 		private parserFootballService: ParserFootballService,
 		private dataAnalysisService: DataAnalysisService,
 		private readonly stackService: StackService,
-		private readonly queueProcessor: QueueProcessor /*private readonly queueService: QueueService,*/,
 	) {}
 
 	async onApplicationBootstrap() {
@@ -48,30 +45,7 @@ export class TaskService implements OnApplicationBootstrap {
 						param,
 						// tslint:disable-next-line:no-empty
 						this.stackService.increaseActiveEventId,
-						// tslint:disable-next-line:no-empty
-						() => {},
-						/*this.queueService.addQueueWithDelay,*/
 					);
-				} catch (error) {
-					this.logger.debug(`Ошибка при parser события: ${JSON.stringify(item)} error: ${error}`);
-				}
-			});
-		}
-	}
-
-	// @Cron(process.env.NODE_ENV === 'development' ? '*/10 * * * * *' : '*/05 * * * * *')
-	public async reCheckMatch() {
-		if (this.queueProcessor.getLengthEvent()) {
-			const ids = this.queueProcessor.getEventIds();
-			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(
-				urlEventDetails.replace('${id}', this.queueProcessor.getStringEventIds()),
-			);
-			this.queueProcessor.decreaseEventId(ids);
-
-			eventDetails.forEach((item: EventDetails) => {
-				try {
-					let param: IFootball = this.parserFootballService.getParams(item);
-					this.dataAnalysisService.reCheckStrategyDefinition(param);
 				} catch (error) {
 					this.logger.debug(`Ошибка при parser события: ${JSON.stringify(item)} error: ${error}`);
 				}
