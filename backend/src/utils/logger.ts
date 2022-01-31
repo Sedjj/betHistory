@@ -1,25 +1,34 @@
-import {createLogger, format, Logger, transports} from 'winston';
+import {createLogger, format, Logger, LoggerOptions, transports} from 'winston';
+import {FileTransportOptions} from 'winston/lib/winston/transports';
+import {Format} from 'logform';
 
-let formatFile = format.combine(
+let formatFile: Format = format.combine(
 	format.timestamp({
-		format: 'YYYY-MM-DD HH:mm:ss'
+		format: 'YYYY-MM-DD HH:mm:ss',
 	}),
 	format.json(),
-	format.printf(info => `[${info.level}]  - ${info.timestamp}   [${info.context}] ${info.message}`)
+	format.printf(info => `[${info.level}]  - ${info.timestamp}   [${info.context}] ${info.message}`),
 );
 
-let formatConsole = format.combine(
+let formatConsole: Format = format.combine(
 	format.timestamp({
-		format: 'YYYY-MM-DD HH:mm:ss'
+		format: 'YYYY-MM-DD HH:mm:ss',
 	}),
 	format.splat(),
 	format.colorize(),
 	format.json(),
 	//  [Nest] 4544   - 2020-02-24 13:06:58   [InstanceLoader] MongooseModule dependencies initialized +39ms
-	format.printf(({level, timestamp, context, message}) => `[${level}]  - ${timestamp}   [${context}] ${message}`)
+	format.printf(({level, timestamp, context, message}) => `[${level}]  - ${timestamp}   [${context}] ${message}`),
 );
 
-const options = {
+type optionsType = {
+	fileInfo: FileTransportOptions;
+	fileDebug: FileTransportOptions;
+	fileError: FileTransportOptions;
+	console: FileTransportOptions;
+};
+
+const options: optionsType = {
 	fileInfo: {
 		level: 'info',
 		filename: process.cwd() + '/logs/all.log',
@@ -48,10 +57,10 @@ const options = {
 		level: 'debug',
 		handleExceptions: true,
 		format: formatConsole,
-	}
+	},
 };
 
-const configWinston = {
+const configWinston: LoggerOptions = {
 	level: 'debug',
 	transports: [
 		new transports.File(options.fileInfo),
@@ -88,7 +97,4 @@ class WrapperLogger {
 
 const log: WrapperLogger = new WrapperLogger();
 
-export {
-	configWinston,
-	log
-};
+export {configWinston, log};
