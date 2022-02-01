@@ -1,13 +1,12 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {IStack, IStackModel, StackType} from './type/stack.type';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
+import {MyLogger} from '../../logger/myLogger.service';
 
 @Injectable()
 export class StackDBService {
-	private readonly logger = new Logger(StackDBService.name);
-
-	constructor(@InjectModel('Stack') private readonly stackModel: Model<IStackModel>) {}
+	constructor(@InjectModel('Stack') private readonly stackModel: Model<IStackModel>, private readonly log: MyLogger) {}
 
 	/**
 	 * Преобразовывает стек в необходимый формат
@@ -41,11 +40,11 @@ export class StackDBService {
 		return await createdFootball
 			.save()
 			.then((model: IStackModel) => {
-				this.logger.debug('Stack model created');
+				this.log.debug(StackDBService.name, 'Stack model created');
 				return StackDBService.mapProps(model);
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error create stack param=${JSON.stringify(param)}`);
+				this.log.error(StackDBService.name, `Error create stack param=${JSON.stringify(param)}`);
 				throw new Error(error);
 			});
 	}
@@ -62,13 +61,13 @@ export class StackDBService {
 			.exec()
 			.then((model: IStackModel | null) => {
 				if (!model) {
-					this.logger.error('Stack with not found');
+					this.log.error(StackDBService.name, 'Stack with not found');
 					throw new Error(`Stack with not found: ${stackId}`);
 				}
 				return StackDBService.mapProps(model);
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error getDataByParam stackId=${stackId}`);
+				this.log.error(StackDBService.name, `Error getDataByParam stackId=${stackId}`);
 				throw new Error(error);
 			});
 	}
@@ -85,7 +84,7 @@ export class StackDBService {
 			.exec()
 			.then((model: IStackModel | null) => {
 				if (!model) {
-					this.logger.error('Stack with not found');
+					this.log.error(StackDBService.name, 'Stack with not found');
 					throw new Error(`Stack with not found: ${param.stackId}`);
 				}
 
@@ -105,7 +104,10 @@ export class StackDBService {
 				return Promise.resolve();
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error set data by stack param=${JSON.stringify(param)} error=${JSON.stringify(error)}`);
+				this.log.error(
+					StackDBService.name,
+					`Error set data by stack param=${JSON.stringify(param)} error=${JSON.stringify(error)}`,
+				);
 				throw new Error(error);
 			});
 	}

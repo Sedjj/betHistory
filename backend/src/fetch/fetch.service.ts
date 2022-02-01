@@ -1,15 +1,15 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import got, {Got} from 'got';
 import config from 'config';
 import {PlaceOrders} from '../betsSimulator/type/selenium.type';
 import {rateStatus} from '../store';
+import {MyLogger} from '../logger/myLogger.service';
 
 @Injectable()
 export class FetchService {
-	private readonly logger = new Logger(FetchService.name);
 	private readonly client: Got;
 
-	constructor() {
+	constructor(private readonly log: MyLogger) {
 		const server = config.get<string>('api.server');
 		const port = config.get<string>('api.port');
 
@@ -26,10 +26,10 @@ export class FetchService {
 			const {body} = await this.client.get('log', {
 				responseType: 'buffer',
 			});
-			this.logger.debug('Response get log successfully');
+			this.log.debug(FetchService.name, 'Response get log successfully');
 			return body;
 		} catch (error) {
-			this.logger.error(`Error name: ${error.name}, message: ${error.message}`);
+			this.log.error(FetchService.name, `Error name: ${error.name}, message: ${error.message}`);
 			throw new Error(error);
 		}
 	}
@@ -52,9 +52,9 @@ export class FetchService {
 				},
 				body: JSON.stringify(param),
 			});
-			this.logger.debug(`Response bet ${param.marketId} successfully; Body: ${body}`);
+			this.log.debug(FetchService.name, `Response bet ${param.marketId} successfully; Body: ${body}`);
 		} catch (error) {
-			this.logger.error(`Error name: ${error.name}, message: ${error.message}`);
+			this.log.error(FetchService.name, `Error name: ${error.name}, message: ${error.message}`);
 		}
 	}
 }

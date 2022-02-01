@@ -1,18 +1,18 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import got, {Got} from 'got';
 import {CookieJar} from 'tough-cookie';
 import {EventDetails} from './type/eventDetails.type';
+import {MyLogger} from '../logger/myLogger.service';
 
 @Injectable()
 export class FetchService {
-	private readonly logger = new Logger(FetchService.name);
 	/**
 	 * Массив интервалов в миллисекундах после которых делается попытка снова
 	 */
 	private readonly searchTimeouts: number[];
 	private readonly client: Got;
 
-	constructor() {
+	constructor(private readonly log: MyLogger) {
 		this.searchTimeouts = [2000, 5000, 8000, 12000, 1];
 		const cookieJar = new CookieJar();
 		this.client = got.extend({
@@ -55,12 +55,15 @@ export class FetchService {
 						resolve(body);
 						break;
 					}
-					this.logger.error(`Search events request came empty: ${body}`);
+					this.log.error(FetchService.name, `Search events request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`);
-					this.logger.debug(`Get all matches sleep on ${timeout}ms`);
+					this.log.error(
+						FetchService.name,
+						`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`,
+					);
+					this.log.debug(FetchService.name, `Get all matches sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}
@@ -89,12 +92,15 @@ export class FetchService {
 						resolve(body);
 						break;
 					}
-					this.logger.error(`Get event details request came empty: ${body}`);
+					this.log.error(FetchService.name, `Get event details request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`);
-					this.logger.debug(`Get event details sleep on ${timeout}ms`);
+					this.log.error(
+						FetchService.name,
+						`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`,
+					);
+					this.log.debug(FetchService.name, `Get event details sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}
@@ -145,12 +151,15 @@ export class FetchService {
 						resolve(body);
 						break;
 					}
-					this.logger.error(`Search markets by event request came empty: ${body}`);
+					this.log.error(FetchService.name, `Search markets by event request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`);
-					this.logger.debug(`Search markets by event sleep on ${timeout}ms`);
+					this.log.error(
+						FetchService.name,
+						`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`,
+					);
+					this.log.debug(FetchService.name, `Search markets by event sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}
@@ -179,12 +188,15 @@ export class FetchService {
 						resolve(body);
 						break;
 					}
-					this.logger.error(`Get rate markets request came empty: ${body}`);
+					this.log.error(FetchService.name, `Get rate markets request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`);
-					this.logger.debug(`Get rate markets sleep on ${timeout}ms`);
+					this.log.error(
+						FetchService.name,
+						`path: ${error.path}, code: ${error.code}, name: ${error.name}, message: ${error.message}`,
+					);
+					this.log.debug(FetchService.name, `Get rate markets sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}

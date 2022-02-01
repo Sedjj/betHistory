@@ -4,9 +4,10 @@ import {ScheduleModule} from '@nestjs/schedule';
 import {TaskService} from './task.service';
 import {ParserFootballModule} from '../parser/parserFootball.modul';
 import {StackModule} from './stack/stack.module';
+import {LoggerModule} from '../logger/logger.module';
 
 @Module({
-	imports: [ScheduleModule.forRoot(), DataAnalysisModule, ParserFootballModule, StackModule],
+	imports: [ScheduleModule.forRoot(), DataAnalysisModule, ParserFootballModule, StackModule, LoggerModule],
 	providers: [TaskService],
 })
 export class TaskModule {}

@@ -1,16 +1,16 @@
-import {Injectable, Logger, OnApplicationBootstrap} from '@nestjs/common';
+import {Injectable, OnApplicationBootstrap} from '@nestjs/common';
 import {IStack, StackType} from '../../model/stack/type/stack.type';
 import {EventDetails} from '../../parser/type/eventDetails.type';
 import {StackDBService} from '../../model/stack/stackDB.service';
 import {IActiveEvent} from './stack.type';
+import {MyLogger} from '../../logger/myLogger.service';
 
 @Injectable()
 export class StackService implements OnApplicationBootstrap {
-	private readonly logger = new Logger(StackService.name);
 	private readonly activeEventIds: IActiveEvent;
 	private normalStackLimit: number = 60;
 
-	constructor(private readonly stackDBService: StackDBService) {
+	constructor(private readonly stackDBService: StackDBService, private readonly log: MyLogger) {
 		this.activeEventIds = {
 			often: [],
 			unusual: [],
@@ -28,15 +28,15 @@ export class StackService implements OnApplicationBootstrap {
 		});
 
 		if (stackUsually != null && stackOften != null) {
-			this.logger.debug(`Stack migration in bd`);
-			this.logger.debug(`Start active event ids: 0`);
+			this.log.debug(StackService.name, `Stack migration in bd`);
+			this.log.debug(StackService.name, `Start active event ids: 0`);
 		} else {
 			this.activeEventIds.unusual = await this.getActiveEvent(StackType.UNUSUAL);
 			this.activeEventIds.often = await this.getActiveEvent(StackType.OFTEN);
 			const length = this.activeEventIds.unusual.length + this.activeEventIds.often.length;
 			const list = [...this.activeEventIds.unusual, ...this.activeEventIds.often].join();
 
-			this.logger.debug(`start active event ids: ${length ? list : 0}`);
+			this.log.debug(StackService.name, `start active event ids: ${length ? list : 0}`);
 		}
 	}
 
@@ -107,7 +107,7 @@ export class StackService implements OnApplicationBootstrap {
 			let model: IStack = await this.stackDBService.getDataByParam(stackType);
 			activeEventIds = model.activeEventIds;
 		} catch (error) {
-			this.logger.error(`Error get active event ids`);
+			this.log.error(StackService.name, `Error get active event ids`);
 		}
 		return activeEventIds;
 	}
@@ -119,7 +119,7 @@ export class StackService implements OnApplicationBootstrap {
 				activeEventIds: ids,
 			});
 		} catch (error) {
-			this.logger.error(`Error set active event ids`);
+			this.log.error(StackService.name, `Error set active event ids`);
 		}
 	}
 }

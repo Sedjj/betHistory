@@ -1,4 +1,4 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {IFootball} from '../model/football/type/football.type';
 import {ConfService} from '../model/conf/conf.service';
 import {FootballService} from '../model/football/football.service';
@@ -7,15 +7,15 @@ import {ITime} from '../model/conf/type/conf.type';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
 /*import {ParserFootballService} from '../parser/parserFootball.service';*/
 import {StackType} from '../model/stack/type/stack.type';
+import {MyLogger} from '../logger/myLogger.service';
 
 @Injectable()
 export class DataAnalysisService {
-	private readonly logger = new Logger(DataAnalysisService.name);
-
 	constructor(
 		private readonly confService: ConfService,
 		private readonly footballService: FootballService,
 		private readonly betsSimulatorService: BetsSimulatorService,
+		private readonly log: MyLogger,
 	) {}
 
 	/**
@@ -73,7 +73,7 @@ export class DataAnalysisService {
 	 */
 	public setEvent(scoreEvents: ScoreEvents): Promise<void> {
 		return this.footballService.setScoreByParam(scoreEvents).catch((error: any) => {
-			this.logger.error(`Set rate: ${error}`);
+			this.log.error(DataAnalysisService.name, `Set rate: ${error}`);
 			throw new Error(error);
 		});
 	}
@@ -88,12 +88,12 @@ export class DataAnalysisService {
 		this.saveEvent(param, strategy) // пропускает дальше если запись ушла в БД
 			.then(async statistic => {
 				if (statistic !== null) {
-					this.logger.debug(`Найден ${param.marketId}: Футбол - стратегия ${strategy}`);
+					this.log.debug(DataAnalysisService.name, `Найден ${param.marketId}: Футбол - стратегия ${strategy}`);
 					await this.betsSimulatorService.matchRate(statistic);
 				}
 			})
 			.catch(error => {
-				this.logger.error(`footballLiveStrategy: ${error}`);
+				this.log.error(DataAnalysisService.name, `footballLiveStrategy: ${error}`);
 			});
 	}
 
@@ -105,7 +105,7 @@ export class DataAnalysisService {
 	 */
 	private saveEvent(param: IFootball, strategy: number): Promise<IFootball | null> {
 		return this.footballService.create({...param, strategy}).catch((error: any) => {
-			this.logger.error(`Save event rate: ${error}`);
+			this.log.error(DataAnalysisService.name, `Save event rate: ${error}`);
 			throw new Error(error);
 		});
 	}
@@ -118,7 +118,7 @@ export class DataAnalysisService {
 	 */
 	/*private isEvent(param: IFootball, strategy: number): Promise<boolean> {
 		return this.footballService.isMatch(param, strategy).catch((error: any) => {
-			this.logger.error(`Is event rate: ${error}`);
+			this.log.error(DataAnalysisService.name,`Is event rate: ${error}`);
 			throw new Error(error);
 		});
 	}*/
@@ -131,7 +131,7 @@ export class DataAnalysisService {
 	 */
 	/*private getMatch(param: IFootball, strategy: number): Promise<IFootball | null> {
 		return this.footballService.getMatch(param, strategy).catch((error: any) => {
-			this.logger.error(`Get match rate: ${error}`);
+			this.log.error(DataAnalysisService.name,`Get match rate: ${error}`);
 			throw new Error(error);
 		});
 	}*/
@@ -144,7 +144,7 @@ export class DataAnalysisService {
 	 */
 	/*private updateEvent(param: IFootball, strategy: number): Promise<IFootball | void> {
 		return this.footballService.setDataByParam({...param, strategy}).catch((error: any) => {
-			this.logger.error(`Update event rate: ${error}`);
+			this.log.error(DataAnalysisService.name,`Update event rate: ${error}`);
 			throw new Error(error);
 		});
 	}*/

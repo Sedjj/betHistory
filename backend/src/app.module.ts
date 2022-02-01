@@ -3,6 +3,7 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {ConfigModule} from '@nestjs/config';
 import {TaskModule} from './task/task.module';
+import {LoggerModule} from './logger/logger.module';
 import {TelegramBotModule} from './telegram/telegramBot.module';
 import {MongooseModule} from '@nestjs/mongoose';
 import config from 'config';
@@ -16,6 +17,7 @@ const dbUri =
 
 @Module({
 	imports: [
+		LoggerModule,
 		ConfigModule.forRoot(),
 		MongooseModule.forRoot(dbUri, {
 			useNewUrlParser: true,

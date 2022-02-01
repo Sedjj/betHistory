@@ -63,7 +63,6 @@
 		"moment": "^2.29.1",
 		"mongoose": "5.10.3",
 		"nest-schedule": "^0.6.4",
-		"nest-winston": "^1.6.2",
 		"nestjs-telegraf": "^1.2.1",
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.2",

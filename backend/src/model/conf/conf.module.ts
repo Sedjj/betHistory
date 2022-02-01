@@ -3,21 +3,20 @@ import {ConfService} from './conf.service';
 import {MongooseModule} from '@nestjs/mongoose';
 import {ConfigSchema} from './schemas/config.schema';
 import {ConfController} from './conf.controller';
+import {LoggerModule} from '../../logger/logger.module';
 
 @Module({
 	imports: [
-		MongooseModule.forFeature(
-			[
-				{
-					name: 'Config',
-					schema: ConfigSchema
-				}
-			]
-		)
+		LoggerModule,
+		MongooseModule.forFeature([
+			{
+				name: 'Config',
+				schema: ConfigSchema,
+			},
+		]),
 	],
 	controllers: [ConfController],
 	providers: [ConfService],
-	exports: [ConfService]
+	exports: [ConfService],
 })
-export class ConfModule {
-}
+export class ConfModule {}
