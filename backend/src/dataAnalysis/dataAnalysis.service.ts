@@ -5,7 +5,7 @@ import {FootballService} from '../model/football/football.service';
 import {BetsSimulatorService} from '../betsSimulator/betsSimulator.service';
 import {ITime} from '../model/conf/type/conf.type';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
-import {ParserFootballService} from '../parser/parserFootball.service';
+/*import {ParserFootballService} from '../parser/parserFootball.service';*/
 import {StackType} from '../model/stack/type/stack.type';
 
 @Injectable()
@@ -35,11 +35,6 @@ export class DataAnalysisService {
 
 		let timeSetting: ITime[] = await this.confService.getTime();
 
-		if (time > timeSetting[6].after) {
-			this.footballLiveStrategy(param, 6);
-			await incStack(StackType.UNUSUAL, param.eventId);
-		}
-
 		if (sc1 + sc2 === 0) {
 			if (time >= timeSetting[4].before && time <= timeSetting[4].after) {
 				this.footballLiveStrategy(param, 4);
@@ -53,7 +48,7 @@ export class DataAnalysisService {
 	 *
 	 * @param {IFootball} param объект события
 	 */
-	public async reCheckStrategyDefinition(param: IFootball): Promise<void> {
+	/*public async reCheckStrategyDefinition(param: IFootball): Promise<void> {
 		let {
 			score: {sc1, sc2},
 		} = param;
@@ -69,7 +64,7 @@ export class DataAnalysisService {
 				1,
 			);
 		}
-	}
+	}*/
 
 	/**
 	 * Метод для поверки уникальности и сохранения результата матча.
@@ -147,10 +142,10 @@ export class DataAnalysisService {
 	 * @param {IFootball} param объект события
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
-	private updateEvent(param: IFootball, strategy: number): Promise<IFootball | void> {
+	/*private updateEvent(param: IFootball, strategy: number): Promise<IFootball | void> {
 		return this.footballService.setDataByParam({...param, strategy}).catch((error: any) => {
 			this.logger.error(`Update event rate: ${error}`);
 			throw new Error(error);
 		});
-	}
+	}*/
 }
