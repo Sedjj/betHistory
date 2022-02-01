@@ -68,7 +68,7 @@
 		"rimraf": "^3.0.2",
 		"rxjs": "^6.6.3",
 		"tough-cookie": "^4.0.0",
-		"winston": "^3.5.0",
+		"winston": "^3.5.1",
 		"xlsx-template": "1.0.0",
 		"typescript": "4.1.3"
 	},
