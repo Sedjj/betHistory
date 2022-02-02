@@ -16,12 +16,12 @@ export class RateStatus {
 	}
 
 	public turnOn(): boolean {
-		this.logger.debug('Betting mechanism will be enabled');
+		this.logger.debug(RateStatus.name, 'Betting mechanism will be enabled');
 		return (this.jobStatus = true);
 	}
 
 	public turnOff(): boolean {
-		this.logger.debug('Betting mechanism will be stopped');
+		this.logger.debug(RateStatus.name, 'Betting mechanism will be stopped');
 		return (this.jobStatus = false);
 	}
 }

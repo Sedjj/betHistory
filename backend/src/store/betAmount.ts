@@ -16,12 +16,12 @@ export class BetAmount {
 	}
 
 	public increase(amount: number): number {
-		this.logger.debug(`Betting increments will on ${amount}`);
+		this.logger.debug(BetAmount.name, `Betting increments will on ${amount}`);
 		return (this.amount = this.amount + amount);
 	}
 
 	public decrease(amount: number): number {
-		this.logger.debug(`Betting decrements will on ${amount}`);
+		this.logger.debug(BetAmount.name, `Betting decrements will on ${amount}`);
 		return (this.amount = this.amount - amount);
 	}
 }
