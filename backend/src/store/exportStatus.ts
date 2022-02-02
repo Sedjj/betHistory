@@ -35,27 +35,27 @@ export class ExportStatus {
 	}
 
 	public setName(name: string): void {
-		this.logger.debug(`Name export: ${name}`);
+		this.logger.debug(ExportStatus.name, `Name export: ${name}`);
 		this.nameMethod = name;
 	}
 
 	public increase(amount: number): number {
-		this.logger.debug(`Export increments will on ${amount}`);
+		this.logger.debug(ExportStatus.name, `Export increments will on ${amount}`);
 		return (this.countDay = this.countDay + amount);
 	}
 
 	public decrease(amount: number): number {
-		this.logger.debug(`Export decrements will on ${amount}`);
+		this.logger.debug(ExportStatus.name, `Export decrements will on ${amount}`);
 		return (this.countDay = this.countDay - amount);
 	}
 
 	public increaseDay(amount: number): number {
-		this.logger.debug(`Export increments day will on ${amount}`);
+		this.logger.debug(ExportStatus.name, `Export increments day will on ${amount}`);
 		return (this.currentDay = this.currentDay + amount);
 	}
 
 	public decreaseDay(amount: number): number {
-		this.logger.debug(`Export decrements day will on ${amount}`);
+		this.logger.debug(ExportStatus.name, `Export decrements day will on ${amount}`);
 		return (this.currentDay = this.currentDay - amount);
 	}
 
