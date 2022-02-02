@@ -8,7 +8,7 @@ import {MyLogger} from '../../logger/myLogger.service';
 @Injectable()
 export class StackService implements OnApplicationBootstrap {
 	private readonly activeEventIds: IActiveEvent;
-	private normalStackLimit: number = 60;
+	private normalStackLimit: number = 70;
 
 	constructor(private readonly stackDBService: StackDBService, private readonly log: MyLogger) {
 		this.activeEventIds = {
@@ -41,7 +41,7 @@ export class StackService implements OnApplicationBootstrap {
 	}
 
 	public getStringEventIds(stackType: StackType): string[] {
-		const arraySize: number = 50;
+		const arraySize: number = 45;
 		let res: string[] = [];
 		for (let i = 0; i < this.activeEventIds[stackType].length; i += arraySize) {
 			res.push(this.activeEventIds[stackType].slice(i, i + arraySize).join());

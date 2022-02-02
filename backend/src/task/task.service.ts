@@ -12,6 +12,9 @@ import {ScoreEvents} from '../parser/type/scoreEvents.type';
 import {StackService} from './stack/stack.service';
 import {StackType} from '../model/stack/type/stack.type';
 import {MyLogger} from '../logger/myLogger.service';
+import {ConfService} from '../model/conf/conf.service';
+import {errorsStack} from '../store';
+import {TelegramService} from '../telegram/telegram.service';
 
 const urlSearch = config.get<string>('parser.football.search');
 const urlEventDetails = config.get<string>('parser.football.eventDetails');
@@ -26,6 +29,8 @@ export class TaskService implements OnApplicationBootstrap {
 		private dataAnalysisService: DataAnalysisService,
 		private readonly stackService: StackService,
 		private readonly log: MyLogger,
+		private readonly confService: ConfService,
+		private readonly telegramService: TelegramService,
 	) {}
 
 	async onApplicationBootstrap() {
@@ -33,7 +38,7 @@ export class TaskService implements OnApplicationBootstrap {
 		this.log.debug(TaskService.name, '****start scheduler checking results****');
 	}
 
-	@Cron(process.env.NODE_ENV !== 'development' ? '*/30 * * * * *' : '*/15 * * * * *')
+	@Cron(process.env.NODE_ENV === 'development' ? '*/15 * * * * *' : '*/30 * * * * *')
 	public async searchFootball() {
 		let activeEvents: number[] = await this.getActiveEventIds();
 		if (activeEvents.length) {
@@ -82,6 +87,20 @@ export class TaskService implements OnApplicationBootstrap {
 		if (this.stackService.getLengthEvent(StackType.UNUSUAL)) {
 			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.UNUSUAL);
 			await this.stackService.decreaseActiveEventId(StackType.UNUSUAL, eventDetails);
+		}
+	}
+
+	@Cron(process.env.NODE_ENV === 'development' ? '0 */10 * * * *' : '0 */15 * * * *')
+	public async checkDatabase() {
+		try {
+			await this.confService.getTime();
+		} catch (e) {
+			const message = `Database not responding - ${e}`;
+			if (!errorsStack.isStack(message)) {
+				this.log.error(TaskService.name, message);
+				this.telegramService.sendMessageSupport(`<pre>${message}</pre>`);
+			}
+			errorsStack.setErrorsStack(message);
 		}
 	}
 

@@ -52,7 +52,7 @@ export class DataAnalysisService {
 		let {
 			score: {sc1, sc2},
 		} = param;
-		this.logger.debug(`re-check ${param.marketId}: Футбол - стратегия ${1}`);
+		this.log.debug(`re-check ${param.marketId}: Футбол - стратегия ${1}`);
 		if (sc1 + sc2 === 1) {
 			await this.updateEvent(param, 1);
 		} else {
