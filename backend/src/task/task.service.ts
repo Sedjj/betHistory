@@ -1,4 +1,4 @@
-import {Injectable, Logger, OnApplicationBootstrap} from '@nestjs/common';
+import {Injectable, OnApplicationBootstrap} from '@nestjs/common';
 import {Cron} from '@nestjs/schedule';
 import {FetchService} from '../parser/fetch.service';
 import config from 'config';
@@ -9,10 +9,12 @@ import {EventDetails} from '../parser/type/eventDetails.type';
 import {LiteMarkets} from '../parser/type/marketsEvents.type';
 import {MarketNodes} from '../parser/type/byMarket.type';
 import {ScoreEvents} from '../parser/type/scoreEvents.type';
-import {QueueProcessor} from './queue/queue.processor';
 import {StackService} from './stack/stack.service';
 import {StackType} from '../model/stack/type/stack.type';
-/*import {QueueService} from './queue/queue.service';*/
+import {MyLogger} from '../logger/myLogger.service';
+import {ConfService} from '../model/conf/conf.service';
+import {errorsStack} from '../store';
+import {TelegramService} from '../telegram/telegram.service';
 
 const urlSearch = config.get<string>('parser.football.search');
 const urlEventDetails = config.get<string>('parser.football.eventDetails');
@@ -21,22 +23,22 @@ const urlByMarket = config.get<string>('parser.football.byMarket');
 
 @Injectable()
 export class TaskService implements OnApplicationBootstrap {
-	private readonly logger = new Logger(TaskService.name);
-
 	constructor(
 		private fetchService: FetchService,
 		private parserFootballService: ParserFootballService,
 		private dataAnalysisService: DataAnalysisService,
 		private readonly stackService: StackService,
-		private readonly queueProcessor: QueueProcessor /*private readonly queueService: QueueService,*/,
+		private readonly log: MyLogger,
+		private readonly confService: ConfService,
+		private readonly telegramService: TelegramService,
 	) {}
 
 	async onApplicationBootstrap() {
-		this.logger.debug('****start scheduler search football****');
-		this.logger.debug('****start scheduler checking results****');
+		this.log.debug(TaskService.name, '****start scheduler search football****');
+		this.log.debug(TaskService.name, '****start scheduler checking results****');
 	}
 
-	@Cron(process.env.NODE_ENV !== 'development' ? '*/30 * * * * *' : '*/15 * * * * *')
+	@Cron(process.env.NODE_ENV === 'development' ? '*/15 * * * * *' : '*/30 * * * * *')
 	public async searchFootball() {
 		let activeEvents: number[] = await this.getActiveEventIds();
 		if (activeEvents.length) {
@@ -48,32 +50,9 @@ export class TaskService implements OnApplicationBootstrap {
 						param,
 						// tslint:disable-next-line:no-empty
 						this.stackService.increaseActiveEventId,
-						// tslint:disable-next-line:no-empty
-						() => {},
-						/*this.queueService.addQueueWithDelay,*/
 					);
 				} catch (error) {
-					this.logger.debug(`Ошибка при parser события: ${JSON.stringify(item)} error: ${error}`);
-				}
-			});
-		}
-	}
-
-	// @Cron(process.env.NODE_ENV === 'development' ? '*/10 * * * * *' : '*/05 * * * * *')
-	public async reCheckMatch() {
-		if (this.queueProcessor.getLengthEvent()) {
-			const ids = this.queueProcessor.getEventIds();
-			let eventDetails: EventDetails[] = await this.fetchService.getEventDetails(
-				urlEventDetails.replace('${id}', this.queueProcessor.getStringEventIds()),
-			);
-			this.queueProcessor.decreaseEventId(ids);
-
-			eventDetails.forEach((item: EventDetails) => {
-				try {
-					let param: IFootball = this.parserFootballService.getParams(item);
-					this.dataAnalysisService.reCheckStrategyDefinition(param);
-				} catch (error) {
-					this.logger.debug(`Ошибка при parser события: ${JSON.stringify(item)} error: ${error}`);
+					this.log.debug(TaskService.name, `Ошибка при parser события: ${JSON.stringify(item)} error: ${error}`);
 				}
 			});
 		}
@@ -94,7 +73,10 @@ export class TaskService implements OnApplicationBootstrap {
 				try {
 					this.dataAnalysisService.setEvent(item);
 				} catch (error) {
-					this.logger.debug(`Ошибка при сохранении результата события: ${JSON.stringify(item)} error: ${error}`);
+					this.log.debug(
+						TaskService.name,
+						`Ошибка при сохранении результата события: ${JSON.stringify(item)} error: ${error}`,
+					);
 				}
 			});
 		}
@@ -108,6 +90,20 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
+	@Cron(process.env.NODE_ENV === 'development' ? '0 */10 * * * *' : '0 */15 * * * *')
+	public async checkDatabase() {
+		try {
+			await this.confService.getTime();
+		} catch (e) {
+			const message = `Database not responding - ${e}`;
+			if (!errorsStack.isStack(message)) {
+				this.log.error(TaskService.name, message);
+				this.telegramService.sendMessageSupport(`<pre>${message}</pre>`);
+			}
+			errorsStack.setErrorsStack(message);
+		}
+	}
+
 	/**
 	 * Метод для получения идентификаторов активных событий на бирже
 	 */
@@ -117,7 +113,7 @@ export class TaskService implements OnApplicationBootstrap {
 			let events = await this.fetchService.searchEvents(urlSearch);
 			eventIds = this.parserFootballService.getIdList(events);
 		} catch (error) {
-			this.logger.error(`Search active event: ${error}`);
+			this.log.error(TaskService.name, `Search active event: ${error}`);
 		}
 		return eventIds && eventIds.length ? eventIds : [];
 	}
@@ -135,7 +131,7 @@ export class TaskService implements OnApplicationBootstrap {
 			let liteMarkets: LiteMarkets = this.parserFootballService.getMarketsEvents(marketsEvents);
 			eventDetails = await this.getMarketNodesForEvents(eventDetails, liteMarkets);
 		} catch (error) {
-			this.logger.error(`Get event details for events: ${error}`);
+			this.log.error(TaskService.name, `Get event details for events: ${error}`);
 		}
 		return eventDetails && eventDetails.length ? eventDetails : [];
 	}
@@ -164,7 +160,7 @@ export class TaskService implements OnApplicationBootstrap {
 								marketNodes,
 							};
 						} catch (error) {
-							this.logger.error(`Get rate markets: ${error}`);
+							this.log.error(TaskService.name, `Get rate markets: ${error}`);
 						}
 					}
 				}

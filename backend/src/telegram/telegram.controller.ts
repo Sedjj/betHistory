@@ -1,16 +1,16 @@
-import {Body, Controller, Logger, Post, UseInterceptors} from '@nestjs/common';
+import {Body, Controller, Post, UseInterceptors} from '@nestjs/common';
 import {TelegramService} from './telegram.service';
 import config from 'config';
 import {SendMessageDto} from './dto/send-message.dto';
 import {FileInterceptor} from '@nestjs/platform-express';
 import {SendPhotoDto} from './dto/send-photo.dto';
+import {MyLogger} from '../logger/myLogger.service';
 
 @Controller('telegram')
 export class TelegramController {
-	private readonly logger = new Logger(TelegramController.name);
 	private readonly nameBot: string;
 
-	constructor(private readonly telegramService: TelegramService) {
+	constructor(private readonly telegramService: TelegramService, private readonly log: MyLogger) {
 		if (process.env.NODE_ENV === 'development') {
 			this.nameBot = config.get<string>('bots.dev.name');
 		} else {
@@ -22,7 +22,7 @@ export class TelegramController {
 	public sendMessage(@Body() messageDto: SendMessageDto) {
 		try {
 			this.telegramService.sendMessageSupport(messageDto.text).then(() => {
-				this.logger.debug('Send message fine');
+				this.log.debug(TelegramController.name, 'Send message fine');
 			});
 		} catch (e) {
 			return `Message not send -> ${e}`;
@@ -36,7 +36,7 @@ export class TelegramController {
 		try {
 			const buffer: Buffer = Buffer.from(fileDto.base64Image, 'base64');
 			this.telegramService.sendFilePhoto(buffer, fileDto.title || this.nameBot).then(() => {
-				this.logger.debug('Send photo fine');
+				this.log.debug(TelegramController.name, 'Send photo fine');
 			});
 		} catch (e) {
 			return `Photo not send -> ${e}`;

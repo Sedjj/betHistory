@@ -1,14 +1,13 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {IConf, IConfModel, IRateStrategy, ITime} from './type/conf.type';
 import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import {dateStringToShortDateString} from '../../utils/dateFormat';
+import {MyLogger} from '../../logger/myLogger.service';
 
 @Injectable()
 export class ConfService {
-	private readonly logger = new Logger(ConfService.name);
-
-	constructor(@InjectModel('Config') private readonly confModel: Model<IConfModel>) {}
+	constructor(@InjectModel('Config') private readonly confModel: Model<IConfModel>, private readonly log: MyLogger) {}
 
 	/**
 	 * Преобразовывает конфигурацию в необходимый формат
@@ -48,11 +47,11 @@ export class ConfService {
 		return await createdConfig
 			.save()
 			.then((model: IConfModel) => {
-				this.logger.debug('Configuration model created');
+				this.log.debug(ConfService.name, 'Configuration model created');
 				return ConfService.mapProps(model);
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error create conf param=${JSON.stringify(param)}`);
+				this.log.error(ConfService.name, `Error create conf param=${JSON.stringify(param)}`);
 				throw new Error(error);
 			});
 	}
@@ -69,13 +68,13 @@ export class ConfService {
 			.exec()
 			.then((model: IConfModel | null) => {
 				if (!model) {
-					this.logger.error('Conf with not found');
+					this.log.error(ConfService.name, 'Conf with not found');
 					throw new Error(`Conf with not found: ${confId}`);
 				}
 				return ConfService.mapProps(model);
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error getDataByParam confId=${confId}`);
+				this.log.error(ConfService.name, `Error getDataByParam confId=${confId}`);
 				throw new Error(error);
 			});
 	}
@@ -92,7 +91,7 @@ export class ConfService {
 			.exec()
 			.then((model: IConfModel | null) => {
 				if (!model) {
-					this.logger.error('Conf with not found');
+					this.log.error(ConfService.name, 'Conf with not found');
 					throw new Error(`Conf with not found: ${param.confId}`);
 				}
 				if (param.betAmount !== undefined) {
@@ -113,7 +112,7 @@ export class ConfService {
 				return model.save().then((x: IConfModel) => ConfService.mapProps(x));
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error set data by param conf param=${JSON.stringify(param)}`);
+				this.log.error(ConfService.name, `Error set data by param conf param=${JSON.stringify(param)}`);
 				throw new Error(error);
 			});
 	}
@@ -125,14 +124,10 @@ export class ConfService {
 	}
 
 	getRateStrategy(strategy: number): Promise<IRateStrategy> {
-		return this.getDataByParam(1).then((model: IConf) => {
-			return model.rate[strategy - 1];
-		});
+		return this.getDataByParam(1).then((model: IConf) => model.rate[strategy - 1]);
 	}
 
 	getTime(): Promise<ITime[]> {
-		return this.getDataByParam(1).then((model: IConf) => {
-			return model.time;
-		});
+		return this.getDataByParam(1).then((model: IConf) => model.time);
 	}
 }

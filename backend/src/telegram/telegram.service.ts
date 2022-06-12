@@ -1,15 +1,15 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import config from 'config';
 import {InjectBot, TelegrafProvider} from 'nestjs-telegraf';
+import {MyLogger} from '../logger/myLogger.service';
 
 @Injectable()
 export class TelegramService {
-	private readonly logger = new Logger(TelegramService.name);
 	private readonly chatId: string;
 	private readonly channelId: string;
 	private readonly supportChatId: string;
 
-	constructor(@InjectBot() private telegrafService: TelegrafProvider) {
+	constructor(@InjectBot() private telegrafService: TelegrafProvider, private readonly log: MyLogger) {
 		if (process.env.NODE_ENV === 'development') {
 			this.channelId = config.get<string>('bots.dev.channelId');
 			this.chatId = config.get<string>('bots.dev.chatId');
@@ -33,7 +33,7 @@ export class TelegramService {
 				parse_mode: 'HTML',
 			});
 		} catch (e) {
-			this.logger.error(`Error sendMessageChat -> ${e}`);
+			this.log.error(TelegramService.name, `Error sendMessageChat -> ${e}`);
 		}
 	}
 
@@ -49,7 +49,7 @@ export class TelegramService {
 				parse_mode: 'HTML',
 			});
 		} catch (e) {
-			this.logger.error(`Error sendMessageChannel -> ${e}`);
+			this.log.error(TelegramService.name, `Error sendMessageChannel -> ${e}`);
 		}
 	}
 
@@ -65,7 +65,7 @@ export class TelegramService {
 				parse_mode: 'HTML',
 			});
 		} catch (e) {
-			this.logger.error(`Error sendMessageSupport -> ${e}`);
+			this.log.error(TelegramService.name, `Error sendMessageSupport -> ${e}`);
 		}
 	}
 
@@ -88,7 +88,7 @@ export class TelegramService {
 				},
 			);
 		} catch (e) {
-			this.logger.error(`Error sendFile -> ${e}`);
+			this.log.error(TelegramService.name, `Error sendFile -> ${e}`);
 		}
 	}
 
@@ -113,7 +113,7 @@ export class TelegramService {
 				},
 			);
 		} catch (e) {
-			this.logger.error(`Error sendFileOfBuffer -> ${e}`);
+			this.log.error(TelegramService.name, `Error sendFileOfBuffer -> ${e}`);
 		}
 	}
 
@@ -136,7 +136,7 @@ export class TelegramService {
 				},
 			);
 		} catch (e) {
-			this.logger.error(`Error sendFilePhoto -> ${e}`);
+			this.log.error(TelegramService.name, `Error sendFilePhoto -> ${e}`);
 		}
 	}
 }

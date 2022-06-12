@@ -1,4 +1,4 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import path from 'path';
 import {
 	Context,
@@ -18,10 +18,10 @@ import {ExportService} from '../export/export.service';
 import {StackDBService} from '../model/stack/stackDB.service';
 import {IStack, StackType} from '../model/stack/type/stack.type';
 import {FetchService} from '../fetch/fetch.service';
+import {MyLogger} from '../logger/myLogger.service';
 
 @Injectable()
 export class TelegramActions {
-	private readonly logger = new Logger(TelegramActions.name);
 	private readonly storagePath: string;
 	private readonly logsDirectory: string;
 
@@ -39,6 +39,7 @@ export class TelegramActions {
 		private readonly exportService: ExportService,
 		private readonly stackDBService: StackDBService,
 		private readonly fetchService: FetchService,
+		private readonly log: MyLogger,
 	) {
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.logsDirectory = config.get<string>('path.directory.logs') || 'logs';
@@ -100,10 +101,10 @@ export class TelegramActions {
 		}
 		try {
 			const me = await this.bot.telegram.getMe();
-			this.logger.log(JSON.stringify(me));
+			this.log.log(TelegramActions.name, JSON.stringify(me));
 			await this.sendText(ctx, 'Hi, choose action!');
 		} catch (error) {
-			this.logger.error(`Error start -> ${error}`);
+			this.log.error(TelegramActions.name, `Error start -> ${error}`);
 		}
 	}
 
@@ -258,7 +259,7 @@ export class TelegramActions {
 				await this.telegramService.sendFileOfBuffer(file.buffer, file.filename);
 			}
 		} catch (error) {
-			this.logger.error(`Error exportStatisticDebounce: ${error}`);
+			this.log.error(TelegramActions.name, `Error exportStatisticDebounce: ${error}`);
 		}
 		exportStatus.clear();
 	}
@@ -271,7 +272,7 @@ export class TelegramActions {
 			const file = await this.fetchService.getLogOtherServer();
 			await this.telegramService.sendFileOfBuffer(file, 'debug_selenium.log');
 		} catch (error) {
-			this.logger.error(`Error getLogs -> ${error}`);
+			this.log.error(TelegramActions.name, `Error getLogs -> ${error}`);
 		}
 	}
 
@@ -282,7 +283,7 @@ export class TelegramActions {
 		try {
 			await this.telegramService.sendFile(path.join(this.storagePath, this.logsDirectory, `${name}.log`));
 		} catch (error) {
-			this.logger.error(`Error getLogs -> ${error}`);
+			this.log.error(TelegramActions.name, `Error getLogs -> ${error}`);
 		}
 	}
 
@@ -293,7 +294,7 @@ export class TelegramActions {
 			let stackOften: IStack = await this.stackDBService.getDataByParam(StackType.OFTEN);
 			activeEventIds = stackUsually.activeEventIds.length + stackOften.activeEventIds.length;
 		} catch (error) {
-			this.logger.error(`Error get active event ids`);
+			this.log.error(TelegramActions.name, `Error get active event ids`);
 		}
 		return activeEventIds;
 	}

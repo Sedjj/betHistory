@@ -7,6 +7,7 @@ import config from 'config';
 import {StackDBModule} from '../model/stack/stackDB.module';
 import {TelegramController} from './telegram.controller';
 import {FetchModule} from '../fetch/fetch.module';
+import {LoggerModule} from '../logger/logger.module';
 
 let token: string;
 if (process.env.NODE_ENV === 'development') {
@@ -16,7 +17,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 @Module({
-	imports: [HttpModule, TelegrafModule.forRoot({token}), ExportModule, StackDBModule, FetchModule],
+	imports: [LoggerModule, HttpModule, TelegrafModule.forRoot({token}), ExportModule, StackDBModule, FetchModule],
 	controllers: [TelegramController],
 	providers: [TelegramActions, TelegramService],
 	exports: [TelegramService],

@@ -1,15 +1,17 @@
 import {Model} from 'mongoose';
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
 import {IFootball, IFootballModel, IFootballQuery, IOtherRate} from './type/football.type';
 import {dateStringToFullDateString} from '../../utils/dateFormat';
 import {ScoreEvents} from '../../parser/type/scoreEvents.type';
+import {MyLogger} from '../../logger/myLogger.service';
 
 @Injectable()
 export class FootballService {
-	private readonly logger = new Logger(FootballService.name);
-
-	constructor(@InjectModel('Football') private readonly footballModel: Model<IFootballModel>) {}
+	constructor(
+		@InjectModel('Football') private readonly footballModel: Model<IFootballModel>,
+		private readonly log: MyLogger,
+	) {}
 
 	/**
 	 * Преобразовывает ставки в необходимый формат
@@ -171,7 +173,10 @@ export class FootballService {
 			.save()
 			.then(model => FootballService.mapProps(model))
 			.catch((error: any) => {
-				this.logger.error(`Error create football param=${JSON.stringify(param)},  message: ${error.message}`);
+				this.log.error(
+					FootballService.name,
+					`Error create football param=${JSON.stringify(param)},  message: ${error.message}`,
+				);
 				throw new Error(error);
 			});
 	}
@@ -219,7 +224,10 @@ export class FootballService {
 				return FootballService.mapProps(findMatch);
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error get match param=${JSON.stringify(param)},  message: ${error.message}`);
+				this.log.error(
+					FootballService.name,
+					`Error get match param=${JSON.stringify(param)},  message: ${error.message}`,
+				);
 				throw new Error(error);
 			});
 	}
@@ -237,13 +245,16 @@ export class FootballService {
 			.exec()
 			.then((statistics: IFootballModel[]) => {
 				if (!statistics) {
-					this.logger.error('Statistic with not found');
+					this.log.error(FootballService.name, 'Statistic with not found');
 					return [];
 				}
 				return statistics.map((statistic: IFootballModel) => FootballService.mapProps(statistic));
 			})
 			.catch((error: any) => {
-				this.logger.error(`Error get data by param param=${JSON.stringify(param)},  message: ${error.message}`);
+				this.log.error(
+					FootballService.name,
+					`Error get data by param param=${JSON.stringify(param)},  message: ${error.message}`,
+				);
 				throw new Error(error);
 			});
 	}
@@ -260,13 +271,16 @@ export class FootballService {
 			.exec()
 			.then((model: IFootballModel | null) => {
 				if (!model) {
-					this.logger.error('Football with not found');
+					this.log.error(FootballService.name, 'Football with not found');
 					throw new Error(`Football with not found: ${param.marketId}`);
 				}
 				return FootballService.mapProps(model);
 			})
 			.catch((error: any) => {
-				this.logger.error(`deleteStatistic param=${JSON.stringify(param)},  message: ${error.message}`);
+				this.log.error(
+					FootballService.name,
+					`deleteStatistic param=${JSON.stringify(param)},  message: ${error.message}`,
+				);
 				throw new Error(error);
 			});
 	}
@@ -284,7 +298,7 @@ export class FootballService {
 			.exec()
 			.then((statistic: IFootballModel | null) => {
 				if (!statistic) {
-					this.logger.error('Football with not found');
+					this.log.error(FootballService.name, 'Football with not found');
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
 				if (param.rates != null) {
@@ -299,7 +313,8 @@ export class FootballService {
 				return statistic.save().then((x: IFootballModel) => FootballService.mapProps(x));
 			})
 			.catch((error: any) => {
-				this.logger.error(
+				this.log.error(
+					FootballService.name,
 					`Error set data by param football param=${JSON.stringify(param)},  message: ${error.message}`,
 				);
 				throw new Error(error);
@@ -319,7 +334,7 @@ export class FootballService {
 			.exec()
 			.then(async (statistics: IFootballModel[] | null) => {
 				if (statistics == null || statistics.length === 0) {
-					this.logger.error('Football with not found');
+					this.log.error(FootballService.name, 'Football with not found');
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
 				await asyncForEach<IFootballModel>(statistics, async (item: IFootballModel) => {
@@ -333,7 +348,8 @@ export class FootballService {
 				});
 			})
 			.catch((error: any) => {
-				this.logger.error(
+				this.log.error(
+					FootballService.name,
 					`Error set score by param football param=${JSON.stringify(param)},  message: ${error.message}`,
 				);
 				throw new Error(error);

@@ -1,4 +1,4 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import config from 'config';
 import {readFile} from '../utils/fsHelpers';
 import path from 'path';
@@ -7,17 +7,17 @@ import {FootballService} from '../model/football/football.service';
 import Workbook from 'xlsx-template';
 import {IFootball} from '../model/football/type/football.type';
 import {ExcelProps} from './type/export.type';
+import {MyLogger} from '../logger/myLogger.service';
 
 @Injectable()
 export class ExportService {
-	private readonly logger = new Logger(ExportService.name);
 	private readonly storagePath: string;
 	private readonly outputFootball: string;
 	private readonly inputFootball: string;
 	private readonly exportTemplatesDirectory: string;
 	private readonly pathInputFootball: string;
 
-	constructor(private readonly footballService: FootballService) {
+	constructor(private readonly footballService: FootballService, private readonly log: MyLogger) {
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.exportTemplatesDirectory = config.get<string>('path.directory.exportTemplates') || 'exportTemplates';
 		this.inputFootball = config.get<string>('path.storage.football.inputName') || 'Reports-football-default.xlsx';
@@ -97,10 +97,10 @@ export class ExportService {
 		try {
 			const buffer: Buffer = await this.getStatisticsFootball(days, startDay);
 			const filename: string = `${days}days-${this.outputFootball}`;
-			this.logger.debug(`Файл statistic ${filename}`);
+			this.log.debug(ExportService.name, `Файл statistic ${filename}`);
 			return {filename, buffer};
 		} catch (error) {
-			this.logger.error(`Error send statistic: ${error.message}`);
+			this.log.error(ExportService.name, `Error send statistic: ${error.message}`);
 			throw new Error(error);
 		}
 	}
@@ -121,12 +121,15 @@ export class ExportService {
 		query['$and'] = [];
 		query['$and'].push({modifiedBy: {$gte: beforeDate.toISOString()}});
 		query['$and'].push({modifiedBy: {$lte: currentDate.toISOString()}});
-		this.logger.debug(`Начало экспорта Statistics с ${beforeDate.toISOString()} по ${currentDate.toISOString()}`);
+		this.log.debug(
+			ExportService.name,
+			`Начало экспорта Statistics с ${beforeDate.toISOString()} по ${currentDate.toISOString()}`,
+		);
 
 		return this.footballService
 			.getDataByParam(query)
 			.then((items: IFootball[]) => {
-				this.logger.debug('Преобразование данных');
+				this.log.debug(ExportService.name, 'Преобразование данных');
 				return items.reduce<ExcelProps[]>((acc, item) => {
 					let res = ExportService.mapProps(item);
 					if (res != null) {
@@ -137,7 +140,7 @@ export class ExportService {
 			})
 			.then(async (prop: ExcelProps[]) => {
 				try {
-					this.logger.debug(`Подготовлено данных ${prop.length}`);
+					this.log.debug(ExportService.name, `Подготовлено данных ${prop.length}`);
 					let file = await readFile(this.pathInputFootball);
 					const template = new Workbook(file);
 					template.substitute(1, {
@@ -161,10 +164,10 @@ export class ExportService {
 					template.substitute(7, {
 						tr: prop.filter((item: {strategy: number}) => item.strategy === 7),
 					});
-					this.logger.debug('Генерация файла');
+					this.log.debug(ExportService.name, 'Генерация файла');
 					return template.generate<Buffer>({type: 'nodebuffer'});
 				} catch (error) {
-					this.logger.error(`ExportError statisticList: ${error.message}`);
+					this.log.error(ExportService.name, `ExportError statisticList: ${error.message}`);
 					throw new Error(error);
 				}
 			});

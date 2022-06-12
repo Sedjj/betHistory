@@ -39,6 +39,7 @@ export class BetsSimulatorService {
 			}
 			return acc;
 		}, 0);
+
 		const excludeWhiteGroup = this.groupWhite.some(x => group.includes(x));
 		const excludeBlackGroup = this.groupBlack.some(x => group.includes(x));
 		const mod = Math.abs(matchOddsP1 - matchOddsP2);
@@ -48,21 +49,23 @@ export class BetsSimulatorService {
 				if (women === 0 && youth === 0) {
 					if (1.45 < TB15A && TB15A < 2.1) {
 						if (mod > 0.35 && matchOddsX > 2.7) {
-							if (TM20 < 1.85) {
-								if (excludeWhiteGroup || !excludeBlackGroup) {
-									await this.telegramService.sendMessageChat(decorateMessageChat(param));
-									await this.fetchService.placeOrders({
-										marketId,
-										layOrBack: TB15A <= 1.45 ? 'lay' : 'back', // TODO lay "против" - back "за"
-										choice: {
-											selectionId: TB15A <= 1.45 ? over15SelectionId : under15SelectionId,
-											handicap: TB15A <= 1.45 ? over15Handicap : under15Handicap,
-										},
-										bet: {
-											price: TB15A <= 1.45 ? TB15A + 0.1 : TM15B - 0.2,
-											stake: betAmount.bets,
-										},
-									});
+							if (1.25 < TM20 && TM20 < 1.85) {
+								if (matchOddsP1 > 1.7) {
+									if (excludeWhiteGroup || !excludeBlackGroup) {
+										await this.telegramService.sendMessageChat(decorateMessageChat(param));
+										await this.fetchService.placeOrders({
+											marketId,
+											layOrBack: TB15A <= 1.45 ? 'lay' : 'back', // TODO lay "против" - back "за"
+											choice: {
+												selectionId: TB15A <= 1.45 ? over15SelectionId : under15SelectionId,
+												handicap: TB15A <= 1.45 ? over15Handicap : under15Handicap,
+											},
+											bet: {
+												price: TB15A <= 1.45 ? TB15A + 0.1 : TM15B - 0.2,
+												stake: betAmount.bets,
+											},
+										});
+									}
 								}
 							}
 						}
@@ -77,72 +80,62 @@ export class BetsSimulatorService {
 
 function blackList(): string[] {
 	return [
-		'Argentinian',
 		'Azerbaijan',
 		'Bahraini Premier',
 		'Bangalore',
 		'Bangladesh',
-		'Belarusian',
-		'Belgian',
-		'Brazilian',
-		'Chilean',
-		'Croatian 3. HNL',
+		'Belgian First Division',
+		'Bosnian',
+		'Chilean Primera Division',
+		'Colombian Matches',
+		'Croatian 1 HNL',
 		'Dutch Cup',
-		'Egyptian',
-		'English',
-		'FIFA',
+		'Egyptian Premier',
+		'English Matches',
+		'English Northern Division 1',
+		'English Southern League Cup',
 		'French Ligue 1',
 		'Georgian',
-		'German',
-		'Honduras',
+		'German Bundesliga 2',
+		'German Regional Cup',
+		'Goiano',
 		'Indian',
-		'Irish',
+		'Irish FAI Cup',
 		'Israeli',
-		'Italian',
-		'Jordan',
 		'Kakkonen',
 		'Lithuanian A Lyga',
+		'Maltese',
 		'Mexican Ascenso MX',
-		'Mongolian',
 		'Nicaraguan',
 		'Norwegian Eliteserien',
-		'Pakistan',
-		'Palestinian',
-		'Paraguayan',
+		'Paraguayan Segunda',
 		'Peruvian',
 		'Polish Cup',
 		'Polish Ekstraklasa',
+		'Polish III Liga',
 		'Portuguese',
-		'Qatari Stars League',
+		'Qatari Stars',
 		'Regionalliga',
+		'Reserves',
 		'Romanian Liga III',
 		'Russian Cup',
-		'Russian Reserves',
+		'Russian Football National',
 		'Rwandan',
-		'Scottish',
-		'Serbian First League',
-		'Slovakian',
+		'Scottish League One',
+		'Scottish League Two',
+		'Slovakian 2 Liga',
 		'South Korean Matches',
 		'Spanish',
+		'Sri Lankan',
 		'Swiss',
-		'Thai',
+		'Thai Division 1',
 		'Turkish',
+		'UEFA Champions League Qualifiers',
 		'Ukrainian',
 		'Welsh',
 	];
 }
 
 function whiteList(): string[] {
-	return [
-		'Argentinian Superliga Cup',
-		'Argentinian Torneo A',
-		'Brazilian Campeonato',
-		'Chilean Primera B',
-		'English League 2',
-		'Irish Division 1',
-		'Portuguese Matches',
-		'Scottish Championship',
-		'Slovakian Super League',
-		'Spanish La Liga',
-	];
+	return ['Portuguese Matches', 'German Regionalliga West', 'Spanish La Liga'];
 }

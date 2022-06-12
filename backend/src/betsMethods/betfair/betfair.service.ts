@@ -1,19 +1,19 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {CookieJar} from 'tough-cookie';
 import got, {Got} from 'got';
 import {IFootball} from '../../model/football/type/football.type';
 import FormData from 'form-data';
+import {MyLogger} from '../../logger/myLogger.service';
 
 @Injectable()
 export class BetfairService {
-	private readonly logger = new Logger(BetfairService.name);
 	/**
 	 * Массив интервалов в миллисекундах после которых делается попытка снова
 	 */
 	private readonly searchTimeouts: number[];
 	private readonly client: Got;
 
-	constructor() {
+	constructor(private readonly log: MyLogger) {
 		this.searchTimeouts = [2000, 5000, 8000, 12000, 1];
 		const cookieJar = new CookieJar();
 		this.client = got.extend({
@@ -50,12 +50,12 @@ export class BetfairService {
 						resolve(body);
 						break;
 					}
-					this.logger.error(`Place orders request came empty: ${body}`);
+					this.log.error(BetfairService.name, `Place orders request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
-					this.logger.debug(`Get all matches sleep on ${timeout}ms`);
+					this.log.error(BetfairService.name, `path: ${error.path}, name: ${error.name}, message: ${error.message}`);
+					this.log.debug(BetfairService.name, `Get all matches sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}
@@ -100,12 +100,12 @@ export class BetfairService {
 						resolve(body);
 						break;
 					}
-					this.logger.error(`Place orders request came empty: ${body}`);
+					this.log.error(BetfairService.name, `Place orders request came empty: ${body}`);
 					reject('request came empty');
 					break;
 				} catch (error) {
-					this.logger.error(`path: ${error.path}, name: ${error.name}, message: ${error.message}`);
-					this.logger.debug(`Get all matches sleep on ${timeout}ms`);
+					this.log.error(BetfairService.name, `path: ${error.path}, name: ${error.name}, message: ${error.message}`);
+					this.log.debug(BetfairService.name, `Get all matches sleep on ${timeout}ms`);
 					await this.sleep(timeout);
 				}
 			}

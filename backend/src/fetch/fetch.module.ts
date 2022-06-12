@@ -1,13 +1,10 @@
 import {Module} from '@nestjs/common';
 import {FetchService} from './fetch.service';
+import {LoggerModule} from '../logger/logger.module';
 
 @Module({
-	providers: [
-		FetchService
-	],
-	exports: [
-		FetchService,
-	]
+	imports: [LoggerModule],
+	providers: [FetchService],
+	exports: [FetchService],
 })
-export class FetchModule {
-}
+export class FetchModule {}

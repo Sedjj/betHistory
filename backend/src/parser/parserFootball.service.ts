@@ -1,4 +1,4 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {
 	IBothTeamsToScore,
 	ICards,
@@ -18,10 +18,11 @@ import {EventDetails, StateEventDetails, TeamInfoEventDetails} from './type/even
 import {LiteMarkets, MarketType} from './type/marketsEvents.type';
 import {ExchangeMarketNodes, MarketNodes, RunnersMarketNodes, StatusMarket} from './type/byMarket.type';
 import {ScoreEvents} from './type/scoreEvents.type';
+import {MyLogger} from '../logger/myLogger.service';
 
 @Injectable()
 export class ParserFootballService {
-	private readonly logger = new Logger(ParserFootballService.name);
+	constructor(private readonly log: MyLogger) {}
 
 	private choiceMarketType: MarketType[] = [
 		'MATCH_ODDS',
@@ -253,7 +254,7 @@ export class ParserFootballService {
 				modifiedBy: new Date().toISOString(),
 			};
 		} catch (error) {
-			this.logger.debug(`getParams: ${error}`);
+			this.log.debug(ParserFootballService.name, `getParams: ${error}`);
 			throw new Error(error);
 		}
 		return param;

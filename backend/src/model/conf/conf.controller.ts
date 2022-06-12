@@ -1,12 +1,11 @@
-import {Body, Controller, Get, Logger, OnApplicationBootstrap, Post} from '@nestjs/common';
+import {Body, Controller, Get, OnApplicationBootstrap, Post} from '@nestjs/common';
 import {ConfService} from './conf.service';
 import {IConf} from './type/conf.type';
+import {MyLogger} from '../../logger/myLogger.service';
 
 @Controller('conf')
 export class ConfController implements OnApplicationBootstrap {
-	private readonly logger = new Logger(ConfController.name);
-
-	constructor(private readonly confService: ConfService) {}
+	constructor(private readonly confService: ConfService, private readonly log: MyLogger) {}
 
 	onApplicationBootstrap() {
 		this.confService
@@ -81,13 +80,13 @@ export class ConfController implements OnApplicationBootstrap {
 					},
 				],
 			})
-			.then((response: null | IConf) => response && this.logger.debug(`Config migration in bd`));
+			.then((response: null | IConf) => response && this.log.debug(ConfController.name, `Config migration in bd`));
 	}
 
 	@Post()
 	async create(@Body() conf: IConf) {
 		await this.confService.create(conf);
-		this.logger.debug(`Create conf: ${conf}`);
+		this.log.debug(ConfController.name, `Create conf: ${conf}`);
 	}
 
 	@Get()
