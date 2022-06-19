@@ -1,12 +1,11 @@
-import { Body, Controller, Get, OnApplicationBootstrap, Post } from "@nestjs/common";
-import { ConfService } from "./conf.service";
-import { MyLogger } from "../../logger/myLogger.service";
-import { Config } from "./schemas/config.schema";
+import {Body, Controller, Get, OnApplicationBootstrap, Post} from '@nestjs/common';
+import {ConfService} from './conf.service';
+import {MyLogger} from '../../logger/myLogger.service';
+import {Config} from './schemas/config.schema';
 
-@Controller("conf")
+@Controller('conf')
 export class ConfController implements OnApplicationBootstrap {
-	constructor(private readonly confService: ConfService, private readonly log: MyLogger) {
-	}
+	constructor(private readonly confService: ConfService, private readonly log: MyLogger) {}
 
 	onApplicationBootstrap() {
 		this.confService
@@ -16,7 +15,7 @@ export class ConfController implements OnApplicationBootstrap {
 				time: [
 					{
 						before: 0,
-						after: 0
+						after: 0,
 					},
 					{
 						// 1
@@ -52,8 +51,8 @@ export class ConfController implements OnApplicationBootstrap {
 				typeRate: [1.5, 1.5, 1.5, 0.5, 0.5, 0.5, 0.5],
 				rate: [
 					{
-						title: "Math.abs(p1 - p2) < rate",
-						rate: 2
+						title:"Math.abs(p1 - p2) < rate"',
+						rate: ,
 					},
 					{
 						title: "Math.abs(p1 - p2) < rate",

@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import config from "config";
-import { readFile } from "../utils/fsHelpers";
-import path from "path";
-import { FootballService } from "../model/football/football.service";
+import {Injectable} from '@nestjs/common';
+import config from 'config';
+import {readFile} from '../utils/fsHelpers';
+import path from 'path';
+import {FootballService} from '../model/football/football.service';
 // @ts-ignore
-import Workbook from "xlsx-template";
-import { IFootball } from "../model/football/type/football.type";
-import { ExcelProps } from "./type/export.type";
-import { MyLogger } from "../logger/myLogger.service";
+import Workbook from 'xlsx-template';
+import {IFootball} from '../model/football/type/football.type';
+import {ExcelProps} from './type/export.type';
+import {MyLogger} from '../logger/myLogger.service';
 
 @Injectable()
 export class ExportService {

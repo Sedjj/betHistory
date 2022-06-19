@@ -1,17 +1,17 @@
-import path from "path";
-import { Action, Ctx, Hears, InjectBot, Start, Update, Use } from "nestjs-telegraf";
-import { betAmount, exportStatus, rateStatus } from "../store";
-import config from "config";
-import { IKeyboardButton, IMenuBot } from "./type/telegram.type";
-import { menuList } from "./menu";
-import { TelegramService } from "./telegram.service";
-import { ExportService } from "../export/export.service";
-import { StackDBService } from "../model/stack/stackDB.service";
-import { StackType } from "../model/stack/type/stack.type";
-import { FetchService } from "../fetch/fetch.service";
-import { MyLogger } from "../logger/myLogger.service";
-import { Context, Telegraf } from "telegraf";
-import { Stack } from "../model/stack/schemas/stack.schema";
+import path from 'path';
+import {Action, Ctx, Hears, InjectBot, Start, Update, Use} from 'nestjs-telegraf';
+import {betAmount, exportStatus, rateStatus} from '../store';
+import config from 'config';
+import {IKeyboardButton, IMenuBot} from './type/telegram.type';
+import {menuList} from './menu';
+import {TelegramService} from './telegram.service';
+import {ExportService} from '../export/export.service';
+import {StackDBService} from '../model/stack/stackDB.service';
+import {StackType} from '../model/stack/type/stack.type';
+import {FetchService} from '../fetch/fetch.service';
+import {MyLogger} from '../logger/myLogger.service';
+import {Context, Telegraf} from 'telegraf';
+import {Stack} from '../model/stack/schemas/stack.schema';
 
 @Update()
 export class TelegramActions {
@@ -19,11 +19,11 @@ export class TelegramActions {
 	private readonly logsDirectory: string;
 
 	private readonly buttons: any = {
-		waiting: "Сколько матчей в ожидании",
-		selectSport: "Вид спорта",
-		rate: "Ставки",
-		getFile: "Получить файл",
-		betAmount: "Сумма ставки"
+		waiting: 'Сколько матчей в ожидании',
+		selectSport: 'Вид спорта',
+		rate: 'Ставки',
+		getFile: 'Получить файл',
+		betAmount: 'Сумма ставки',
 	};
 
 	constructor(
@@ -32,9 +32,9 @@ export class TelegramActions {
 		private readonly exportService: ExportService,
 		private readonly stackDBService: StackDBService,
 		private readonly fetchService: FetchService,
-		private readonly log: MyLogger
+		private readonly log: MyLogger,
 	) {
-		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
+		this.storagePah = config.get<string>('path.storagePath') || process.cwd();
 		this.logsDirectory = config.get<string>('path.directory.logs') || 'logs';
 	}
 
@@ -70,7 +70,7 @@ export class TelegramActions {
 	 * @param {String} text название
 	 */
 	private static async sendAnswerText(ctx: Context, text: string): Promise<void> {
-		await ctx.answerCbQuery(text, { show_alert: true });
+		await ctx.answerCbQuery(text, {show_alert: true});
 	}
 
 	/**
@@ -83,13 +83,13 @@ export class TelegramActions {
 	 */
 	private static async editMessageReplyMarkup(ctx: Context, text: string, count: string): Promise<void> {
 		await ctx.editMessageReplyMarkup({
-			inline_keyboard: menuList(text, count).buttons
+			inline_keyboard: menuList(text, count).buttons,
 		});
 	}
 
 	@Start()
 	protected async start(@Ctx() ctx: Context) {
-		console.log("ctx.message", ctx.message);
+		console.log"ctx.message"', ctx.message);
 		if (!(ctx.message && ctx.message)) {
 			return;
 		}

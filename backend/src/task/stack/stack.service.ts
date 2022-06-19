@@ -1,10 +1,10 @@
-import { Injectable, OnApplicationBootstrap } from "@nestjs/common";
-import { StackType } from "../../model/stack/type/stack.type";
-import { EventDetails } from "../../parser/type/eventDetails.type";
-import { StackDBService } from "../../model/stack/stackDB.service";
-import { IActiveEvent } from "./stack.type";
-import { MyLogger } from "../../logger/myLogger.service";
-import { Stack } from "../../model/stack/schemas/stack.schema";
+import {Injectable, OnApplicationBootstrap} from '@nestjs/common';
+import {StackType} from '../../model/stack/type/stack.type';
+import {EventDetails} from '../../parser/type/eventDetails.type';
+import {StackDBService} from '../../model/stack/stackDB.service';
+import {IActiveEvent} from './stack.type';
+import {MyLogger} from '../../logger/myLogger.service';
+import {Stack} from '../../model/stack/schemas/stack.schema';
 
 @Injectable()
 export class StackService implements OnApplicationBootstrap {
@@ -14,16 +14,16 @@ export class StackService implements OnApplicationBootstrap {
 	constructor(private readonly stackDBService: StackDBService, private readonly log: MyLogger) {
 		this.activeEventIds = {
 			often: [],
-			unusual: []
+			unusual: [],
 		};
 	}
 
 	async onApplicationBootstrap() {
 		let stackUsually: null | Stack = await this.stackDBService.create({
 			stackId: StackType.UNUSUAL,
-			activeEventIds: []
+			activeEventIds: [],
 		});
-		let stackOften: null | Stack = await this.stackDBService.create({
+		letstackOften: null | Stack = await this.stackDBService.create({
 			stackId: StackType.OFTEN,
 			activeEventIds: []
 		});

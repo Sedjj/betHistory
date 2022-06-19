@@ -1,19 +1,18 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { dateStringToShortDateString } from "../../utils/dateFormat";
-import { MyLogger } from "../../logger/myLogger.service";
-import { ConfDocument, Config } from "./schemas/config.schema";
-import { RateStrategy } from "./schemas/rateStrategy.schema";
-import { Time } from "./schemas/time.schema";
+import {Injectable} from '@nestjs/common';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
+import {dateStringToShortDateString} from '../../utils/dateFormat';
+import {MyLogger} from '../../logger/myLogger.service';
+import {ConfDocument, Config} from './schemas/config.schema';
+import {RateStrategy} from './schemas/rateStrategy.schema';
+import {Time} from './schemas/time.schema';
 
 @Injectable()
 export class ConfService {
 	constructor(
 		@InjectModel(Config.name) private readonly confModel: Model<ConfDocument>,
-		private readonly log: MyLogger
-	) {
-	}
+		private readonly log: MyLogger,
+	) {}
 
 	private static mapProps(model: ConfDocument): Config {
 		return {
@@ -23,16 +22,16 @@ export class ConfService {
 			typeRate: model.typeRate,
 			rate: model.rate,
 			createdBy: model.createdBy ? dateStringToShortDateString(model.createdBy) : undefined,
-			modifiedBy: model.modifiedBy ? dateStringToShortDateString(model.modifiedBy) : undefined
+			modifiedBy: model.modifiedBy ? dateStringToShortDateString(model.modifiedBy) : undefined,
 		};
 	}
 
 	async create(param: Config): Promise<null | Config> {
 		let findMatch = await this.confModel
 			.find({
-				confId: param.confId
+				confId: param.confId,
 			})
-			.exec();
+			.exec);
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
@@ -56,7 +55,7 @@ export class ConfService {
 	 */
 	async getDataByParam(confId: number): Promise<Config> {
 		return await this.confModel
-			.findOne({ confId })
+			.findOne({confId})
 			.read("secondary")
 			.exec()
 			.then((model: ConfDocument | null) => {
@@ -79,7 +78,7 @@ export class ConfService {
 	 */
 	async setDataByParam(param: Config): Promise<Config | null> {
 		return await this.confModel
-			.findOne({ confId: param.confId })
+			.findOne({confId: param.confId})
 			.read("secondary")
 			.exec()
 			.then((model: ConfDocument | null) => {

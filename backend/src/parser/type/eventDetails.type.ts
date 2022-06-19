@@ -1,4 +1,4 @@
-import { MarketNodes } from "./byMarket.type";
+import {MarketNodes} from './byMarket.type';
 
 export type TeamInfoEventDetails = {
 	/**

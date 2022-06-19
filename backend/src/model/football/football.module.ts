@@ -1,9 +1,9 @@
-import { Module } from "@nestjs/common";
-import { MongooseModule } from "@nestjs/mongoose";
-import { FootballController } from "./football.controller";
-import { FootballService } from "./football.service";
-import { Football, FootballSchema } from "./schemas/football.schema";
-import { LoggerModule } from "../../logger/logger.module";
+import {Module} from '@nestjs/common';
+import {MongooseModule} from '@nestjs/mongoose';
+import {FootballController} from './football.controller';
+import {FootballService} from './football.service';
+import {Football, FootballSchema} from './schemas/football.schema';
+import {LoggerModule} from '../../logger/logger.module';
 
 @Module({
 	imports: [
@@ -11,9 +11,9 @@ import { LoggerModule } from "../../logger/logger.module";
 		MongooseModule.forFeature([
 			{
 				name: Football.name,
-				schema: FootballSchema
-			}
-		])
+				schema: FootballSchema,
+			},
+		]),
 	],
 	controllers: [FootballController],
 	providers: [FootballService],

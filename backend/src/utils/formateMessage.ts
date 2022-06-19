@@ -10,20 +10,20 @@ export function decorateMessageChat(param: Football): string {
 	const {
 		marketId,
 		eventId,
-		command: { one, two, group },
+		command: {one, two, group},
 		rates: {
-			matchOdds: { p1, x, p2 },
+			matchOdds: {p1, x, p2},
 			overUnder15: {
 				marketId: market15,
-				under: { behind: TM15 }
+				under: {behind: TM15},
 			},
 			overUnder25: {
 				marketId: market25,
-				under: { behind: TM25 }
+				under: {behind: TM25},
 			},
 			bothTeamsToScore: {
-				no: { behind: OZ }
-			}
+				no: {behind: OZ},
+			},
 		},
 		score: {sc1, sc2},
 		time,
@@ -46,16 +46,16 @@ export function decorateMessageChat(param: Football): string {
  */
 export function decorateMessageChannel(param: Football): string {
 	const {
-		command: { one, two, group },
+		command: {one, two, group},
 		rates: {
 			overUnder25: {
 				marketId: market25,
-				under: { behind: TM25 },
-				over: { behind: TB25 }
-			}
+				under: {behind: TM25},
+				over: {behind: TB25},
+			},
 		},
-		score: { sc1, sc2 },
-		time
+		score: {sc1, sc2},
+		time,
 	} = param;
 	const scope = `${sc1}:${sc2}`;
 	const difference = `${TM25} / ${TB25}`;

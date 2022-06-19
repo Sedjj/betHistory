@@ -1,20 +1,19 @@
-import { Model } from "mongoose";
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { IFootballQuery } from "./type/football.type";
-import { dateStringToFullDateString } from "../../utils/dateFormat";
-import { ScoreEvents } from "../../parser/type/scoreEvents.type";
-import { MyLogger } from "../../logger/myLogger.service";
-import { Football, FootballDocument } from "./schemas/football.schema";
-import { OtherRate } from "./schemas/otherRate.schema";
+import {Model} from 'mongoose';
+import {Injectable} from '@nestjs/common';
+import {InjectModel} from '@nestjs/mongoose';
+import {IFootballQuery} from './type/football.type';
+import {dateStringToFullDateString} from '../../utils/dateFormat';
+import {ScoreEvents} from '../../parser/type/scoreEvents.type';
+import {MyLogger} from '../../logger/myLogger.service';
+import {Football, FootballDocument} from './schemas/football.schema';
+import {OtherRate} from './schemas/otherRate.schema';
 
 @Injectable()
 export class FootballService {
 	constructor(
 		@InjectModel(Football.name) private readonly footballModel: Model<FootballDocument>,
-		private readonly log: MyLogger
-	) {
-	}
+		private readonly log: MyLogger,
+	) {}
 
 	private static mapPropsRate(item: OtherRate): OtherRate {
 		return {
@@ -22,7 +21,7 @@ export class FootballService {
 				selectionId: item.over.selectionId,
 				handicap: item.over.handicap,
 				behind: item.over.behind,
-				against: item.over.against
+				against: item.over.against,
 			},
 			under: {
 				selectionId: item.under.selectionId,
@@ -42,7 +41,7 @@ export class FootballService {
 			score: {
 				sc1: statistic.score.sc1,
 				sc2: statistic.score.sc2,
-				resulting: statistic.score.resulting
+				resulting: statistic.score.resultin,
 			},
 			command: {
 				one: statistic.command.one,
@@ -135,7 +134,7 @@ export class FootballService {
 					marketId: statistic.rates.goalLines.marketId,
 					status: statistic.rates.goalLines.status,
 					totalMatched: statistic.rates.goalLines.totalMatched,
-					list: statistic.rates.goalLines.list.map((item: OtherRate) => FootballService.mapPropsRate(item))
+					list: statistic.rates.goalLines.list.map((item: OtherRate) => FootballService.mapPropsRate(item)),
 				},
 			},
 			createdBy: dateStringToFullDateString(statistic.createdBy),
@@ -147,7 +146,7 @@ export class FootballService {
 		let findMatch = await this.footballModel
 			.find({
 				marketId: param.marketId,
-				strategy: param.strategy
+				strategy: param.strateg,
 			})
 			.exec();
 		if (findMatch.length) {
@@ -177,9 +176,9 @@ export class FootballService {
 		let findMatch = await this.footballModel
 			.find({
 				marketId: param.marketId,
-				strategy
+				strategy,
 			})
-			.read("secondary")
+			.read('secondary')
 			.exec();
 		if (findMatch.length) {
 			return Promise.resolve(true);
@@ -198,9 +197,9 @@ export class FootballService {
 		return await this.footballModel
 			.findOne({
 				marketId: param.marketId,
-				strategy
+				strateg,
 			})
-			.read("secondary")
+			.read"secondary"')
 			.exec()
 			.then((findMatch: FootballDocument | null) => {
 				if (!findMatch) {
@@ -246,7 +245,7 @@ export class FootballService {
 
 	public async deleteDataByParam(param: IFootballQuery): Promise<Football> {
 		return await this.footballModel
-			.findOneAndRemove({ marketId: param.marketId, strategy: param.strategy })
+			.findOneAndRemove({marketId: param.marketId, strategy: param.strategy})
 			.exec()
 			.then((model: FootballDocument | null) => {
 				if (!model) {
@@ -266,7 +265,7 @@ export class FootballService {
 
 	public async setDataByParam(param: Football): Promise<Football | void> {
 		return await this.footballModel
-			.findOne({ marketId: param.marketId, strategy: param.strategy })
+			.findOne({marketId: param.marketId, strategy: param.strategy})
 			.read("secondary")
 			.exec()
 			.then((statistic: FootballDocument | null) => {
@@ -302,7 +301,7 @@ export class FootballService {
 	 */
 	public async setScoreByParam(param: ScoreEvents): Promise<void> {
 		return await this.footballModel
-			.find({ marketId: param.marketId })
+			.find({marketId: param.marketId})
 			.read("secondary")
 			.exec()
 			.then(async (statistics: FootballDocument[] | null) => {

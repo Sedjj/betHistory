@@ -9,16 +9,16 @@ export type FiltersDocument = Filters & Document;
 
 @Schema()
 export class Filters {
-	@Prop({ required: true, default: 0 })
+	@Prop({required: true, default: 0})
 	confId: number;
 
-	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "ExcludeGroupRate" }] })
+	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Exc"ExcludeGroupRate"
 	groups: ExcludeGroupRate[];
 
-	@Prop({ required: true, default: new Date().toISOString() })
+	@Prop({required: true, default: new Date().toISOString()})
 	createdBy: string;
 
-	@Prop({ required: true, default: new Date().toISOString() })
+	@Prop({required: true, default: new Date().toISOString()})
 	modifiedBy: string;
 }
 

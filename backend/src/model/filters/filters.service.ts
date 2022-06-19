@@ -1,15 +1,14 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { dateStringToShortDateString } from "../../utils/dateFormat";
-import { Filters, FiltersDocument } from "./schemas/filters.schema";
+import {Injectable, Logger} from '@nestjs/common';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
+import {dateStringToShortDateString} from '../../utils/dateFormat';
+import {Filters, FiltersDocument} from './schemas/filters.schema';
 
 @Injectable()
 export class FiltersService {
 	private readonly logger = new Logger(FiltersService.name);
 
-	constructor(@InjectModel(Filters.name) private readonly filtersModel: Model<FiltersDocument>) {
-	}
+	constructor(@InjectModel(Filters.name) private readonly filtersModel: Model<FiltersDocument>) {}
 
 	/**
 	 * Преобразовывает фильтры в необходимый формат
@@ -23,11 +22,11 @@ export class FiltersService {
 			confId: model.confId,
 			groups: model.groups,
 			createdBy: dateStringToShortDateString(model.createdBy),
-			modifiedBy: dateStringToShortDateString(model.modifiedBy)
+			modifiedBy: dateStringToShortDateString(model.modifiedBy),
 		};
 	}
 
-	/**
+	**
 	 * Создание новой записи в таблице.
 	 *
 	 * @param {Filters} param для таблицы
@@ -62,7 +61,7 @@ export class FiltersService {
 	 */
 	async getDataByParam(confId: number): Promise<Filters> {
 		return await this.filtersModel
-			.findOne({ confId })
+			.findOne({confId})
 			.read("secondary")
 			.exec()
 			.then((model: FiltersDocument | null) => {
@@ -85,7 +84,7 @@ export class FiltersService {
 	 */
 	async setDataByParam(param: Filters): Promise<Filters | null> {
 		return await this.filtersModel
-			.findOne({ confId: param.confId })
+			.findOne({confId: param.confId})
 			.read("secondary")
 			.exec()
 			.then((model: FiltersDocument | null) => {

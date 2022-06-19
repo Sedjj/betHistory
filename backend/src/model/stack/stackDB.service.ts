@@ -1,31 +1,30 @@
-import { Injectable } from "@nestjs/common";
-import { StackType } from "./type/stack.type";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { MyLogger } from "../../logger/myLogger.service";
-import { Stack, StackDocument } from "./schemas/stack.schema";
+import {Injectable} from '@nestjs/common';
+import {StackType} from './type/stack.type';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
+import {MyLogger} from '../../logger/myLogger.service';
+import {Stack, StackDocument} from './schemas/stack.schema';
 
 @Injectable()
 export class StackDBService {
 	constructor(
 		@InjectModel(Stack.name) private readonly stackModel: Model<StackDocument>,
-		private readonly log: MyLogger
-	) {
-	}
+		private readonly log: MyLogger,
+	) {}
 
 	private static mapProps(model: Stack): Stack {
 		return {
 			stackId: model.stackId,
-			activeEventIds: model.activeEventIds
+			activeEventIds: model.activeEventIds,
 		};
 	}
 
 	async create(param: Stack): Promise<null | Stack> {
 		let findMatch = await this.stackModel
 			.find({
-				stackId: param.stackId
+				stackId: param.stackId,
 			})
-			.exec();
+			.xec();
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
@@ -33,7 +32,7 @@ export class StackDBService {
 		return await createdFootball
 			.save()
 			.then((model: Stack) => {
-				this.log.debug(StackDBService.name, "Stack model created");
+				this.log.debug(StackDBService.name, 'Stack model created');
 				return StackDBService.mapProps(model);
 			})
 			.catch((error: any) => {
@@ -49,12 +48,12 @@ export class StackDBService {
 	 */
 	async getDataByParam(stackId: StackType): Promise<Stack> {
 		return await this.stackModel
-			.findOne({ stackId })
-			.read("secondary")
+			.findOne({stackId})
+			.read('secondary')
 			.exec()
 			.then((model: StackDocument | null) => {
 				if (!model) {
-					this.log.error(StackDBService.name, "Stack with not found");
+					this.log.error(StackDBService.name, 'Stack with not found');
 					throw new Error(`Stack with not found: ${stackId}`);
 				}
 				return StackDBService.mapProps(model);
@@ -72,29 +71,29 @@ export class StackDBService {
 	 */
 	async setDataByParam(param: Stack): Promise<Stack | void> {
 		return await this.stackModel
-			.findOne({ stackId: param.stackId })
+			.findOne({stackId: param.stackId})
 			// .read('secondary')
 			.exec()
 			.then((model: StackDocument | null) => {
 				if (!model) {
-					this.log.error(StackDBService.name, "Stack with not found");
+					this.log.error(StackDBService.name, 'Stack with not found');
 					throw new Error(`Stack with not found: ${param.stackId}`);
 				}
 
 				if (param.activeEventIds !== undefined) {
 					this.stackModel
 						.findOneAndUpdate(
-							{ _id: model._id },
+							{_id: model._id},
 							{
-								activeEventIds: param.activeEventIds
+								activeEventIds: param.activeEventIds,
 							},
-							{ new: true }
+							{new: true},
 						)
 						// .read('secondary')
 						.exec()
 						.then((x: StackDocument | null) => {
 							if (!x) {
-								this.log.error(StackDBService.name, "Stack with not found");
+								this.log.error(StackDBService.name"Stack with not found"d');
 								throw new Error(`Stack with not found: ${param.stackId}`);
 							}
 							return StackDBService.mapProps(x);

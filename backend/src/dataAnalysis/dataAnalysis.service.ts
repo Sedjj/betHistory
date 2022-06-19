@@ -1,13 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { ConfService } from "../model/conf/conf.service";
-import { FootballService } from "../model/football/football.service";
-import { BetsSimulatorService } from "../betsSimulator/betsSimulator.service";
-import { ScoreEvents } from "../parser/type/scoreEvents.type";
+import {Injectable} from '@nestjs/common';
+import {ConfService} from '../model/conf/conf.service';
+import {FootballService} from '../model/football/football.service';
+import {BetsSimulatorService} from '../betsSimulator/betsSimulator.service';
+import {ScoreEvents} from '../parser/type/scoreEvents.type';
 /*import {ParserFootballService} from '../parser/parserFootball.service';*/
-import { StackType } from "../model/stack/type/stack.type";
-import { MyLogger } from "../logger/myLogger.service";
-import { Football } from "../model/football/schemas/football.schema";
-import { Time } from "../model/conf/schemas/time.schema";
+import {StackType} from '../model/stack/type/stack.type';
+import {MyLogger} from '../logger/myLogger.service';
+import {Football} from '../model/football/schemas/football.schema';
+import {Time} from '../model/conf/schemas/time.schema';
 
 @Injectable()
 export class DataAnalysisService {
@@ -15,9 +15,8 @@ export class DataAnalysisService {
 		private readonly confService: ConfService,
 		private readonly footballService: FootballService,
 		private readonly betsSimulatorService: BetsSimulatorService,
-		private readonly log: MyLogger
-	) {
-	}
+		private readonly log: MyLogger,
+	) {}
 
 	/**
 	 * Метод для выбора стратегии ставки.
@@ -27,7 +26,7 @@ export class DataAnalysisService {
 	 */
 	public async strategyDefinition(
 		param: Football,
-		incStack: (stackType: StackType, id: number) => void
+		incStack: (stackType: StackType, id: number) => void,
 	): Promise<void> {
 		const {
 			score: {sc1, sc2},
@@ -100,7 +99,7 @@ export class DataAnalysisService {
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
 	private saveEvent(param: Football, strategy: number): Promise<Football | null> {
-		return this.footballService.create({ ...param, strategy }).catch((error: any) => {
+		return this.footballService.create({...param, strategy}).catch((error: any) => {
 			this.log.error(DataAnalysisService.name, `Save event rate: ${error}`);
 			throw new Error(error);
 		});

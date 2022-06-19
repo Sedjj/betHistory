@@ -1,8 +1,8 @@
-import { Module } from "@nestjs/common";
-import { StackDBService } from "./stackDB.service";
-import { MongooseModule } from "@nestjs/mongoose";
-import { Stack, StackSchema } from "./schemas/stack.schema";
-import { LoggerModule } from "../../logger/logger.module";
+import {Module} from '@nestjs/common';
+import {StackDBService} from './stackDB.service';
+import {MongooseModule} from '@nestjs/mongoose';
+import {Stack, StackSchema} from './schemas/stack.schema';
+import {LoggerModule} from '../../logger/logger.module';
 
 @Module({
 	imports: [
@@ -10,9 +10,9 @@ import { LoggerModule } from "../../logger/logger.module";
 		MongooseModule.forFeature([
 			{
 				name: Stack.name,
-				schema: StackSchema
-			}
-		])
+				schema: StackSchema,
+			},
+		]),
 	],
 	providers: [StackDBService],
 	exports: [StackDBService],

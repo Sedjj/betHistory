@@ -1,4 +1,4 @@
-import { Status } from "../../../parser/type/byMarket.type";
+import {Status} from '../../../parser/type/byMarket.type';
 
 export type IFootball = {
 	/**
