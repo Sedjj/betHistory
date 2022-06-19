@@ -23,7 +23,7 @@ export function decorateMessageChat(param: Football): string {
 			},
 			bothTeamsToScore: {
 				no: { behind: OZ }
-			},
+			}
 		},
 		score: {sc1, sc2},
 		time,

@@ -8,38 +8,38 @@ export type ConfDocument = Config & Document;
 
 @Schema()
 export class Config {
-  @Prop({ required: true, default: 0 })
-  confId: number;
+	@Prop({ required: true, default: 0 })
+	confId: number;
 
-  /**
-   * Размер ставки
-   */
-  @Prop({ required: true, default: 0 })
-  betAmount: number;
+	/**
+	 * Размер ставки
+	 */
+	@Prop({ required: true, default: 0 })
+	betAmount: number;
 
-  /**
-   * Временные интервалы для парсинга
-   */
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Time" }] })
-  time: Time[];
+	/**
+	 * Временные интервалы для парсинга
+	 */
+	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Time" }] })
+	time: Time[];
 
-  /**
-   * Прибавляем к сумме результата матчей
-   */
-  @Prop({ required: true, default: 0 })
-  typeRate: number[];
+	/**
+	 * Прибавляем к сумме результата матчей
+	 */
+	@Prop({ required: true, default: 0 })
+	typeRate: number[];
 
-  /**
-   * Math.abs(p1 - p2) < rate
-   */
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "RateStrategy" }] })
-  rate: RateStrategy[];
+	/**
+	 * Math.abs(p1 - p2) < rate
+	 */
+	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "RateStrategy" }] })
+	rate: RateStrategy[];
 
-  @Prop({ required: false, default: (new Date()).toISOString() })
-  createdBy?: string;
+	@Prop({ required: false, default: new Date().toISOString() })
+	createdBy?: string;
 
-  @Prop({ required: false, default: (new Date()).toISOString() })
-  modifiedBy?: string;
+	@Prop({ required: false, default: new Date().toISOString() })
+	modifiedBy?: string;
 }
 
 export const ConfigSchema = SchemaFactory.createForClass(Config);

@@ -15,10 +15,10 @@ export class Filters {
 	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "ExcludeGroupRate" }] })
 	groups: ExcludeGroupRate[];
 
-	@Prop({ required: true, default: (new Date()).toISOString() })
+	@Prop({ required: true, default: new Date().toISOString() })
 	createdBy: string;
 
-	@Prop({ required: true, default: (new Date()).toISOString() })
+	@Prop({ required: true, default: new Date().toISOString() })
 	modifiedBy: string;
 }
 

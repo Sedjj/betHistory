@@ -1,4 +1,4 @@
-import {MarketNodes} from './byMarket.type';
+import { MarketNodes } from "./byMarket.type";
 
 export type TeamInfoEventDetails = {
 	/**
@@ -102,7 +102,7 @@ export type StateEventDetails = {
 	/**
 	 * Добавочное время матча
 	 */
-	elapsedAddedTime?: number
+	elapsedAddedTime?: number;
 	/**
 	 *  Добавочные секунды матча
 	 */
@@ -143,7 +143,7 @@ export type EventDetails = {
 	 * время начала матча
 	 */
 	startTime?: string;
-	runners?: RunnersEventDetails
+	runners?: RunnersEventDetails;
 	/**
 	 * Название первой команды
 	 */
@@ -154,5 +154,5 @@ export type EventDetails = {
 	awayName?: string;
 	state?: StateEventDetails;
 	inPlayBettingStatus?: string;
-	marketNodes?: MarketNodes[]
+	marketNodes?: MarketNodes[];
 };

@@ -23,8 +23,8 @@ export class FiltersController implements OnApplicationBootstrap {
 						enable: 1
 					}
 				],
-				createdBy: (new Date()).toISOString(),
-				modifiedBy: (new Date()).toISOString()
+				createdBy: new Date().toISOString(),
+				modifiedBy: new Date().toISOString()
 			})
 			.then((response: null | Filters) => response && this.logger.debug(`Filters migration in bd`));
 	}

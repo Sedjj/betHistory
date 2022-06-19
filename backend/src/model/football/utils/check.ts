@@ -1,3 +1,3 @@
 export function isRequiredString(str: string): boolean {
-  return str != null;
+	return str != null;
 }

@@ -52,8 +52,8 @@ export class ConfController implements OnApplicationBootstrap {
 				typeRate: [1.5, 1.5, 1.5, 0.5, 0.5, 0.5, 0.5],
 				rate: [
 					{
-						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2,
+						title: "Math.abs(p1 - p2) < rate",
+						rate: 2
 					},
 					{
 						title: "Math.abs(p1 - p2) < rate",

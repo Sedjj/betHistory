@@ -7,7 +7,10 @@ import { Stack, StackDocument } from "./schemas/stack.schema";
 
 @Injectable()
 export class StackDBService {
-	constructor(@InjectModel(Stack.name) private readonly stackModel: Model<StackDocument>, private readonly log: MyLogger) {
+	constructor(
+		@InjectModel(Stack.name) private readonly stackModel: Model<StackDocument>,
+		private readonly log: MyLogger
+	) {
 	}
 
 	private static mapProps(model: Stack): Stack {

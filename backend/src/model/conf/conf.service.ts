@@ -9,7 +9,10 @@ import { Time } from "./schemas/time.schema";
 
 @Injectable()
 export class ConfService {
-	constructor(@InjectModel(Config.name) private readonly confModel: Model<ConfDocument>, private readonly log: MyLogger) {
+	constructor(
+		@InjectModel(Config.name) private readonly confModel: Model<ConfDocument>,
+		private readonly log: MyLogger
+	) {
 	}
 
 	private static mapProps(model: ConfDocument): Config {
