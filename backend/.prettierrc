@@ -6,4 +6,4 @@ trailingComma: "all"
 bracketSpacing: false
 arrowParens: avoid
 useTabs: true
-eol: lf
+endOfLine: auto
