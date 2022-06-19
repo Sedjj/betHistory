@@ -20,16 +20,16 @@ export type MarketType =
 	| "OVER_UNDER_65"
 	| "OVER_UNDER_75"
 	| "OVER_UNDER_85"
-	| 'TEAM_A_1'
-	| 'TEAM_B_1'
-	| 'TEAM_A_2'
-	| 'OVER_UNDER_45_CARDS'
-	| 'TEAM_B_2'
-	| 'TEAM_A_3'
-	| 'TEAM_B_3'
-	| 'TO_SCORE'
-	| 'OVER_UNDER_65_CARDS'
-	| 'TO_SCORE_2_OR_MORE'
+	| "TEAM_A_1"
+	| "TEAM_B_1"
+	| "TEAM_A_2"
+	| "OVER_UNDER_45_CARDS"
+	| "TEAM_B_2"
+	| "TEAM_A_3"
+	| "TEAM_B_3"
+	| "TO_SCORE"
+	| "OVER_UNDER_65_CARDS"
+	| "TO_SCORE_2_OR_MORE"
 	| 'FIRST_HALF_GOALS_25'
 	| 'FIRST_GOAL_SCORER'
 	| 'HALF_TIME_SCORE'
