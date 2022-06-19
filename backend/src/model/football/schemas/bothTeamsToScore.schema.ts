@@ -1,23 +1,22 @@
-import {Schema} from 'mongoose';
-import {isRequiredString} from '../utils/check';
-import {behindAgainst} from './behindAgainst.schema';
+import { Prop, Schema } from "@nestjs/mongoose";
+import mongoose from "mongoose";
+import { isRequiredString } from "../utils/check";
+import { BehindAgainst } from "./behindAgainst.schema";
 
-export let bothTeamsToScore = new Schema({
-	marketId: {
-		type: String,
-		validate: isRequiredString,
-		default: '',
-	},
-	status: {
-		type: String,
-		validate: isRequiredString,
-		default: '',
-	},
-	totalMatched: {
-		type: Number,
-		required: true,
-		default: 0,
-	},
-	yes: behindAgainst,
-	no: behindAgainst,
-});
+@Schema()
+export class BothTeamsToScore {
+  @Prop({ required: true, default: "", validate: isRequiredString })
+  marketId: string;
+
+  @Prop({ required: true, default: "", validate: isRequiredString })
+  status: string;
+
+  @Prop({ required: true, default: 0 })
+  totalMatched: number;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "BehindAgainst" }] })
+  yes: BehindAgainst;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "BehindAgainst" }] })
+  no: BehindAgainst;
+}

@@ -1,31 +1,28 @@
-import {Model} from 'mongoose';
-import {Injectable} from '@nestjs/common';
-import {InjectModel} from '@nestjs/mongoose';
-import {IFootball, IFootballModel, IFootballQuery, IOtherRate} from './type/football.type';
-import {dateStringToFullDateString} from '../../utils/dateFormat';
-import {ScoreEvents} from '../../parser/type/scoreEvents.type';
-import {MyLogger} from '../../logger/myLogger.service';
+import { Model } from "mongoose";
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { IFootballQuery } from "./type/football.type";
+import { dateStringToFullDateString } from "../../utils/dateFormat";
+import { ScoreEvents } from "../../parser/type/scoreEvents.type";
+import { MyLogger } from "../../logger/myLogger.service";
+import { Football, FootballDocument } from "./schemas/football.schema";
+import { OtherRate } from "./schemas/otherRate.schema";
 
 @Injectable()
 export class FootballService {
 	constructor(
-		@InjectModel('Football') private readonly footballModel: Model<IFootballModel>,
-		private readonly log: MyLogger,
-	) {}
+		@InjectModel(Football.name) private readonly footballModel: Model<FootballDocument>,
+		private readonly log: MyLogger
+	) {
+	}
 
-	/**
-	 * Преобразовывает ставки в необходимый формат
-	 *
-	 * @param {IOtherRate} item статистика
-	 * @return {Object}
-	 */
-	private static mapPropsRate(item: IOtherRate): IOtherRate {
+	private static mapPropsRate(item: OtherRate): OtherRate {
 		return {
 			over: {
 				selectionId: item.over.selectionId,
 				handicap: item.over.handicap,
 				behind: item.over.behind,
-				against: item.over.against,
+				against: item.over.against
 			},
 			under: {
 				selectionId: item.under.selectionId,
@@ -36,13 +33,7 @@ export class FootballService {
 		};
 	}
 
-	/**
-	 * Преобразовывает статистику в необходимый формат
-	 *
-	 * @param {IFootballModel} statistic статистика
-	 * @return {Object}
-	 */
-	private static mapProps(statistic: IFootballModel): IFootball {
+	private static mapProps(statistic: FootballDocument): Football {
 		return {
 			marketId: statistic.marketId,
 			eventId: statistic.eventId,
@@ -51,7 +42,7 @@ export class FootballService {
 			score: {
 				sc1: statistic.score.sc1,
 				sc2: statistic.score.sc2,
-				resulting: statistic.score.resulting,
+				resulting: statistic.score.resulting
 			},
 			command: {
 				one: statistic.command.one,
@@ -144,7 +135,7 @@ export class FootballService {
 					marketId: statistic.rates.goalLines.marketId,
 					status: statistic.rates.goalLines.status,
 					totalMatched: statistic.rates.goalLines.totalMatched,
-					list: statistic.rates.goalLines.list.map((item: IOtherRate) => FootballService.mapPropsRate(item)),
+					list: statistic.rates.goalLines.list.map((item: OtherRate) => FootballService.mapPropsRate(item))
 				},
 			},
 			createdBy: dateStringToFullDateString(statistic.createdBy),
@@ -152,17 +143,11 @@ export class FootballService {
 		};
 	}
 
-	/**
-	 * Создание новой записи в таблице.
-	 *
-	 * @param {IFootball} param для таблицы
-	 * @returns {Promise<IFootball | null>}
-	 */
-	public async create(param: IFootball): Promise<IFootball | null> {
+	public async create(param: Football): Promise<Football | null> {
 		let findMatch = await this.footballModel
 			.find({
 				marketId: param.marketId,
-				strategy: param.strategy,
+				strategy: param.strategy
 			})
 			.exec();
 		if (findMatch.length) {
@@ -184,17 +169,17 @@ export class FootballService {
 	/**
 	 * Проверка что матч есть в другой стратегии
 	 *
-	 * @param {IFootball} param для таблицы
+	 * @param {Football} param для таблицы
 	 * @param {Number} strategy идентификатор выбранной стратегии
-	 * @returns {Promise<IFootball | null>}
+	 * @returns {Promise<Football | null>}
 	 */
-	public async isMatch(param: IFootball, strategy: number): Promise<boolean> {
+	public async isMatch(param: Football, strategy: number): Promise<boolean> {
 		let findMatch = await this.footballModel
 			.find({
 				marketId: param.marketId,
-				strategy,
+				strategy
 			})
-			.read('secondary')
+			.read("secondary")
 			.exec();
 		if (findMatch.length) {
 			return Promise.resolve(true);
@@ -205,19 +190,19 @@ export class FootballService {
 	/**
 	 * Проверка что матч есть в другой стратегии и вернуть объект
 	 *
-	 * @param {IFootball} param для таблицы
+	 * @param {Football} param для таблицы
 	 * @param {Number} strategy идентификатор выбранной стратегии
-	 * @returns {Promise<IFootball | null>}
+	 * @returns {Promise<Football | null>}
 	 */
-	public async getMatch(param: IFootball, strategy: number): Promise<IFootball | null> {
+	public async getMatch(param: Football, strategy: number): Promise<Football | null> {
 		return await this.footballModel
 			.findOne({
 				marketId: param.marketId,
-				strategy,
+				strategy
 			})
-			.read('secondary')
+			.read("secondary")
 			.exec()
-			.then((findMatch: IFootballModel | null) => {
+			.then((findMatch: FootballDocument | null) => {
 				if (!findMatch) {
 					return Promise.resolve(null);
 				}
@@ -235,20 +220,20 @@ export class FootballService {
 	/**
 	 * Получить записи из таблицы статистика.
 	 *
-	 * @param {IFootballQuery} param для таблицы.
-	 * @returns {Promise<IFootball[]>}
+	 * @param {FootballQuery} param для таблицы.
+	 * @returns {Promise<Football[]>}
 	 */
-	public async getDataByParam(param?: any): Promise<IFootball[]> {
+	public async getDataByParam(param?: any): Promise<Football[]> {
 		return await this.footballModel
 			.find(param != null ? param : {})
-			.read('secondary')
+			.read("secondary")
 			.exec()
-			.then((statistics: IFootballModel[]) => {
+			.then((statistics: FootballDocument[]) => {
 				if (!statistics) {
-					this.log.error(FootballService.name, 'Statistic with not found');
+					this.log.error(FootballService.name, "Statistic with not found");
 					return [];
 				}
-				return statistics.map((statistic: IFootballModel) => FootballService.mapProps(statistic));
+				return statistics.map((statistic: FootballDocument) => FootballService.mapProps(statistic));
 			})
 			.catch((error: any) => {
 				this.log.error(
@@ -259,19 +244,13 @@ export class FootballService {
 			});
 	}
 
-	/**
-	 * Метод для удаления записи в таблице.
-	 *
-	 * @param {IFootballQuery} param для таблицы
-	 * @returns {Promise<void | IFootball | null>}
-	 */
-	public async deleteDataByParam(param: IFootballQuery): Promise<IFootball> {
+	public async deleteDataByParam(param: IFootballQuery): Promise<Football> {
 		return await this.footballModel
-			.findOneAndRemove({marketId: param.marketId, strategy: param.strategy})
+			.findOneAndRemove({ marketId: param.marketId, strategy: param.strategy })
 			.exec()
-			.then((model: IFootballModel | null) => {
+			.then((model: FootballDocument | null) => {
 				if (!model) {
-					this.log.error(FootballService.name, 'Football with not found');
+					this.log.error(FootballService.name, "Football with not found");
 					throw new Error(`Football with not found: ${param.marketId}`);
 				}
 				return FootballService.mapProps(model);
@@ -285,20 +264,14 @@ export class FootballService {
 			});
 	}
 
-	/**
-	 * Редактирование записи в таблице.
-	 *
-	 * @param {IFootballQuery} param для таблицы
-	 * @returns {Promise<any>}
-	 */
-	public async setDataByParam(param: IFootball): Promise<IFootball | void> {
+	public async setDataByParam(param: Football): Promise<Football | void> {
 		return await this.footballModel
-			.findOne({marketId: param.marketId, strategy: param.strategy})
-			.read('secondary')
+			.findOne({ marketId: param.marketId, strategy: param.strategy })
+			.read("secondary")
 			.exec()
-			.then((statistic: IFootballModel | null) => {
+			.then((statistic: FootballDocument | null) => {
 				if (!statistic) {
-					this.log.error(FootballService.name, 'Football with not found');
+					this.log.error(FootballService.name, "Football with not found");
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
 				if (param.rates != null) {
@@ -310,7 +283,7 @@ export class FootballService {
 				if (param.modifiedBy != null) {
 					statistic.modifiedBy = param.modifiedBy;
 				}
-				return statistic.save().then((x: IFootballModel) => FootballService.mapProps(x));
+				return statistic.save().then((x: FootballDocument) => FootballService.mapProps(x));
 			})
 			.catch((error: any) => {
 				this.log.error(
@@ -329,16 +302,16 @@ export class FootballService {
 	 */
 	public async setScoreByParam(param: ScoreEvents): Promise<void> {
 		return await this.footballModel
-			.find({marketId: param.marketId})
-			.read('secondary')
+			.find({ marketId: param.marketId })
+			.read("secondary")
 			.exec()
-			.then(async (statistics: IFootballModel[] | null) => {
+			.then(async (statistics: FootballDocument[] | null) => {
 				if (statistics == null || statistics.length === 0) {
-					this.log.error(FootballService.name, 'Football with not found');
+					this.log.error(FootballService.name, "Football with not found");
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
-				await asyncForEach<IFootballModel>(statistics, async (item: IFootballModel) => {
-					if (param.resulting != null && param.resulting !== '') {
+				await asyncForEach<FootballDocument>(statistics, async (item: FootballDocument) => {
+					if (param.resulting != null && param.resulting !== "") {
 						if (item.score.resulting !== param.resulting) {
 							item.score.resulting = param.resulting;
 							item.modifiedBy = new Date().toISOString();

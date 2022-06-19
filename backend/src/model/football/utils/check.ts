@@ -1,3 +1,3 @@
-export function isRequiredString(marketId: string): boolean {
-	return marketId != null;
+export function isRequiredString(str: string): boolean {
+  return str != null;
 }

@@ -11,16 +11,35 @@ services:
     mem_reservation: 20m
     network_mode: "host"
 
-  rate:
-    container_name: rate
+    rate:
+      container_name: rate
+      restart: always
+      depends_on:
+        - redis
+      build:
+        context: .
+        dockerfile: docker/node/Dockerfile
+      ports:
+        - 3000:3000
+      mem_limit: 800m
+      mem_reservation: 200m
+      network_mode: "host"
+
+  mongo-rate:
+    container_name: mongo-rate
     restart: always
+    image: mongo:latest
+    volumes:
+      - ./docker/mongo-seed/db:/data/db
+    ports:
+      - "27017:27017"
+
+  mongo-rate-seed:
+    container_name: mongo-rate-seed
     depends_on:
-      - redis
+      - mongo-rate
     build:
       context: .
-      dockerfile: docker/node/Dockerfile
-    ports:
-      - 3000:3000
-    mem_limit: 800m
-    mem_reservation: 200m
-    network_mode: "host"
+      dockerfile: docker/mongo-seed/Dockerfile
+    links:
+      - mongo-rate

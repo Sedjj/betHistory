@@ -1,11 +1,12 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
-import {CreateFootballDto} from './dto/create-football.dto';
-import {FootballService} from './football.service';
-import {IFootball} from './type/football.type';
+import { Body, Controller, Get, Post } from "@nestjs/common";
+import { CreateFootballDto } from "./dto/create-football.dto";
+import { FootballService } from "./football.service";
+import { Football } from "./schemas/football.schema";
 
-@Controller('football')
+@Controller("football")
 export class FootballController {
-	constructor(private readonly footballService: FootballService) {}
+	constructor(private readonly footballService: FootballService) {
+	}
 
 	@Post()
 	async create(@Body() createCatDto: CreateFootballDto) {
@@ -13,7 +14,7 @@ export class FootballController {
 	}
 
 	@Get()
-	async findAll(): Promise<IFootball[]> {
+	async findAll(): Promise<Football[]> {
 		return this.footballService.getDataByParam();
 	}
 }

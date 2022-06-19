@@ -1,10 +1,4 @@
-import {Document} from 'mongoose';
-import {Status} from '../../../parser/type/byMarket.type';
-
-/**
- * Интерфейс для модели mongo
- */
-export type IFootballModel = IFootball & Document;
+import { Status } from "../../../parser/type/byMarket.type";
 
 export type IFootball = {
 	/**

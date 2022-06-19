@@ -1,9 +1,9 @@
-import {Injectable} from '@nestjs/common';
-import {IFootball} from '../model/football/type/football.type';
-import {TelegramService} from '../telegram/telegram.service';
-import {decorateMessageChat} from '../utils/formateMessage';
-import {betAmount} from '../store';
-import {FetchService} from '../fetch/fetch.service';
+import { Injectable } from "@nestjs/common";
+import { TelegramService } from "../telegram/telegram.service";
+import { decorateMessageChat } from "../utils/formateMessage";
+import { betAmount } from "../store";
+import { FetchService } from "../fetch/fetch.service";
+import { Football } from "../model/football/schemas/football.schema";
 
 @Injectable()
 export class BetsSimulatorService {
@@ -15,18 +15,18 @@ export class BetsSimulatorService {
 		this.groupWhite = whiteList();
 	}
 
-	public async matchRate(param: IFootball) {
+	public async matchRate(param: Football) {
 		const {
 			rates: {
 				matchOdds: {
-					p2: {behind: matchOddsP2},
-					p1: {behind: matchOddsP1},
-					x: {behind: matchOddsX},
+					p2: { behind: matchOddsP2 },
+					p1: { behind: matchOddsP1 },
+					x: { behind: matchOddsX }
 				},
 				overUnder15: {
 					marketId,
-					over: {against: TB15A, selectionId: over15SelectionId, handicap: over15Handicap},
-					under: {behind: TM15B, selectionId: under15SelectionId, handicap: under15Handicap},
+					over: { against: TB15A, selectionId: over15SelectionId, handicap: over15Handicap },
+					under: { behind: TM15B, selectionId: under15SelectionId, handicap: under15Handicap }
 				},
 				goalLines: {list},
 			},

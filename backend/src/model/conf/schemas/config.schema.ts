@@ -1,57 +1,45 @@
-import {Schema} from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import * as mongoose from "mongoose";
+import { Document } from "mongoose";
+import { Time } from "./time.schema";
+import { RateStrategy } from "./rateStrategy.schema";
 
-let Time = new Schema({
-	before: {
-		type: Number,
-		required: true,
-		default: 0
-	},
-	after: {
-		type: Number,
-		required: true,
-		default: 0
-	},
-});
+export type ConfDocument = Config & Document;
 
-let RateStrategy = new Schema({
-	title: {
-		type: String,
-		required: true,
-		default: ''
-	},
-	rate: {
-		type: Number,
-		required: true,
-		default: 0
-	},
-});
+@Schema()
+export class Config {
+  @Prop({ required: true, default: 0 })
+  confId: number;
 
-export let ConfigSchema = new Schema({
-	confId: {
-		type: Number,
-		required: true,
-		default: 0
-	},
-	betAmount: {
-		type: Number,
-		required: true,
-		default: 0
-	},
-	time: [Time],
-	typeRate: [{
-		type: Number,
-		required: true,
-		default: 0
-	}],
-	rate: [RateStrategy],
-	createdBy: {
-		type: String,
-		required: true,
-		default: (new Date()).toISOString()
-	},
-	modifiedBy: {
-		type: String,
-		required: true,
-		default: (new Date()).toISOString()
-	}
-});
+  /**
+   * Размер ставки
+   */
+  @Prop({ required: true, default: 0 })
+  betAmount: number;
+
+  /**
+   * Временные интервалы для парсинга
+   */
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Time" }] })
+  time: Time[];
+
+  /**
+   * Прибавляем к сумме результата матчей
+   */
+  @Prop({ required: true, default: 0 })
+  typeRate: number[];
+
+  /**
+   * Math.abs(p1 - p2) < rate
+   */
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "RateStrategy" }] })
+  rate: RateStrategy[];
+
+  @Prop({ required: false, default: (new Date()).toISOString() })
+  createdBy?: string;
+
+  @Prop({ required: false, default: (new Date()).toISOString() })
+  modifiedBy?: string;
+}
+
+export const ConfigSchema = SchemaFactory.createForClass(Config);

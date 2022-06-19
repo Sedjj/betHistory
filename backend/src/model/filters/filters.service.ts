@@ -1,41 +1,42 @@
-import {Injectable, Logger} from '@nestjs/common';
-import {IFilters, IFiltersModel} from './type/filters.type';
-import {InjectModel} from '@nestjs/mongoose';
-import {Model} from 'mongoose';
-import {dateStringToShortDateString} from '../../utils/dateFormat';
+import { Injectable, Logger } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { dateStringToShortDateString } from "../../utils/dateFormat";
+import { Filters, FiltersDocument } from "./schemas/filters.schema";
 
 @Injectable()
 export class FiltersService {
 	private readonly logger = new Logger(FiltersService.name);
 
-	constructor(@InjectModel('Filters') private readonly filtersModel: Model<IFiltersModel>) {}
+	constructor(@InjectModel(Filters.name) private readonly filtersModel: Model<FiltersDocument>) {
+	}
 
 	/**
 	 * Преобразовывает фильтры в необходимый формат
 	 *
-	 * @param {IFiltersModel} model статистика
+	 * @param {FiltersDocument} model статистика
 	 *
-	 * @return {IFilters}
+	 * @return {Filters}
 	 */
-	private static mapProps(model: IFiltersModel): IFilters {
+	private static mapProps(model: FiltersDocument): Filters {
 		return {
 			confId: model.confId,
 			groups: model.groups,
-			createdBy: model.createdBy ? dateStringToShortDateString(model.createdBy) : undefined,
-			modifiedBy: model.modifiedBy ? dateStringToShortDateString(model.modifiedBy) : undefined,
+			createdBy: dateStringToShortDateString(model.createdBy),
+			modifiedBy: dateStringToShortDateString(model.modifiedBy)
 		};
 	}
 
 	/**
 	 * Создание новой записи в таблице.
 	 *
-	 * @param {IFilters} param для таблицы
-	 * @returns {Promise<IFilters | null>}
+	 * @param {Filters} param для таблицы
+	 * @returns {Promise<Filters | null>}
 	 */
-	async create(param: IFilters): Promise<null | IFilters> {
+	async create(param: Filters): Promise<null | Filters> {
 		let findMatch = await this.filtersModel
 			.find({
-				confId: param.confId,
+				confId: param.confId
 			})
 			.exec();
 		if (findMatch.length) {
@@ -44,8 +45,8 @@ export class FiltersService {
 		let createdFilters = new this.filtersModel(param);
 		return await createdFilters
 			.save()
-			.then((model: IFiltersModel) => {
-				this.logger.debug('Filters model created');
+			.then((model: FiltersDocument) => {
+				this.logger.debug("Filters model created");
 				return FiltersService.mapProps(model);
 			})
 			.catch((error: any) => {
@@ -59,14 +60,14 @@ export class FiltersService {
 	 *
 	 * @param {Number} confId id объекта конфига
 	 */
-	async getDataByParam(confId: number): Promise<IFilters> {
+	async getDataByParam(confId: number): Promise<Filters> {
 		return await this.filtersModel
-			.findOne({confId})
-			.read('secondary')
+			.findOne({ confId })
+			.read("secondary")
 			.exec()
-			.then((model: IFiltersModel | null) => {
+			.then((model: FiltersDocument | null) => {
 				if (!model) {
-					this.logger.error('Filters with not found');
+					this.logger.error("Filters with not found");
 					throw new Error(`Filters with not found: ${confId}`);
 				}
 				return FiltersService.mapProps(model);
@@ -80,16 +81,16 @@ export class FiltersService {
 	/**
 	 * Метод для изменения фильтров.
 	 *
-	 * @param {IFilters} param параметры которые нужно поменять
+	 * @param {Filters} param параметры которые нужно поменять
 	 */
-	async setDataByParam(param: IFilters): Promise<IFilters | null> {
+	async setDataByParam(param: Filters): Promise<Filters | null> {
 		return await this.filtersModel
-			.findOne({confId: param.confId})
-			.read('secondary')
+			.findOne({ confId: param.confId })
+			.read("secondary")
 			.exec()
-			.then((model: IFiltersModel | null) => {
+			.then((model: FiltersDocument | null) => {
 				if (!model) {
-					this.logger.error('Filters with not found');
+					this.logger.error("Filters with not found");
 					throw new Error(`Filters with not found: ${param.confId}`);
 				}
 				if (param.groups !== undefined) {
@@ -98,7 +99,7 @@ export class FiltersService {
 				if (param.modifiedBy !== undefined) {
 					model.modifiedBy = param.modifiedBy;
 				}
-				return model.save().then((x: IFiltersModel) => FiltersService.mapProps(x));
+				return model.save().then((x: FiltersDocument) => FiltersService.mapProps(x));
 			})
 			.catch((error: any) => {
 				this.logger.error(`Error set data by param conf param=${JSON.stringify(param)}`);

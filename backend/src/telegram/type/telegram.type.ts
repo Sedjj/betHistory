@@ -1,3 +1,5 @@
+import { InlineKeyboardButton } from "typegram/markup";
+
 /**
  * This object represents a Telegram user or menu.
  */
@@ -644,59 +646,6 @@ export interface IKeyboardButton {
 }
 
 /**
- * This object represents one button of an inline keyboard. You must use
- * exactly one of the optional fields.
- */
-export interface IInlineKeyboardButton {
-	/**
-	 * Label text on the button
-	 */
-	text: string;
-
-	/**
-	 * HTTP url to be opened when button is pressed
-	 */
-	url?: string;
-
-	/**
-	 * Data to be sent in a callback query to the menu when button is pressed,
-	 * 1-64 bytes
-	 * @see https://core.telegram.org/bots/api#callbackquery
-	 */
-	callback_data?: string;
-
-	/**
-	 * If set, pressing the button will prompt the user to select one of their
-	 * chats, open that chat and insert the menu‘s username and the specified
-	 * inline query in the input field. Can be empty, in which case just the
-	 * menu’s username will be inserted.Note: This offers an easy way for users
-	 * to start using your menu in inline mode when they are currently in a
-	 * private chat with it. Especially useful when combined with switch_pm…
-	 * actions – in this case the user will be automatically returned to the
-	 * chat they switched from, skipping the chat selection screen.
-	 * @see https://core.telegram.org/bots/api/bots/inline
-	 * @see https://core.telegram.org/bots/api#answerinlinequery
-	 */
-	switch_inline_query?: string;
-
-	/**
-	 * If set, pressing the button will insert the menu‘s username and the
-	 * specified inline query in the current chat's input field. Can be empty,
-	 * in which case only the menu’s username will be inserted.This offers a
-	 * quick way for the user to open your menu in inline mode in the same chat
-	 * – good for selecting something from multiple options.
-	 */
-	switch_inline_query_current_chat?: string;
-
-	/**
-	 * Specify True, to send a Pay button.NOTE: This type of button must always
-	 * be the first button in the first row.
-	 * @see https://core.telegram.org/bots/api#payments
-	 */
-	pay?: boolean;
-}
-
-/**
  * This object represents a chat photo.
  */
 export interface IChatPhoto {
@@ -1014,29 +963,5 @@ export interface IAnimation {
 export interface IMenuBot {
 	id: number;
 	title: string;
-	buttons: IInlineKeyboardButton[][];
+	buttons: InlineKeyboardButton[][];
 }
-
-/**
- * Интерфейс файла для Nest controller
- */
-export type FilePhoto = {
-	/** Field name specified in the form */
-	fieldname: string;
-	/** Name of the file on the user's computer */
-	originalname: string;
-	/** Encoding type of the file */
-	encoding: string;
-	/** Mime type of the file */
-	mimetype: string;
-	/** Size of the file in bytes */
-	size: number;
-	/** The folder to which the file has been saved (DiskStorage) */
-	destination: string;
-	/** The name of the file within the destination (DiskStorage) */
-	filename: string;
-	/** Location of the uploaded file (DiskStorage) */
-	path: string;
-	/** A Buffer of the entire file (MemoryStorage) */
-	buffer: Buffer;
-};

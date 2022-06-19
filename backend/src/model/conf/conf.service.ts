@@ -1,22 +1,18 @@
-import {Injectable} from '@nestjs/common';
-import {IConf, IConfModel, IRateStrategy, ITime} from './type/conf.type';
-import {InjectModel} from '@nestjs/mongoose';
-import {Model} from 'mongoose';
-import {dateStringToShortDateString} from '../../utils/dateFormat';
-import {MyLogger} from '../../logger/myLogger.service';
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { dateStringToShortDateString } from "../../utils/dateFormat";
+import { MyLogger } from "../../logger/myLogger.service";
+import { ConfDocument, Config } from "./schemas/config.schema";
+import { RateStrategy } from "./schemas/rateStrategy.schema";
+import { Time } from "./schemas/time.schema";
 
 @Injectable()
 export class ConfService {
-	constructor(@InjectModel('Config') private readonly confModel: Model<IConfModel>, private readonly log: MyLogger) {}
+	constructor(@InjectModel(Config.name) private readonly confModel: Model<ConfDocument>, private readonly log: MyLogger) {
+	}
 
-	/**
-	 * Преобразовывает конфигурацию в необходимый формат
-	 *
-	 * @param {IConfModel} model статистика
-	 *
-	 * @return {IConf}
-	 */
-	private static mapProps(model: IConfModel): IConf {
+	private static mapProps(model: ConfDocument): Config {
 		return {
 			confId: model.confId,
 			betAmount: model.betAmount,
@@ -24,20 +20,14 @@ export class ConfService {
 			typeRate: model.typeRate,
 			rate: model.rate,
 			createdBy: model.createdBy ? dateStringToShortDateString(model.createdBy) : undefined,
-			modifiedBy: model.modifiedBy ? dateStringToShortDateString(model.modifiedBy) : undefined,
+			modifiedBy: model.modifiedBy ? dateStringToShortDateString(model.modifiedBy) : undefined
 		};
 	}
 
-	/**
-	 * Создание новой записи в таблице.
-	 *
-	 * @param {IConf} param для таблицы
-	 * @returns {Promise<IConf | null>}
-	 */
-	async create(param: IConf): Promise<null | IConf> {
+	async create(param: Config): Promise<null | Config> {
 		let findMatch = await this.confModel
 			.find({
-				confId: param.confId,
+				confId: param.confId
 			})
 			.exec();
 		if (findMatch.length) {
@@ -46,8 +36,8 @@ export class ConfService {
 		let createdConfig = new this.confModel(param);
 		return await createdConfig
 			.save()
-			.then((model: IConfModel) => {
-				this.log.debug(ConfService.name, 'Configuration model created');
+			.then((model: ConfDocument) => {
+				this.log.debug(ConfService.name, "Configuration model created");
 				return ConfService.mapProps(model);
 			})
 			.catch((error: any) => {
@@ -61,14 +51,14 @@ export class ConfService {
 	 *
 	 * @param {Number} confId id объекта конфига
 	 */
-	async getDataByParam(confId: number): Promise<IConf> {
+	async getDataByParam(confId: number): Promise<Config> {
 		return await this.confModel
-			.findOne({confId})
-			.read('secondary')
+			.findOne({ confId })
+			.read("secondary")
 			.exec()
-			.then((model: IConfModel | null) => {
+			.then((model: ConfDocument | null) => {
 				if (!model) {
-					this.log.error(ConfService.name, 'Conf with not found');
+					this.log.error(ConfService.name, "Conf with not found");
 					throw new Error(`Conf with not found: ${confId}`);
 				}
 				return ConfService.mapProps(model);
@@ -82,16 +72,16 @@ export class ConfService {
 	/**
 	 * Метод для изменения конфигурации.
 	 *
-	 * @param {IConf} param параметры которые нужно поменять
+	 * @param {Config} param параметры которые нужно поменять
 	 */
-	async setDataByParam(param: IConf): Promise<IConf | null> {
+	async setDataByParam(param: Config): Promise<Config | null> {
 		return await this.confModel
-			.findOne({confId: param.confId})
-			.read('secondary')
+			.findOne({ confId: param.confId })
+			.read("secondary")
 			.exec()
-			.then((model: IConfModel | null) => {
+			.then((model: ConfDocument | null) => {
 				if (!model) {
-					this.log.error(ConfService.name, 'Conf with not found');
+					this.log.error(ConfService.name, "Conf with not found");
 					throw new Error(`Conf with not found: ${param.confId}`);
 				}
 				if (param.betAmount !== undefined) {
@@ -109,7 +99,7 @@ export class ConfService {
 				if (param.modifiedBy !== undefined) {
 					model.modifiedBy = param.modifiedBy;
 				}
-				return model.save().then((x: IConfModel) => ConfService.mapProps(x));
+				return model.save().then((x: ConfDocument) => ConfService.mapProps(x));
 			})
 			.catch((error: any) => {
 				this.log.error(ConfService.name, `Error set data by param conf param=${JSON.stringify(param)}`);
@@ -118,16 +108,16 @@ export class ConfService {
 	}
 
 	getTypeRate(strategy: number): Promise<number> {
-		return this.getDataByParam(1).then((model: IConf) => {
+		return this.getDataByParam(1).then((model: Config) => {
 			return model.typeRate[strategy - 1];
 		});
 	}
 
-	getRateStrategy(strategy: number): Promise<IRateStrategy> {
-		return this.getDataByParam(1).then((model: IConf) => model.rate[strategy - 1]);
+	getRateStrategy(strategy: number): Promise<RateStrategy> {
+		return this.getDataByParam(1).then((model: Config) => model.rate[strategy - 1]);
 	}
 
-	getTime(): Promise<ITime[]> {
-		return this.getDataByParam(1).then((model: IConf) => model.time);
+	getTime(): Promise<Time[]> {
+		return this.getDataByParam(1).then((model: Config) => model.time);
 	}
 }

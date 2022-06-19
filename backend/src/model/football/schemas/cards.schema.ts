@@ -1,32 +1,12 @@
-import {Schema} from 'mongoose';
+import { Prop, Schema } from "@nestjs/mongoose";
+import mongoose from "mongoose";
+import { Card } from "./card.schema";
 
-export let cards = new Schema({
-	red: {
-		type: Number,
-		default: 0,
-	},
-	yellow: {
-		type: Number,
-		default: 0,
-	},
-	corners: {
-		type: Number,
-		default: 0,
-	},
-	attacks: {
-		type: Number,
-		default: 0,
-	},
-	danAttacks: {
-		type: Number,
-		default: 0,
-	},
-	shotsOn: {
-		type: Number,
-		default: 0,
-	},
-	shotsOff: {
-		type: Number,
-		default: 0,
-	},
-});
+@Schema()
+export class Cards {
+	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Card" }] })
+	one: Card;
+
+	@Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Card" }] })
+	two: Card;
+}

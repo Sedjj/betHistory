@@ -1,11 +1,12 @@
-import {Body, Controller, Get, OnApplicationBootstrap, Post} from '@nestjs/common';
-import {ConfService} from './conf.service';
-import {IConf} from './type/conf.type';
-import {MyLogger} from '../../logger/myLogger.service';
+import { Body, Controller, Get, OnApplicationBootstrap, Post } from "@nestjs/common";
+import { ConfService } from "./conf.service";
+import { MyLogger } from "../../logger/myLogger.service";
+import { Config } from "./schemas/config.schema";
 
-@Controller('conf')
+@Controller("conf")
 export class ConfController implements OnApplicationBootstrap {
-	constructor(private readonly confService: ConfService, private readonly log: MyLogger) {}
+	constructor(private readonly confService: ConfService, private readonly log: MyLogger) {
+	}
 
 	onApplicationBootstrap() {
 		this.confService
@@ -15,7 +16,7 @@ export class ConfController implements OnApplicationBootstrap {
 				time: [
 					{
 						before: 0,
-						after: 0,
+						after: 0
 					},
 					{
 						// 1
@@ -55,42 +56,42 @@ export class ConfController implements OnApplicationBootstrap {
 						rate: 2,
 					},
 					{
-						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2,
+						title: "Math.abs(p1 - p2) < rate",
+						rate: 2
 					},
 					{
-						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2,
+						title: "Math.abs(p1 - p2) < rate",
+						rate: 2
 					},
 					{
-						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2,
+						title: "Math.abs(p1 - p2) < rate",
+						rate: 2
 					},
 					{
-						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2,
+						title: "Math.abs(p1 - p2) < rate",
+						rate: 2
 					},
 					{
-						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2,
+						title: "Math.abs(p1 - p2) < rate",
+						rate: 2
 					},
 					{
-						title: 'Math.abs(p1 - p2) < rate',
-						rate: 2,
-					},
+						title: "Math.abs(p1 - p2) < rate",
+						rate: 2
+					}
 				],
 			})
-			.then((response: null | IConf) => response && this.log.debug(ConfController.name, `Config migration in bd`));
+			.then((response: null | Config) => response && this.log.debug(ConfController.name, `Config migration in bd`));
 	}
 
 	@Post()
-	async create(@Body() conf: IConf) {
+	async create(@Body() conf: Config) {
 		await this.confService.create(conf);
 		this.log.debug(ConfController.name, `Create conf: ${conf}`);
 	}
 
 	@Get()
-	async findAll(): Promise<IConf> {
+	async findAll(): Promise<Config> {
 		return this.confService.getDataByParam(1);
 	}
 }

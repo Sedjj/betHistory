@@ -1,12 +1,13 @@
-import {Body, Controller, Get, Logger, OnApplicationBootstrap, Post} from '@nestjs/common';
-import {FiltersService} from './filters.service';
-import {IFilters} from './type/filters.type';
+import { Body, Controller, Get, Logger, OnApplicationBootstrap, Post } from "@nestjs/common";
+import { FiltersService } from "./filters.service";
+import { Filters } from "./schemas/filters.schema";
 
-@Controller('filters')
+@Controller("filters")
 export class FiltersController implements OnApplicationBootstrap {
 	private readonly logger = new Logger(FiltersController.name);
 
-	constructor(private readonly filtersService: FiltersService) {}
+	constructor(private readonly filtersService: FiltersService) {
+	}
 
 	onApplicationBootstrap() {
 		this.filtersService
@@ -14,26 +15,28 @@ export class FiltersController implements OnApplicationBootstrap {
 				confId: 1,
 				groups: [
 					{
-						name: 'Austrian Bundesliga',
-						enable: 1,
+						name: "Austrian Bundesliga",
+						enable: 1
 					},
 					{
-						name: 'Canadian',
-						enable: 1,
-					},
+						name: "Canadian",
+						enable: 1
+					}
 				],
+				createdBy: (new Date()).toISOString(),
+				modifiedBy: (new Date()).toISOString()
 			})
-			.then((response: null | IFilters) => response && this.logger.debug(`Filters migration in bd`));
+			.then((response: null | Filters) => response && this.logger.debug(`Filters migration in bd`));
 	}
 
 	@Post()
-	async create(@Body() conf: IFilters) {
+	async create(@Body() conf: Filters) {
 		await this.filtersService.create(conf);
 		this.logger.debug(`Create conf: ${conf}`);
 	}
 
 	@Get()
-	async findAll(): Promise<IFilters> {
+	async findAll(): Promise<Filters> {
 		return this.filtersService.getDataByParam(1);
 	}
 }

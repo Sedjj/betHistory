@@ -1,20 +1,20 @@
-import {Injectable} from '@nestjs/common';
-import got, {Got} from 'got';
-import config from 'config';
-import {PlaceOrders} from '../betsSimulator/type/selenium.type';
-import {rateStatus} from '../store';
-import {MyLogger} from '../logger/myLogger.service';
+import { Injectable } from "@nestjs/common";
+import config from "config";
+import { PlaceOrders } from "../betsSimulator/type/selenium.type";
+import { rateStatus } from "../store";
+import { MyLogger } from "../logger/myLogger.service";
+import got, { Got } from "got";
 
 @Injectable()
 export class FetchService {
 	private readonly client: Got;
 
 	constructor(private readonly log: MyLogger) {
-		const server = config.get<string>('api.server');
-		const port = config.get<string>('api.port');
+		const server = config.get<string>("api.server");
+		const port = config.get<string>("api.port");
 
 		this.client = got.extend({
-			prefixUrl: `http://${server}:${port}/rate/`,
+			prefixUrl: `http://${server}:${port}/rate/`
 		});
 	}
 

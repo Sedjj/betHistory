@@ -1,7 +1,8 @@
-import {Injectable} from '@nestjs/common';
-import config from 'config';
-import {InjectBot, TelegrafProvider} from 'nestjs-telegraf';
-import {MyLogger} from '../logger/myLogger.service';
+import { Injectable } from "@nestjs/common";
+import config from "config";
+import { InjectBot } from "nestjs-telegraf";
+import { MyLogger } from "../logger/myLogger.service";
+import { Context, Telegraf } from "telegraf";
 
 @Injectable()
 export class TelegramService {
@@ -9,15 +10,15 @@ export class TelegramService {
 	private readonly channelId: string;
 	private readonly supportChatId: string;
 
-	constructor(@InjectBot() private telegrafService: TelegrafProvider, private readonly log: MyLogger) {
-		if (process.env.NODE_ENV === 'development') {
-			this.channelId = config.get<string>('bots.dev.channelId');
-			this.chatId = config.get<string>('bots.dev.chatId');
-			this.supportChatId = config.get<string>('bots.dev.supportChatId');
+	constructor(@InjectBot() private telegrafService: Telegraf<Context>, private readonly log: MyLogger) {
+		if (process.env.NODE_ENV === "development") {
+			this.channelId = config.get<string>("bots.dev.channelId");
+			this.chatId = config.get<string>("bots.dev.chatId");
+			this.supportChatId = config.get<string>("bots.dev.supportChatId");
 		} else {
-			this.channelId = config.get<string>('bots.prod.channelId');
-			this.chatId = config.get<string>('bots.prod.chatId');
-			this.supportChatId = config.get<string>('bots.prod.supportChatId');
+			this.channelId = config.get<string>("bots.prod.channelId");
+			this.chatId = config.get<string>("bots.prod.chatId");
+			this.supportChatId = config.get<string>("bots.prod.supportChatId");
 		}
 	}
 

@@ -1,13 +1,13 @@
-import {Injectable} from '@nestjs/common';
-import {IFootball} from '../model/football/type/football.type';
-import {ConfService} from '../model/conf/conf.service';
-import {FootballService} from '../model/football/football.service';
-import {BetsSimulatorService} from '../betsSimulator/betsSimulator.service';
-import {ITime} from '../model/conf/type/conf.type';
-import {ScoreEvents} from '../parser/type/scoreEvents.type';
+import { Injectable } from "@nestjs/common";
+import { ConfService } from "../model/conf/conf.service";
+import { FootballService } from "../model/football/football.service";
+import { BetsSimulatorService } from "../betsSimulator/betsSimulator.service";
+import { ScoreEvents } from "../parser/type/scoreEvents.type";
 /*import {ParserFootballService} from '../parser/parserFootball.service';*/
-import {StackType} from '../model/stack/type/stack.type';
-import {MyLogger} from '../logger/myLogger.service';
+import { StackType } from "../model/stack/type/stack.type";
+import { MyLogger } from "../logger/myLogger.service";
+import { Football } from "../model/football/schemas/football.schema";
+import { Time } from "../model/conf/schemas/time.schema";
 
 @Injectable()
 export class DataAnalysisService {
@@ -15,25 +15,26 @@ export class DataAnalysisService {
 		private readonly confService: ConfService,
 		private readonly footballService: FootballService,
 		private readonly betsSimulatorService: BetsSimulatorService,
-		private readonly log: MyLogger,
-	) {}
+		private readonly log: MyLogger
+	) {
+	}
 
 	/**
 	 * Метод для выбора стратегии ставки.
 	 *
-	 * @param {IFootball} param объект события
+	 * @param {Football} param объект события
 	 * @param {(stackType: StackType, id: number) => void} incStack функция для добавления в стек
 	 */
 	public async strategyDefinition(
-		param: IFootball,
-		incStack: (stackType: StackType, id: number) => void,
+		param: Football,
+		incStack: (stackType: StackType, id: number) => void
 	): Promise<void> {
 		const {
 			score: {sc1, sc2},
 			time,
 		} = param;
 
-		let timeSetting: ITime[] = await this.confService.getTime();
+		let timeSetting: Time[] = await this.confService.getTime();
 
 		if (sc1 + sc2 === 0) {
 			if (time >= timeSetting[4].before && time <= timeSetting[4].after) {
@@ -46,9 +47,10 @@ export class DataAnalysisService {
 	/**
 	 * Метод для повторной поверки матча и сохранения результата.
 	 *
-	 * @param {IFootball} param объект события
+	 * @param {Football} param объект события
 	 */
-	/*public async reCheckStrategyDefinition(param: IFootball): Promise<void> {
+
+	/*public async reCheckStrategyDefinition(param: Football): Promise<void> {
 		let {
 			score: {sc1, sc2},
 		} = param;
@@ -78,13 +80,7 @@ export class DataAnalysisService {
 		});
 	}
 
-	/**
-	 * Метод для записи в базу отобранного матча если его уже там нет.
-	 *
-	 * @param {IFootball} param объект события
-	 * @param {Number} strategy идентификатор выбранной стратегии
-	 */
-	private footballLiveStrategy(param: IFootball, strategy: number = 1): void {
+	private footballLiveStrategy(param: Football, strategy: number = 1): void {
 		this.saveEvent(param, strategy) // пропускает дальше если запись ушла в БД
 			.then(async statistic => {
 				if (statistic !== null) {
@@ -100,11 +96,11 @@ export class DataAnalysisService {
 	/**
 	 * Метод для поверки уникальности и сохранения отобранного матча.
 	 *
-	 * @param {IFootball} param объект события
+	 * @param {Football} param объект события
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
-	private saveEvent(param: IFootball, strategy: number): Promise<IFootball | null> {
-		return this.footballService.create({...param, strategy}).catch((error: any) => {
+	private saveEvent(param: Football, strategy: number): Promise<Football | null> {
+		return this.footballService.create({ ...param, strategy }).catch((error: any) => {
 			this.log.error(DataAnalysisService.name, `Save event rate: ${error}`);
 			throw new Error(error);
 		});
@@ -113,10 +109,10 @@ export class DataAnalysisService {
 	/**
 	 * Метод для проверки матча в других стратегиях.
 	 *
-	 * @param {IFootball} param объект события
+	 * @param {Football} param объект события
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
-	/*private isEvent(param: IFootball, strategy: number): Promise<boolean> {
+	/*private isEvent(param: Football, strategy: number): Promise<boolean> {
 		return this.footballService.isMatch(param, strategy).catch((error: any) => {
 			this.log.error(DataAnalysisService.name,`Is event rate: ${error}`);
 			throw new Error(error);
@@ -126,10 +122,10 @@ export class DataAnalysisService {
 	/**
 	 * Метод для проверки матча в других стратегиях и вернуть объект.
 	 *
-	 * @param {IFootball} param объект события
+	 * @param {Football} param объект события
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
-	/*private getMatch(param: IFootball, strategy: number): Promise<IFootball | null> {
+	/*private getMatch(param: Football, strategy: number): Promise<Football | null> {
 		return this.footballService.getMatch(param, strategy).catch((error: any) => {
 			this.log.error(DataAnalysisService.name,`Get match rate: ${error}`);
 			throw new Error(error);
@@ -139,10 +135,10 @@ export class DataAnalysisService {
 	/**
 	 * Метод для поверки уникальности и сохранения отобранного матча.
 	 *
-	 * @param {IFootball} param объект события
+	 * @param {Football} param объект события
 	 * @param {Number} strategy идентификатор выбранной стратегии
 	 */
-	/*private updateEvent(param: IFootball, strategy: number): Promise<IFootball | void> {
+	/*private updateEvent(param: Football, strategy: number): Promise<Football | void> {
 		return this.footballService.setDataByParam({...param, strategy}).catch((error: any) => {
 			this.log.error(DataAnalysisService.name,`Update event rate: ${error}`);
 			throw new Error(error);
