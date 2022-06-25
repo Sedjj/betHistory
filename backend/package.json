@@ -20,7 +20,7 @@
 		"pm2:info ": "pm2 info rate-cluster-dev",
 		"pm2:logs ": "pm2 logs",
 		"lint": "tslint -p tsconfig.json -c tslint.json",
-		"format": "prettier --write --config ./.prettierrc --check \"src/**/*.ts\""
+		"format": "prettier --write --check \"src/**/**/*.ts\""
 	},
 	"dependencies": {
 		"@nestjs/common": "^8.4.7",
