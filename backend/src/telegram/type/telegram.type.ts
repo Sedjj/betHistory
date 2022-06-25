@@ -1,4 +1,4 @@
-import { InlineKeyboardButton } from "typegram/markup";
+import {InlineKeyboardButton} from 'typegram/markup';
 
 /**
  * This object represents a Telegram user or menu.

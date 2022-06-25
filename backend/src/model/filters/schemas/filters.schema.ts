@@ -1,6 +1,6 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose, { Document } from "mongoose";
-import { ExcludeGroupRate } from "./excludeGroupRate.schema";
+import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import mongoose, {Document} from 'mongoose';
+import {ExcludeGroupRate} from './excludeGroupRate.schema';
 
 /**
  * Интерфейс для модели mongo

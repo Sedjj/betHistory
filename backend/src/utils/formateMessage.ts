@@ -1,4 +1,4 @@
-import { Football } from "../model/football/schemas/football.schema";
+import {Football} from '../model/football/schemas/football.schema';
 
 /**
  * Форматирование строки для чата.
