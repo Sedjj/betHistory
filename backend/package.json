@@ -7,7 +7,7 @@
 	"private": true,
 	"lint-staged": {
 		"*.{js.ts}": [
-			"prettier --write",
+			"npm run format",
 			"git add"
 		]
 	},
