@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # Prettify all selected files
-cd backend && yarn run format
+#cd backend && yarn run format
 
 #npx prettier -w --find-config-path ./backend/.prettierrc
 
