@@ -1,5 +1,6 @@
 import {TelegrafModule} from 'nestjs-telegraf';
-import {HttpModule, Module} from '@nestjs/common';
+import {HttpModule} from '@nestjs/axios';
+import {Module} from '@nestjs/common';
 import {TelegramActions} from './telegramActions.service';
 import {TelegramService} from './telegram.service';
 import {ExportModule} from '../export/export.module';
