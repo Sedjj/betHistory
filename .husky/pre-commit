@@ -2,6 +2,8 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # Prettify all selected files
-npx prettier -w --find-config-path ./backend/.prettierrc
+cd backend && yarn run format
+
+#npx prettier -w --find-config-path ./backend/.prettierrc
 
 exit 0
