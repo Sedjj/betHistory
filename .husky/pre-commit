@@ -2,6 +2,6 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # Prettify all selected files
-npx prettier --config backend/.prettierrc -w "backend/src/**/**/*.ts"
+npx prettier -w --find-config-path ./backend/.prettierrc
 
 exit 0
