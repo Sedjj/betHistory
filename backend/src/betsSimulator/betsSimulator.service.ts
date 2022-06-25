@@ -23,7 +23,7 @@ export class BetsSimulatorService {
 					p1: {behind: matchOddsP1},
 					x: {behind: matchOddsX},
 				},
-				overUder15: {
+				overUnder15: {
 					marketId,
 					over: {against: TB15A, selectionId: over15SelectionId, handicap: over15Handicap},
 					under: {behind: TM15B, selectionId: under15SelectionId, handicap: under15Handicap},

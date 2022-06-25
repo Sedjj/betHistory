@@ -1,9 +1,9 @@
-import {Injectable} from '@nestjs/common';
-import {StackType} from './type/stack.type';
-import {InjectModel} from '@nestjs/mongoose';
-import {Model} from 'mongoose';
-import {MyLogger} from '../../logger/myLogger.service';
-import {Stack, StackDocument} from './schemas/stack.schema';
+import { Injectable } from "@nestjs/common";
+import { StackType } from "./type/stack.type";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { MyLogger } from "../../logger/myLogger.service";
+import { Stack, StackDocument } from "./schemas/stack.schema";
 
 @Injectable()
 export class StackDBService {
@@ -24,7 +24,7 @@ export class StackDBService {
 			.find({
 				stackId: param.stackId,
 			})
-			.xec();
+			.exec();
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
@@ -93,7 +93,7 @@ export class StackDBService {
 						.exec()
 						.then((x: StackDocument | null) => {
 							if (!x) {
-								this.log.error(StackDBService.name"Stack with not found"d');
+								this.log.error(StackDBService.name,"Stack with not found"');
 								throw new Error(`Stack with not found: ${param.stackId}`);
 							}
 							return StackDBService.mapProps(x);

@@ -14,7 +14,8 @@ export class MatchOdds {
 	@Prop({required: true, default: 0})
 	totalMatched: number;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst"BehindAgainst"ndAgainst;
+	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst'}]})
+	p1: BehindAgainst;
 
 	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst'}]})
 	x: BehindAgainst;

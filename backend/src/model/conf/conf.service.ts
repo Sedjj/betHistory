@@ -31,7 +31,7 @@ export class ConfService {
 			.find({
 				confId: param.confId,
 			})
-			.exec);
+			.exec();
 		if (findMatch.length) {
 			return Promise.resolve(null);
 		}
@@ -39,7 +39,7 @@ export class ConfService {
 		return await createdConfig
 			.save()
 			.then((model: ConfDocument) => {
-				this.log.debug(ConfService.name, "Configuration model created");
+				this.log.debug(ConfService.name, 'Configuration model created');
 				return ConfService.mapProps(model);
 			})
 			.catch((error: any) => {
@@ -56,11 +56,11 @@ export class ConfService {
 	async getDataByParam(confId: number): Promise<Config> {
 		return await this.confModel
 			.findOne({confId})
-			.read("secondary")
+			.read('secondary')
 			.exec()
 			.then((model: ConfDocument | null) => {
 				if (!model) {
-					this.log.error(ConfService.name, "Conf with not found");
+					this.log.error(ConfService.name, 'Conf with not found');
 					throw new Error(`Conf with not found: ${confId}`);
 				}
 				return ConfService.mapProps(model);
@@ -79,11 +79,11 @@ export class ConfService {
 	async setDataByParam(param: Config): Promise<Config | null> {
 		return await this.confModel
 			.findOne({confId: param.confId})
-			.read("secondary")
+			.read('secondary')
 			.exec()
 			.then((model: ConfDocument | null) => {
 				if (!model) {
-					this.log.error(ConfService.name, "Conf with not found");
+					this.log.error(ConfService.name, 'Conf with not found');
 					throw new Error(`Conf with not found: ${param.confId}`);
 				}
 				if (param.betAmount !== undefined) {

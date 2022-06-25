@@ -23,9 +23,9 @@ export class StackService implements OnApplicationBootstrap {
 			stackId: StackType.UNUSUAL,
 			activeEventIds: [],
 		});
-		letstackOften: null | Stack = await this.stackDBService.create({
+		let stackOften: null | Stack = await this.stackDBService.create({
 			stackId: StackType.OFTEN,
-			activeEventIds: []
+			activeEventIds: [],
 		});
 
 		if (stackUsually != null && stackOften != null) {

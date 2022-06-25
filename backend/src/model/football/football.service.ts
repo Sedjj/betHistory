@@ -41,7 +41,7 @@ export class FootballService {
 			score: {
 				sc1: statistic.score.sc1,
 				sc2: statistic.score.sc2,
-				resulting: statistic.score.resultin,
+				resulting: statistic.score.resulting,
 			},
 			command: {
 				one: statistic.command.one,
@@ -146,7 +146,7 @@ export class FootballService {
 		let findMatch = await this.footballModel
 			.find({
 				marketId: param.marketId,
-				strategy: param.strateg,
+				strategy: param.strategy,
 			})
 			.exec();
 		if (findMatch.length) {
@@ -166,7 +166,7 @@ export class FootballService {
 	}
 
 	/**
-	 * Проверка что матч есть в другой стратегии
+	 * Проверка, что матч есть в другой стратегии
 	 *
 	 * @param {Football} param для таблицы
 	 * @param {Number} strategy идентификатор выбранной стратегии
@@ -187,7 +187,7 @@ export class FootballService {
 	}
 
 	/**
-	 * Проверка что матч есть в другой стратегии и вернуть объект
+	 * Проверка, что матч есть в другой стратегии и вернуть объект
 	 *
 	 * @param {Football} param для таблицы
 	 * @param {Number} strategy идентификатор выбранной стратегии
@@ -197,9 +197,9 @@ export class FootballService {
 		return await this.footballModel
 			.findOne({
 				marketId: param.marketId,
-				strateg,
+				strategy,
 			})
-			.read"secondary"')
+			.read('secondary')
 			.exec()
 			.then((findMatch: FootballDocument | null) => {
 				if (!findMatch) {
@@ -219,17 +219,17 @@ export class FootballService {
 	/**
 	 * Получить записи из таблицы статистика.
 	 *
-	 * @param {FootballQuery} param для таблицы.
+	 * @param {any} param для таблицы.
 	 * @returns {Promise<Football[]>}
 	 */
 	public async getDataByParam(param?: any): Promise<Football[]> {
 		return await this.footballModel
 			.find(param != null ? param : {})
-			.read("secondary")
+			.read('secondary')
 			.exec()
 			.then((statistics: FootballDocument[]) => {
 				if (!statistics) {
-					this.log.error(FootballService.name, "Statistic with not found");
+					this.log.error(FootballService.name, 'Statistic with not found');
 					return [];
 				}
 				return statistics.map((statistic: FootballDocument) => FootballService.mapProps(statistic));
@@ -249,7 +249,7 @@ export class FootballService {
 			.exec()
 			.then((model: FootballDocument | null) => {
 				if (!model) {
-					this.log.error(FootballService.name, "Football with not found");
+					this.log.error(FootballService.name, 'Football with not found');
 					throw new Error(`Football with not found: ${param.marketId}`);
 				}
 				return FootballService.mapProps(model);
@@ -266,11 +266,11 @@ export class FootballService {
 	public async setDataByParam(param: Football): Promise<Football | void> {
 		return await this.footballModel
 			.findOne({marketId: param.marketId, strategy: param.strategy})
-			.read("secondary")
+			.read('secondary')
 			.exec()
 			.then((statistic: FootballDocument | null) => {
 				if (!statistic) {
-					this.log.error(FootballService.name, "Football with not found");
+					this.log.error(FootballService.name, 'Football with not found');
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
 				if (param.rates != null) {
@@ -302,15 +302,15 @@ export class FootballService {
 	public async setScoreByParam(param: ScoreEvents): Promise<void> {
 		return await this.footballModel
 			.find({marketId: param.marketId})
-			.read("secondary")
+			.read('secondary')
 			.exec()
 			.then(async (statistics: FootballDocument[] | null) => {
 				if (statistics == null || statistics.length === 0) {
-					this.log.error(FootballService.name, "Football with not found");
+					this.log.error(FootballService.name, 'Football with not found');
 					throw new Error(`Football with not found: ${param.eventId}`);
 				}
 				await asyncForEach<FootballDocument>(statistics, async (item: FootballDocument) => {
-					if (param.resulting != null && param.resulting !== "") {
+					if (param.resulting != null && param.resulting !== '') {
 						if (item.score.resulting !== param.resulting) {
 							item.score.resulting = param.resulting;
 							item.modifiedBy = new Date().toISOString();

@@ -12,7 +12,7 @@ export class Filters {
 	@Prop({required: true, default: 0})
 	confId: number;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Exc"ExcludeGroupRate"
+	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'ExcludeGroupRate'}]})
 	groups: ExcludeGroupRate[];
 
 	@Prop({required: true, default: new Date().toISOString()})

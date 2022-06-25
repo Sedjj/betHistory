@@ -14,15 +14,18 @@ export class FiltersController implements OnApplicationBootstrap {
 				confId: 1,
 				groups: [
 					{
-						name: 'Austria"Austrian Bundesliga"enable: 1,
-					}
+						name: 'Austrian Bundesliga',
+						enable: 1,
+					},
 					{
-						name: 'Canadia"Canadian"enable: 1,
-					}
-				],				createdBy: new Date().toISOString(),
+						name: 'Canadian',
+						enable: 1,
+					},
+				],
+				createdBy: new Date().toISOString(),
 				modifiedBy: new Date().toISOString(),
 			})
-		.then((response: null | Filters) => response && this.logger.debug(`Filters migration in bd`));
+			.then((response: null | Filters) => response && this.logger.debug(`Filters migration in bd`));
 	}
 
 	@Post()

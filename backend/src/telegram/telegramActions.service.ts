@@ -34,7 +34,7 @@ export class TelegramActions {
 		private readonly fetchService: FetchService,
 		private readonly log: MyLogger,
 	) {
-		this.storagePah = config.get<string>('path.storagePath') || process.cwd();
+		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.logsDirectory = config.get<string>('path.directory.logs') || 'logs';
 	}
 
@@ -89,14 +89,14 @@ export class TelegramActions {
 
 	@Start()
 	protected async start(@Ctx() ctx: Context) {
-		console.log"ctx.message"', ctx.message);
+		console.log('ctx.message', ctx.message);
 		if (!(ctx.message && ctx.message)) {
 			return;
 		}
 		try {
 			const me = await this.bot.telegram.getMe();
 			this.log.log(TelegramActions.name, JSON.stringify(me));
-			await this.sendText(ctx, "Hi, choose action!");
+			await this.sendText(ctx, 'Hi, choose action!');
 		} catch (error) {
 			this.log.error(TelegramActions.name, `Error start -> ${error}`);
 		}
@@ -110,122 +110,122 @@ export class TelegramActions {
 	 */
 	@Use()
 	protected async accessCheck(@Ctx() ctx: Context, next?: () => any) {
-		let administrators: number[] = config.get<number[]>("roles.admin");
+		let administrators: number[] = config.get<number[]>('roles.admin');
 		const chat = ctx.chat != null ? ctx.chat.id : ctx.from != null ? ctx.from.id : 0;
 		if (administrators.some(user => user === chat) && next) {
 			next();
 		}
 	}
 
-	@Hears("Сколько матчей в ожидании")
+	@Hears('Сколько матчей в ожидании')
 	protected async waiting(@Ctx() ctx: Context) {
 		await this.sendText(ctx, `Матчей ожидающих Total: ${await this.getActiveEvent()}`);
 	}
 
-	@Hears("Вид спорта")
+	@Hears('Вид спорта')
 	protected async selectSport(@Ctx() ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList("selectSport"));
+		await TelegramActions.inlineKeyboard(ctx, menuList('selectSport'));
 	}
 
-	@Hears("Ставки")
+	@Hears('Ставки')
 	protected async rate(@Ctx() ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList("rate"));
+		await TelegramActions.inlineKeyboard(ctx, menuList('rate'));
 	}
 
-	@Hears("Получить файл")
+	@Hears('Получить файл')
 	protected async getFile(@Ctx() ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList("getFile"));
+		await TelegramActions.inlineKeyboard(ctx, menuList('getFile'));
 	}
 
-	@Hears("Сумма ставки")
+	@Hears('Сумма ставки')
 	protected async betAmount(@Ctx() ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList("betAmount", betAmount.bets.toString()));
+		await TelegramActions.inlineKeyboard(ctx, menuList('betAmount', betAmount.bets.toString()));
 	}
 
-	@Action("up")
+	@Action('up')
 	protected async up(@Ctx() ctx: Context) {
 		exportStatus.increase(1);
-		await TelegramActions.editMessageReplyMarkup(ctx, "days", exportStatus.count.toString());
+		await TelegramActions.editMessageReplyMarkup(ctx, 'days', exportStatus.count.toString());
 	}
 
-	@Action("down")
+	@Action('down')
 	protected async down(@Ctx() ctx: Context) {
 		if (exportStatus.count > 0) {
 			exportStatus.decrease(1);
-			await TelegramActions.editMessageReplyMarkup(ctx, "days", exportStatus.count.toString());
+			await TelegramActions.editMessageReplyMarkup(ctx, 'days', exportStatus.count.toString());
 		}
 	}
 
-	@Action("day_up")
+	@Action('day_up')
 	protected async upDay(@Ctx() ctx: Context) {
 		exportStatus.increaseDay(1);
-		await TelegramActions.editMessageReplyMarkup(ctx, "selectSport", exportStatus.day.toString());
+		await TelegramActions.editMessageReplyMarkup(ctx, 'selectSport', exportStatus.day.toString());
 	}
 
-	@Action("day_down")
+	@Action('day_down')
 	protected async downDay(@Ctx() ctx: Context) {
 		if (exportStatus.day > 0) {
 			exportStatus.decreaseDay(1);
-			await TelegramActions.editMessageReplyMarkup(ctx, "selectSport", exportStatus.day.toString());
+			await TelegramActions.editMessageReplyMarkup(ctx, 'selectSport', exportStatus.day.toString());
 		}
 	}
 
-	@Action("bets_up")
+	@Action('bets_up')
 	protected async betsUp(@Ctx() ctx: Context) {
 		betAmount.increase(1);
-		await TelegramActions.editMessageReplyMarkup(ctx, "betAmount", betAmount.bets.toString());
+		await TelegramActions.editMessageReplyMarkup(ctx, 'betAmount', betAmount.bets.toString());
 	}
 
-	@Action("bets_down")
+	@Action('bets_down')
 	protected async betsDown(@Ctx() ctx: Context) {
 		if (betAmount.bets > 7) {
 			betAmount.decrease(1);
-			await TelegramActions.editMessageReplyMarkup(ctx, "betAmount", betAmount.bets.toString());
+			await TelegramActions.editMessageReplyMarkup(ctx, 'betAmount', betAmount.bets.toString());
 		}
 	}
 
-	@Action("export")
+	@Action('export')
 	protected async export(@Ctx() ctx: Context) {
-		await TelegramActions.sendAnswerText(ctx, "Ожидайте файл");
+		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.exportStatisticDebounce();
 	}
 
-	@Action("exportFootball")
+	@Action('exportFootball')
 	protected async exportFootball(@Ctx() ctx: Context) {
-		exportStatus.setName("football");
-		await TelegramActions.inlineKeyboard(ctx, menuList("days", exportStatus.count.toString()));
+		exportStatus.setName('football');
+		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
 	}
 
-	@Action("enableBets")
+	@Action('enableBets')
 	protected async enableBets(@Ctx() ctx: Context) {
 		rateStatus.turnOn();
-		await TelegramActions.sendAnswerText(ctx, "Betting mechanism will be enabled");
-		await this.telegramService.sendMessageSupport("Вкл ставки");
+		await TelegramActions.sendAnswerText(ctx, 'Betting mechanism will be enabled');
+		await this.telegramService.sendMessageSupport('Вкл ставки');
 	}
 
-	@Action("turnOffBets")
+	@Action('turnOffBets')
 	protected async turnOffBets(@Ctx() ctx: Context) {
 		rateStatus.turnOff();
-		await TelegramActions.sendAnswerText(ctx, "Betting mechanism will be stopped");
-		await this.telegramService.sendMessageSupport("Выкл ставки");
+		await TelegramActions.sendAnswerText(ctx, 'Betting mechanism will be stopped');
+		await this.telegramService.sendMessageSupport('Выкл ставки');
 	}
 
-	@Action("debugBetLogs")
+	@Action('debugBetLogs')
 	protected async debugBetLogs(@Ctx() ctx: Context) {
-		await TelegramActions.sendAnswerText(ctx, "Ожидайте файл");
-		await this.getLogs("debug");
+		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
+		await this.getLogs('debug');
 	}
 
-	@Action("debugSeleniumLogs")
+	@Action('debugSeleniumLogs')
 	protected async debugSeleniumLogs(@Ctx() ctx: Context) {
-		await TelegramActions.sendAnswerText(ctx, "Ожидайте файл");
+		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.getLogsOtherServer();
 	}
 
-	@Action("errorBetLogs")
+	@Action('errorBetLogs')
 	protected async errorBetLogs(@Ctx() ctx: Context) {
-		await TelegramActions.sendAnswerText(ctx, "Ожидайте файл");
-		await this.getLogs("error");
+		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
+		await this.getLogs('error');
 	}
 
 	/**

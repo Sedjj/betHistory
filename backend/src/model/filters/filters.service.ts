@@ -26,7 +26,7 @@ export class FiltersService {
 		};
 	}
 
-	**
+	/**
 	 * Создание новой записи в таблице.
 	 *
 	 * @param {Filters} param для таблицы
@@ -35,7 +35,7 @@ export class FiltersService {
 	async create(param: Filters): Promise<null | Filters> {
 		let findMatch = await this.filtersModel
 			.find({
-				confId: param.confId
+				confId: param.confId,
 			})
 			.exec();
 		if (findMatch.length) {
@@ -45,7 +45,7 @@ export class FiltersService {
 		return await createdFilters
 			.save()
 			.then((model: FiltersDocument) => {
-				this.logger.debug("Filters model created");
+				this.logger.debug('Filters model created');
 				return FiltersService.mapProps(model);
 			})
 			.catch((error: any) => {
@@ -62,11 +62,11 @@ export class FiltersService {
 	async getDataByParam(confId: number): Promise<Filters> {
 		return await this.filtersModel
 			.findOne({confId})
-			.read("secondary")
+			.read('secondary')
 			.exec()
 			.then((model: FiltersDocument | null) => {
 				if (!model) {
-					this.logger.error("Filters with not found");
+					this.logger.error('Filters with not found');
 					throw new Error(`Filters with not found: ${confId}`);
 				}
 				return FiltersService.mapProps(model);
@@ -85,11 +85,11 @@ export class FiltersService {
 	async setDataByParam(param: Filters): Promise<Filters | null> {
 		return await this.filtersModel
 			.findOne({confId: param.confId})
-			.read("secondary")
+			.read('secondary')
 			.exec()
 			.then((model: FiltersDocument | null) => {
 				if (!model) {
-					this.logger.error("Filters with not found");
+					this.logger.error('Filters with not found');
 					throw new Error(`Filters with not found: ${param.confId}`);
 				}
 				if (param.groups !== undefined) {
