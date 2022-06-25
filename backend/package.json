@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"private": true,
 	"lint-staged": {
-		"*.{js.ts}": [
+		"*.js.ts": [
 			"npm run format",
 			"git add"
 		]
