@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # Prettify all selected files
-echo "$FILES" | xargs ./node_modules/.bin/prettier --write --config ./backend/.prettierrc --check "**/src/**/**/*.ts"
+echo "$FILES" | xargs ./node_modules/.bin/prettier --write --config ../backend/.prettierrc --check "src/**/**/*.ts"
 
 # Add back the modified/prettified files to staging
 echo "$FILES" | xargs git add
