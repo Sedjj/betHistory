@@ -1,5 +1,4 @@
 import {Prop, Schema} from '@nestjs/mongoose';
-import mongoose from 'mongoose';
 import {isRequiredString} from '../utils/check';
 import {BehindAgainst} from './behindAgainst.schema';
 
@@ -14,9 +13,9 @@ export class BothTeamsToScore {
 	@Prop({required: true, default: 0})
 	totalMatched: number;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst'}]})
+	@Prop({required: true})
 	yes: BehindAgainst;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst'}]})
+	@Prop({required: true})
 	no: BehindAgainst;
 }

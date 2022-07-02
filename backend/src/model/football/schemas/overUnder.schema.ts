@@ -1,5 +1,4 @@
 import {Prop, Schema} from '@nestjs/mongoose';
-import mongoose from 'mongoose';
 import {BehindAgainst} from './behindAgainst.schema';
 import {isRequiredString} from '../utils/check';
 
@@ -14,9 +13,9 @@ export class OverUnderRates {
 	@Prop({required: true, default: 0})
 	totalMatched: number;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst'}]})
+	@Prop({required: true})
 	over: BehindAgainst;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst'}]})
+	@Prop({required: true})
 	under: BehindAgainst;
 }

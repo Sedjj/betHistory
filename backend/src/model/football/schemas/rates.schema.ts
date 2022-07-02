@@ -1,5 +1,4 @@
 import {Prop, Schema} from '@nestjs/mongoose';
-import mongoose from 'mongoose';
 import {MatchOdds} from './matchOdds.schema';
 import {GoalLines} from './goalLines.schema';
 import {OverUnderRates} from './overUnder.schema';
@@ -7,18 +6,18 @@ import {BothTeamsToScore} from './bothTeamsToScore.schema';
 
 @Schema()
 export class Rates {
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'MatchOdds'}]})
+	@Prop({required: true})
 	matchOdds: MatchOdds;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'OverUnderRates'}]})
+	@Prop({required: true})
 	overUnder15: OverUnderRates;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'OverUnderRates'}]})
+	@Prop({required: true})
 	overUnder25: OverUnderRates;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BothTeamsToScore'}]})
+	@Prop({required: true})
 	bothTeamsToScore: BothTeamsToScore;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'GoalLines'}]})
+	@Prop({required: true})
 	goalLines: GoalLines;
 }

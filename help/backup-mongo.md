@@ -57,3 +57,22 @@ mongo rateBotNest
 db.stacks.drop();
 db.footballs.drop();
 ```
+
+####Открыть контейнер с mongodb
+```bash
+sudo docker exec -it mongo-rate bash
+```
+
+####Подключиться к БД и тест работы
+```mongo
+mongo mongodb://localhost:27017/rateBotNest
+db.createCollection("fruits")
+db.fruits.insertMany([ {name: "apple", origin: "usa", price: 5}, {name: "orange", origin: "italy", price: 3}, {name: "mango", origin: "malaysia", price: 3} ])
+db.fruits.find().pretty()
+```
+
+####Подключиться к БД
+```bash
+sudo docker logs mongo-rate
+```
+ 

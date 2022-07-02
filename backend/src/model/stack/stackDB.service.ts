@@ -7,10 +7,7 @@ import {Stack, StackDocument} from './schemas/stack.schema';
 
 @Injectable()
 export class StackDBService {
-	constructor(
-		@InjectModel(Stack.name) private readonly stackModel: Model<StackDocument>,
-		private readonly log: MyLogger,
-	) {}
+	constructor(@InjectModel(Stack.name) private stackModel: Model<StackDocument>, private readonly log: MyLogger) {}
 
 	private static mapProps(model: Stack): Stack {
 		return {
@@ -29,9 +26,9 @@ export class StackDBService {
 			return Promise.resolve(null);
 		}
 		let createdFootball = new this.stackModel(param);
-		return await createdFootball
+		return createdFootball
 			.save()
-			.then((model: Stack) => {
+			.then((model: StackDocument) => {
 				this.log.debug(StackDBService.name, 'Stack model created');
 				return StackDBService.mapProps(model);
 			})

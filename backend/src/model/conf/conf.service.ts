@@ -36,7 +36,7 @@ export class ConfService {
 			return Promise.resolve(null);
 		}
 		let createdConfig = new this.confModel(param);
-		return await createdConfig
+		return createdConfig
 			.save()
 			.then((model: ConfDocument) => {
 				this.log.debug(ConfService.name, 'Configuration model created');

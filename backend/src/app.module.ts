@@ -14,15 +14,7 @@ const dbUri =
 		  )}${config.get<string>('dbProd.name')}`;
 
 @Module({
-	imports: [
-		ConfigModule.forRoot(),
-		MongooseModule.forRoot(dbUri, {
-			useNewUrlParser: true,
-			useFindAndModify: false,
-			useUnifiedTopology: true,
-		}),
-		TaskModule,
-	],
+	imports: [ConfigModule.forRoot(), MongooseModule.forRoot(dbUri), TaskModule],
 	controllers: [AppController],
 	providers: [AppService],
 })

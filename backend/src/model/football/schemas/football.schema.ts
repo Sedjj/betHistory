@@ -1,7 +1,6 @@
 import {isRequiredString} from '../utils/check';
 import {Cards} from './cards.schema';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import * as mongoose from 'mongoose';
 import {Document} from 'mongoose';
 import {Score} from './score.schema';
 import {Command} from './command.schema';
@@ -34,25 +33,25 @@ export class Football {
 	@Prop({required: true, default: 0})
 	time: number;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Score'}]})
+	@Prop({required: true})
 	score: Score;
 
 	/**
 	 * Прибавляем к сумме результата матчей
 	 */
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Сommand'}]})
+	@Prop({required: true})
 	command: Command;
 
 	/**
 	 * Прибавляем к сумме результата матчей
 	 */
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Rates'}]})
+	@Prop({required: true})
 	rates: Rates;
 
 	/**
 	 * Прибавляем к сумме результата матчей
 	 */
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Cards'}]})
+	@Prop({required: true})
 	cards: Cards;
 
 	@Prop({required: true, default: new Date().toISOString()})

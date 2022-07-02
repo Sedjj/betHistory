@@ -1,7 +1,6 @@
 import {Prop, Schema} from '@nestjs/mongoose';
 import {isRequiredString} from '../utils/check';
 import {BehindAgainst} from './behindAgainst.schema';
-import mongoose from 'mongoose';
 
 @Schema()
 export class MatchOdds {
@@ -14,15 +13,15 @@ export class MatchOdds {
 	@Prop({required: true, default: 0})
 	totalMatched: number;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst'}]})
+	@Prop({required: true})
 	p1: BehindAgainst;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst'}]})
+	@Prop({required: true})
 	x: BehindAgainst;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst'}]})
+	@Prop({required: true})
 	p2: BehindAgainst;
 
-	@Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref: 'BehindAgainst'}]})
+	@Prop({required: true})
 	mod: BehindAgainst;
 }
