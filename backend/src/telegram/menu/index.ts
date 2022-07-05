@@ -1,10 +1,10 @@
-import {IMenuBot} from '../type/telegram.type';
+import { IMenuBot } from "../type/telegram.type";
 
 /**
  * Функция для возвращения определенного меню в зависимости от парамметров.
  *
  * @param {String} item какое меню нужно вернуть
- * @param {String} text текст для подстановки где это нужно
+ * @param {String} text текст для подстановки, где это нужно
  */
 export function menuList(item: string, text: string = '0'): IMenuBot {
 	switch (item) {

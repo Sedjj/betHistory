@@ -1,8 +1,8 @@
 import path from 'path';
-import {Action, Ctx, Hears, InjectBot, Start, Update, Use} from 'nestjs-telegraf';
+import {Action, Ctx, Hears, InjectBot, Start, Update} from 'nestjs-telegraf';
 import {betAmount, exportStatus, rateStatus} from '../store';
 import config from 'config';
-import {IKeyboardButton, IMenuBot} from './type/telegram.type';
+import {IMenuBot} from './type/telegram.type';
 import {menuList} from './menu';
 import {TelegramService} from './telegram.service';
 import {ExportService} from '../export/export.service';
@@ -12,6 +12,7 @@ import {FetchService} from '../fetch/fetch.service';
 import {MyLogger} from '../logger/myLogger.service';
 import {Context, Telegraf} from 'telegraf';
 import {Stack} from '../model/stack/schemas/stack.schema';
+import {KeyboardButton} from 'typegram/markup';
 
 @Update()
 export class TelegramActions {
@@ -36,9 +37,10 @@ export class TelegramActions {
 	) {
 		this.storagePath = config.get<string>('path.storagePath') || process.cwd();
 		this.logsDirectory = config.get<string>('path.directory.logs') || 'logs';
+		this.bot.use(this.accessCheck);
 	}
 
-	private get keyboard(): IKeyboardButton[][] {
+	private get keyboard(): KeyboardButton[][] {
 		return [
 			[this.buttons.waiting],
 			[this.buttons.rate],
@@ -89,7 +91,6 @@ export class TelegramActions {
 
 	@Start()
 	protected async start(@Ctx() ctx: Context) {
-		console.log('ctx.message', ctx.message);
 		if (!(ctx.message && ctx.message)) {
 			return;
 		}
@@ -100,6 +101,7 @@ export class TelegramActions {
 		} catch (error) {
 			this.log.error(TelegramActions.name, `Error start -> ${error}`);
 		}
+		return;
 	}
 
 	/**
@@ -108,14 +110,15 @@ export class TelegramActions {
 	 * @param {Context} ctx объект что пришел из telegram
 	 * @param {Object} next объект что пришел из telegram
 	 */
-	@Use()
-	protected async accessCheck(@Ctx() ctx: Context, next?: () => any) {
+	protected accessCheck = async (ctx: Context, next?: () => any) => {
 		let administrators: number[] = config.get<number[]>('roles.admin');
 		const chat = ctx.chat != null ? ctx.chat.id : ctx.from != null ? ctx.from.id : 0;
 		if (administrators.some(user => user === chat) && next) {
-			next();
+			await next();
+		} else {
+			this.log.error(TelegramActions.name, `You(${chat}) are not admin 😡`);
 		}
-	}
+	};
 
 	@Hears('Сколько матчей в ожидании')
 	protected async waiting(@Ctx() ctx: Context) {
