@@ -15,6 +15,7 @@ import {MyLogger} from '../logger/myLogger.service';
 import {ConfService} from '../model/conf/conf.service';
 import {errorsStack} from '../store';
 import {TelegramService} from '../telegram/telegram.service';
+import {ExportService} from '../export/export.service';
 
 const urlSearch = config.get<string>('parser.football.search');
 const urlEventDetails = config.get<string>('parser.football.eventDetails');
@@ -28,6 +29,7 @@ export class TaskService implements OnApplicationBootstrap {
 		private parserFootballService: ParserFootballService,
 		private dataAnalysisService: DataAnalysisService,
 		private readonly stackService: StackService,
+		private readonly exportService: ExportService,
 		private readonly log: MyLogger,
 		private readonly confService: ConfService,
 		private readonly telegramService: TelegramService,
@@ -52,7 +54,10 @@ export class TaskService implements OnApplicationBootstrap {
 						this.stackService.increaseActiveEventId,
 					);
 				} catch (error) {
-					this.log.debug(TaskService.name, `Ошибка при parser события: ${JSON.stringify(item)} error: ${error}`);
+					this.log.debug(
+						TaskService.name,
+						`Ошибка при parser события: ${JSON.stringify(item)} error: ${error}`,
+					);
 				}
 			});
 		}
@@ -98,9 +103,19 @@ export class TaskService implements OnApplicationBootstrap {
 			const message = `Database not responding - ${e}`;
 			if (!errorsStack.isStack(message)) {
 				this.log.error(TaskService.name, message);
-				this.telegramService.sendMessageSupport(`<pre>${message}</pre>`);
+				await this.telegramService.sendMessageSupport(`<pre>${message}</pre>`);
 			}
 			errorsStack.setErrorsStack(message);
+		}
+	}
+
+	@Cron(process.env.NODE_ENV === 'development' ? '0 1 * * * *' : '0 */02 * * * *')
+	public async exportEveryDays() {
+		try {
+			const file = await this.exportService.exportFootballStatisticStream(2, 0);
+			await this.telegramService.sendFileOfBuffer(file.buffer, file.filename);
+		} catch (error) {
+			this.log.error(TaskService.name, `Error - export every days: ${error}`);
 		}
 	}
 
@@ -126,7 +141,9 @@ export class TaskService implements OnApplicationBootstrap {
 	private async getEventDetailsForEvents(eventIds: number[]): Promise<EventDetails[]> {
 		let eventDetails: EventDetails[] = [];
 		try {
-			eventDetails = await this.fetchService.getEventDetails(urlEventDetails.replace('${id}', eventIds.join()));
+			eventDetails = await this.fetchService.getEventDetails(
+				urlEventDetails.replace('${id}', eventIds.join()),
+			);
 			let marketsEvents = await this.fetchService.searchMarketsByEvent(urlMarketsEvents, eventIds);
 			let liteMarkets: LiteMarkets = this.parserFootballService.getMarketsEvents(marketsEvents);
 			eventDetails = await this.getMarketNodesForEvents(eventDetails, liteMarkets);
@@ -153,8 +170,11 @@ export class TaskService implements OnApplicationBootstrap {
 					let markets = liteMarkets[item.eventId];
 					if (markets && Array.isArray(markets) && markets.length) {
 						try {
-							let rateMarkets = await this.fetchService.getRateMarkets(urlByMarket.replace('${id}', markets.join()));
-							let marketNodes: MarketNodes[] = this.parserFootballService.getMarketNodes(rateMarkets);
+							let rateMarkets = await this.fetchService.getRateMarkets(
+								urlByMarket.replace('${id}', markets.join()),
+							);
+							let marketNodes: MarketNodes[] =
+								this.parserFootballService.getMarketNodes(rateMarkets);
 							res = {
 								...res,
 								marketNodes,

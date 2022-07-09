@@ -1,37 +1,44 @@
-import { IMenuBot } from "../type/telegram.type";
+import {IMenuBot} from '../type/telegram.type';
 
-/**
- * Функция для возвращения определенного меню в зависимости от парамметров.
- *
- * @param {String} item какое меню нужно вернуть
- * @param {String} text текст для подстановки, где это нужно
- */
-export function menuList(item: string, text: string = '0'): IMenuBot {
+type Props = {
+	item: string;
+	betAmount?: string;
+	shiftInDays?: string;
+	amountOfDays?: string;
+};
+
+export function menuList({item, betAmount, shiftInDays, amountOfDays}: Props): IMenuBot {
 	switch (item) {
-		case 'days':
-			return {
-				id: 1,
-				title: 'Выберите количество дней на экспорт',
-				buttons: [
-					[
-						{text: '-', callback_data: 'down'},
-						{text, callback_data: 'value'},
-						{text: '+', callback_data: 'up'},
-					],
-					[{text: 'экспорт', callback_data: 'export'}],
-				],
-			};
 		case 'selectSport':
 			return {
 				id: 2,
 				title: 'Выберете вид спорта и начало экспорта',
 				buttons: [
+					[{text: 'Начало экспорта(сдвиг в днях)', callback_data: '2'}],
 					[
-						{text: 'день -1', callback_data: 'day_down'},
-						{text, callback_data: 'value'},
-						{text: 'день +1', callback_data: 'day_up'},
+						{text: '-', callback_data: 'day_down'},
+						{text: shiftInDays ?? '0', callback_data: 'value'},
+						{text: '+', callback_data: 'day_up'},
 					],
-					[{text: 'футбол', callback_data: 'exportFootball'}],
+					[{text: 'Количество дней на экспорт', callback_data: '2'}],
+					[
+						{text: '-', callback_data: 'down'},
+						{text: amountOfDays ?? '0', callback_data: 'value'},
+						{text: '+', callback_data: 'up'},
+					],
+					[{text: 'экспорт', callback_data: 'export'}],
+				],
+			};
+		case 'getFile':
+			return {
+				id: 5,
+				title: 'Выберите файл для скачивания',
+				buttons: [
+					[
+						{text: 'bethistory', callback_data: 'debugBetLogs'},
+						{text: 'selenium', callback_data: 'debugSeleniumLogs'},
+					],
+					[{text: 'bethistory error', callback_data: 'errorBetLogs'}],
 				],
 			};
 		case 'rate':
@@ -43,16 +50,6 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 					[{text: 'Выкл ставки', callback_data: 'turnOffBets'}],
 				],
 			};
-		case 'getFile':
-			return {
-				id: 5,
-				title: 'Выберите файл для скачивания',
-				buttons: [
-					[{text: 'debug bet logs', callback_data: 'debugBetLogs'}],
-					[{text: 'debug selenium logs', callback_data: 'debugSeleniumLogs'}],
-					[{text: 'error bet logs', callback_data: 'errorBetLogs'}],
-				],
-			};
 		case 'betAmount':
 			return {
 				id: 6,
@@ -60,7 +57,7 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 				buttons: [
 					[
 						{text: '-1', callback_data: 'bets_down'},
-						{text, callback_data: 'value'},
+						{text: betAmount ?? '0', callback_data: 'value'},
 						{text: '+1', callback_data: 'bets_up'},
 					],
 				],
@@ -72,7 +69,7 @@ export function menuList(item: string, text: string = '0'): IMenuBot {
 				buttons: [
 					[
 						{text: '', callback_data: ''},
-						{text, callback_data: ''},
+						{text: '0', callback_data: ''},
 						{text: '', callback_data: ''},
 					],
 				],

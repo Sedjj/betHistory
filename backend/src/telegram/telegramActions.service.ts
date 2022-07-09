@@ -21,9 +21,9 @@ export class TelegramActions {
 
 	private readonly buttons: any = {
 		waiting: 'Сколько матчей в ожидании',
-		selectSport: 'Вид спорта',
+		export: 'Export',
 		rate: 'Ставки',
-		getFile: 'Получить файл',
+		getFile: 'Get debug log',
 		betAmount: 'Сумма ставки',
 	};
 
@@ -43,19 +43,11 @@ export class TelegramActions {
 	private get keyboard(): KeyboardButton[][] {
 		return [
 			[this.buttons.waiting],
-			[this.buttons.rate],
-			[this.buttons.selectSport],
-			[this.buttons.getFile],
-			[this.buttons.betAmount],
+			[this.buttons.getFile, this.buttons.export],
+			[this.buttons.rate, this.buttons.betAmount],
 		];
 	}
 
-	/**
-	 * Функция для генерации встроенной клавиатуры.
-	 *
-	 * @param {Context} ctx контекст ответа
-	 * @param {IMenuBot} msg объект подменю
-	 */
 	private static async inlineKeyboard(ctx: Context, msg: IMenuBot): Promise<void> {
 		await ctx.replyWithMarkdown(msg.title, {
 			reply_markup: {
@@ -75,17 +67,9 @@ export class TelegramActions {
 		await ctx.answerCbQuery(text, {show_alert: true});
 	}
 
-	/**
-	 * Обертка для редактирования inline_keyboard в боте.
-	 *
-	 * @param {Context} ctx контекст ответа
-	 * @param {String} text название
-	 * @param {String} count текст для замены
-	 * @returns {Promise<void>}
-	 */
-	private static async editMessageReplyMarkup(ctx: Context, text: string, count: string): Promise<void> {
+	private static async editMessageReplyMarkup(ctx: Context, msg: IMenuBot): Promise<void> {
 		await ctx.editMessageReplyMarkup({
-			inline_keyboard: menuList(text, count).buttons,
+			inline_keyboard: msg.buttons,
 		});
 	}
 
@@ -104,12 +88,6 @@ export class TelegramActions {
 		return;
 	}
 
-	/**
-	 * Проверка прав на доступ к меню.
-	 *
-	 * @param {Context} ctx объект что пришел из telegram
-	 * @param {Object} next объект что пришел из telegram
-	 */
 	protected accessCheck = async (ctx: Context, next?: () => any) => {
 		let administrators: number[] = config.get<number[]>('roles.admin');
 		const chat = ctx.chat != null ? ctx.chat.id : ctx.from != null ? ctx.from.id : 0;
@@ -125,65 +103,116 @@ export class TelegramActions {
 		await this.sendText(ctx, `Матчей ожидающих Total: ${await this.getActiveEvent()}`);
 	}
 
-	@Hears('Вид спорта')
+	@Hears('Export')
 	protected async selectSport(@Ctx() ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList('selectSport'));
+		exportStatus.setName('football');
+		await TelegramActions.inlineKeyboard(
+			ctx,
+			menuList({
+				item: 'selectSport',
+				shiftInDays: exportStatus.day.toString(),
+				amountOfDays: exportStatus.count.toString(),
+			}),
+		);
 	}
 
 	@Hears('Ставки')
 	protected async rate(@Ctx() ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList('rate'));
+		await TelegramActions.inlineKeyboard(ctx, menuList({item: 'rate'}));
 	}
 
-	@Hears('Получить файл')
+	@Hears('Get debug log')
 	protected async getFile(@Ctx() ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList('getFile'));
+		await TelegramActions.inlineKeyboard(ctx, menuList({item: 'getFile'}));
 	}
 
 	@Hears('Сумма ставки')
 	protected async betAmount(@Ctx() ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList('betAmount', betAmount.bets.toString()));
+		await TelegramActions.inlineKeyboard(
+			ctx,
+			menuList({item: 'betAmount', betAmount: betAmount.bets.toString()}),
+		);
 	}
 
 	@Action('up')
 	protected async up(@Ctx() ctx: Context) {
 		exportStatus.increase(1);
-		await TelegramActions.editMessageReplyMarkup(ctx, 'days', exportStatus.count.toString());
+		await TelegramActions.editMessageReplyMarkup(
+			ctx,
+			menuList({
+				item: 'selectSport',
+				shiftInDays: exportStatus.day.toString(),
+				amountOfDays: exportStatus.count.toString(),
+			}),
+		);
 	}
 
 	@Action('down')
 	protected async down(@Ctx() ctx: Context) {
 		if (exportStatus.count > 0) {
 			exportStatus.decrease(1);
-			await TelegramActions.editMessageReplyMarkup(ctx, 'days', exportStatus.count.toString());
+			await TelegramActions.editMessageReplyMarkup(
+				ctx,
+				menuList({
+					item: 'selectSport',
+					shiftInDays: exportStatus.day.toString(),
+					amountOfDays: exportStatus.count.toString(),
+				}),
+			);
 		}
 	}
 
 	@Action('day_up')
 	protected async upDay(@Ctx() ctx: Context) {
 		exportStatus.increaseDay(1);
-		await TelegramActions.editMessageReplyMarkup(ctx, 'selectSport', exportStatus.day.toString());
+		await TelegramActions.editMessageReplyMarkup(
+			ctx,
+			menuList({
+				item: 'selectSport',
+				shiftInDays: exportStatus.day.toString(),
+				amountOfDays: exportStatus.count.toString(),
+			}),
+		);
 	}
 
 	@Action('day_down')
 	protected async downDay(@Ctx() ctx: Context) {
 		if (exportStatus.day > 0) {
 			exportStatus.decreaseDay(1);
-			await TelegramActions.editMessageReplyMarkup(ctx, 'selectSport', exportStatus.day.toString());
+			await TelegramActions.editMessageReplyMarkup(
+				ctx,
+				menuList({
+					item: 'selectSport',
+					shiftInDays: exportStatus.day.toString(),
+					amountOfDays: exportStatus.count.toString(),
+				}),
+			);
 		}
 	}
 
 	@Action('bets_up')
 	protected async betsUp(@Ctx() ctx: Context) {
 		betAmount.increase(1);
-		await TelegramActions.editMessageReplyMarkup(ctx, 'betAmount', betAmount.bets.toString());
+		await TelegramActions.editMessageReplyMarkup(
+			ctx,
+			menuList({
+				item: 'betAmount',
+				betAmount: betAmount.bets.toString(),
+			}),
+		);
 	}
 
 	@Action('bets_down')
 	protected async betsDown(@Ctx() ctx: Context) {
 		if (betAmount.bets > 7) {
 			betAmount.decrease(1);
-			await TelegramActions.editMessageReplyMarkup(ctx, 'betAmount', betAmount.bets.toString());
+			await TelegramActions.editMessageReplyMarkup(
+				ctx,
+				menuList({
+					item: 'betAmount',
+					betAmount: betAmount.bets.toString(),
+				}),
+			);
 		}
 	}
 
@@ -191,12 +220,6 @@ export class TelegramActions {
 	protected async export(@Ctx() ctx: Context) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.exportStatisticDebounce();
-	}
-
-	@Action('exportFootball')
-	protected async exportFootball(@Ctx() ctx: Context) {
-		exportStatus.setName('football');
-		await TelegramActions.inlineKeyboard(ctx, menuList('days', exportStatus.count.toString()));
 	}
 
 	@Action('enableBets')
@@ -246,13 +269,13 @@ export class TelegramActions {
 		});
 	}
 
-	/**
-	 * Общий метод для экспорта.
-	 */
 	private async exportStatisticDebounce(): Promise<void> {
 		try {
 			if (exportStatus.name === 'football') {
-				const file = await this.exportService.exportFootballStatisticStream(exportStatus.count, exportStatus.day);
+				const file = await this.exportService.exportFootballStatisticStream(
+					exportStatus.count,
+					exportStatus.day,
+				);
 				await this.telegramService.sendFileOfBuffer(file.buffer, file.filename);
 			}
 		} catch (error) {
@@ -261,9 +284,6 @@ export class TelegramActions {
 		exportStatus.clear();
 	}
 
-	/**
-	 * Метод для получения лог файла.
-	 */
 	private async getLogsOtherServer(): Promise<void> {
 		try {
 			const file = await this.fetchService.getLogOtherServer();
@@ -273,12 +293,11 @@ export class TelegramActions {
 		}
 	}
 
-	/**
-	 * Метод для получения лог файла.
-	 */
 	private async getLogs(name: string): Promise<void> {
 		try {
-			await this.telegramService.sendFile(path.join(this.storagePath, this.logsDirectory, `${name}.log`));
+			await this.telegramService.sendFile(
+				path.join(this.storagePath, this.logsDirectory, `${name}.log`),
+			);
 		} catch (error) {
 			this.log.error(TelegramActions.name, `Error getLogs -> ${error}`);
 		}

@@ -7,6 +7,7 @@ import {StackModule} from './stack/stack.module';
 import {LoggerModule} from '../logger/logger.module';
 import {ConfModule} from '../model/conf/conf.module';
 import {TelegramBotModule} from '../telegram/telegramBot.module';
+import {ExportModule} from '../export/export.module';
 
 @Module({
 	imports: [
@@ -16,6 +17,7 @@ import {TelegramBotModule} from '../telegram/telegramBot.module';
 		StackModule,
 		LoggerModule,
 		ConfModule,
+		ExportModule,
 		TelegramBotModule,
 	],
 	providers: [TaskService],
