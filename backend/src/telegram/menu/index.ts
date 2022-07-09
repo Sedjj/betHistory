@@ -11,7 +11,7 @@ export function menuList({item, betAmount, shiftInDays, amountOfDays}: Props): I
 	switch (item) {
 		case 'selectSport':
 			return {
-				id: 2,
+				id: 1,
 				title: 'Выберете вид спорта и начало экспорта',
 				buttons: [
 					[{text: 'Начало экспорта(сдвиг в днях)', callback_data: '2'}],
@@ -31,7 +31,7 @@ export function menuList({item, betAmount, shiftInDays, amountOfDays}: Props): I
 			};
 		case 'getFile':
 			return {
-				id: 5,
+				id: 2,
 				title: 'Выберите файл для скачивания',
 				buttons: [
 					[
@@ -52,7 +52,7 @@ export function menuList({item, betAmount, shiftInDays, amountOfDays}: Props): I
 			};
 		case 'betAmount':
 			return {
-				id: 6,
+				id: 4,
 				title: 'Выберите сумму ставки',
 				buttons: [
 					[
@@ -61,6 +61,18 @@ export function menuList({item, betAmount, shiftInDays, amountOfDays}: Props): I
 						{text: '+1', callback_data: 'bets_up'},
 					],
 				],
+			};
+		case 'systemFunctions':
+			return {
+				id: 5,
+				title: 'System functions',
+				buttons: [[{text: 'Очистка БД', callback_data: 'confirmStartCleaningBD'}]],
+			};
+		case 'clearBD':
+			return {
+				id: 6,
+				title: 'Confirm start cleaning BD',
+				buttons: [[{text: 'Вы уверены?(да)', callback_data: 'startClearBD'}]],
 			};
 		default:
 			return {

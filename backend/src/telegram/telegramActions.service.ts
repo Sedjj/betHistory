@@ -25,6 +25,7 @@ export class TelegramActions {
 		rate: 'Ставки',
 		getFile: 'Get debug log',
 		betAmount: 'Сумма ставки',
+		systemFunctions: 'System functions',
 	};
 
 	constructor(
@@ -45,6 +46,7 @@ export class TelegramActions {
 			[this.buttons.waiting],
 			[this.buttons.getFile, this.buttons.export],
 			[this.buttons.rate, this.buttons.betAmount],
+			[this.buttons.systemFunctions],
 		];
 	}
 
@@ -118,19 +120,42 @@ export class TelegramActions {
 
 	@Hears('Ставки')
 	protected async rate(@Ctx() ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList({item: 'rate'}));
+		await TelegramActions.inlineKeyboard(
+			ctx,
+			menuList({
+				item: 'rate',
+			}),
+		);
 	}
 
 	@Hears('Get debug log')
 	protected async getFile(@Ctx() ctx: Context) {
-		await TelegramActions.inlineKeyboard(ctx, menuList({item: 'getFile'}));
+		await TelegramActions.inlineKeyboard(
+			ctx,
+			menuList({
+				item: 'getFile',
+			}),
+		);
 	}
 
 	@Hears('Сумма ставки')
 	protected async betAmount(@Ctx() ctx: Context) {
 		await TelegramActions.inlineKeyboard(
 			ctx,
-			menuList({item: 'betAmount', betAmount: betAmount.bets.toString()}),
+			menuList({
+				item: 'betAmount',
+				betAmount: betAmount.bets.toString(),
+			}),
+		);
+	}
+
+	@Hears('System functions')
+	protected async systemFunctions(@Ctx() ctx: Context) {
+		await TelegramActions.inlineKeyboard(
+			ctx,
+			menuList({
+				item: 'systemFunctions',
+			}),
 		);
 	}
 
@@ -252,6 +277,23 @@ export class TelegramActions {
 	protected async errorBetLogs(@Ctx() ctx: Context) {
 		await TelegramActions.sendAnswerText(ctx, 'Ожидайте файл');
 		await this.getLogs('error');
+	}
+
+	@Action('confirmStartCleaningBD')
+	protected async confirmStartCleaningBD(@Ctx() ctx: Context) {
+		await TelegramActions.inlineKeyboard(
+			ctx,
+			menuList({
+				item: 'clearBD',
+			}),
+		);
+	}
+
+	@Action('startClearBD')
+	protected async startClearBD(@Ctx() ctx: Context) {
+		await TelegramActions.sendAnswerText(ctx, 'Database cleanup started');
+		await this.telegramService.sendMessageSupport('Запущено очищение БД');
+		// TODO добавить скрипт
 	}
 
 	/**

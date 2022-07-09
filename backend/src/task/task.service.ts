@@ -109,7 +109,7 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron(process.env.NODE_ENV === 'development' ? '0 */02 * * * *' : '0 0 10 * * *')
+	@Cron(process.env.NODE_ENV === 'development' ? '0 */20 * * * *' : '0 0 10 * * *')
 	public async exportEveryDays() {
 		try {
 			const file = await this.exportService.exportFootballStatisticStream(2, 0);
