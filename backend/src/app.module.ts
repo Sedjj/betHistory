@@ -9,9 +9,11 @@ import config from 'config';
 const dbUri =
 	process.env.NODE_ENV === 'development'
 		? `mongodb://${config.get<string>('dbDev.hostString')}${config.get<string>('dbDev.name')}`
-		: `mongodb://${config.get<string>('dbProd.user')}:${config.get<string>('dbProd.pass')}@${config.get<string>(
-				'dbProd.hostString',
-		  )}${config.get<string>('dbProd.name')}`;
+		: `mongodb://${config.get<string>('dbProd.user')}:${config.get<string>(
+				'dbProd.pass',
+		  )}@${config.get<string>('dbProd.hostString')}${config.get<string>('dbProd.name')}`;
+
+console.log('dbUri',dbUri);
 
 @Module({
 	imports: [ConfigModule.forRoot(), MongooseModule.forRoot(dbUri), TaskModule],
