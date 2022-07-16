@@ -1,22 +1,21 @@
 version: '2.4'
 services:
-  redis:
-    container_name: redis
-    restart: always
-    image: redis:alpine
-    command: redis-server --port 11718 --requirepass l}GARxOC}G<YxAD38g6vKaA7Dq_Sl(2Y>6D7UqflE8fj6(1rl3<[ON87IcbHOcSpEu6SPVQ(2ejzvJW2{qUHG)O[A5IRY[LPWiwO2o_]LP(T)Htb{1LcR(8mTcRrDJ[)(HzipyBrUGruxfp87[L3)b_si34Y)T4]egCit984Gm79iID{[2DuWagRCh92W-1m)VlpX2_dcdXzln7Dz}_j4IMeAzC4{J14z-PRsr)3aT0CuvlXpX6(5x4nLPF5UciH
-    ports:
-      - 11718:11718
-    mem_limit: 20m
-    mem_reservation: 20m
-    network_mode: "host"
+  #  redis:
+  #    container_name: redis
+  #    restart: always
+  #    image: redis:alpine
+  #    command: redis-server --port 11718 --requirepass l}GARxOC}G<YxAD38g6vKaA7Dq_Sl(2Y>6D7UqflE8fj6(1rl3<[ON87IcbHOcSpEu6SPVQ(2ejzvJW2{qUHG)O[A5IRY[LPWiwO2o_]LP(T)Htb{1LcR(8mTcRrDJ[)(HzipyBrUGruxfp87[L3)b_si34Y)T4]egCit984Gm79iID{[2DuWagRCh92W-1m)VlpX2_dcdXzln7Dz}_j4IMeAzC4{J14z-PRsr)3aT0CuvlXpX6(5x4nLPF5UciH
+  #    ports:
+  #      - 11718:11718
+  #    mem_limit: 20m
+  #    mem_reservation: 20m
 
   rate:
     container_name: rate
     restart: always
-    depends_on:
-      - redis
-      - mongo-rate
+#    depends_on:
+#      - redis
+#      - mongo-rate
     build:
       context: .
       dockerfile: docker/node/Dockerfile
@@ -24,9 +23,8 @@ services:
       - 3000:3000
     mem_limit: 800m
     mem_reservation: 200m
-    network_mode: "host"
-    links:
-      - mongo-rate
+#    links:
+#      - mongo-rate
 
 #  mongo-rate:
 #    container_name: mongo-rate

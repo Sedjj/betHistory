@@ -1,5 +1,4 @@
 .idea/
-connection.*
 docker/build/
 *.ovpn
 docker/OpenVPN/openvpn-data/
