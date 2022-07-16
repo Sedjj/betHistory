@@ -7,7 +7,7 @@ import {MongooseModule} from '@nestjs/mongoose';
 import config from 'config';
 
 const dbUri =
-	process.env.NODE_ENV !== 'development'
+	process.env.NODE_ENV === 'development'
 		? `mongodb://${config.get<string>('dbDev.hostString')}${config.get<string>('dbDev.name')}`
 		: `mongodb://${config.get<string>('dbProd.user')}:${config.get<string>(
 				'dbProd.pass',
