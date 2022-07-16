@@ -43,6 +43,16 @@ timedatectl
 
 ## Установить MongoDB
 
+###[Установить MongoDB 5.0](https://computingforgeeks.com/how-to-install-mongodb-database-on-ubuntu/):
+
+```shell     
+wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/5.0 multiverse" | 
+sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+sudo apt update
+sudo apt-get install -y mongodb-org=5.0.9 mongodb-org-database=5.0.9 mongodb-org-server=5.0.9 mongodb-org-shell=5.0.9 mongodb-org-mongos=5.0.9 mongodb-org-tools=5.0.9
+```
+
 ###[Установить MongoDB](https://docs.mongodb.com/master/tutorial/install-mongodb-on-ubuntu/):
 
 ```shell     
@@ -67,13 +77,14 @@ mongod --version
 
 Также подключите MongoDB с помощью командной строки и выполните несколько тестовых команд для проверки правильности работы.
 ```mongo
-mongo 
+mongosh 
 
 use mydb;
 
-db.test.save( { tecadmin: 100 } )
+db.mydb.insertOne( { tecadmin: 100 } );
+db.mydb.save( { tecadmin: 100 } )
 
-db.test.find()
+db.mydb.find()
 ```
 
 #####Команды работы с mongoDB
@@ -103,7 +114,7 @@ mongo --eval 'db.runCommand({ connectionStatus: 1 })'
 
 Устанавливаем необходимые пакеты, которые позволяют apt использовать пакеты по HTTPS:
 ```bash
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
+sudo apt install wget curl gnupg2 software-properties-common apt-transport-https ca-certificates lsb-release
 ```
 
 Затем добавляем в свою систему ключ GPG официального репозитория Docker:
@@ -171,7 +182,7 @@ https://dker.ru/docs/docker-compose/compose-file-reference/
 
 Чтобы добавить нашего пользователя, мы подключимся к оболочке Mongo:
 ```bash
-mongo   
+mongosh   
 ```
 
 Вам необходимо использовать базу данных `admin`. Введите следующую команду в приглашении, чтобы создать своего суперпользователя: 
@@ -221,7 +232,7 @@ sudo service mongod restart
 
 Для аутентификации во время соединения, используя пользователя admin и пароль для базы данных администратора:
  ```bash
-mongo --port 27017 -u adminRate -p 7bdeW7XkuzI7uI3pa5k6e7984W7XkuzI7VAFnIuFAir774645c2b543d --authenticationDatabase admin
+mongosh --port 27017 -u adminRate -p 7bdeW7XkuzI7uI3pa5k6e7984W7XkuzI7VAFnIuFAir774645c2b543d --authenticationDatabase admin
 ```
 
 

@@ -10,12 +10,13 @@ IP сервера: 209.222.30.94
 Имя пользователя: `docker`
 Пароль: `7bdeW7XkuzI7uI3pa5k6e7984W7XkuzI7VAFnIuFAir774645c2b543d6f68db9VgGFInL151e5`
 
- 
+ssh docker@209.222.30.94
+
 *********************************************************************************************************************************************************************
 
 Connect к БД
 
-mongo "mongodb://rate:7bdeW7XkuzI7uI3pa5k6e7984W7XkuzI7VAFnIuFAir774645c2b543d@localhost:27017/rateBotNest"
+mongosh "mongodb://rate:7bdeW7XkuzI7uI3pa5k6e7984W7XkuzI7VAFnIuFAir774645c2b543d@localhost:27017/rateBotNest"
 
 db.getCollection('configs').find({})
 
@@ -30,7 +31,6 @@ db.footballs.drop();
 db.version()
 
 db.getCollection('footballs').find({marketId: "1.187123666"})
-
 
 sudo tail -100000 /var/log/mongodb/mongod.log >> test1.log
 
