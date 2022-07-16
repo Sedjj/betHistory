@@ -50,6 +50,4 @@ RUN chown -R node /home/app
 # Switch to 'appuser'
 USER node
 
-
-
 CMD ["pm2-runtime", "--format", "process.yml", "--only", "rate-cluster"]

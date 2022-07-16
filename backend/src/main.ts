@@ -22,13 +22,16 @@ export async function bootstrap() {
 }
 
 export async function testConnectToMongoose() {
-	await mongoose.connect(`mongodb://${config.get<string>('dbDev.hostString')}${config.get<string>('dbDev.name')}`);
+	await mongoose.connect(
+		`mongodb://${config.get<string>('dbDev.hostString')}${config.get<string>('dbDev.name')}`,
+	);
+	// mongoose.set('debug', true);
 	const kittySchema = new mongoose.Schema({
 		name: String,
 	});
 	const Kitten = mongoose.model('Kitten', kittySchema);
 	const silence = new Kitten({name: 'Silence'});
-	console.log(silence.name);
+	console.log('testConnectToMongoose', silence.name);
 }
 
 // testConnectToMongoose();

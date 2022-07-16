@@ -15,7 +15,7 @@ ssh docker@209.222.30.94
 *********************************************************************************************************************************************************************
 
 Connect к БД   
-
+172.17.0.1
 mongosh "mongodb://rate:7bdeW7XkuzI7uI3pa5k6e7984W7XkuzI7VAFnIuFAir774645c2b543d@localhost:27017/rateBotNest"
 
 db.getCollection('configs').find({})

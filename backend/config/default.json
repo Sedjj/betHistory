@@ -21,7 +21,7 @@
 	},
 	"dbProd": {
 		"name": "rateBotNest",
-		"hostString": "localhost:27017/",
+		"hostString": "172.17.0.1:27017/",
 		"user": "rate",
 		"pass": "7bdeW7XkuzI7uI3pa5k6e7984W7XkuzI7VAFnIuFAir774645c2b543d"
 	},
