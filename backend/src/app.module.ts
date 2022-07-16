@@ -15,8 +15,6 @@ const dbUri =
 				'dbProd.name',
 		  )}?directConnection=true`;
 
-console.log('dbUri', dbUri);
-
 @Module({
 	imports: [ConfigModule.forRoot(), MongooseModule.forRoot(dbUri), TaskModule],
 	controllers: [AppController],

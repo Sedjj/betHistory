@@ -305,9 +305,18 @@ sudo nano /etc/mongod.conf
 ```bash
 logappend=true
 
-bind_ip = 127.0.0.1,your_server_ip
+net:
+  port: 27017
+  bindIp: 127.0.0.1,172.17.0.1,your_server_ip
 ```
 Обязательно поместите запятую между существующим IP-адресом и тем, который вы добавили.
+
+`172.17.0.1` это адрес моста в докере `docker network inspect bridge`
+
+После нужно перезагрузить службу
+```bash
+sudo systemctl restart mongod
+```
 
 #### Сохраните файл, выйдите из редактора и перезапустите MongoDB:
 ```bash
