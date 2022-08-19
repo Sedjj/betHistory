@@ -1,4 +1,4 @@
-import {Logger} from '@nestjs/common';
+import { Logger } from "@nestjs/common";
 
 /**
  * Класс для размера ставки
@@ -8,7 +8,7 @@ export class BetAmount {
 	private amount: number;
 
 	constructor() {
-		this.amount = 10;
+		this.amount = 7;
 	}
 
 	public get bets(): number {
