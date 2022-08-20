@@ -83,7 +83,10 @@ export class DataAnalysisService {
 		this.saveEvent(param, strategy) // пропускает дальше если запись ушла в БД
 			.then(async statistic => {
 				if (statistic !== null) {
-					this.log.debug(DataAnalysisService.name, `Найден ${param.marketId}: Футбол - стратегия ${strategy}`);
+					this.log.debug(
+						DataAnalysisService.name,
+						`Найден ${param.marketId}: Футбол - стратегия ${strategy}`,
+					);
 					await this.betsSimulatorService.matchRate(statistic);
 				}
 			})
