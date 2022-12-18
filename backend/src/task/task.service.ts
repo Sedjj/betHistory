@@ -1,5 +1,5 @@
 import {Injectable, OnApplicationBootstrap} from '@nestjs/common';
-import {Cron} from '@nestjs/schedule';
+// import {Cron} from '@nestjs/schedule';
 import {FetchService} from '../parser/fetch.service';
 import config from 'config';
 import {ParserFootballService} from '../parser/parserFootball.service';
@@ -40,7 +40,7 @@ export class TaskService implements OnApplicationBootstrap {
 		this.log.debug(TaskService.name, '****start scheduler checking results****');
 	}
 
-	@Cron(process.env.NODE_ENV === 'development' ? '*/15 * * * * *' : '*/30 * * * * *')
+	// @Cron(process.env.NODE_ENV === 'development' ? '*/15 * * * * *' : '*/30 * * * * *')
 	public async searchFootball() {
 		let activeEvents: number[] = await this.getActiveEventIds();
 		if (activeEvents.length) {
@@ -68,7 +68,7 @@ export class TaskService implements OnApplicationBootstrap {
 	// TODO посмотреть почему файл не формируется
 	// TODO в pm2 под нагрузкой сформировать файл
 
-	@Cron(process.env.NODE_ENV === 'development' ? '*/20 * * * * *' : '*/05 * * * * *')
+	// @Cron(process.env.NODE_ENV === 'development' ? '*/20 * * * * *' : '*/05 * * * * *')
 	public async oftenCheckOfResults() {
 		if (this.stackService.getLengthEvent(StackType.OFTEN)) {
 			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.OFTEN);
@@ -87,7 +87,7 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron(process.env.NODE_ENV === 'development' ? '*/30 * * * * *' : '0 */02 * * * *')
+	// @Cron(process.env.NODE_ENV === 'development' ? '*/30 * * * * *' : '0 */02 * * * *')
 	public async usuallyCheckOfResults() {
 		if (this.stackService.getLengthEvent(StackType.UNUSUAL)) {
 			let eventDetails: EventDetails[] = await this.getEventDetails(StackType.UNUSUAL);
@@ -95,7 +95,7 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron(process.env.NODE_ENV === 'development' ? '0 */10 * * * *' : '0 */15 * * * *')
+	// @Cron(process.env.NODE_ENV === 'development' ? '0 */10 * * * *' : '0 */15 * * * *')
 	public async checkDatabase() {
 		try {
 			await this.confService.getTime();
@@ -109,7 +109,7 @@ export class TaskService implements OnApplicationBootstrap {
 		}
 	}
 
-	@Cron(process.env.NODE_ENV === 'development' ? '0 */20 * * * *' : '0 0 10 * * *')
+	// @Cron(process.env.NODE_ENV === 'development' ? '0 */20 * * * *' : '0 0 10 * * *')
 	public async exportEveryDays() {
 		try {
 			const file = await this.exportService.exportFootballStatisticStream(1, 0);
